@@ -1,58 +1,80 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFERGOLF</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="front/css/style.css">
+
+  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
-  <title>AFERGOLF</title>
 </head>
 
-<!--Encabezado.estatico-->
-<header>
-  <div class="rectangle-header">
-    <nav>
-      <ul class="nav-header">
-        <li class="icons-header hamburguer-menu">
-          <img src="front/css/icon/Menu.svg" alt="Icono de menu hamburguesa">
-        </li>
-        <div class="right-icons">
-          <li class="icons-header search">
-            <img src="front/css/icon/Search.svg" alt="Icono de búsqueda">
-            <span class="text-icon">Buscar</span>
-          </li>
-          <li class="icons-header user">
-            <img src="front/css/icon/Person.svg" alt="Icono de usuario">
-            <span class="text-icon">Perfil</span>
-          </li>
-          <li class="icons-header cart">
-            <img src="front/css/icon/Cart.svg" alt="Icono de carrito">
-            <span class="text-icon">Carrito</span>
-          </li>
-        </div>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<!--Cuerpo-->
 <body>
+  <!-- Encabezado -->
+  <header>
+    <!-- Rectángulo del header -->
+    <div class="rectangle-header">
+      <!-- Navegación -->
+      <nav>
+        <div class="nav-header">
+          <!-- Íconos del lado izquierdo -->
+          <div class="left-icon">
+            <!-- Menú hamburguesa -->
+            <div class="icons-header hamburguer-menu">
+              <img src="front/css/icon/Menu.svg" alt="Icono de menú hamburguesa">
+            </div>
+          </div>
 
-</body>
+          <!-- Íconos del lado derecho -->
+          <div class="right-icons">
+            <!-- Ícono de búsqueda -->
+            <div class="icons-header search">
+              <img src="front/css/icon/Search.svg" alt="Icono de búsqueda">
+              <span class="text-icon">Buscar</span>
+            </div>
+            <!-- Ícono de usuario -->
+            <div class="icons-header user">
+              <img src="front/css/icon/Person.svg" alt="Icono de usuario">
+              <span class="text-icon">Perfil</span>
+            </div>
+            <!-- Ícono de carrito -->
+            <div class="icons-header cart">
+              <img src="front/css/icon/Cart.svg" alt="Icono de carrito">
+              <span class="text-icon">Carrito</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-<!--Pie.estatico-->
-<!--<footer class="site-footer" role="contentinfo" aria-label="Pie de página AFERGOLF">
+  <!-- Contenido principal -->
+  <main>
+    <!-- Aquí va el contenido del cuerpo -->
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="site-footer" role="contentinfo" aria-label="Pie de página AFERGOLF">
     <div class="footer-inner">
+
+      <!-- Logo -->
       <div class="footer-brand">
         <a href="index.html" aria-label="Ir al inicio de AFERGOLF">
-          <img src="front/css/img/Logo.svg" alt="Logo AFERGOLF" class="footer-logo" />
+          <img src="front/css/img/Logo.svg" alt="Logo AFERGOLF" class="footer-logo">
         </a>
       </div>
 
+      <!-- Navegación del footer -->
       <nav class="footer-nav" role="navigation" aria-label="Enlaces de pie de página">
+
+        <!-- Columna Servicio al Cliente -->
         <section class="footer-column" aria-labelledby="servicio-title">
           <h3 id="servicio-title">Servicio al cliente</h3>
           <ul>
@@ -65,6 +87,7 @@
           </ul>
         </section>
 
+        <!-- Columna Información -->
         <section class="footer-column" aria-labelledby="info-title">
           <h3 id="info-title">Información</h3>
           <ul>
@@ -75,8 +98,13 @@
             <li><a href="medios-pago.html">Medios de pago</a></li>
           </ul>
         </section>
+
       </nav>
     </div>
 
+    <!-- Derechos de autor -->
     <div class="footer-copy">© 2025, AFERGOLF.</div>
   </footer>
+</body>
+
+</html>
