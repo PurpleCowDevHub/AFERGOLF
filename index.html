@@ -1,73 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AFERGOLF</title>
-
-  <!-- Estilos -->
   <link rel="stylesheet" href="front/css/style.css">
-
-  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- Encabezado -->
   <header>
-    <!-- Contenedor del header -->
+    <img src="front/css/img/footer-shape.svg" class="header-semicircle" alt="Decoración semicircular del encabezado" loading="lazy">
     <div class="header-container">
-      <!-- Navegación -->
       <nav class="header-nav">
-        <!-- Íconos de navegación -->
         <ul class="nav-left">
-          <!-- Menú hamburguesa -->
           <li class="nav-item hamburguer-menu">
-            <img src="front/css/icon/Menu.svg" alt="Icono de menú hamburguesa" class="icon">
+            <img src="front/css/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
           </li>
         </ul>
-
         <ul class="nav-right">
-          <!-- Ícono de búsqueda -->
           <li class="nav-item search">
-            <img src="front/css/icon/Search.svg" alt="Icono de búsqueda" class="icon">
+            <img src="front/css/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
             <span class="text-icon">Buscar</span>
           </li>
-          <!-- Ícono de usuario -->
           <li class="nav-item user">
-            <img src="front/css/icon/Person.svg" alt="Icono de usuario" class="icon">
+            <img src="front/css/icon/Person.svg" alt="Acceder al perfil de usuario" class="icon" loading="lazy">
             <span class="text-icon">Perfil</span>
           </li>
-          <!-- Ícono de carrito -->
           <li class="nav-item cart">
-            <img src="front/css/icon/Cart.svg" alt="Icono de carrito" class="icon">
+            <img src="front/css/icon/Cart.svg" alt="Ver carrito de compras" class="icon" loading="lazy">
             <span class="text-icon">Carrito</span>
           </li>
         </ul>
       </nav>
     </div>
+    <a href="index.html" aria-label="Ir al inicio de AFERGOLF">
+      <img src="front/css/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
+    </a>
   </header>
 
-  <!-- Contenido principal -->
   <main>
     <!-- Aquí va el contenido del cuerpo -->
   </main>
 
-  <!-- Pie de página -->
   <footer>
-    <div class="footer-container">
-      <!-- Logo -->
-      <div class="footer-logo-container">
-        <a href="index.html" aria-label="Ir al inicio de AFERGOLF">
-          <img src="front/css/img/Logo.svg" alt="Logo AFERGOLF" class="footer-logo">
-        </a>
-      </div>
-
-      <!-- Columna Servicio al Cliente -->
+    <section class="footer-container">
+      <a href="index.html" aria-label="Ir al inicio de AFERGOLF">
+        <img src="front/css/img/Logo.svg" alt="Logo de AFERGOLF" class="footer-logo" loading="lazy">
+      </a>
       <article class="footer-section" aria-labelledby="servicio-title">
         <h3 id="servicio-title">Servicio al cliente</h3>
         <ul>
@@ -79,8 +61,6 @@
           <li><a href="swing-weight.html">Swing Weight</a></li>
         </ul>
       </article>
-
-      <!-- Columna Información -->
       <article class="footer-section" aria-labelledby="info-title">
         <h3 id="info-title">Información</h3>
         <ul>
@@ -91,12 +71,8 @@
           <li><a href="medios-pago.html">Medios de pago</a></li>
         </ul>
       </article>
-
-      <!-- Derechos de autor -->
-      <div class="footer-copy">© 2025, AFERGOLF.</div>
-    </div>
+      <p class="footer-copy">© 2025, AFERGOLF.</p>
+    </section>
   </footer>
-
 </body>
-
 </html>

@@ -1,4 +1,4 @@
-/*Pre-reset*/
+/* Reset y configuración base */
 * {
   margin: 0;
   padding: 0;
@@ -8,20 +8,29 @@
 body {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr auto; /* Header, contenido principal y footer */
+  grid-template-rows: auto 1fr auto;
   font-family: "Montserrat", "Poppins", Arial, sans-serif;
-  background: #ffffff;
+  background: #fff;
 }
 
 /* Header */
+.header-semicircle,
 .header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  z-index: 1;
+}
+
+.header-semicircle {
+  z-index: 0;
+}
+
+.header-container {
   height: 100px;
-  background-color: #F7F5F5;
   display: grid;
   place-items: center;
-  border-radius: 0 0 20px 20px;
-  box-shadow: 0 4px 50px 0 rgba(0, 0, 0, 0.35);
 }
 
 .header-nav {
@@ -37,8 +46,8 @@ body {
   flex-direction: column;
   align-items: center;
   font-size: 12px;
-  color: #8B8585;
   font-weight: 500;
+  color: #8b8585;
 }
 
 .nav-left,
@@ -48,7 +57,7 @@ body {
 }
 
 .nav-right {
-  gap: 40px; /* Mantiene el espaciado entre los íconos */
+  gap: 40px;
 }
 
 .icon {
@@ -58,65 +67,64 @@ body {
 }
 
 .hamburguer-menu .icon {
-  margin-bottom: 0; /* Quita el margen inferior */
+  margin-bottom: 0;
+}
+
+.header-logo {
+  width: 175px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 /* Footer */
 footer {
-  margin-top: 0; /* Elimina el margen superior para que quede bien abajo */
+  align-self: end;
 }
 
 .footer-container {
   width: 100%;
-  background-color: #661B1E;
+  background-color: #661b1e;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto auto;
   padding: 50px 40px 20px;
 }
 
-/* Logo en columna 1 */
-.footer-logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .footer-logo {
   width: 300px;
   height: auto;
-  filter: drop-shadow(0px 20px 20px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 20px 20px rgba(0, 0, 0, 0.25));
 }
 
-/* Secciones de texto */
 .footer-section h3 {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 15px;
-  color: #ffffff;
+  color: #fff;
 }
 
 .footer-section ul {
   list-style: none;
-  padding: 0;
 }
 
-.footer-section ul li {
+.footer-section li {
   margin-bottom: 10px;
 }
 
-.footer-section ul li a {
+.footer-section a {
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
   font-size: 16px;
 }
 
-/* Derechos de autor en toda la fila */
 .footer-copy {
   grid-column: 1 / 4;
   text-align: center;
   font-size: 14px;
   font-weight: 400;
-  color: #ffffff;
+  color: #fff;
   padding-top: 30px;
 }
