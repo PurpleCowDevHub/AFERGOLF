@@ -58,12 +58,54 @@ Futuras integraciones:
 ## 📂 Estructura del Proyecto  
 
 ```bash
-├── index.html         # Página principal
-├── /assets            # Imágenes, íconos y recursos multimedia
-├── /css               # Hojas de estilo
-├── /js                # Scripts (futuros)
-├── /docs              # Documentación técnica y UML
-└── README.md          # Este archivo
+AFERGOLF/
+├── index.html            # Página principal (landing por defecto)
+├── README.md             # Documentación del repositorio
+│
+├── FRONT/                # Todo lo relacionado con el frontend
+│   ├── views/            # Vistas HTML
+│   │   ├── servicios.html
+│   │   ├── productos.html
+│   │   ├── reservas.html
+│   │   ├── nosotros.html
+│   │   └── contacto.html
+│   │
+│   ├── assets/           # Recursos estáticos
+│   │   ├── css/
+│   │   │   ├── main.css
+│   │   │   ├── header.css
+│   │   │   ├── footer.css
+│   │   │   └── pages/
+│   │   │       ├── home.css
+│   │   │       ├── servicios.css
+│   │   │       └── productos.css
+│   │   │
+│   │   ├── js/
+│   │   │   ├── main.js
+│   │   │   └── chatbot.js
+│   │   │
+│   │   ├── img/
+│   │   │   ├── logo.png
+│   │   │   ├── productos/
+│   │   │   └── servicios/
+│   │   │
+│   │   └── icons/
+│   │
+│   └── partials/         # Componentes reutilizables
+│       ├── header.html
+│       └── footer.html
+│
+├── BACK/                 # Backend (para cuando se implemente)
+│   ├── api/              # Endpoints
+│   ├── db/               # Base de datos o scripts de inicialización
+│   ├── controllers/      
+│   ├── models/
+│   └── routes/
+│
+├── DOCS/                 # Documentación técnica
+│   ├── Documento_tecnico.pdf
+│   └── diagramas/
+│
 ```
 
 ---
