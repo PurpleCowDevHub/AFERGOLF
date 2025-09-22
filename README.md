@@ -58,12 +58,12 @@ Futuras integraciones:
 ## 📂 Estructura del Proyecto  
 
 ```bash
-AFERGOLF/
+AFERGOLF/      # Cabe aclarar que todos los nombres de las carpetas y documentos están en inglés
 ├── index.html            # Página principal (landing por defecto)
 ├── README.md             # Documentación del repositorio
 │
 ├── FRONT/                # Todo lo relacionado con el frontend
-│   ├── views/            # Vistas HTML
+│   ├── views/            # Todas las vistas HTML
 │   │   ├── servicios.html
 │   │   ├── productos.html
 │   │   ├── reservas.html
@@ -71,8 +71,8 @@ AFERGOLF/
 │   │   └── contacto.html
 │   │
 │   ├── assets/           # Recursos estáticos
-│   │   ├── css/
-│   │   │   ├── main.css
+│   │   ├── css/          # Todos los estilos CSS de los partials y las vistas HTML
+│   │   │   ├── main.css  
 │   │   │   ├── header.css
 │   │   │   ├── footer.css
 │   │   │   └── pages/
@@ -84,10 +84,10 @@ AFERGOLF/
 │   │   │   ├── main.js
 │   │   │   └── chatbot.js
 │   │   │
-│   │   ├── img/
+│   │   ├── img/          # Imagenes generales de la app 
 │   │   │   ├── logo.png
-│   │   │   ├── productos/
-│   │   │   └── servicios/
+│   │   │   ├── productos/    # Imagenes oficiales de los productos
+│   │   │   └── servicios/    # Imagenes oficiales de los servicios
 │   │   │
 │   │   └── icons/
 │   │
@@ -103,8 +103,7 @@ AFERGOLF/
 │   └── routes/
 │
 ├── DOCS/                 # Documentación técnica
-│   ├── Documento_tecnico.pdf
-│   └── diagramas/
+│   ├── Documento técnico de AFERGOLF.pdf
 │
 ```
 
