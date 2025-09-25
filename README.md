@@ -46,8 +46,7 @@ Actualmente en uso:
 - **CSS3**  
 
 Futuras integraciones:  
-
-- **Framework para frontend** (React, Angular o Vue).  
+ 
 - **Gestor de base de datos** (MySQL, PostgreSQL o MongoDB).  
 - **Backend** (Node.js, Django o Laravel).  
 - **Autenticación de usuarios** (OAuth2, JWT).  
