@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+:root{
+  --drawer-w: min(420px, 92vw);
+  --drawer-bg: #F3F1F1;
+  --scrim: rgba(0,0,0,.45);
+  --muted: #8b8585;
+  --t-opa: .25s ease;
+  --t-trf: .28s ease;
+}
+
 body {
   min-height: 100vh;
   display: grid;
@@ -68,14 +77,6 @@ body {
    HEADER – Menú hamburguesa + Búsqueda (versión limpia)
    ========================================================================== */
 
-:root{
-  --drawer-w: min(420px, 92vw);
-  --drawer-bg: #F3F1F1;
-  --scrim: rgba(0,0,0,.45);
-  --muted: #8b8585;
-  --t-opa: .25s ease;
-  --t-trf: .28s ease;
-}
 
 /* Drawer y scrim (pseudo-elementos) */
 header::before,
