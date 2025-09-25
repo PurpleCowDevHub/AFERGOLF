@@ -46,7 +46,7 @@ Actualmente en uso:
 - **CSS3**  
 
 Futuras integraciones:  
- 
+
 - **Gestor de base de datos** (MySQL, PostgreSQL o MongoDB).  
 - **Backend** (Node.js, Django o Laravel).  
 - **Autenticación de usuarios** (OAuth2, JWT).  
