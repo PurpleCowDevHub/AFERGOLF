@@ -91,43 +91,6 @@
       <p class="footer-copy">© 2025, AFERGOLF.</p>
     </section>
   </footer>
-
-  <!-- JAVASCRIPT (AGREGADO AL FINAL) -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const header = document.querySelector('header');
-      const hamburgerMenu = document.querySelector('.hamburguer-menu');
-      const searchButton = document.querySelector('.nav-item.search');
-
-      // Menú hamburguesa
-      hamburgerMenu.addEventListener('click', function (e) {
-        e.stopPropagation();
-        header.classList.toggle('menu-open');
-        header.classList.remove('search-open');
-      });
-
-      // Búsqueda
-      searchButton.addEventListener('click', function (e) {
-        e.stopPropagation();
-        header.classList.toggle('search-open');
-        header.classList.remove('menu-open');
-      });
-
-      // Cerrar al hacer click fuera
-      document.addEventListener('click', function (e) {
-        if (!header.contains(e.target)) {
-          header.classList.remove('menu-open', 'search-open');
-        }
-      });
-
-      // Cerrar con ESC
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-          header.classList.remove('menu-open', 'search-open');
-        }
-      });
-    });
-  </script>
 </body>
 
 </html>
