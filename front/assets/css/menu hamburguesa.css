@@ -1,0 +1,83 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Montserrat";
+  color: #1f1f1f;
+  background: #fff;
+}
+
+.menu-panel{
+  width: clamp(360px, 48vw, 460px);
+  height: 100vh;
+  background: #F3F1F1;
+  border-right: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 18px 48px rgba(0,0,0,.35);
+  border-radius: 0 24px 24px 0;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+  font-weight: 400;
+}
+
+.brand{
+  font-weight: 700;
+  letter-spacing: .6px;
+  font-size: clamp(28px, 4.4vw, 44px);
+  margin: 16px 0 20px;
+  text-align: center;
+}
+
+.menu-list{
+  list-style: none;
+  display: grid;
+  gap: 24px;
+  padding-right: 6px;
+}
+
+.menu-link{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  font-size: clamp(19px, 2.3vw, 26px);
+  padding: 8px 8px 10px 0;
+  border-bottom: 2.5px solid rgba(0,0,0,.75);
+  white-space: nowrap;
+}
+.menu-link:visited{ color: inherit; }
+.menu-link:hover{ opacity: .9; }
+
+.chev{
+  width: clamp(24px, 2.8vw, 30px);
+  color: #1f1f1f;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.account-link,
+.logout-link{
+  text-decoration: none;
+  color: inherit;
+}
+.account-link{
+  margin-top: auto;
+  font-size: clamp(18px, 2.1vw, 22px);
+}
+.logout-link{
+  margin-top: 8px;
+  font-size: clamp(16px, 1.9vw, 20px);
+  opacity: .75;
+}
+.logout-link:hover{
+  opacity: 1;
+  text-decoration: underline;
+}
+
+@media (min-width: 768px){
+  .menu-panel{ padding: 32px 28px; }
+  .menu-list{ gap: 26px; }
+}
