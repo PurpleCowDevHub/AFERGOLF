@@ -128,3 +128,6 @@ AFERGOLF/      # Cabe aclarar que todos los nombres de las carpetas y documentos
 ## 📖 Documentación
 
 - La documentación técnica, diagramas y material de soporte se encuentra en la carpeta `/docs`.
+
+## Hola isa 
+## send help
