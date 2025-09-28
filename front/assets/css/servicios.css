@@ -1,0 +1,65 @@
+/* HERO: pegado al header fijo */
+.hero-banner{
+  background: url("../img/Compra y Venta.jpg") center/cover no-repeat;
+  margin-top: -54px;                 /* exactamente la altura del header */
+  min-height: clamp(220px, 40vw, 360px);
+}
+
+/* Marca de agua del logo */
+.service-wrap::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../img/Logo.svg") center/70% no-repeat;
+  opacity: .06;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+/* Sección principal */
+.service-wrap{
+  position: relative;
+  background: #fff;
+  padding: clamp(28px, 5vw, 56px) 24px;
+  overflow: hidden;
+}
+
+.service-inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(20px, 3vw, 32px);
+}
+
+.service-title{
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 40px);
+}
+
+.service-grid{
+  display: grid;
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.service-text{
+  line-height: 1.7;
+  font-size: clamp(15px, 1.6vw, 18px);
+}
+
+.service-points{
+  list-style: disc;
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+  font-size: clamp(15px, 1.6vw, 18px);
+}
+
+/* Responsive: texto a la izquierda y puntos a la derecha */
+@media (min-width: 900px){
+  .service-grid{ 
+    grid-template-columns: 1.1fr 1fr; 
+  }
+}
