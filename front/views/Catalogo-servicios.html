@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AFERGOLF – Catálogo de servicios</title>
+
+  <!-- CSS base del sitio -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- CSS de esta vista -->
+  <link rel="stylesheet" href="../assets/css/pages/Catalogo-servicios.css"/>
+
+  <!-- Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- ===== Header (no tocar) ===== -->
+  <header>
+    <img src="../assets/img/footer-shape.svg" class="header-semicircle" alt="" loading="lazy">
+    <div class="header-container">
+      <nav class="header-nav">
+        <ul class="nav-left">
+          <li class="nav-item hamburguer-menu"><img src="../assets/icon/Menu.svg" class="icon" alt=""></li>
+        </ul>
+        <ul class="nav-right">
+          <li class="nav-item search"><img src="../assets/icon/Search.svg" class="icon" alt=""><span class="text-icon">Buscar</span></li>
+          <li class="nav-item user"><img src="../assets/icon/Person.svg" class="icon" alt=""><span class="text-icon">Perfil</span></li>
+          <li class="nav-item cart"><img src="../assets/icon/Cart.svg" class="icon" alt=""><span class="text-icon">Carrito</span></li>
+        </ul>
+      </nav>
+    </div>
+    <a href="../../index.html" aria-label="Ir al inicio"><img src="../assets/img/Logo.svg" class="header-logo" alt=""></a>
+  </header>
+
+  <main>
+    <!-- Hero estático -->
+    <section class="hero" aria-label="Servicios AFERGOLF"></section>
+
+    <!-- Listado de servicios (carrusel) -->
+    <section class="services" aria-labelledby="titulo-servicios">
+      <h2 id="titulo-servicios">Servicios</h2>
+
+      <div class="slider" data-slider>
+        <button class="ctrl ctrl-left" aria-label="Anterior" data-prev>‹</button>
+
+        <div class="viewport" data-viewport>
+          <div class="track" data-track>
+            <!-- 1 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/fitting1.jpg" alt="Fitting" loading="lazy">
+              </figure>
+              <h3 class="card-title">Fitting</h3>
+            </article>
+            <!-- 2 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/calibracion1.jpg" alt="Calibración" loading="lazy">
+              </figure>
+              <h3 class="card-title">Calibración</h3>
+            </article>
+            <!-- 3 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/cambio de grips1.jpg" alt="Cambio de Grips" loading="lazy">
+              </figure>
+              <h3 class="card-title">Cambio de Grips</h3>
+            </article>
+            <!-- 4 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/arreglo estrias1.jpg" alt="Arreglo Estrías" loading="lazy">
+              </figure>
+              <h3 class="card-title">Arreglo Estrías</h3>
+            </article>
+            <!-- 5 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/clases de golf1.jpg" alt="Clases de Golf" loading="lazy">
+              </figure>
+              <h3 class="card-title">Clases de Golf</h3>
+            </article>
+            <!-- 6 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/swing weight1.jpg" alt="Swing Weight" loading="lazy">
+              </figure>
+              <h3 class="card-title">Swing Weight</h3>
+            </article>
+            <!-- 7 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/compra y venta de equipos1.jpg" alt="Compra y venta de equipos" loading="lazy">
+              </figure>
+              <h3 class="card-title">Compra y venta de equipos</h3>
+            </article>
+            <!-- 8 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/alargamiento y acortamiento 1.jpg" alt="Alargamiento y Acortamiento" loading="lazy">
+              </figure>
+              <h3 class="card-title">Alargamiento y Acortamiento</h3>
+            </article>
+          </div>
+        </div>
+
+        <button class="ctrl ctrl-right" aria-label="Siguiente" data-next>›</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer (no tocar) ===== -->
+  <footer>
+    <section class="footer-container">
+      <a href="../../index.html"><img src="../assets/img/Logo.svg" class="footer-logo" alt=""></a>
+      <article class="footer-section"><h3>Servicio al cliente</h3><ul>
+        <li><a href="contact.html">Contacto</a></li>
+        <li><a href="Mi cuenta.html">Mi cuenta</a></li>
+        <li><a href="Clases de golf.html">Clases</a></li>
+        <li><a href="Fitting.html">Fitting</a></li>
+        <li><a href="Recuperacion de estrias.html">Reparaciones</a></li>
+        <li><a href="Cambios de swing weight.html">Swing Weight</a></li>
+      </ul></article>
+      <article class="footer-section"><h3>Información</h3><ul>
+        <li><a href="returns.html">Entrega y devoluciones</a></li>
+        <li><a href="terms.html">Términos y condiciones</a></li>
+        <li><a href="refund.html">Política de reembolso</a></li>
+        <li><a href="legal.html">Avisos legales y cookies</a></li>
+        <li><a href="payment.html">Medios de pago</a></li>
+      </ul></article>
+      <p class="footer-copy">© 2025, AFERGOLF.</p>
+    </section>
+  </footer>
+
+  <!-- JS mini para flechas (scroll suave, sin barras) -->
+  <script>
+    (()=>{
+      const vp = document.querySelector('[data-viewport]');
+      const track = document.querySelector('[data-track]');
+      const prev = document.querySelector('[data-prev]');
+      const next = document.querySelector('[data-next]');
+
+      // Ocultamos barras y activamos scroll suave
+      vp.style.overflow = 'hidden';
+
+      const scrollStep = () => vp.clientWidth * 0.9;
+
+      prev.addEventListener('click', ()=> {
+        vp.scrollBy({ left: -scrollStep(), behavior: 'smooth' });
+      });
+      next.addEventListener('click', ()=> {
+        vp.scrollBy({ left:  scrollStep(), behavior: 'smooth' });
+      });
+
+      // autoplay opcional (comenta si no lo quieres)
+      let id = setInterval(()=> next.click(), 5000);
+      vp.addEventListener('pointerenter', ()=> clearInterval(id));
+      vp.addEventListener('pointerleave', ()=> id = setInterval(()=> next.click(), 5000));
+    })();
+  </script>
+</body>
+</html>
