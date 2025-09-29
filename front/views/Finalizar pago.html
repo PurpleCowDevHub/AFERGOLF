@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFERGOLF – Finalizar compra</title>
+
+  <!-- CSS base del sitio -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- CSS específico de esta vista -->
+  <link rel="stylesheet" href="../assets/css/pages/Finalizar-pago.css" />
+
+  <!-- Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <img src="../assets/img/footer-shape.svg" class="header-semicircle" alt="Decoración semicircular del encabezado" loading="lazy">
+    <div class="header-container">
+      <nav class="header-nav">
+        <ul class="nav-left">
+          <li class="nav-item hamburguer-menu">
+            <img src="../assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
+          </li>
+        </ul>
+        <ul class="nav-right">
+          <li class="nav-item search">
+            <img src="../assets/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
+            <span class="text-icon">Buscar</span>
+          </li>
+          <li class="nav-item user">
+            <img src="../assets/icon/Person.svg" alt="Acceder al perfil de usuario" class="icon" loading="lazy">
+            <span class="text-icon">Perfil</span>
+          </li>
+          <li class="nav-item cart">
+            <img src="../assets/icon/Cart.svg" alt="Ver carrito de compras" class="icon" loading="lazy">
+            <span class="text-icon">Carrito</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
+      <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
+    </a>
+  </header>
+
+  <main>
+    <section class="checkout" aria-labelledby="titulo-finalizar">
+      <div class="checkout-grid">
+        <!-- Tarjeta/Formulario -->
+        <form class="checkout-card" novalidate>
+          <h2 id="titulo-finalizar" class="checkout-title">Información personal</h2>
+
+          <div class="field">
+            <input type="text" name="nombre" autocomplete="name" placeholder="Nombres / Apellidos" aria-label="Nombres y apellidos" required>
+          </div>
+
+          <div class="field">
+            <input type="email" name="email" autocomplete="email" placeholder="Correo electrónico" aria-label="Correo electrónico" required>
+          </div>
+
+          <h3 class="checkout-subtitle">Método de pago</h3>
+          <div class="field field-row">
+            <input type="text" name="numero" inputmode="numeric" placeholder="Número de tarjeta" aria-label="Número de tarjeta" required>
+
+            <!-- LOGOS DE TARJETAS -->
+            <div class="cards-logos" aria-label="Medios de pago aceptados">
+              <!-- VISA -->
+              <svg class="card-svg visa" viewBox="0 0 80 24" role="img" aria-label="Visa" focusable="false">
+                <rect width="80" height="24" rx="4" fill="#1A1F71"/>
+                <text x="10" y="17" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-size="14">VISA</text>
+              </svg>
+              <!-- MasterCard -->
+              <svg class="card-svg mc" viewBox="0 0 80 24" role="img" aria-label="MasterCard" focusable="false">
+                <rect width="80" height="24" rx="4" fill="#111"/>
+                <g transform="translate(26,4)">
+                  <circle cx="8" cy="8" r="8" fill="#EB001B"/>
+                  <circle cx="18" cy="8" r="8" fill="#F79E1B" opacity="0.9"/>
+                </g>
+              </svg>
+              <!-- American Express -->
+              <svg class="card-svg amex" viewBox="0 0 80 24" role="img" aria-label="American Express" focusable="false">
+                <rect width="80" height="24" rx="4" fill="#2E77BC"/>
+                <text x="8" y="16" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-weight="900" font-size="11">AMERICAN</text>
+                <text x="8" y="22" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-weight="900" font-size="11" letter-spacing="1">EXPRESS</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="field">
+            <input type="password" name="cvv" inputmode="numeric" maxlength="4" placeholder="Número de seguridad (CVV)" aria-label="CVV" required>
+          </div>
+
+          <div class="field field-inline">
+            <label class="lbl">Fecha de expiración</label>
+            <div class="exp-grid">
+              <select name="mes" aria-label="Mes" required>
+                <option value="" selected>Mes</option>
+                <option>01</option><option>02</option><option>03</option><option>04</option>
+                <option>05</option><option>06</option><option>07</option><option>08</option>
+                <option>09</option><option>10</option><option>11</option><option>12</option>
+              </select>
+              <select name="anio" aria-label="Año" required>
+                <option value="" selected>Año</option>
+                <option>2025</option><option>2026</option><option>2027</option><option>2028</option>
+                <option>2029</option><option>2030</option><option>2031</option><option>2032</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field field-inline">
+            <label class="lbl">Dirección de envío</label>
+            <div class="addr-grid">
+              <input type="text" name="direccion" autocomplete="address-line1" placeholder="Dirección" aria-label="Dirección" required>
+              <input type="text" name="info" autocomplete="address-line2" placeholder="Información adicional, Ej: apto, torre..." aria-label="Información adicional">
+            </div>
+          </div>
+
+          <button class="btn-primary" type="submit">Terminar compra</button>
+        </form>
+
+        <!-- Imagen lateral -->
+        <figure class="checkout-figure">
+          <img src="../assets/img/Pago.jpg" alt="Ilustración de pago y golf" loading="lazy">
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <section class="footer-container">
+      <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
+        <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="footer-logo" loading="lazy">
+      </a>
+      <article class="footer-section" aria-labelledby="servicio-title">
+        <h3 id="servicio-title">Servicio al cliente</h3>
+        <ul>
+          <li><a href="contact.html">Contacto</a></li>
+          <li><a href="account.html">Mi cuenta</a></li>
+          <li><a href="class.html">Clases</a></li>
+          <li><a href="fitting.html">Fitting</a></li>
+          <li><a href="repairs.html">Reparaciones</a></li>
+          <li><a href="swing-weight.html">Swing Weight</a></li>
+        </ul>
+      </article>
+      <article class="footer-section" aria-labelledby="info-title">
+        <h3 id="info-title">Información</h3>
+        <ul>
+          <li><a href="returns.html">Entrega y devoluciones</a></li>
+          <li><a href="terms.html">Términos y condiciones</a></li>
+          <li><a href="refund.html">Política de reembolso</a></li>
+          <li><a href="legal.html">Avisos legales y cookies</a></li>
+          <li><a href="payment.html">Medios de pago</a></li>
+        </ul>
+      </article>
+      <p class="footer-copy">© 2025, AFERGOLF.</p>
+    </section>
+  </footer>
+</body>
+</html>
