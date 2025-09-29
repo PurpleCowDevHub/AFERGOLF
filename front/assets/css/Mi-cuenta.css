@@ -7,6 +7,8 @@
 
 /* Hero full-screen con fondo */
 .account{
+  --hero-lift: 56px;  /* ajusta este valor si aún ves espacio */
+  
   position: relative;
   min-height: 100vh;                               /* HERO */
   display: grid;                                   /* GRID para centrar */
@@ -15,15 +17,19 @@
   /* Fondo */
   background: url("../img/Mi cuenta.jpg") no-repeat center / cover;
 
-  /* Deja espacio justo para el header */
+  /* Subimos el hero para pegarlo al header */
+  margin-top: calc(-1 * var(--hero-lift));
   padding: clamp(140px, 16vw, 180px) 24px 48px;
+  z-index: 0;
 }
 
-/* En móviles usamos la segunda imagen */
+/* En móviles usamos la misma imagen (ya no cambiamos a otra) */
 @media (max-width: 768px){
   .account{
-    background-image: url("../img/Mi cuenta2.jpeg");
+    --hero-lift: 20px; /* un poco menos en móvil */
+    background-image: url("../img/Mi cuenta.jpg");
     background-position: center calc(50% - 6vh);
+    margin-top: calc(-1 * var(--hero-lift));
     padding: clamp(130px, 18vw, 160px) 16px 36px;
   }
 }
