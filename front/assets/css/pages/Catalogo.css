@@ -1,0 +1,146 @@
+/* ===== Vista: Catálogo ===== */
+
+/* Header fijo */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #f9f9f9;
+  z-index: 1000;
+  box-shadow: 0 3px 8px rgba(0,0,0,.08);
+}
+
+.header-logo-link {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.header-logo {
+  height: 140px; /* Logo grande desde el inicio */
+  width: auto;
+}
+
+/* Layout catálogo */
+.catalogo {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 200px 24px 80px; /* + espacio por header más alto */
+}
+
+/* Grid productos */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+/* Card producto */
+.producto {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.15);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform .2s ease;
+}
+.producto:hover { transform: translateY(-3px); }
+
+/* Todas las imágenes con mismo tamaño */
+.producto img {
+  width: 100%;
+  height: 220px; /* altura fija para todas */
+  object-fit: cover; /* recorta sin deformar */
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.producto h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 6px;
+}
+.precio {
+  font-size: 15px;
+  font-weight: 700;
+  color: #d64a3a;
+  margin-bottom: 10px;
+}
+
+/* Tallas interactivas */
+.tallas {
+  display: flex;
+  gap: 6px;
+}
+.tallas button {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  color: #555;
+  background: #fff;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tallas button:hover {
+  border-color: #d64a3a;
+  color: #d64a3a;
+}
+.tallas button.active {
+  background: #d64a3a;
+  color: #fff;
+  border-color: #d64a3a;
+}
+
+/* Sidebar filtros */
+.filtros {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.15);
+  padding: 20px;
+  height: fit-content;
+  position: sticky;
+  top: 140px; /* ajustado al nuevo header */
+}
+.filtros h2 {
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.filtros label {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+.filtros select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .catalogo {
+    grid-template-columns: 1fr;
+    padding: 180px 16px 60px;
+  }
+  .filtros {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
