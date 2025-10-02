@@ -1,0 +1,114 @@
+/* ====== Carrito (solo estilos de la vista) ====== */
+
+/* deja el contenido pegado al header, sin afectar header/footer */
+:root { --header-offset: 45px; }
+.page-cart { padding-top: var(--header-offset); }
+
+/* en pantallas pequeñas dejamos un poco más por el semicírculo del logo */
+@media (max-width: 900px) { :root { --header-offset: 120px; } }
+@media (max-width: 600px) { :root { --header-offset: 124px; } }
+
+/* Grid principal */
+.cart{
+  max-width:1200px;
+  margin:0 auto;
+  padding:12px 24px 56px;
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:24px;
+}
+
+/* Tarjetas */
+.card{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+  padding:18px;
+}
+
+/* Cabecera productos */
+.product-header{
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:12px;
+  font:700 18px "Montserrat",sans-serif;
+}
+.product-header input[type="checkbox"]{
+  width:22px; height:22px; accent-color:#2c7be5;
+}
+.product-header .chev{ margin-left:auto; font-size:20px; color:#888; }
+
+/* Fila producto */
+.product-row{
+  display:grid;
+  grid-template-columns:auto 80px 1fr auto;
+  align-items:center; gap:14px;
+  padding:14px; border-radius:12px;
+  background:#fff; box-shadow:0 6px 14px rgba(0,0,0,.10);
+}
+.product-row input[type="checkbox"]{ width:20px; height:20px; accent-color:#2c7be5; }
+
+/* Imagen */
+.pimg{
+  width:80px; height:80px;
+  border-radius:10px; object-fit:cover;
+  box-shadow:0 4px 10px rgba(0,0,0,.12);
+}
+
+/* Info */
+.product-info h4{ font:600 15px/1.2 "Montserrat"; margin:0 0 6px; }
+.product-info .remove{
+  border:0; background:none; color:#2c66ff;
+  font:600 13px "Montserrat"; cursor:pointer;
+  text-decoration:underline; text-underline-offset:2px;
+  margin-bottom:10px; display:inline-block;
+}
+
+/* Cantidad (solo visual, sin JS) */
+.qty{ display:flex; align-items:center; gap:10px; }
+.btn-qty{
+  width:32px; height:28px;
+  border:1px solid #d3d3d3; background:#fff;
+  border-radius:8px; cursor:default;
+  font-size:18px; font-weight:600; line-height:1;
+  display:inline-grid; place-items:center;
+}
+.btn-qty.plus{ color:#2c7be5; border-color:#2c7be5; }
+.qval{ min-width:22px; text-align:center; font:600 14px "Montserrat"; }
+
+/* Precio */
+.product-price{ font:800 18px "Montserrat"; white-space:nowrap; }
+
+/* Resumen */
+.summary h3{ font:700 18px "Montserrat"; margin:0 0 12px; }
+.summary table{ width:100%; border-collapse:collapse; font:500 15px "Montserrat"; }
+.summary td{ padding:8px 0; }
+.summary .right{ text-align:right; }
+.summary .total td{ border-top:1px solid #e7e7e7; padding-top:10px; font-weight:800; }
+.summary .free{ color:#20b354; font-weight:700; }
+
+/* Botón */
+.summary .btn{
+  width:100%; margin-top:14px; padding:12px;
+  border:0; border-radius:12px; cursor:default;
+  font:800 15px "Montserrat"; color:#fff; background:#d9362a;
+}
+
+/* Términos */
+.terms{
+  grid-column:1/-1; margin-top:10px;
+  background:#fff; border-radius:14px;
+  box-shadow:0 6px 14px rgba(0,0,0,.10);
+  padding:18px 22px;
+}
+.terms h4{ font:700 18px "Montserrat"; margin:0 0 10px; }
+.terms p{ font:14px/1.6 "Montserrat"; color:#222; }
+
+/* Responsive */
+@media (max-width:992px){
+  .cart{ grid-template-columns:1fr; }
+  .summary{ order:2; }
+}
+@media (max-width:600px){
+  .product-row{ grid-template-columns:auto 70px 1fr; }
+  .product-price{ justify-self:end; grid-column:3; }
+}
