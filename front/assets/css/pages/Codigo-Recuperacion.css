@@ -1,0 +1,174 @@
+/* ===== Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== Base ===== */
+body {
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #1f1f1f;
+  background: #fff;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* ===== Header semicircular ===== */
+header {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+  background: transparent;
+}
+
+.header-semicircle {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+}
+
+.header-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+  z-index: 3;
+}
+
+.header-logo {
+  height: 110px;
+  object-fit: contain;
+}
+
+/* Espaciador */
+.header-spacer {
+  height: 120px;
+}
+
+/* ===== Fondo principal ===== */
+.code-section {
+  position: relative;
+  display: flex; /* Centramos con flex */
+  justify-content: center;
+  align-items: center; 
+  background-image: url("../../img/Fondo3 Campo de Golf.png"); 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  margin-top: -240px; /* Sube bajo el header */
+  z-index: 1;
+}
+
+/* ===== Tarjeta ===== */
+.code-card {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: clamp(26px, 4vw, 48px);
+  text-align: center;
+  width: min(560px, 90%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(18px, 3vw, 28px);
+}
+
+.code-title {
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 800;
+  color: #111;
+}
+
+/* ===== Inputs ===== */
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: clamp(10px, 1.8vw, 16px);
+}
+
+.code-box {
+  width: clamp(48px, 8vw, 70px);
+  height: clamp(48px, 8vw, 70px);
+  text-align: center;
+  font-size: clamp(22px, 3vw, 28px);
+  border-radius: 14px;
+  border: 1px solid #ccc;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.code-box:focus {
+  border-color: #e0422f;
+  box-shadow: 0 8px 20px rgba(224, 66, 47, 0.25);
+}
+
+/* ===== Botón ===== */
+.btn-primary {
+  margin: 12px auto 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 42px;
+  border: 0;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 800;
+  font-size: clamp(18px, 2vw, 22px);
+  cursor: pointer;
+  background: linear-gradient(180deg, #9a2816 0%, #e0422f 100%);
+  box-shadow: 0 10px 26px rgba(224, 66, 47, 0.35);
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(0.97);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .header-container {
+    height: 120px;
+  }
+  .header-logo {
+    height: 90px;
+  }
+  .header-spacer {
+    height: 110px;
+  }
+  .code-section {
+    margin-top: -130px;
+    height: 100vh;
+    background-position: center top;
+  }
+  .code-card {
+    border-radius: 20px;
+    padding: 24px;
+  }
+  .code-box {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+  .btn-primary {
+    width: 100%;
+    font-size: 18px;
+  }
+}
