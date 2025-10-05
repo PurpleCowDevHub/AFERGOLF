@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFERGOLF – Recuperación de Contraseña</title>
+
+  <!-- CSS base -->
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+
+  <!-- CSS específico -->
+  <link rel="stylesheet" href="../assets/css/pages/Recuperacion-Contraseña.css">
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body data-page="recuperacion-contraseña">
+  <!-- ===== HEADER con semicírculo ===== -->
+  <header>
+    <img src="../assets/img/footer-shape.svg" alt="Decoración semicircular" class="header-semicircle" loading="lazy">
+    <div class="header-container">
+      <img src="../assets/img/Logo.svg" alt="Logo AFERGOLF" class="header-logo">
+    </div>
+  </header>
+
+  <!-- ===== Espaciador del header ===== -->
+  <div class="header-spacer"></div>
+
+  <!-- ===== Contenido principal ===== -->
+  <section class="recovery-section">
+    <div class="recovery-card">
+      <h1 class="recovery-title">Recuperación de contraseña</h1>
+      <p class="recovery-subtitle">Ingrese su correo o número de teléfono</p>
+
+      <form class="recovery-form" id="recoveryForm" autocomplete="off">
+        <input 
+          type="text" 
+          class="recovery-input" 
+          placeholder="Ej: 3134445196 o simonpaipa@gmail.com" 
+          required
+        />
+        <p class="recovery-info">
+          Se le enviará por correo o mensaje de texto un código para que pueda cambiar su contraseña
+        </p>
+        <button type="submit" class="btn-primary">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== JS ===== -->
+  <script src="../assets/js/Recuperacion-Contraseña.js"></script>
+</body>
+</html>
