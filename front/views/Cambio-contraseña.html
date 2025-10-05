@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFERGOLF – Cambio de contraseña</title>
+
+  <!-- CSS base -->
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <!-- CSS específico -->
+  <link rel="stylesheet" href="../assets/css/pages/Cambio-contraseña.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body data-page="cambio-contraseña">
+  <!-- ===== HEADER con semicírculo ===== -->
+  <header>
+    <img src="../assets/img/footer-shape.svg" alt="Decoración semicircular" class="header-semicircle" loading="lazy">
+    <div class="header-container">
+      <img src="../assets/img/Logo.svg" alt="Logo AFERGOLF" class="header-logo">
+    </div>
+  </header>
+
+  <div class="header-spacer"></div>
+
+  <!-- ===== HERO Cambio de contraseña ===== -->
+  <section class="change-hero">
+    <div class="change-card">
+      <h1 class="change-title">Cambio de contraseña</h1>
+
+      <form id="passwordForm" class="change-form" autocomplete="on" novalidate>
+        <label class="field-label" for="newPassword">Contraseña</label>
+        <input class="field-input" type="password" id="newPassword" placeholder="••••••••" required>
+
+        <label class="field-label" for="confirmPassword">Confirmación</label>
+        <input class="field-input" type="password" id="confirmPassword" placeholder="••••••••" required>
+
+        <button type="submit" class="btn-submit">Vamos</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- JS funcional -->
+  <script src="../assets/js/Cambio de Contraseña.js"></script>
+</body>
+</html>
