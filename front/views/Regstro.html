@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFERGOLF – Registro</title>
+
+  <!-- CSS base del sitio -->
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <!-- CSS específico de esta vista -->
+  <link rel="stylesheet" href="../assets/css/pages/Registro.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body data-page="registro">
+  <!-- ===== HEADER con semicírculo ===== -->
+  <header>
+    <img src="../assets/img/footer-shape.svg" alt="Decoración semicircular" class="header-semicircle" loading="lazy">
+    <div class="header-container">
+      <img src="../assets/img/Logo.svg" alt="Logo AFERGOLF" class="header-logo">
+    </div>
+  </header>
+
+  <!-- Espaciador -->
+  <div class="header-spacer"></div>
+
+  <!-- ===== HERO Registro ===== -->
+  <section class="register-hero">
+    <div class="register-card">
+      <h1 class="register-title">Registro</h1>
+
+      <form class="register-form" autocomplete="on" novalidate>
+        <div class="grid-2">
+          <div class="field">
+            <label class="field-label" for="nombre">Nombres</label>
+            <input class="field-input" type="text" id="nombre" placeholder="Tu nombre" required>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="apellido">Apellidos</label>
+            <input class="field-input" type="text" id="apellido" placeholder="Tus apellidos" required>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="email">Correo electrónico</label>
+            <input class="field-input" type="email" id="email" placeholder="correo@dominio.com" required>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="telefono">Número de teléfono</label>
+            <input class="field-input" type="tel" id="telefono" placeholder="+57 300 000 0000">
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="pass">Contraseña</label>
+            <input class="field-input" type="password" id="pass" placeholder="••••••••" required>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="pass2">Verificar contraseña</label>
+            <input class="field-input" type="password" id="pass2" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Vamos</button>
+        <a href="./Sesion-admin.html" class="link-soft bottom">¿Ya tienes una Cuenta?</a>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
