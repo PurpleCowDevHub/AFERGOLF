@@ -1,0 +1,59 @@
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --ink-900:#1f1f1f;
+  --ink-600:#4b5563;
+  --success-500:#2db36c;
+  --success-600:#228a53;
+  --shadow:0 12px 28px rgba(0,0,0,.18);
+  --radius-pill:18px;
+}
+
+body{
+  font-family:"Montserrat",sans-serif;
+  background:#fff;
+  color:var(--ink-900);
+}
+
+.toast-confirm{
+  position:fixed;left:0;right:0;bottom:18px;
+  display:grid;place-items:center;
+  padding:0 12px;z-index:1000;
+}
+
+.toast-content{
+  width:min(980px,100%);
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;
+  background:#fff;border:1px solid #edf2ef;border-radius:999px;
+  box-shadow:var(--shadow);
+}
+
+.toast-icon{width:28px;height:28px;color:var(--success-500);flex:0 0 auto}
+.toast-icon circle{stroke:currentColor;opacity:.35}
+.toast-icon path{stroke:currentColor}
+
+.toast-text{display:grid;gap:2px;min-width:0}
+.toast-title{font:700 14px/1.2 "Montserrat",sans-serif}
+.toast-sub{
+  font:400 12px/1.3 "Montserrat",sans-serif;color:var(--ink-600);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+.toast-btn{
+  margin-left:auto;flex:0 0 auto;
+  padding:10px 14px;border-radius:var(--radius-pill);
+  background:linear-gradient(180deg,var(--success-500),var(--success-600));
+  color:#fff;text-decoration:none;font:700 12px/1 "Montserrat",sans-serif;
+  box-shadow:0 8px 18px rgba(34,138,83,.25);
+  transition:filter .15s ease,transform .05s ease
+}
+.toast-btn:hover{filter:brightness(1.05)}
+.toast-btn:active{transform:translateY(1px)}
+
+@media (max-width:640px){
+  .toast-content{gap:10px;padding:10px 12px}
+  .toast-title{font-size:13px}
+  .toast-sub{display:none}
+  .toast-btn{padding:8px 12px}
+}
