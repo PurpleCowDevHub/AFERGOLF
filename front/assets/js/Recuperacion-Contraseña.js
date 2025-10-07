@@ -20,4 +20,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Aquí puedes redirigir a la página del código:
     // window.location.href = "Codigo-Recuperacion.html";
   });
-});
+}); 
