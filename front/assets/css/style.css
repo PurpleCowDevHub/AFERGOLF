@@ -11,26 +11,36 @@ body {
   grid-template-rows: auto 1fr auto;
   font-family: "Montserrat", "Poppins", Arial, sans-serif;
   background: #fff;
+  padding-top: 100px; /* Agregar espacio para el header fijo */
 }
 
 /* Header */
-.header-semicircle,
-.header-container {
+header {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
-  z-index: 1;
+  height: 100px;
+  z-index: 1000;
 }
 
 .header-semicircle {
-  z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 .header-container {
+  position: relative;
+  width: 100%;
   height: 100px;
   display: grid;
   place-items: center;
+  z-index: 1001;
 }
 
 .header-nav {
@@ -71,12 +81,13 @@ body {
 }
 
 .header-logo {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 175px;
   height: auto;
-  display: block;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
+  z-index: 1002;
 }
 
 /* Footer */
