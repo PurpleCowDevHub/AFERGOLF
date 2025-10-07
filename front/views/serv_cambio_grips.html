@@ -3,103 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AFERGOLF</title>
-
-  <!-- CSS base + servicios -->
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/servicios.css" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <title>Cambio de Grips</title>
+  <link rel="stylesheet" href="../assets/css/pages/services.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="../assets/js/main.js" defer></script>
 </head>
 
 <body>
-  <header>
-    <img src="../assets/img/footer-shape.svg" class="header-semicircle" alt="Decoración semicircular del encabezado" loading="lazy">
-    <div class="header-container">
-      <nav class="header-nav">
-        <ul class="nav-left">
-          <li class="nav-item hamburguer-menu">
-            <img src="../assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
-          </li>
-        </ul>
-        <ul class="nav-right">
-          <li class="nav-item search">
-            <img src="../assets/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
-            <span class="text-icon">Buscar</span>
-          </li>
-          <li class="nav-item user">
-            <img src="../assets/icon/Person.svg" alt="Acceder al perfil de usuario" class="icon" loading="lazy">
-            <span class="text-icon">Perfil</span>
-          </li>
-          <li class="nav-item cart">
-            <img src="../assets/icon/Cart.svg" alt="Ver carrito de compras" class="icon" loading="lazy">
-            <span class="text-icon">Carrito</span>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <a href="../index.html" aria-label="Ir al inicio de AFERGOLF">
-      <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
-    </a>
-  </header>
+  <afergolf-header></afergolf-header>
 
   <main>
-    <!-- HERO (usa variante de imagen para esta vista) -->
-    <section class="hero-banner hero--grips" aria-label="Cambio de Grips"></section>
+    <section class="banner-grips" aria-label="Cambio de Grips">
+      <img src="../assets/img/services/Grips.png" alt="">
+    </section>  
 
-    <!-- CONTENIDO -->
-    <section class="service-wrap">
-      <div class="service-inner">
-        <h1 class="service-title">Cambio de Grips</h1>
+    <section class="service-inner">
+      <h1 class="service-title">Cambio de Grips</h1>
 
-        <div class="service-grid">
-          <p class="service-text">
-            Renueva el agarre de tus palos para mejorar el control, la precisión y la
-            comodidad en cada golpe.
-          </p>
+      <p class="service-text">
+        Renueva el agarre de tus palos para mejorar el control, la precisión y la
+        comodidad en cada golpe. Un grip adecuado es fundamental para tener una conexión
+        perfecta entre tus manos y el palo, mejorando tu rendimiento en cada swing.
+      </p>
 
-          <ul class="service-points">
-            <li>Amplia variedad de grips en marcas y materiales.</li>
-            <li>Instalación profesional y rápida.</li>
-            <li>Ajuste del grosor a tu mano.</li>
-            <li>Mejora de control y reducción de fatiga.</li>
-            <li>Recomendaciones según tu estilo de juego y clima.</li>
-          </ul>
-        </div>
-      </div>
+      <ul class="service-points">
+        <li>Amplia variedad de grips en marcas y materiales de alta calidad.</li>
+        <li>Instalación profesional y rápida con herramientas especializadas.</li>
+        <li>Ajuste del grosor perfecto según el tamaño de tu mano.</li>
+        <li>Mejora significativa del control y reducción de fatiga durante el juego.</li>
+        <li>Recomendaciones personalizadas según tu estilo de juego y condiciones climáticas.</li>
+      </ul>
     </section>
   </main>
 
-  <footer>
-    <section class="footer-container">
-      <a href="../index.html" aria-label="Ir al inicio de AFERGOLF">
-        <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="footer-logo" loading="lazy">
-      </a>
-      <article class="footer-section" aria-labelledby="servicio-title">
-        <h3 id="servicio-title">Servicio al cliente</h3>
-        <ul>
-          <li><a href="contact.html">Contacto</a></li>
-          <li><a href="account.html">Mi cuenta</a></li>
-          <li><a href="class.html">Clases</a></li>
-          <li><a href="fitting.html">Fitting</a></li>
-          <li><a href="repairs.html">Reparaciones</a></li>
-          <li><a href="swing-weight.html">Swing Weight</a></li>
-        </ul>
-      </article>
-      <article class="footer-section" aria-labelledby="info-title">
-        <h3 id="info-title">Información</h3>
-        <ul>
-          <li><a href="returns.html">Entrega y devoluciones</a></li>
-          <li><a href="terms.html">Términos y condiciones</a></li>
-          <li><a href="refund.html">Política de reembolso</a></li>
-          <li><a href="legal.html">Avisos legales y cookies</a></li>
-          <li><a href="payment.html">Medios de pago</a></li>
-        </ul>
-      </article>
-      <p class="footer-copy">© 2025, AFERGOLF.</p>
-    </section>
-  </footer>
+  <afergolf-footer></afergolf-footer>
 </body>
 </html>

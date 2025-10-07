@@ -3,102 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AFERGOLF</title>
-
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/servicios.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <title>Recuperación de Estrías</title>
+  <link rel="stylesheet" href="../assets/css/pages/services.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="../assets/js/main.js" defer></script>
 </head>
 
 <body>
-  <header>
-    <img src="../assets/img/footer-shape.svg" class="header-semicircle" alt="Decoración semicircular del encabezado" loading="lazy">
-    <div class="header-container">
-      <nav class="header-nav">
-        <ul class="nav-left">
-          <li class="nav-item hamburguer-menu">
-            <img src="../assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
-          </li>
-        </ul>
-        <ul class="nav-right">
-          <li class="nav-item search">
-            <img src="../assets/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
-            <span class="text-icon">Buscar</span>
-          </li>
-          <li class="nav-item user">
-            <img src="../assets/icon/Person.svg" alt="Acceder al perfil de usuario" class="icon" loading="lazy">
-            <span class="text-icon">Perfil</span>
-          </li>
-          <li class="nav-item cart">
-            <img src="../assets/icon/Cart.svg" alt="Ver carrito de compras" class="icon" loading="lazy">
-            <span class="text-icon">Carrito</span>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <a href="../index.html" aria-label="Ir al inicio de AFERGOLF">
-      <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
-    </a>
-  </header>
+  <afergolf-header></afergolf-header>
 
   <main>
-    <!-- Hero con la imagen de esta vista -->
-    <section class="hero-banner hero--estrias" aria-label="Recuperación de Estrías"></section>
+    <section class="banner-estrias" aria-label="Recuperación de Estrías">
+      <img src="../assets/img/services/Estrias.png" alt="">
+    </section>  
 
-    <!-- Contenido -->
-    <section class="service-wrap">
-      <div class="service-inner">
-        <h1 class="service-title">Recuperación de Estrías</h1>
+    <section class="service-inner">
+      <h1 class="service-title">Recuperación de Estrías</h1>
 
-        <div class="service-grid">
-          <p class="service-text">
-            Con el uso constante, las estrías de la cara del palo se desgastan y pierden eficacia,
-            lo que reduce el control y el efecto de la bola. Nuestro servicio restaura las estrías
-            para devolverles su agarre y precisión, mejorando notablemente tu desempeño en el green.
-          </p>
+      <p class="service-text">
+        Con el uso constante, las estrías de la cara del palo se desgastan y pierden eficacia,
+        lo que reduce el control y el efecto de la bola. Nuestro servicio especializado restaura 
+        las estrías para devolverles su agarre y precisión original, mejorando notablemente tu 
+        desempeño en el green y prolongando la vida útil de tus palos favoritos.
+      </p>
 
-          <ul class="service-points">
-            <li>Restauración profesional de las estrías desgastadas en la cara del palo.</li>
-            <li>Recuperación del efecto (spin) y mayor control de la bola.</li>
-            <li>Prolongación de la vida útil de tus palos.</li>
-            <li>Mejora en la precisión y consistencia de los golpes.</li>
-            <li>Servicio recomendado para palos de uso frecuente o con desgaste visible.</li>
-          </ul>
-        </div>
-      </div>
+      <ul class="service-points">
+        <li>Restauración profesional y precisa de las estrías desgastadas en la cara del palo.</li>
+        <li>Recuperación completa del efecto (spin) y mayor control direccional de la bola.</li>
+        <li>Prolongación significativa de la vida útil de tus palos de golf favoritos.</li>
+        <li>Mejora notable en la precisión y consistencia de todos tus golpes.</li>
+        <li>Servicio especialmente recomendado para palos de uso frecuente o con desgaste visible.</li>
+      </ul>
     </section>
   </main>
 
-  <footer>
-    <section class="footer-container">
-      <a href="../index.html" aria-label="Ir al inicio de AFERGOLF">
-        <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="footer-logo" loading="lazy">
-      </a>
-      <article class="footer-section" aria-labelledby="servicio-title">
-        <h3 id="servicio-title">Servicio al cliente</h3>
-        <ul>
-          <li><a href="contact.html">Contacto</a></li>
-          <li><a href="account.html">Mi cuenta</a></li>
-          <li><a href="class.html">Clases</a></li>
-          <li><a href="fitting.html">Fitting</a></li>
-          <li><a href="repairs.html">Reparaciones</a></li>
-          <li><a href="swing-weight.html">Swing Weight</a></li>
-        </ul>
-      </article>
-      <article class="footer-section" aria-labelledby="info-title">
-        <h3 id="info-title">Información</h3>
-        <ul>
-          <li><a href="returns.html">Entrega y devoluciones</a></li>
-          <li><a href="terms.html">Términos y condiciones</a></li>
-          <li><a href="refund.html">Política de reembolso</a></li>
-          <li><a href="legal.html">Avisos legales y cookies</a></li>
-          <li><a href="payment.html">Medios de pago</a></li>
-        </ul>
-      </article>
-      <p class="footer-copy">© 2025, AFERGOLF.</p>
-    </section>
-  </footer>
+  <afergolf-footer></afergolf-footer>
 </body>
 </html>
