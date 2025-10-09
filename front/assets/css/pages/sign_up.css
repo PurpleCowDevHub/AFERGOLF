@@ -1,0 +1,260 @@
+/* Reset y Base */
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #1f1f1f;
+  background: #fff;
+  line-height: 1.5;
+}
+
+main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 48px 16px;
+}
+
+/* Utilidades */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Sección de registro */
+.register-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.register-hero::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("../../img/FondoRegistro.jpg") center / cover no-repeat;
+  z-index: -1;
+}
+
+/* Tarjeta principal */
+.register-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  background: #F7F5F5;
+  border-radius: 32px;
+  padding: 40px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
+}
+
+/* Título */
+.register-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #2b2a2a;
+  text-align: center;
+  margin-bottom: 34px;
+  letter-spacing: -0.5px;
+}
+
+/* Formulario */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.form-fieldset + .form-fieldset {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Grid responsivo */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 480px) {
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    gap: 14px 24px;
+  }
+}
+
+/* Campos */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 14px;
+  color: #2b2a2a;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required {
+  color: #d24033;
+  font-weight: 800;
+}
+
+/* Inputs */
+.field-input {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 14px;
+  background: #fff;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-family: inherit;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.field-input:focus {
+  border-color: #d24033;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12), 0 0 0 3px rgba(210, 64, 51, 0.15);
+}
+
+.field-input:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: #e74c3c;
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.15);
+}
+
+/* Mensajes de ayuda y error */
+.field-help {
+  font-size: 11px;
+  color: #888;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.4;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
+.field-error {
+  font-size: 13px;
+  color: #e74c3c;
+  font-weight: 600;
+  min-height: 16px;
+}
+
+.field-error:empty {
+  display: none;
+}
+
+/* Acciones del formulario */
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Botón principal */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  min-width: 170px;
+  max-width: 190px;
+  background: linear-gradient(180deg, #9a2816 0%, #e0422f 100%);
+  box-shadow: 0 6px 16px rgba(224, 66, 47, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(224, 66, 47, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+/* Sección de enlaces */
+.register-links-section {
+  text-align: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.register-links {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* Enlaces */
+.link-soft {
+  color: #d24033;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.link-soft:hover {
+  text-decoration: underline;
+  color: #b8331e;
+}

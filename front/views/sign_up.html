@@ -1,75 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AFERGOLF – Registro</title>
-
-  <!-- CSS base del sitio -->
-  <link rel="stylesheet" href="../assets/css/header.css">
-  <link rel="stylesheet" href="../assets/css/footer.css">
-  <!-- CSS específico de esta vista -->
-  <link rel="stylesheet" href="../assets/css/pages/Registro.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Registro de cuenta en AFERGOLF - Crea tu cuenta para acceder a nuestros servicios de golf profesional">
+  <title>Registro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/pages/sign_up.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" defer></script>
 </head>
 
 <body data-page="registro">
-  <!-- ===== HEADER con semicírculo ===== -->
-  <header>
-    <img src="../assets/img/footer-shape.svg" alt="Decoración semicircular" class="header-semicircle" loading="lazy">
-    <div class="header-container">
-      <img src="../assets/img/Logo.svg" alt="Logo AFERGOLF" class="header-logo">
-    </div>
-  </header>
+  <afergolf-header-admin></afergolf-header-admin>
 
-  <!-- Espaciador -->
-  <div class="header-spacer"></div>
+  <main>
+    <section class="register-hero">
+      <div class="register-card">
+        <h1 id="register-title" class="register-title">Crear Cuenta</h1>
+        <form class="register-form" autocomplete="on" novalidate aria-labelledby="register-title">
+          <fieldset class="form-fieldset">
+            <legend class="sr-only">Información personal</legend>
+            <div class="grid-2">
+              <div class="field">
+                <label class="field-label" for="nombre">
+                  Nombres <span class="required" aria-label="requerido">*</span>
+                </label>
+                <input 
+                  class="field-input" 
+                  type="text" 
+                  id="nombre" 
+                  name="nombre"
+                  placeholder="Tu nombre" 
+                  autocomplete="given-name"
+                  minlength="2"
+                  maxlength="50"
+                  required
+                  aria-describedby="nombre-error">
+                <span id="nombre-error" class="field-error" role="alert"></span>
+              </div>
 
-  <!-- ===== HERO Registro ===== -->
-  <section class="register-hero">
-    <div class="register-card">
-      <h1 class="register-title">Registro</h1>
+              <div class="field">
+                <label class="field-label" for="apellido">
+                  Apellidos <span class="required" aria-label="requerido">*</span>
+                </label>
+                <input 
+                  class="field-input" 
+                  type="text" 
+                  id="apellido" 
+                  name="apellido"
+                  placeholder="Tus apellidos" 
+                  autocomplete="family-name"
+                  minlength="2"
+                  maxlength="50"
+                  required
+                  aria-describedby="apellido-error">
+                <span id="apellido-error" class="field-error" role="alert"></span>
+              </div>
 
-      <form class="register-form" autocomplete="on" novalidate>
-        <div class="grid-2">
-          <div class="field">
-            <label class="field-label" for="nombre">Nombres</label>
-            <input class="field-input" type="text" id="nombre" placeholder="Tu nombre" required>
+              <div class="field">
+                <label class="field-label" for="email">
+                  Correo electrónico <span class="required" aria-label="requerido">*</span>
+                </label>
+                <input 
+                  class="field-input" 
+                  type="email" 
+                  id="email" 
+                  name="email"
+                  placeholder="tucorreo@gmail.com" 
+                  autocomplete="email"
+                  maxlength="100"
+                  required
+                  aria-describedby="email-error email-help">
+                <span id="email-help" class="field-help"></span>
+                <span id="email-error" class="field-error" role="alert"></span>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="telefono">Número de teléfono</label>
+                <input 
+                  class="field-input" 
+                  type="tel" 
+                  id="telefono" 
+                  name="telefono"
+                  placeholder="300 000 0000"
+                  autocomplete="tel"
+                  pattern="[0-9\s\-()]+"
+                  maxlength="20"
+                  aria-describedby="telefono-error telefono-help">
+                <span id="telefono-help" class="field-help"></span>
+                <span id="telefono-error" class="field-error" role="alert"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-fieldset">
+            <legend class="sr-only">Credenciales de acceso</legend>
+            <div class="grid-2">
+              <div class="field">
+                <label class="field-label" for="password">
+                  Contraseña <span class="required" aria-label="requerido">*</span>
+                </label>
+                <input 
+                  class="field-input" 
+                  type="password" 
+                  id="password" 
+                  name="password"
+                  placeholder="••••••••" 
+                  autocomplete="new-password"
+                  minlength="8"
+                  maxlength="100"
+                  required
+                  aria-describedby="password-error password-help">
+                <span id="password-help" class="field-help">Mínimo 8 caracteres. Debe incluir al menos una mayúscula, una minúscula, un número y un carácter especial.</span>
+                <span id="password-error" class="field-error" role="alert"></span>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="password-confirm">
+                  Confirmar contraseña <span class="required" aria-label="requerido">*</span>
+                </label>
+                <input 
+                  class="field-input" 
+                  type="password" 
+                  id="password-confirm" 
+                  name="password-confirm"
+                  placeholder="••••••••" 
+                  autocomplete="new-password"
+                  minlength="8"
+                  maxlength="100"
+                  required
+                  aria-describedby="password-confirm-error">
+                <span id="password-confirm-error" class="field-error" role="alert"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" aria-describedby="submit-help">
+              Crear cuenta
+            </button>
+            <span id="submit-help" class="field-help">Al registrarte aceptas nuestros términos y condiciones.</span>
           </div>
+        </form>
 
-          <div class="field">
-            <label class="field-label" for="apellido">Apellidos</label>
-            <input class="field-input" type="text" id="apellido" placeholder="Tus apellidos" required>
-          </div>
-
-          <div class="field">
-            <label class="field-label" for="email">Correo electrónico</label>
-            <input class="field-input" type="email" id="email" placeholder="correo@dominio.com" required>
-          </div>
-
-          <div class="field">
-            <label class="field-label" for="telefono">Número de teléfono</label>
-            <input class="field-input" type="tel" id="telefono" placeholder="+57 300 000 0000">
-          </div>
-
-          <div class="field">
-            <label class="field-label" for="pass">Contraseña</label>
-            <input class="field-input" type="password" id="pass" placeholder="••••••••" required>
-          </div>
-
-          <div class="field">
-            <label class="field-label" for="pass2">Verificar contraseña</label>
-            <input class="field-input" type="password" id="pass2" placeholder="••••••••" required>
-          </div>
+        <div class="register-links-section">
+          <p class="register-links">
+            ¿Ya tienes una cuenta? 
+            <a href="./log_in.html" class="link-soft">Iniciar sesión</a>
+          </p>
         </div>
-
-        <button type="submit" class="btn-primary">Vamos</button>
-        <a href="./Sesion-admin.html" class="link-soft bottom">¿Ya tienes una Cuenta?</a>
-      </form>
-    </div>
-  </section>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
