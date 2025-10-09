@@ -60,7 +60,7 @@ header {
   display: flex; /* Centramos con flex */
   justify-content: center;
   align-items: center; 
-  background-image: url("../../img/Fondo3 Campo de Golf.png"); 
+  background-image: url("../../img/FondoRegistro.png"); 
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

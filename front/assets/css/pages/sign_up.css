@@ -5,7 +5,8 @@
   box-sizing: border-box; 
 }
 
-html, body {
+html, 
+body {
   height: 100%;
   width: 100%;
 }
@@ -15,6 +16,7 @@ body {
   color: #1f1f1f;
   background: #fff;
   line-height: 1.5;
+  position: relative;
 }
 
 main {
@@ -24,6 +26,18 @@ main {
   justify-content: center;
   min-height: 100vh;
   padding: 180px 16px 80px;
+}
+
+/* Imagen de fondo */
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  z-index: -1;
 }
 
 /* Utilidades */
@@ -47,18 +61,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 210px 16px 80px;
-}
-
-.register-hero::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url("../../img/FondoRegistro.jpg") center / cover no-repeat;
-  z-index: -1;
+  padding: 260px 16px 80px;
 }
 
 /* Tarjeta principal */
@@ -66,7 +69,7 @@ main {
   width: 100%;
   max-width: 600px;
   margin: 40px auto;
-  background: #F7F5F5;
+  background: #f7f5f5;
   border-radius: 32px;
   padding: 40px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
@@ -111,7 +114,7 @@ main {
   gap: 14px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 430px) {
   .grid-2 {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px 20px;
