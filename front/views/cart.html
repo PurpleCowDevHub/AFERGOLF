@@ -1,54 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AFERGOLF – Carrito</title>
-
-  <!-- CSS base del sitio -->
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <!-- CSS específico de esta vista -->
-  <link rel="stylesheet" href="../assets/css/Carrito.css">
-
+  <link rel="stylesheet" href="../assets/css/pages/Carrito.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="../assets/js/main.js" defer></script>
 </head>
 
 <body>
-  <!-- ===== Header (NO CAMBIAR) ===== -->
-  <header>
-    <img src="../assets/img/footer-shape.svg" class="header-semicircle" alt="Decoración semicircular del encabezado" loading="lazy">
-    <div class="header-container">
-      <nav class="header-nav">
-        <ul class="nav-left">
-          <li class="nav-item hamburguer-menu">
-            <img src="../assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
-          </li>
-        </ul>
-        <ul class="nav-right">
-          <li class="nav-item search">
-            <img src="../assets/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
-            <span class="text-icon">Buscar</span>
-          </li>
-          <li class="nav-item user">
-            <img src="../assets/icon/Person.svg" alt="Acceder al perfil de usuario" class="icon" loading="lazy">
-            <span class="text-icon">Perfil</span>
-          </li>
-          <li class="nav-item carting">
-            <img src="../assets/icon/Cart.svg" alt="Ver carrito de compras" class="icon" loading="lazy">
-            <span class="text-icon">Carrito</span>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
-      <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header    -logo" loading="lazy">
-    </a>
-  </header>
+  <afergolf-header></afergolf-header>
 
-  <!-- ===== Carrito (maqueta) ===== -->
-  <main class="page-cart">
+  <main>
     <section class="cart">
       <!-- Columna izquierda -->
       <div class="card products">
@@ -109,35 +75,6 @@
     </section>
   </main>
 
-  <!-- ===== Footer (NO CAMBIAR) ===== -->
-  <footer>
-    <section class="footer-container">
-      <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
-        <img src="../assets/img/Logo.svg" alt="Logo de AFERGOLF" class="footer-logo" loading="lazy">
-      </a>
-      <article class="footer-section" aria-labelledby="servicio-title">
-        <h3 id="servicio-title">Servicio al cliente</h3>
-        <ul>
-          <li><a href="../views/contact.html">Contacto</a></li>
-          <li><a href="../views/Mi cuenta.html">Mi cuenta</a></li>
-          <li><a href="../views/Clases de golf.html">Clases</a></li>
-          <li><a href="../views/Fitting.html">Fitting</a></li>
-          <li><a href="../views/Compra y Venta.html">Reparaciones</a></li>
-          <li><a href="../views/Cambios de swing weight.html">Swing Weight</a></li>
-        </ul>
-      </article>
-      <article class="footer-section" aria-labelledby="info-title">
-        <h3 id="info-title">Información</h3>
-        <ul>
-          <li><a href="#">Entrega y devoluciones</a></li>
-          <li><a href="#">Términos y condiciones</a></li>
-          <li><a href="#">Política de reembolso</a></li>
-          <li><a href="#">Avisos legales y cookies</a></li>
-          <li><a href="#">Medios de pago</a></li>
-        </ul>
-      </article>
-      <p class="footer-copy">© 2025, AFERGOLF.</p>
-    </section>
-  </footer>
+  <afergolf-footer></afergolf-footer>
 </body>
 </html>

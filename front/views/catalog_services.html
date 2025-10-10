@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo de servicios</title>
+  <link rel="stylesheet" href="../assets/css/pages/catalog_services.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/catalog_services.js" defer></script>
+</head>
+<body>
+  <afergolf-header></afergolf-header>
+
+  <main>
+    <!-- Hero estático -->
+    <section class="hero" aria-label="Servicios AFERGOLF">
+      <img src="../assets/img/Fondo3.png" alt="Servicios AFERGOLF" class="hero-img">
+    </section>
+
+    <!-- Listado de servicios (carrusel) -->
+    <section class="services" aria-labelledby="titulo-servicios">
+      <h2 id="titulo-servicios">Servicios</h2>
+
+      <div class="slider" data-slider>
+        <button class="ctrl ctrl-left" aria-label="Anterior" data-prev>‹</button>
+
+        <div class="viewport" data-viewport>
+          <div class="track" data-track>
+            <!-- 1 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/Fitting.png" alt="Fitting" loading="lazy">
+              </figure>
+              <h3 class="card-title">Fitting</h3>
+            </article>
+            <!-- 2 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/Calibracion.png" alt="Calibración" loading="lazy">
+              </figure>
+              <h3 class="card-title">Calibración</h3>
+            </article>
+            <!-- 3 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/Grips.png" alt="Cambio de Grips" loading="lazy">
+              </figure>
+              <h3 class="card-title">Cambio de Grips</h3>
+            </article>
+            <!-- 4 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/Estrias.png" alt="Arreglo Estrías" loading="lazy">
+              </figure>
+              <h3 class="card-title">Arreglo Estrías</h3>
+            </article>
+            <!-- 5 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/Clases.png" alt="Clases de Golf" loading="lazy">
+              </figure>
+              <h3 class="card-title">Clases de Golf</h3>
+            </article>
+            <!-- 6 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/SwingWeight.png" alt="Swing Weight" loading="lazy">
+              </figure>
+              <h3 class="card-title">Swing Weight</h3>
+            </article>
+            <!-- 7 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/CompraVenta.png" alt="Compra y venta de equipos" loading="lazy">
+              </figure>
+              <h3 class="card-title">Compra y venta de equipos</h3>
+            </article>
+            <!-- 8 -->
+            <article class="card">
+              <figure class="thumb">
+                <img src="../assets/img/services/Alargamiento.png" alt="Alargamiento y Acortamiento" loading="lazy">
+              </figure>
+              <h3 class="card-title">Alargamiento y Acortamiento</h3>
+            </article>
+          </div>
+        </div>
+
+        <button class="ctrl ctrl-right" aria-label="Siguiente" data-next>›</button>
+      </div>
+    </section>
+  </main>
+
+  <afergolf-footer></afergolf-footer>
+</body>
+</html>
