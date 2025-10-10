@@ -1,54 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AFERGOLF – Código de Recuperación</title>
-
-  <!-- CSS base -->
-  <link rel="stylesheet" href="../assets/css/header.css">
-  <link rel="stylesheet" href="../assets/css/footer.css">
-
-  <!-- CSS específico -->
-  <link rel="stylesheet" href="../assets/css/pages/recovery_code.css">
-
-  <!-- Fuente -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Código de recuperación AFERGOLF - Ingresa el código de verificación recibido para cambiar tu contraseña">
+  <title>Código de Recuperación</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/pages/recovery_code.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/recovery_code.js" defer></script>
 </head>
 
 <body data-page="codigo-recuperacion">
-  <!-- ===== HEADER con semicírculo ===== -->
-  <header>
-    <img src="../assets/img/footer-shape.svg" alt="Decoración semicircular" class="header-semicircle" loading="lazy">
-    <div class="header-container">
-      <img src="../assets/img/Logo.svg" alt="Logo AFERGOLF" class="header-logo">
-    </div>
-  </header>
+  <afergolf-header-admin></afergolf-header-admin>
 
-  <!-- ===== Espaciador del header ===== -->
-  <div class="header-spacer"></div>
-
-  <!-- ===== Contenido principal ===== -->
-  <section class="code-section">
-    <div class="code-card">
-      <h1 class="code-title">Ingrese el código</h1>
-      <form class="code-form" id="codeForm" autocomplete="off">
-        <div class="code-inputs">
-          <input type="text" maxlength="1" class="code-box" />
-          <input type="text" maxlength="1" class="code-box" />
-          <input type="text" maxlength="1" class="code-box" />
-          <input type="text" maxlength="1" class="code-box" />
-          <input type="text" maxlength="1" class="code-box" />
-          <input type="text" maxlength="1" class="code-box" />
-        </div>
-        <button type="submit" class="btn-primary">Enviar</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- ===== JS ===== -->
-  <script src="../assets/js/Codigo-Recuperacion.js"></script>
+  <main>
+    <section class="code-section">
+      <div class="code-card">
+        <h1 class="code-title">Ingrese el código</h1>
+        <form class="code-form" id="codeForm" autocomplete="off" novalidate>
+          <div class="code-inputs">
+            <input type="text" maxlength="1" class="code-box" id="code-1" name="code-1" />
+            <input type="text" maxlength="1" class="code-box" id="code-2" name="code-2" />
+            <input type="text" maxlength="1" class="code-box" id="code-3" name="code-3" />
+            <input type="text" maxlength="1" class="code-box" id="code-4" name="code-4" />
+            <input type="text" maxlength="1" class="code-box" id="code-5" name="code-5" />
+            <input type="text" maxlength="1" class="code-box" id="code-6" name="code-6" />
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
