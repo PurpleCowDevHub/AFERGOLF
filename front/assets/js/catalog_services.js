@@ -5,7 +5,7 @@ class ServicesCarousel {
     this.prevBtn = null;
     this.nextBtn = null;
     this.autoplayInterval = null;
-    this.autoplayDelay = 5000; // 5 seconds
+    this.autoplayDelay = 5000;
     
     this.init();
   }
@@ -15,12 +15,11 @@ class ServicesCarousel {
    */
   init() {
     this.bindElements();
-    if (!this.viewport || !this.track || !this.prevBtn || !this.nextBtn) {
+    if (!this.viewport || !this.prevBtn || !this.nextBtn) {
       console.warn('ServicesCarousel: Required elements not found');
       return;
     }
     
-    this.setupViewport();
     this.bindEvents();
     this.startAutoplay();
   }
@@ -36,26 +35,22 @@ class ServicesCarousel {
   }
 
   /**
-   * Setup viewport styles
-   */
-  setupViewport() {
-    this.viewport.style.overflow = 'hidden';
-  }
-
-  /**
    * Bind event listeners
    */
   bindEvents() {
-    this.prevBtn.addEventListener('click', () => this.scrollPrevious());
-    this.nextBtn.addEventListener('click', () => this.scrollNext());
+    this.prevBtn.addEventListener('click', () => {
+      this.scrollPrevious();
+      this.resetAutoplay();
+    });
+    
+    this.nextBtn.addEventListener('click', () => {
+      this.scrollNext();
+      this.resetAutoplay();
+    });
     
     // Pause autoplay on hover
     this.viewport.addEventListener('pointerenter', () => this.stopAutoplay());
     this.viewport.addEventListener('pointerleave', () => this.startAutoplay());
-    
-    // Pause autoplay when user manually interacts
-    this.prevBtn.addEventListener('click', () => this.resetAutoplay());
-    this.nextBtn.addEventListener('click', () => this.resetAutoplay());
   }
 
   /**
@@ -89,7 +84,7 @@ class ServicesCarousel {
    * Start autoplay functionality
    */
   startAutoplay() {
-    this.stopAutoplay(); // Clear any existing interval
+    this.stopAutoplay();
     this.autoplayInterval = setInterval(() => {
       this.scrollNext();
     }, this.autoplayDelay);
@@ -110,7 +105,7 @@ class ServicesCarousel {
    */
   resetAutoplay() {
     this.stopAutoplay();
-    setTimeout(() => this.startAutoplay(), 2000); // Resume after 2 seconds
+    setTimeout(() => this.startAutoplay(), 2000);
   }
 
   /**
@@ -118,17 +113,6 @@ class ServicesCarousel {
    */
   destroy() {
     this.stopAutoplay();
-    
-    if (this.prevBtn) {
-      this.prevBtn.removeEventListener('click', this.scrollPrevious);
-    }
-    if (this.nextBtn) {
-      this.nextBtn.removeEventListener('click', this.scrollNext);
-    }
-    if (this.viewport) {
-      this.viewport.removeEventListener('pointerenter', this.stopAutoplay);
-      this.viewport.removeEventListener('pointerleave', this.startAutoplay);
-    }
   }
 }
 
