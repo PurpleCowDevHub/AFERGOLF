@@ -1,0 +1,239 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", Arial, sans-serif;
+  background: #f8f8f8;
+  color: #222;
+  padding-top: 100px;
+}
+
+/* Layout principal */
+.checkout-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Tarjeta de formulario */
+.checkout-form {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.checkout-form h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.checkout-form section {
+  margin-bottom: 25px;
+}
+
+.checkout-form h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px; /* Reducir espacio entre campos */
+}
+
+.field label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.field input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.field input:focus {
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 3px rgba(214, 74, 58, 0.1);
+}
+
+/* Inputs en fila */
+.field-row {
+  display: flex;
+  gap: 10px; /* Reducir espacio entre inputs en fila */
+}
+
+.field.small {
+  flex: 1;
+}
+
+/* Tarjetas */
+.cards {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.cards img {
+  height: 30px;
+  filter: grayscale(10%);
+}
+
+/* Botón */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(224, 66, 47, 0.35);
+}
+
+.btn-primary:hover {
+  filter: brightness(0.97);
+}
+
+/* Resumen del pedido */
+.order-summary {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.order-summary h3 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.order-summary ul {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.order-summary li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.order-summary hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 15px 0;
+}
+
+.order-summary .total {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.order-summary figure {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.order-summary img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Estilos para campos cortos */
+.input--short {
+  max-width: 220px;
+}
+
+/* Estilos para textarea */
+.field__textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  height: 80px;
+}
+
+.field__textarea:focus {
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 3px rgba(214, 74, 58, 0.1);
+}
+
+/* Estilos para las secciones del formulario */
+.checkout-form__section {
+  margin-bottom: 20px; /* Reducir espacio entre secciones */
+}
+
+.checkout-form__title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+/* Estilos para el resumen del pedido */
+.order-summary__title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.order-summary__list {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.order-summary__item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.order-summary__total {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.order-summary__figure {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.order-summary__figure img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .checkout-container {
+    grid-template-columns: 1fr;
+  }
+
+  .order-summary {
+    order: -1;
+  }
+}

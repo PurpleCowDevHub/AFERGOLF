@@ -3,100 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AFERGOLF – Finalizar compra</title>
-  <link rel="stylesheet" href="../assets/css/pages/Finalizar-pago.css" />
+  <title>Finalizar compra</title>
+  <link rel="stylesheet" href="../assets/css/pages/payment.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <script src="../assets/js/main.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <afergolf-header></afergolf-header>
+  <header>
+    <afergolf-header></afergolf-header>
+  </header>
 
-  <main>
-    <section class="checkout" aria-labelledby="titulo-finalizar">
-      <div class="checkout-grid">
-        <!-- Tarjeta/Formulario -->
-        <form class="checkout-card" novalidate>
-          <h2 id="titulo-finalizar" class="checkout-title">Información personal</h2>
+  <main class="checkout">
+    <div class="checkout-container">
+      <form class="checkout-form">
+        <h2>Detalles de pago</h2>
 
+        <section class="checkout-form__section">
+          <h3 class="checkout-form__title">Información personal</h3>
           <div class="field">
-            <input type="text" name="nombre" autocomplete="name" placeholder="Nombres / Apellidos" aria-label="Nombres y apellidos" required>
+            <label for="nombre" class="field__label">Nombre</label>
+            <input id="nombre" class="field__input input--short" type="text" placeholder="Nombre" aria-required="true" required>
           </div>
-
           <div class="field">
-            <input type="email" name="email" autocomplete="email" placeholder="Correo electrónico" aria-label="Correo electrónico" required>
+            <label for="apellido" class="field__label">Apellido</label>
+            <input id="apellido" class="field__input input--short" type="text" placeholder="Apellido" aria-required="true" required>
           </div>
+          <div class="field">
+            <label for="email" class="field__label">Correo electrónico</label>
+            <input id="email" class="field__input input--short" type="email" placeholder="ejemplo@correo.com" aria-required="true" required>
+          </div>
+        </section>
 
-          <h3 class="checkout-subtitle">Método de pago</h3>
-          <div class="field field-row">
-            <input type="text" name="numero" inputmode="numeric" placeholder="Número de tarjeta" aria-label="Número de tarjeta" required>
-
-            <!-- LOGOS DE TARJETAS -->
-            <div class="cards-logos" aria-label="Medios de pago aceptados">
-              <!-- VISA -->
-              <svg class="card-svg visa" viewBox="0 0 80 24" role="img" aria-label="Visa" focusable="false">
-                <rect width="80" height="24" rx="4" fill="#1A1F71"/>
-                <text x="10" y="17" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-size="14">VISA</text>
-              </svg>
-              <!-- MasterCard -->
-              <svg class="card-svg mc" viewBox="0 0 80 24" role="img" aria-label="MasterCard" focusable="false">
-                <rect width="80" height="24" rx="4" fill="#111"/>
-                <g transform="translate(26,4)">
-                  <circle cx="8" cy="8" r="8" fill="#EB001B"/>
-                  <circle cx="18" cy="8" r="8" fill="#F79E1B" opacity="0.9"/>
-                </g>
-              </svg>
-              <!-- American Express -->
-              <svg class="card-svg amex" viewBox="0 0 80 24" role="img" aria-label="American Express" focusable="false">
-                <rect width="80" height="24" rx="4" fill="#2E77BC"/>
-                <text x="8" y="16" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-weight="900" font-size="11">AMERICAN</text>
-                <text x="8" y="22" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-weight="900" font-size="11" letter-spacing="1">EXPRESS</text>
-              </svg>
+        <section class="checkout-form__section">
+          <h3 class="checkout-form__title">Dirección de envío</h3>
+          <div class="field">
+            <label for="calle" class="field__label">Calle/Dirección principal</label>
+            <input id="calle" class="field__input" type="text" placeholder="Calle principal" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="numero" class="field__label">Número</label>
+              <input id="numero" class="field__input input--short" type="text" placeholder="Número" required>
+            </div>
+            <div class="field">
+              <label for="ciudad" class="field__label">Ciudad</label>
+              <input id="ciudad" class="field__input input--short" type="text" placeholder="Ciudad" required>
             </div>
           </div>
-
+          <div class="field-row">
+            <div class="field">
+              <label for="codigo-postal" class="field__label">Código postal</label>
+              <input id="codigo-postal" class="field__input input--short" type="text" placeholder="Código postal" required>
+            </div>
+            <div class="field">
+              <label for="torre" class="field__label">Torre (opcional)</label>
+              <input id="torre" class="field__input input--short" type="text" placeholder="Torre">
+            </div>
+          </div>
           <div class="field">
-            <input type="password" name="cvv" inputmode="numeric" maxlength="4" placeholder="Número de seguridad (CVV)" aria-label="CVV" required>
+            <label for="apartamento" class="field__label">Apartamento (opcional)</label>
+            <input id="apartamento" class="field__input" type="text" placeholder="Apartamento">
           </div>
+          <div class="field">
+            <label for="detalles" class="field__label">Detalles de entrega</label>
+            <textarea id="detalles" class="field__textarea" placeholder="Ejemplo: puerta lateral, portería"></textarea>
+          </div>
+        </section>
 
-          <div class="field field-inline">
-            <label class="lbl">Fecha de expiración</label>
-            <div class="exp-grid">
-              <select name="mes" aria-label="Mes" required>
-                <option value="" selected>Mes</option>
-                <option>01</option><option>02</option><option>03</option><option>04</option>
-                <option>05</option><option>06</option><option>07</option><option>08</option>
-                <option>09</option><option>10</option><option>11</option><option>12</option>
-              </select>
-              <select name="anio" aria-label="Año" required>
-                <option value="" selected>Año</option>
-                <option>2025</option><option>2026</option><option>2027</option><option>2028</option>
-                <option>2029</option><option>2030</option><option>2031</option><option>2032</option>
-              </select>
+        <section class="checkout-form__section">
+          <h3 class="checkout-form__title">Método de pago</h3>
+          <div class="field">
+            <label for="tarjeta" class="field__label">Número de tarjeta</label>
+            <input id="tarjeta" class="field__input" type="text" placeholder="0000 0000 0000 0000" maxlength="19" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="exp" class="field__label">Expiración</label>
+              <input id="exp" class="field__input input--short" type="text" placeholder="MM/AA" maxlength="5" required>
+            </div>
+            <div class="field">
+              <label for="cvv" class="field__label">CVV</label>
+              <input id="cvv" class="field__input input--short" type="password" placeholder="***" maxlength="3" required>
             </div>
           </div>
-
-          <div class="field field-inline">
-            <label class="lbl">Dirección de envío</label>
-            <div class="addr-grid">
-              <input type="text" name="direccion" autocomplete="address-line1" placeholder="Dirección" aria-label="Dirección" required>
-              <input type="text" name="info" autocomplete="address-line2" placeholder="Información adicional, Ej: apto, torre..." aria-label="Información adicional">
+          <div class="field">
+            <label class="field__label">Medios de pago</label>
+            <div class="cards">
+              <img src="../assets/img/visa.png" alt="Visa">
+              <img src="../assets/img/mastercard.png" alt="MasterCard">
+              <img src="../assets/img/amex.png" alt="American Express">
             </div>
           </div>
+        </section>
 
-          <button class="btn-primary" type="submit">Terminar compra</button>
-        </form>
+        <button type="submit" class="btn-primary">Pagar ahora</button>
+      </form>
 
-        <!-- Imagen lateral -->
-        <figure class="checkout-figure">
-          <img src="../assets/img/Pago.jpg" alt="Ilustración de pago y golf" loading="lazy">
+      <aside class="order-summary">
+        <h3 class="order-summary__title">Resumen del pedido</h3>
+        <ul class="order-summary__list">
+          <li class="order-summary__item"><span>Driver PING G430</span> <strong>$1.200.000</strong></li>
+          <li class="order-summary__item"><span>Guante Callaway</span> <strong>$120.000</strong></li>
+          <li class="order-summary__item"><span>Envío</span> <strong>$15.000</strong></li>
+        </ul>
+        <hr>
+        <p class="order-summary__total"><span>Total:</span> <strong>$1.335.000</strong></p>
+        <figure class="order-summary__figure">
+          <img src="../assets/img/Pago.jpg" alt="Golf payment illustration">
         </figure>
-      </div>
-    </section>
+      </aside>
+    </div>
   </main>
 
-  <afergolf-footer></afergolf-footer>
+  <footer>
+    <afergolf-footer></afergolf-footer>
+  </footer>
 </body>
 </html>
