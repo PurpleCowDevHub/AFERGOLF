@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,145 @@
   <afergolf-header></afergolf-header>
 
   <main>
-    <!-- Aquí va el contenido del cuerpo -->
+    <!-- Section 1: Hero Banner -->
+    <section class="hero-banner">
+      <img src="front/assets/img/BannerPrincipal.png" alt="Golf Course Banner">
+      <div class="overlay">
+        <h1>AFERGOLF<br>Donde tu golf alcanza su mejor versión</h1>
+      </div>
+    </section>
+
+    <!-- Section 2: Featured Products -->
+    <section class="featured-products">
+      <h2>Productos Destacados</h2>
+
+      <button class="ctrl ctrl-left" aria-label="Anterior" data-prev></button>
+
+      <div class="productos-wrapper">
+        <div class="productos">
+          <article class="producto">
+            <img src="front/assets/img/Guante Ping.jpeg" alt="Guante Footjoy GTXtreme" loading="lazy">
+            <h3>Guante Footjoy GTXtreme</h3>
+            <p class="precio">Desde 70.000 COP</p>
+            <div class="tallas">
+              <button>S</button><button>M</button><button>L</button><button>XL</button>
+            </div>
+          </article>
+
+          <article class="producto">
+            <img src="front/assets/img/Pelotas de golf.jpeg" alt="Bolas Titleist Trufeel" loading="lazy">
+            <h3>Bolas Titleist Trufeel 2024</h3>
+            <p class="precio">Desde 150.000 COP</p>
+          </article>
+
+          <article class="producto">
+            <img src="front/assets/img/Palos.jpg" alt="Hierros Srixon ZX i4" loading="lazy">
+            <h3>Hierros Srixon ZX i4</h3>
+            <p class="precio">Desde 2.500.000 COP</p>
+          </article>
+
+          <article class="producto">
+            <img src="front/assets/img/Guante Callaway Thermal.jpg" alt="Guante Callaway Thermal" loading="lazy">
+            <h3>Guante Callaway Thermal</h3>
+            <p class="precio">Desde 85.000 COP</p>
+            <div class="tallas">
+              <button>S</button><button>M</button><button>L</button>
+            </div>
+          </article>
+
+          <article class="producto">
+            <img src="front/assets/img/Driver Cobra LTDx.jpeg" alt="Driver Cobra LTDx" loading="lazy">
+            <h3>Driver Cobra LTDx</h3>
+            <p class="precio">Desde 3.250.000 COP</p>
+          </article>
+
+          <article class="producto">
+            <img src="front/assets/img/Madera TaylorMade Stealth 2.jpeg" alt="Madera TaylorMade Stealth 2"
+              loading="lazy">
+            <h3>Madera TaylorMade Stealth 2</h3>
+            <p class="precio">Desde 2.100.000 COP</p>
+          </article>
+        </div>
+      </div>
+
+      <button class="ctrl ctrl-right" aria-label="Siguiente" data-next></button>
+
+      <button class="ver-mas">Ver más</button>
+    </section>
+
+    <!-- Section 3: Our Services -->
+    <section class="our-services">
+      <h2>Nuestros servicios</h2>
+      <div class="services-grid">
+        <div class="service-item">
+          <img src="front/assets/img/services/Fitting.png" alt="Fitting">
+          <h3>Fitting</h3>
+        </div>
+        <div class="service-item">
+          <img src="front/assets/img/services/Calibracion.png" alt="Calibración">
+          <h3>Calibración</h3>
+        </div>
+        <div class="service-item">
+          <img src="front/assets/img/services/Grips.png" alt="Cambio de Grips">
+          <h3>Cambio de Grips</h3>
+        </div>
+        <div class="service-item">
+          <img src="front/assets/img/services/Estrias.png" alt="Arreglo Estrías">
+          <h3>Arreglo Estrías</h3>
+        </div>
+        <div class="service-item">
+          <img src="front/assets/img/services/Clases.png" alt="Clases de Golf">
+          <h3>Clases de Golf</h3>
+        </div>
+        <div class="service-item">
+          <img src="front/assets/img/services/SwingWeight.png" alt="Swing Weight">
+          <h3>Swing Weight</h3>
+        </div>
+        <div class="service-item">
+          <img src="front/assets/img/services/CompraVenta.png" alt="Compra y venta de equipos">
+          <h3>Compra y venta de equipos</h3>
+        </div>
+        <div class="service-item">
+          <img src="front/assets/img/services/Alargamiento.png" alt="Alargamiento y Acortamiento">
+          <h3>Alargamiento y Acortamiento</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Secondary Banner -->
+    <section class="secondary-banner">
+      <img src="front/assets/img/BannerSecundario.png" alt="Golf Club Banner">
+      <div class="overlay">
+        <h2>NEW TITLEIST T SERIES<br>MÁS ADELANTE. MÁS ALTO. MÁS PRECISO.</h2>
+      </div>
+    </section>
+
+    <!-- Section 5: Testimonials -->
+    <section class="testimonials">
+      <h2>Testimonios</h2>
+      <div class="testimonial-container">
+        <div class="testimonial-box">
+          <img src="front/assets/img/PrimerT.png" alt="Carlos Méndez">
+          <p>"Encontré exactamente el driver que buscaba y en perfecto estado. El proceso fue rápido y el asesor me
+            ayudó a elegir la mejor opción según mi estilo de juego."</p>
+          <strong>Carlos Méndez</strong>
+        </div>
+        <div class="testimonial-box">
+          <img src="front/assets/img/SegundoT.png" alt="Laura Restrepo">
+          <p>"Las clases personalizadas mejoraron mi swing en
+            <strong>Laura Restrepo</strong>
+        </div>
+        <div class="testimonial-box">
+          <img src="front/assets/img/TercerT.png" alt="Andrés Salazar">
+          <p>"El fitting fue una experiencia increíble. Ajustaron cada palo a mis medidas y ahora siento que el juego
+            fluye mucho más natural."</p>
+          <strong>Andrés Salazar</strong>
+        </div>
+      </div>
+    </section>
   </main>
 
   <afergolf-footer></afergolf-footer>
 </body>
+
 </html>
