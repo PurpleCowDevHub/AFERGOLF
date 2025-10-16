@@ -1,21 +1,21 @@
 /* ====== Carrito (solo estilos de la vista) ====== */
 
-/* deja el contenido pegado al header, sin afectar header/footer */
-:root { --header-offset: 45px; }
-.page-cart { padding-top: var(--header-offset); }
+main {
+  padding-top: clamp(80px, 5vw, 50px);
+}
 
-/* en pantallas pequeñas dejamos un poco más por el semicírculo del logo */
-@media (max-width: 900px) { :root { --header-offset: 120px; } }
-@media (max-width: 600px) { :root { --header-offset: 124px; } }
+.cart {
+  padding: 40px 40px 60px;
+}
 
 /* Grid principal */
-.cart{
-  max-width:1200px;
-  margin:0 auto;
-  padding:12px 24px 56px;
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:24px;
+.cart {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
 }
 
 /* Tarjetas */
@@ -27,15 +27,18 @@
 }
 
 /* Cabecera productos */
-.product-header{
-  display:flex; align-items:center; gap:10px;
+.product-top{
+  display:flex; 
+  align-items:center; 
+  gap:10px;
   margin-bottom:12px;
   font:700 18px "Montserrat",sans-serif;
 }
-.product-header input[type="checkbox"]{
-  width:22px; height:22px; accent-color:#2c7be5;
+.product-top input[type="checkbox"]{
+  width:22px; 
+  height:22px; 
+  accent-color:#2c7be5;
 }
-.product-header .chev{ margin-left:auto; font-size:20px; color:#888; }
 
 /* Fila producto */
 .product-row{
