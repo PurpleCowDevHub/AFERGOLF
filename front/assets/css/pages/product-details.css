@@ -1,25 +1,28 @@
 .product-detail {
-  padding: clamp(80px, 5vw, 50px) 40px 60px;
+  padding: 60px 16px 40px;
 }
 
+/* ===== Layout base ===== */
 .product-grid {
   display: grid;
-  grid-template-columns: 120px 1fr 1fr;
-  gap: 20px;
-  max-width: 1000px;
+  grid-template-columns: 1fr;
+  gap: 20px;                /* aire entre secciones */
+  max-width: 430px;
   margin: 0 auto;
   align-items: start;
 }
 
-/* Miniaturas */
+/* ===== Miniaturas ===== */
 .product-thumbs {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-direction: row;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 18px;
 }
 .product-thumbs .thumb {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   border-radius: 10px;
   border: 1px solid rgba(139, 133, 133, 0.75);
   box-shadow: 0 4px 20px 5px rgba(0,0,0,.15);
@@ -38,7 +41,7 @@
   object-fit: cover;
 }
 
-/* Imagen principal */
+/* ===== Imagen principal ===== */
 .product-main {
   border-radius: 14px;
   border: 1px solid rgba(139, 133, 133, 0.75);
@@ -47,8 +50,8 @@
   overflow: hidden;
 }
 .product-main .main-img {
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  height: 280px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -60,26 +63,25 @@
   object-fit: cover;
 }
 
-/* Información */
+/* ===== Información del producto ===== */
 .product-info {
   background: #fff;
   border-radius: 12px;
   border: 1px solid rgba(139, 133, 133, 0.75);
-  padding: 24px;
+  padding: 18px;
   box-shadow: 0 4px 20px 5px rgba(0,0,0,.15);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
-  width: 380px;
-  height: 400px;
+  gap: 18px;                /* respiración entre elementos */
+  width: 100%;
+  min-height: 300px;        /* asegura altura consistente */
 }
 .product-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #222;
   line-height: 1.3;
-  margin-bottom: 8px;
 }
 .product-meta {
   font-size: 13px;
@@ -89,20 +91,22 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   flex-grow: 1;
 }
 .product-price {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #111;
-  margin: 16px 0;
+  margin: 10px 0;
 }
+
+/* ===== Botón ===== */
 .btn-cart {
-  padding: 12px 20px;
+  padding: 10px 16px;
   border-radius: 8px;
   border: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;
   color: #fff;
@@ -111,98 +115,104 @@
   cursor: pointer;
   width: fit-content;
   align-self: center;
+  margin-top: 4px;
 }
 .btn-cart:hover { filter: brightness(0.97); }
 .btn-cart:active { transform: translateY(1px); }
 
-/* Descripción */
+/* ===== Descripción ===== */
 .product-description {
-  max-width: 900px;
-  margin: 40px auto 0;
+  max-width: 430px;
+  margin: 36px auto 0;
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
 }
 .product-description h2 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .product-description p {
   font-size: 15px;
   line-height: 1.6;
   color: #333;
 }
+/* ===== Corrección de layout en 430px: info/descripcion a ancho completo ===== */
+@media (max-width: 430px) {
+  /* 2 columnas: thumbs (izq) + imagen (der) */
+  .product-grid{
+    grid-template-columns: 96px 1fr;
+    column-gap: 12px;
+    row-gap: 16px;
+    align-items: start;
+    max-width: 430px;
+    margin: 0 auto;
+  }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .product-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    max-width: 800px;
+  /* Miniaturas en columna a la izquierda */
+  .product-thumbs{
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 0;
   }
-  .product-thumbs { 
-    flex-direction: row; 
-    justify-content: center; 
-    gap: 15px;
-  }
-  .product-thumbs .thumb {
-    width: 100px;
-    height: 100px;
-  }
-  .product-main .main-img {
-    width: 100%;
-    height: 320px;
-  }
-  .product-info {
-    width: 100%;
-    height: 320px;
-    padding: 18px;
-    gap: 16px;
-  }
-  .product-meta {
-    gap: 6px;
-  }
-  .product-price {
-    margin: 12px 0;
-  }
-}
+  .product-thumbs .thumb{ width:80px; height:80px; }
 
-@media (max-width: 768px) {
-  .product-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  /* Imagen principal a la derecha */
+  .product-main .main-img{ height: 272px; }
+
+  /* 👉 Hacer que la tarjeta de información y la descripción
+        ocupen toda la fila (debajo de la imagen) */
+  .product-info,
+  .product-description{
+    grid-column: 1 / -1;           /* span ambas columnas */
   }
-  .product-thumbs { 
-    flex-direction: row; 
-    margin-bottom: 16px;
-    gap: 12px;
-    justify-content: center;
-  }
-  .product-thumbs .thumb {
-    width: 80px;
-    height: 80px;
-  }
-  .product-main .main-img {
-    width: 100%;
-    height: 280px;
-  }
-  .product-info {
-    width: 100%;
-    height: auto;
-    min-height: 280px;
+
+  /* Pulido de la tarjeta de info para lectura limpia */
+  .product-info{
+    margin-top: 4px;
     padding: 16px;
-    gap: 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
   }
-  .product-title {
+  .product-title{
     font-size: 16px;
+    line-height: 1.35;
+    margin-bottom: 8px;
+    hyphens: auto;                 /* cortes de palabra naturales */
+    word-break: break-word;        /* evita desbordes raros */
   }
-  .product-meta {
-    gap: 5px;
-  }
-  .product-price {
-    font-size: 18px;
-    margin: 10px 0;
-  }
-  .btn-cart {
-    padding: 10px 16px;
+  .product-meta{
     font-size: 13px;
+    line-height: 1.45;
+    gap: 6px;
+    color: #555;
   }
+  .product-price{
+    font-size: 18px;
+    margin: 8px 0 2px;
+    color: #d64a3a;
+  }
+  .btn-cart{
+    width: 100%;
+    max-width: 320px;
+    margin: 6px auto 0;
+    padding: 11px 16px;
+    border-radius: 10px;
+  }
+
+  /* Descripción como tarjeta consistente */
+  .product-description{
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.10);
+  }
+  .product-description h2{ font-size: 18px; margin-bottom: 8px; }
+  .product-description p{ font-size: 14px; line-height: 1.55; color:#444; }
 }
