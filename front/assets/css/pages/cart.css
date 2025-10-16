@@ -2,7 +2,7 @@
 
 /* Layout principal */
 main {
-  padding: 20px 0 60px;
+  padding: 80px 0 60px;
 }
 
 .carting {
@@ -41,10 +41,10 @@ main {
 /* Fila de producto */
 .product-row {
   display: grid;
-  grid-template-columns: auto 80px 1fr auto;
-  align-items: center;
-  gap: 14px;
-  padding: 14px;
+  grid-template-columns: auto 100px 1fr auto;
+  align-items: start;
+  gap: 16px;
+  padding: 16px;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.10);
@@ -54,6 +54,14 @@ main {
   width: 20px;
   height: 20px;
   accent-color: #2c7be5;
+  margin-top: 8px;
+}
+
+.product-row img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 /* Imagen del producto */
@@ -66,9 +74,16 @@ main {
 }
 
 /* Información del producto */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .product-info h4 {
   font: 600 15px/1.2 "Montserrat", sans-serif;
-  margin: 0 0 6px;
+  margin: 0;
+  color: #333;
 }
 
 .product-info .remove {
@@ -79,8 +94,22 @@ main {
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
-  margin-bottom: 10px;
-  display: inline-block;
+  width: fit-content;
+}
+
+.product-info .qty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.product-price {
+  font: 800 18px "Montserrat", sans-serif;
+  color: #333;
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 8px;
 }
 
 /* Controles de cantidad */
@@ -156,13 +185,30 @@ main {
 .summary .btn {
   width: 100%;
   margin-top: 14px;
-  padding: 12px;
-  border: 0;
-  border-radius: 12px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  font: 800 15px "Montserrat", sans-serif;
+  font: 600 14px "Montserrat", sans-serif;
   color: #fff;
-  background: #d9362a;
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  box-shadow: 0 6px 16px rgba(224,66,47,.3);
+  transition: filter 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.summary .btn:hover {
+  filter: brightness(0.97);
+  color: #fff;
+  text-decoration: none;
+}
+
+.summary .btn:active {
+  transform: translateY(1px);
+  color: #fff;
+  text-decoration: none;
 }
 
 /* Términos y condiciones */
