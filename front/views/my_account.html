@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AFERGOLF – Mi Cuenta</title>
+  <title> Mi Cuenta</title>
   <link rel="stylesheet" href="../assets/css/pages/my_account.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,20 +16,46 @@
 
   <main>
     <section class="account" aria-labelledby="titulo-cuenta">
+      <img 
+        src="../assets/img/Fondo1.png" 
+        alt="Fondo de sección Mi Cuenta"
+        class="account-background"
+        loading="lazy"
+      />
+      
       <div class="account-card" role="region" aria-labelledby="titulo-cuenta">
         <h2 id="titulo-cuenta" class="account-title">Mi Cuenta</h2>
 
-        <p><strong>Nombres</strong><br>Samuel David</p>
-        <p><strong>Apellidos</strong><br>Fernandez Urrea</p>
-        <p><strong>Correo Electrónico</strong><br>Samdezurrea@gmail.com</p>
-        <p><strong>Dirección</strong><br>Dg 87C # 334-97</p>
-
-        <div class="account-links">
-          <a class="link" href="#">Editar Perfil</a>
-          <a class="link" href="#">Historial de Compras</a>
+        <div class="account-info">
+          <div class="info-item">
+            <strong>Nombres</strong>
+            <span>Samuel David</span>
+          </div>
+          
+          <div class="info-item">
+            <strong>Apellidos</strong>
+            <span>Fernandez Urrea</span>
+          </div>
+          
+          <div class="info-item">
+            <strong>Correo Electrónico</strong>
+            <span>Samdezurrea@gmail.com</span>
+          </div>
+          
+          <div class="info-item">
+            <strong>Dirección</strong>
+            <span>Dg 87C # 334-97</span>
+          </div>
         </div>
 
-        <button class="btn-logout" type="button">Cerrar sesión</button>
+        <nav class="account-links" aria-label="Acciones de cuenta">
+          <a class="link" href="#" aria-label="Editar información del perfil">Editar Perfil</a>
+          <a class="link" href="#" aria-label="Ver historial de compras">Historial de Compras</a>
+        </nav>
+
+        <button class="btn-logout" type="button" aria-label="Cerrar sesión de usuario">
+          Cerrar sesión
+        </button>
       </div>
     </section>
   </main>
