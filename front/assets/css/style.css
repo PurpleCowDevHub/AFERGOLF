@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   min-height: 100vh;
   display: grid;
@@ -396,10 +400,11 @@ footer {
 
 /* Hero Banner */
 .hero-banner {
-  width: 100vw;
-  height: 665px;
+  width: 100%;
+  height: 450px;
   position: relative;
   overflow: hidden;
+  margin-top: 30px;
 }
 
 .hero-banner img {
@@ -420,9 +425,19 @@ footer {
 }
 
 .hero-banner .overlay h1 {
-  font-size: 48px;
+  font-size: 60px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.hero-banner .overlay p {
+  font-size: 60px;
   font-weight: 700;
-  line-height: 1.2;
+  font-style: italic;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 /* Featured Products */
@@ -441,22 +456,19 @@ footer {
   color: #333;
 }
 
-/* Contenedor con overflow para el carrusel */
+/* Contenedor de productos en cuadrícula */
 .featured-products .productos-wrapper {
-  overflow: hidden;
   position: relative;
 }
 
 .productos {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   margin-bottom: 40px;
-  transition: transform 0.4s ease;
 }
 
 .producto {
-  flex: 0 0 calc((100% - 60px) / 3);
-  min-width: 250px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -506,64 +518,7 @@ footer {
   border-color: #661b1e;
 }
 
-/* Controles del carrusel - estilo catalog_services */
-.featured-products .ctrl {
-  position: absolute;
-  top: 50%;
-  width: 50px;
-  height: 50px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(50, 50, 50, 0.64);
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  z-index: 10;
-  backdrop-filter: blur(2px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-50%);
-}
 
-.featured-products .ctrl::before {
-  content: '';
-  width: 12px;
-  height: 12px;
-  border: 4px solid white;
-  border-right: 0;
-  border-bottom: 0;
-  border-radius: 5px 0;
-}
-
-.featured-products .ctrl:hover {
-  transform: translateY(-50%) scale(1.1);
-}
-
-.featured-products .ctrl:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-.featured-products .ctrl:focus {
-  outline: 0;
-}
-
-.featured-products .ctrl-left {
-  left: -22.5px;
-}
-
-.featured-products .ctrl-left::before {
-  margin-left: 2px;
-  transform: rotate(-45deg);
-}
-
-.featured-products .ctrl-right {
-  right: -22.5px;
-}
-
-.featured-products .ctrl-right::before {
-  margin-right: 2px;
-  transform: rotate(135deg);
-}
 
 .ver-mas {
   padding: 12px 40px;
@@ -629,8 +584,8 @@ footer {
 
 /* Secondary Banner */
 .secondary-banner {
-  width: 100vw;
-  height: 665px;
+  width: 100%;
+  height: 500px;
   position: relative;
   overflow: hidden;
 }
@@ -645,15 +600,22 @@ footer {
 .secondary-banner .overlay {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+  left: 100px;
+  transform: translateY(-50%);
+  text-align: left;
   color: #fff;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .secondary-banner .overlay h2 {
-  font-size: 42px;
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.secondary-banner .overlay p {
+  font-size: 45px;
   font-weight: 700;
   line-height: 1.3;
 }
@@ -725,17 +687,20 @@ footer {
   }
 }
 
+@media (max-width: 1024px) {
+  .productos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(4, auto);
   }
   
-  .featured-products .productos {
+  .productos {
+    grid-template-columns: 1fr;
     gap: 20px;
-  }
-  
-  .producto {
-    flex: 0 0 100%;
   }
 }
