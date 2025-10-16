@@ -133,67 +133,132 @@
 
 /* ===== Ajuste fino 430px ===== */
 @media (max-width: 430px) {
-  .product-detail { padding: 60px 16px 40px; }
-
-  /* Miniaturas a la izquierda + imagen a la derecha */
-  .product-grid {
-    grid-template-columns: 86px 1fr;   /* un poquito más angosta la columna de thumbs */
-    column-gap: 12px;
-    row-gap: 16px;
-    max-width: 430px;
-    margin: 0 auto;
-    align-items: start;
+  .product-detail { 
+    padding: 60px 20px 40px; 
+    max-width: 100%;
   }
-  .product-thumbs {
+
+  .product-grid {
+    display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin: 0;
+    gap: 24px;
+    max-width: 90%;
+    margin: 0 auto;
   }
-  .product-thumbs .thumb { width: 78px; height: 78px; }
 
-  /* 🔧 Imagen principal más contenida y con mejor proporción */
+  /* Contenedor de imágenes centrado */
+  .images-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* Imagen principal grande y centrada */
   .product-main {
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    order: -1; /* Se muestra primero */
   }
   .product-main .main-img {
     width: 100%;
-    height: 230px;          /* antes 270–280; ahora más compacta */
-    max-height: 55vh;       /* nunca ocupa demasiado alto */
-    padding: 6px;           /* un poco de respiro interno */
+    height: 280px;
+    padding: 8px;
   }
   .product-main .main-img img {
     width: 100%;
     height: 100%;
-    object-fit: contain;    /* se ve completa sin recortes */
+    object-fit: contain;
   }
 
-  /* Info y descripción: igual que venías usando (ancho completo) */
-  .product-info,
-  .product-description { grid-column: 1 / -1; }
-
-  .product-info {
+  /* Miniaturas centradas horizontalmente */
+  .product-thumbs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
     width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    order: 0; /* Se muestra después de la imagen principal */
+  }
+  .product-thumbs .thumb { 
+    width: calc((100% - 16px) / 3);
+    height: 90px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    border-radius: 8px;
+  }
+
+  /* Caja de información del producto con ancho aumentado */
+  .product-info {
+    width: 90%;
+    max-width: 320px;
     height: auto;
-    margin-top: 12px;
-    padding: 16px;
+    margin: 0 auto;
+    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    order: 1;
   }
-  .product-title { text-align: center; font-size: 16.5px; margin-bottom: 8px; }
-  .product-meta { font-size: 13px; gap: 5px; color:#555; }
-  .product-price { font-size: 18px; color:#d64a3a; text-align:center; margin: 8px 0 4px; }
-  .btn-cart { width: 100%; max-width: 320px; margin: 6px auto 0; border-radius: 10px; }
+  .product-title { 
+    text-align: center; 
+    font-size: 16px; 
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+  .product-meta { 
+    font-size: 12px; 
+    gap: 6px; 
+    color: #555;
+    margin: 0;
+  }
+  .product-price { 
+    font-size: 20px; 
+    color: #d64a3a; 
+    text-align: center; 
+    margin: 8px 0;
+    font-weight: 700;
+  }
+  .btn-cart { 
+    width: fit-content; 
+    margin: 0 auto; 
+    border-radius: 8px; 
+    padding: 14px 28px;
+    font-size: 14px;
+  }
 
+  /* Descripción sin sombra y sin borde */
   .product-description {
-    margin-top: 22px;
-    padding: 16px 18px;
+    width: 90%;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 20px;
     background: #fff;
-    border: 1px solid rgba(0,0,0,.08);
+    border: none;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.10);
+    box-shadow: none; /* Sin sombra como solicitas */
+    order: 2;
   }
-  .product-description h2 { text-align:center; font-size: 18px; margin-bottom: 8px; }
-  .product-description p { font-size: 14px; line-height: 1.55; color:#444; }
+  .product-description h2 { 
+    text-align: center; 
+    font-size: 18px; 
+    margin-bottom: 12px;
+    color: #222;
+  }
+  .product-description p { 
+    font-size: 14px; 
+    line-height: 1.6; 
+    color: #444;
+    text-align: justify;
+  }
 }
