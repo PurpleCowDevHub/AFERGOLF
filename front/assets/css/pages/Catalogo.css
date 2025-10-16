@@ -49,11 +49,11 @@ header {
 .producto {
   background: #fff;
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.15);
+  box-shadow: 0 4px 20px 5px rgba(0,0,0,.15);
   padding: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   text-align: center;
   transition: transform .2s ease;
 }
@@ -72,15 +72,17 @@ header {
 
 .producto h3 {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   color: #222;
   margin-bottom: 6px;
+  text-align: left;
 }
 .precio {
   font-size: 15px;
-  font-weight: 700;
-  color: #d64a3a;
+  font-weight: 600;
+  color: rgb(237, 27, 36);
   margin-bottom: 10px;
+  text-align: left;
 }
 
 
@@ -88,25 +90,31 @@ header {
 .tallas {
   display: flex;
   gap: 6px;
+  justify-content: flex-start;
 }
 .tallas button {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 4px 8px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 10px;
   font-size: 13px;
   color: #555;
   background: #fff;
   cursor: pointer;
-  transition: all .2s;
+  transition: all .3s ease;
+  font-weight: 600;
+  min-width: 35px;
 }
 .tallas button:hover {
-  border-color: #d64a3a;
-  color: #d64a3a;
+  background: rgb(237, 27, 36);
+  border-color: rgb(237, 27, 36);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(237, 27, 36, 0.3);
 }
 .tallas button.active {
-  background: #d64a3a;
+  background: rgb(237, 27, 36);
   color: #fff;
-  border-color: #d64a3a;
+  border-color: rgb(237, 27, 36);
 }
 
 
