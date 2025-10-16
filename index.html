@@ -23,9 +23,10 @@
 
     <!-- Section 2: Featured Products -->
     <section class="featured-products">
-      <h2>Productos Destacados</h2>
-
-      <button class="ctrl ctrl-left" aria-label="Anterior" data-prev></button>
+      <div class="featured-products-header">
+        <h2>Productos Destacados</h2>
+        <a href="front/views/catalog.html" class="ver-mas">Ver más</a>
+      </div>
 
       <div class="productos-wrapper">
         <div class="productos">
@@ -73,10 +74,6 @@
           </article>
         </div>
       </div>
-
-      <button class="ctrl ctrl-right" aria-label="Siguiente" data-next></button>
-
-      <button class="ver-mas">Ver más</button>
     </section>
 
     <!-- Section 3: Our Services -->
@@ -133,20 +130,29 @@
       <div class="testimonial-container">
         <div class="testimonial-box">
           <img src="front/assets/img/PrimerT.png" alt="Carlos Méndez">
-          <p>"Encontré exactamente el driver que buscaba y en perfecto estado. El proceso fue rápido y el asesor me
-            ayudó a elegir la mejor opción según mi estilo de juego."</p>
-          <strong>Carlos Méndez</strong>
+          <div class="gradient-overlay"></div>
+          <div class="text-overlay">
+            <p>"Encontré exactamente el driver que buscaba y en perfecto estado. El proceso fue rápido y el asesor me
+              ayudó a elegir la mejor opción según mi estilo de juego."</p>
+            <strong>Carlos Méndez</strong>
+          </div>
         </div>
         <div class="testimonial-box">
           <img src="front/assets/img/SegundoT.png" alt="Laura Restrepo">
-          <p>"Las clases personalizadas mejoraron mi swing en
+          <div class="gradient-overlay"></div>
+          <div class="text-overlay">
+            <p>"Las clases personalizadas mejoraron mi swing en pocas semanas. Los instructores explican con paciencia y adaptan cada ejercicio a mi nivel."</p>
             <strong>Laura Restrepo</strong>
+          </div>
         </div>
         <div class="testimonial-box">
           <img src="front/assets/img/TercerT.png" alt="Andrés Salazar">
-          <p>"El fitting fue una experiencia increíble. Ajustaron cada palo a mis medidas y ahora siento que el juego
-            fluye mucho más natural."</p>
-          <strong>Andrés Salazar</strong>
+          <div class="gradient-overlay"></div>
+          <div class="text-overlay">
+            <p>"El fitting fue una experiencia increíble. Ajustaron cada palo a mis medidas y ahora siento que el juego
+              fluye mucho más natural."</p>
+            <strong>Andrés Salazar</strong>
+          </div>
         </div>
       </div>
     </section>
