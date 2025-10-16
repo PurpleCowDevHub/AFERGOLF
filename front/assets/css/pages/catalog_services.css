@@ -1,215 +1,148 @@
-/* Hero */
-.hero {
-  width: 100%;
-  height: 350px;
-  margin-top: -54px;
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-}
+/* ==================== Base / Desktop ==================== */
 
-.hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+/* Hero */
+.hero{
+  width:100%;
+  height:350px;
+  margin-top:-54px;
+  position:relative;
+  z-index:0;
+  overflow:hidden;
+}
+.hero-img{
+  width:100%; height:100%;
+  object-fit:cover; display:block;
 }
 
 /* Services section */
-.services {
-  max-width: 1200px;
-  margin: 40px auto 60px;
-  padding: 0 20px;
+.services{
+  max-width:1200px;
+  margin:40px auto 60px;
+  padding:0 20px;
 }
 
 /* Typography */
-.services h2,
-.card-title {
-  font-family: "Montserrat", system-ui, sans-serif;
-  color: #111;
+.services h2,.card-title{
+  font-family:"Montserrat",system-ui,sans-serif;
+  color:#111;
+}
+.services h2{
+  font-size:42px; font-weight:700;
+  margin:20px 0 16px;
+}
+.card-title{
+  margin-top:12px; text-align:center;
+  font-size:22px; font-weight:600; line-height:1.25;
+  transition:color .3s ease;
 }
 
-.services h2 {
-  font-size: 42px;
-  font-weight: 700;
-  margin: 20px 0 16px;
+/* Slider */
+.slider{ position:relative; }
+.viewport{ overflow:hidden; }
+.track{
+  display:flex; gap:28px;
+  padding:8px 2px 4px;
 }
 
-.card-title {
-  margin-top: 12px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.25;
-  transition: color 0.3s ease;
+/* Cards */
+.card{
+  flex:0 0 calc((100% - 2 * 28px) / 3);
+  min-width:0; cursor:pointer;
+  transition:transform .3s ease;
 }
+.card:hover{ transform:translateY(-8px); }
+.card:hover .thumb{ box-shadow:0 12px 28px rgba(0,0,0,.18); }
+.card:hover .card-title{ color:#661b1e; }
 
-/* Carousel slider */
-.slider {
-  position: relative;
+.thumb{
+  width:100%; aspect-ratio:16/9; border-radius:18px; overflow:hidden;
+  background:#f4f4f4;
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
+  transition:box-shadow .3s ease;
 }
+.thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-.viewport {
-  overflow: hidden;
+/* Controls */
+.ctrl{
+  position:absolute; top:50%;
+  width:50px; height:50px; border:none; border-radius:50%;
+  background:rgba(50,50,50,.64);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; z-index:10; backdrop-filter:blur(2px);
+  transform:translateY(-50%); transition:transform .2s ease;
 }
-
-.track {
-  display: flex;
-  gap: 28px;
-  padding: 8px 2px 4px;
+.ctrl::before{
+  content:""; width:12px; height:12px;
+  border:4px solid #fff; border-right:0; border-bottom:0; border-radius:5px 0;
 }
-
-/* Service cards */
-.card {
-  flex: 0 0 calc((100% - 2 * 28px) / 3);
-  min-width: 0;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-}
-
-.card:hover .thumb {
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
-}
-
-.card:hover .card-title {
-  color: #661b1e;
-}
-
-.thumb {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
-  background: #f4f4f4;
-  transition: box-shadow 0.3s ease;
-}
-
-.thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Carousel controls */
-.ctrl {
-  position: absolute;
-  top: 50%;
-  width: 50px;
-  height: 50px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(50, 50, 50, 0.64);
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  z-index: 10;
-  backdrop-filter: blur(2px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-50%);
-}
-
-.ctrl::before {
-  content: '';
-  width: 12px;
-  height: 12px;
-  border: 4px solid white;
-  border-right: 0;
-  border-bottom: 0;
-  border-radius: 5px 0;
-}
-
-.ctrl:hover {
-  transform: translateY(-50%) scale(1.1);
-}
-
-.ctrl:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-.ctrl:focus {
-  outline: 0;
-}
-
-.ctrl-left {
-  left: -22.5px;
-}
-
-.ctrl-left::before {
-  margin-left: 2px;
-  transform: rotate(-45deg);
-}
-
-.ctrl-right {
-  right: -22.5px;
-}
-
-.ctrl-right::before {
-  margin-right: 2px;
-  transform: rotate(135deg);
-}
-
-/* Media query para mobile */
-@media (max-width: 430px) {
-  .hero {
-    height: 250px;
-    margin-top: -20px;
-  }
-  
-  .services {
-    margin-top: 20px;
-    padding: 0 15px;
-  }
-  
-  .services h2 {
-    font-size: 28px;
-    margin: 15px 0 12px;
-  }
-  
-  .card {
-    flex-basis: 100%;
-  }
-  
-  .thumb {
-    aspect-ratio: 4 / 3;
-  }
-  
-  .card-title {
-    font-size: 18px;
-    margin-top: 10px;
-  }
-  
-  .ctrl {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .ctrl::before {
-    width: 10px;
-    height: 10px;
-    border-width: 2.5px;
-  }
-  
-  .ctrl-left,
-  .ctrl-right {
-    left: -20px;
-  }
-  
-  .ctrl-right {
-    left: auto;
-    right: -20px;
-  }
-}
+.ctrl:hover{ transform:translateY(-50%) scale(1.1); }
+.ctrl:active{ transform:translateY(-50%) scale(.95); }
+.ctrl:focus{ outline:0; }
+.ctrl-left{ left:-22.5px; }
+.ctrl-left::before{ margin-left:2px; transform:rotate(-45deg); }
+.ctrl-right{ right:-22.5px; }
+.ctrl-right::before{ margin-right:2px; transform:rotate(135deg); }
 
 /* Header z-index override */
-.header-container,
-.header-semicircle,
-.header-logo {
-  z-index: 50 !important;
+.header-container,.header-semicircle,.header-logo{ z-index:50 !important; }
+
+@media (max-width: 430px) {
+
+  .hero {
+    height: 210px;
+    margin-top: -18px;
+  }
+
+  .services {
+    margin: 14px auto 36px;
+    padding: 0 18px;                  
+  }
+
+  .services h2 {
+    font-size: 26px;
+    margin: 10px 0 12px;
+  }
+
+  .slider { position: relative; }
+  .viewport {
+    overflow: visible;
+    -webkit-overflow-scrolling: auto;
+    scroll-snap-type: none;
+    padding: 0;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+
+  .track {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;                        
+    padding: 0;
+    justify-items: center;            
+  }
+
+  .card {
+    flex: initial;
+    width: 88%;                       
+    min-width: 0;
+    scroll-snap-align: unset;
+    transition: transform .2s ease;
+  }
+
+  .thumb {
+    aspect-ratio: 3 / 2;              
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.10);
+  }
+
+  .card-title {
+    font-size: 16px;
+    margin-top: 8px;
+    line-height: 1.25;
+  }
+
+  /* Ocultar controles del carrusel en móvil */
+  .ctrl {
+    display: none !important;
+  }
 }
