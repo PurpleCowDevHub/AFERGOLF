@@ -131,13 +131,11 @@
   color: #333;
 }
 
-/* ===== Ajuste fino 430px ===== */
 @media (max-width: 430px) {
   .product-detail { padding: 60px 16px 40px; }
 
-  /* Miniaturas a la izquierda + imagen a la derecha */
   .product-grid {
-    grid-template-columns: 86px 1fr;   /* un poquito más angosta la columna de thumbs */
+    grid-template-columns: 86px 1fr;   
     column-gap: 12px;
     row-gap: 16px;
     max-width: 430px;
@@ -152,24 +150,22 @@
   }
   .product-thumbs .thumb { width: 78px; height: 78px; }
 
-  /* 🔧 Imagen principal más contenida y con mejor proporción */
   .product-main {
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,.12);
   }
   .product-main .main-img {
     width: 100%;
-    height: 230px;          /* antes 270–280; ahora más compacta */
-    max-height: 55vh;       /* nunca ocupa demasiado alto */
-    padding: 6px;           /* un poco de respiro interno */
+    height: 230px;          
+    max-height: 55vh;       
+    padding: 6px;           
   }
   .product-main .main-img img {
     width: 100%;
     height: 100%;
-    object-fit: contain;    /* se ve completa sin recortes */
+    object-fit: contain;    
   }
 
-  /* Info y descripción: igual que venías usando (ancho completo) */
   .product-info,
   .product-description { grid-column: 1 / -1; }
 
