@@ -1,5 +1,6 @@
 /* ===== Vista: Catálogo ===== */
 
+
 /* Header fijo */
 header {
   position: fixed;
@@ -10,6 +11,7 @@ header {
   box-shadow: 0 3px 8px rgba(0,0,0,.08);
 }
 
+
 .header-logo-link {
   position: absolute;
   top: 0;
@@ -17,10 +19,12 @@ header {
   transform: translateX(-50%);
 }
 
+
 .header-logo {
   height: 140px; /* Logo grande desde el inicio */
   width: auto;
 }
+
 
 /* Layout catálogo */
 .catalogo {
@@ -29,8 +33,9 @@ header {
   gap: 28px;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 200px 24px 80px; /* + espacio por header más alto */
+  padding: 100px 24px 80px; /* Reducido de 120px a 100px */
 }
+
 
 /* Grid productos */
 .productos {
@@ -38,6 +43,7 @@ header {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
 }
+
 
 /* Card producto */
 .producto {
@@ -53,6 +59,7 @@ header {
 }
 .producto:hover { transform: translateY(-3px); }
 
+
 /* Todas las imágenes con mismo tamaño */
 .producto img {
   width: 100%;
@@ -61,6 +68,7 @@ header {
   border-radius: 10px;
   margin-bottom: 12px;
 }
+
 
 .producto h3 {
   font-size: 16px;
@@ -74,6 +82,7 @@ header {
   color: #d64a3a;
   margin-bottom: 10px;
 }
+
 
 /* Tallas interactivas */
 .tallas {
@@ -100,37 +109,54 @@ header {
   border-color: #d64a3a;
 }
 
+
 /* Sidebar filtros */
 .filtros {
   background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.15);
-  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  padding: 16px;
   height: fit-content;
   position: sticky;
-  top: 140px; /* ajustado al nuevo header */
+  top: 140px;
+  border: 1px solid rgba(0,0,0,.1);
 }
 .filtros h2 {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+  color: #333;
 }
 .filtros label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  color: #666;
 }
 .filtros select {
   width: 100%;
-  padding: 6px 8px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
   font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
 }
+.filtros select:hover {
+  border-color: #d64a3a;
+}
+.filtros select:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 2px rgba(214,74,58,.1);
+}
+
 
 /* ===== Responsive ===== */
 @media (max-width: 992px) {
