@@ -116,7 +116,7 @@ main {
 
 @media (min-width: 430px) {
   .grid-2 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 14px 20px;
   }
 }
