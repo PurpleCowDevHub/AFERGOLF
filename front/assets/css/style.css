@@ -421,7 +421,6 @@ footer {
   transform: translate(-50%, -50%);
   text-align: center;
   color: #fff;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 
 .hero-banner .overlay h1 {
@@ -430,14 +429,22 @@ footer {
   font-style: italic;
   line-height: 1.1;
   margin-bottom: 10px;
+  background: linear-gradient(180deg, #fff, #fff) lightgray 50% / cover no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.7));
 }
 
 .hero-banner .overlay p {
-  font-size: 60px;
+  font-size: 55px;
   font-weight: 700;
   font-style: italic;
   line-height: 1.1;
   white-space: nowrap;
+  background: linear-gradient(180deg, #fff, #fff) lightgray 50% / cover no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.7));
 }
 
 /* Featured Products */
@@ -517,8 +524,6 @@ footer {
   color: #fff;
   border-color: #661b1e;
 }
-
-
 
 .ver-mas {
   padding: 12px 40px;
