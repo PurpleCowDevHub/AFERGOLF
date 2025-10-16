@@ -8,20 +8,18 @@ body {
   font-family: "Montserrat", Arial, sans-serif;
   background: #f8f8f8;
   color: #222;
-  padding-top: 100px;
+  padding-top: 60px; 
 }
 
-/* Layout principal */
 .checkout-container {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 40px;
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 20px auto; 
   padding: 0 20px;
 }
 
-/* Tarjeta de formulario */
 .checkout-form {
   background: #fff;
   border-radius: 14px;
@@ -46,10 +44,11 @@ body {
   font-weight: 700;
 }
 
+/* Campos base */
 .field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px; /* Reducir espacio entre campos */
+  margin-bottom: 10px;
 }
 
 .field label {
@@ -72,17 +71,84 @@ body {
   box-shadow: 0 0 0 3px rgba(214, 74, 58, 0.1);
 }
 
-/* Inputs en fila */
 .field-row {
   display: flex;
-  gap: 10px; /* Reducir espacio entre inputs en fila */
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.field-row .field {
+  flex: 1 1 260px;
+  min-width: 220px;
 }
 
 .field.small {
   flex: 1;
 }
 
-/* Tarjetas */
+#firstName,
+#lastName,
+#email {
+  width: 100%;
+  max-width: 520px;
+  display: block;
+}
+
+.checkout-form section:first-of-type .field input {
+  width: 100%;
+  max-width: 520px;
+}
+
+.field-row .field:has(#firstName),
+.field-row .field:has(#lastName) {
+  flex: 1 1 340px;
+}
+
+#address1 { max-width: 400px; }
+#apartment { max-width: 260px; }
+
+#expiration, #exp { max-width: 150px; }
+#cvv, #cvc { max-width: 120px; }
+
+.field-row:has(#expiration),
+.field-row:has(#exp) {
+  gap: 3px; 
+  align-items: flex-end;
+}
+
+.field__textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  height: 80px;
+}
+
+.field__textarea:focus {
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 3px rgba(214, 74, 58, 0.1);
+}
+
+.btn-primary {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  box-shadow: 0 6px 16px rgba(224, 66, 47, 0.3);
+  cursor: pointer;
+  width: fit-content;
+  display: block;
+  margin: 0 auto;
+}
+.btn-primary:hover { filter: brightness(0.97); }
+.btn-primary:active { transform: translateY(1px); }
+
 .cards {
   display: flex;
   gap: 10px;
@@ -94,25 +160,6 @@ body {
   filter: grayscale(10%);
 }
 
-/* Botón */
-.btn-primary {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #9a2816, #e0422f);
-  color: #fff;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(224, 66, 47, 0.35);
-}
-
-.btn-primary:hover {
-  filter: brightness(0.97);
-}
-
-/* Resumen del pedido */
 .order-summary {
   background: #fff;
   border-radius: 14px;
@@ -160,80 +207,30 @@ body {
   object-fit: cover;
 }
 
-/* Estilos para campos cortos */
-.input--short {
-  max-width: 220px;
-}
-
-/* Estilos para textarea */
-.field__textarea {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  resize: none;
-  height: 80px;
-}
-
-.field__textarea:focus {
-  border-color: #d64a3a;
-  box-shadow: 0 0 0 3px rgba(214, 74, 58, 0.1);
-}
-
-/* Estilos para las secciones del formulario */
-.checkout-form__section {
-  margin-bottom: 20px; /* Reducir espacio entre secciones */
-}
-
-.checkout-form__title {
-  font-size: 18px;
-  margin-bottom: 10px;
-  font-weight: 700;
-}
-
-/* Estilos para el resumen del pedido */
-.order-summary__title {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 20px;
-}
-
-.order-summary__list {
-  list-style: none;
-  margin-bottom: 20px;
-}
-
-.order-summary__item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.order-summary__total {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.order-summary__figure {
-  margin-top: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.order-summary__figure img {
-  width: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-/* Responsive */
 @media (max-width: 900px) {
-  .checkout-container {
-    grid-template-columns: 1fr;
+  .checkout-container { grid-template-columns: 1fr; }
+  .order-summary { order: -1; }
+
+  .checkout-form section:first-of-type .field input,
+  #firstName, #lastName, #email {
+    max-width: 100%;
   }
 
-  .order-summary {
-    order: -1;
+  .field-row .field { flex: 1 1 100%; }
+
+  /* 🔹 en móvil ocupa todo el ancho */
+  .btn-primary {
+    width: 100%;
+    text-align: center;
   }
 }
+
+.field-row:has(#expiration, #exp, #cvv, #cvc) {
+  gap: 0;                
+  align-items: flex-end;  
+}
+.field-row:has(#expiration, #exp, #cvv, #cvc) .field {
+  flex: 0 0 auto;
+}
+.field:has(#expiration), .field:has(#exp) { width: 150px; }
+.field:has(#cvv),        .field:has(#cvc) { width: 120px; }
