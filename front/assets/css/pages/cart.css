@@ -48,6 +48,11 @@ main {
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.10);
+  margin-bottom: 16px;
+}
+
+.product-row:last-of-type {
+  margin-bottom: 0;
 }
 
 .product-row input[type="checkbox"] {

@@ -22,17 +22,19 @@
 
         <section class="checkout-form__section">
           <h3 class="checkout-form__title">Información personal</h3>
-          <div class="field">
-            <label for="nombre" class="field__label">Nombre</label>
-            <input id="nombre" class="field__input input--short" type="text" placeholder="Nombre" aria-required="true" required>
-          </div>
-          <div class="field">
-            <label for="apellido" class="field__label">Apellido</label>
-            <input id="apellido" class="field__input input--short" type="text" placeholder="Apellido" aria-required="true" required>
+          <div class="field-row personal-row">
+            <div class="field">
+              <label for="nombre" class="field__label">Nombre</label>
+              <input id="nombre" class="field__input personal-name-input" type="text" placeholder="Nombre" aria-required="true" required>
+            </div>
+            <div class="field">
+              <label for="apellido" class="field__label">Apellido</label>
+              <input id="apellido" class="field__input personal-lastname-input" type="text" placeholder="Apellido" aria-required="true" required>
+            </div>
           </div>
           <div class="field">
             <label for="email" class="field__label">Correo electrónico</label>
-            <input id="email" class="field__input input--short" type="email" placeholder="ejemplo@correo.com" aria-required="true" required>
+            <input id="email" class="field__input personal-email-input" type="email" placeholder="ejemplo@correo.com" aria-required="true" required>
           </div>
         </section>
 
@@ -73,27 +75,26 @@
         </section>
 
         <section class="checkout-form__section">
-          <h3 class="checkout-form__title">Método de pago</h3>
+          <div class="payment-header">
+            <h3 class="checkout-form__title">Método de pago</h3>
+            <div class="cards">
+              <img src="../assets/img/Visa.jpg" alt="Visa">
+              <img src="../assets/img/mastercard.png" alt="MasterCard">
+              <img src="../assets/img/American-Express.png" alt="American Express">
+            </div>
+          </div>
           <div class="field">
             <label for="tarjeta" class="field__label">Número de tarjeta</label>
-            <input id="tarjeta" class="field__input" type="text" placeholder="0000 0000 0000 0000" maxlength="19" required>
+            <input id="tarjeta" class="field__input payment-card-input" type="text" placeholder="0000 0000 0000 0000" maxlength="19" required>
           </div>
-          <div class="field-row">
+          <div class="field-row payment-row">
             <div class="field">
               <label for="exp" class="field__label">Expiración</label>
-              <input id="exp" class="field__input input--short" type="text" placeholder="MM/AA" maxlength="5" required>
+              <input id="exp" class="field__input payment-exp-input" type="text" placeholder="MM/AA" maxlength="5" required>
             </div>
             <div class="field">
               <label for="cvv" class="field__label">CVV</label>
-              <input id="cvv" class="field__input input--short" type="password" placeholder="***" maxlength="3" required>
-            </div>
-          </div>
-          <div class="field">
-            <label class="field__label">Medios de pago</label>
-            <div class="cards">
-              <img src="../assets/img/visa.png" alt="Visa">
-              <img src="../assets/img/mastercard.png" alt="MasterCard">
-              <img src="../assets/img/amex.png" alt="American Express">
+              <input id="cvv" class="field__input payment-cvv-input" type="password" placeholder="***" maxlength="3" required>
             </div>
           </div>
         </section>
@@ -104,15 +105,12 @@
       <aside class="order-summary">
         <h3 class="order-summary__title">Resumen del pedido</h3>
         <ul class="order-summary__list">
-          <li class="order-summary__item"><span>Driver PING G430</span> <strong>$1.200.000</strong></li>
-          <li class="order-summary__item"><span>Guante Callaway</span> <strong>$120.000</strong></li>
-          <li class="order-summary__item"><span>Envío</span> <strong>$15.000</strong></li>
+          <li class="order-summary__item"><span>Driver Cobra LTDx</span> <strong>$3.250.000</strong></li>
+          <li class="order-summary__item"><span>Guante Callaway Thermal</span> <strong>$150.000</strong></li>
+          <li class="order-summary__item"><span>Envío</span> <strong>$20.000</strong></li>
         </ul>
         <hr>
-        <p class="order-summary__total"><span>Total:</span> <strong>$1.335.000</strong></p>
-        <figure class="order-summary__figure">
-          <img src="../assets/img/Pago.jpg" alt="Golf payment illustration">
-        </figure>
+        <p class="order-summary__total"><span>Total:</span> <strong>$3.420.000</strong></p>
       </aside>
     </div>
   </main>
