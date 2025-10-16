@@ -867,3 +867,149 @@ footer {
     gap: 20px;
   }
 }
+
+/* ================================
+   📱 MEDIA QUERIES PARA HEADER RESPONSIVE
+================================ */
+
+/* Tablets medianas (≤1024px) */
+@media (max-width: 1024px) {
+  .header-container {
+    height: 80px;
+  }
+
+  .header-nav {
+    padding: 0 20px;
+  }
+
+  .icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .nav-right {
+    gap: 25px;
+  }
+
+  .header-logo {
+    width: 140px;
+    top: 70%;
+  }
+}
+
+/* Tablets pequeñas y celulares horizontales (≤768px) */
+@media (max-width: 768px) {
+  header {
+    height: 80px;
+  }
+
+  .header-container {
+    height: 80px;
+  }
+
+  .header-nav {
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+
+  .nav-right {
+    gap: 20px;
+  }
+
+  .nav-item {
+    font-size: 10px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 8px;
+  }
+
+  .header-logo {
+    width: 130px;
+    top: 70%;
+  }
+
+  .text-icon {
+    display: none; /* Ocultamos textos en pantallas pequeñas */
+  }
+}
+
+/* Celulares pequeños (≤480px) */
+@media (max-width: 480px) {
+  header {
+    height: 70px;
+  }
+
+  .header-container {
+    height: 70px;
+  }
+
+  .header-nav {
+    padding: 0 10px;
+  }
+
+  .nav-left, .nav-right {
+    gap: 15px;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 0;
+  }
+
+  .header-logo {
+    width: 110px;
+    top: 65%;
+  }
+
+  .hamburguer-menu .icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Celulares extra pequeños (≤360px) */
+@media (max-width: 360px) {
+  .header-logo {
+    width: 95px;
+  }
+
+  .nav-right {
+    gap: 10px;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 430px) {
+  /* Aquí van los estilos específicos para pantallas de 430px o menos */
+  body {
+    background-color: #f5f5f5;
+  }
+
+  .contenedor {
+    width: 100%;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Ejemplo para ocultar algo */
+  .sidebar {
+    display: none;
+  }
+}
