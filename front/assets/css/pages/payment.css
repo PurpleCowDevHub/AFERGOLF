@@ -207,7 +207,7 @@ body {
   object-fit: cover;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 430px) {
   .checkout-container { grid-template-columns: 1fr; }
   .order-summary { order: -1; }
 
