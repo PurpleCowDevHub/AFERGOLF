@@ -872,149 +872,98 @@ footer {
     gap: 20px;
   }
 }
-
-/* ================================
-   📱 MEDIA QUERIES PARA HEADER RESPONSIVE
-================================ */
-
-/* Tablets medianas (≤1024px) */
-@media (max-width: 1024px) {
-  .header-container {
-    height: 80px;
-  }
-
-  .header-nav {
-    padding: 0 20px;
-  }
-
-  .icon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .nav-right {
-    gap: 25px;
-  }
-
-  .header-logo {
-    width: 140px;
-    top: 70%;
-  }
-}
-
-/* Tablets pequeñas y celulares horizontales (≤768px) */
-@media (max-width: 768px) {
-  header {
-    height: 80px;
-  }
-
-  .header-container {
-    height: 80px;
-  }
-
-  .header-nav {
-    justify-content: space-between;
-    padding: 0 15px;
-  }
-
-  .nav-right {
-    gap: 20px;
-  }
-
-  .nav-item {
-    font-size: 10px;
-  }
-
-  .icon {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 8px;
-  }
-
-  .header-logo {
-    width: 130px;
-    top: 70%;
-  }
-
-  .text-icon {
-    display: none; /* Ocultamos textos en pantallas pequeñas */
-  }
-}
-
-/* Celulares pequeños (≤480px) */
-@media (max-width: 480px) {
-  header {
-    height: 70px;
-  }
-
-  .header-container {
-    height: 70px;
-  }
-
-  .header-nav {
-    padding: 0 10px;
-  }
-
-  .nav-left, .nav-right {
-    gap: 15px;
-  }
-
-  .icon {
-    width: 22px;
-    height: 22px;
-    margin-bottom: 0;
-  }
-
-  .header-logo {
-    width: 110px;
-    top: 65%;
-  }
-
-  .hamburguer-menu .icon {
-    width: 26px;
-    height: 26px;
-  }
-}
-
-/* Celulares extra pequeños (≤360px) */
-@media (max-width: 360px) {
-  .header-logo {
-    width: 95px;
-  }
-
-  .nav-right {
-    gap: 10px;
-  }
-
-  .icon {
-    width: 20px;
-    height: 20px;
-  }
-}
-
 @media (max-width: 430px) {
-  /* Aquí van los estilos específicos para pantallas de 430px o menos */
-  body {
-    background-color: #f5f5f5;
+  body { padding-top: 84px; }
+  header, .header-container { height: 84px; }
+  .header-nav { padding: 0 14px; }
+  .nav-right { gap: 18px; }
+  .icon { width: 26px; height: 26px; margin-bottom: 6px; }
+  .header-logo { width: 140px; top: 80%; }
+  .hero-banner { height: 280px; margin-top: 8px; }
+  .hero-banner .overlay { width: 92%; text-align: center; }
+  .hero-banner .overlay h1 { font-size: 32px; margin-bottom: 6px; }
+  .hero-banner .overlay p { font-size: 22px; white-space: normal; }
+  .featured-products {
+    padding: 16px 14px 8px;   
+    max-width: 100%;
+    margin-bottom: 26px;      
   }
-
-  .contenedor {
+  .featured-products-header { margin-bottom: 12px; }
+  .featured-products h2 {
+    font-size: 22px;          
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+  .ver-mas { font-size: 13px; padding: 8px 12px; }
+  .featured-products .productos-slider { max-width: 100%; padding: 0; }
+  .productos-viewport { overflow: visible; }
+  .productos {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;                
+    padding: 0;
+    transform: none !important;
+  }
+  .producto {
+    flex: initial !important;
     width: 100%;
     padding: 10px;
+    border-radius: 12px;
   }
-
-  h1 {
-    font-size: 1.2rem;
-    text-align: center;
+  .producto img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    margin-bottom: 10px;
   }
-
-  img {
+  .producto h3 { font-size: 14px; margin-bottom: 6px; }
+  .producto .precio { font-size: 13px; margin-bottom: 6px; }
+  .tallas { gap: 6px; margin-top: 6px; }
+  .tallas button { width: 28px; height: 28px; font-size: 12px; }
+  .productos-slider .ctrl { display: none !important; } 
+  .our-services { padding: 10px 0 22px; margin-top: 8px; }
+  .our-services h2 {
+    font-size: 28px;          
+    margin-bottom: 14px;
+  }
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0 18px;          
+    max-width: 100%;
+  }
+  .service-item img {
     width: 100%;
     height: auto;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    margin-bottom: 8px;
   }
-
-  /* Ejemplo para ocultar algo */
-  .sidebar {
-    display: none;
+  .service-item h3 { font-size: 16px; }
+  .secondary-banner { height: 300px; }
+  .secondary-banner .overlay {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%;
   }
+  .secondary-banner .overlay h2 { font-size: 18px; margin-bottom: 6px; }
+  .secondary-banner .overlay p  { font-size: 24px; }
+  .testimonials { padding: 16px 14px 22px; }
+  .testimonials h2 { font-size: 28px; margin-bottom: 14px; }
+  .testimonial-container {
+    max-width: 440px;         
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .testimonial-box { border-radius: 14px; }
+  .testimonial-box img { border-radius: 14px; }
+  .testimonial-box .text-overlay { padding: 12px; }
+  .testimonial-box .text-overlay p { font-size: 12.5px; }
+  .testimonial-box .text-overlay strong { font-size: 12px; }
+  .testimonial-box:nth-child(2),
+  .testimonial-box:nth-child(2):hover { transform: none !important; }
+  .footer-container { padding: 20px 15px 12px; gap: 14px; }
 }
