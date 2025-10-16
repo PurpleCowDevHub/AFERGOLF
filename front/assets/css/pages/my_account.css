@@ -149,70 +149,52 @@
   outline: 2px solid #e0422f;
   outline-offset: 3px;
 }
-
-/* ===== Media Queries - Diseño Responsive ===== */
-
-/* Tablets y pantallas medianas */
-@media (max-width: 1024px) {
-  .account-card {
-    width: 95%;
-    padding: 24px 20px;
-  }
-  
-  .account-background {
-    object-position: center;
-  }
-}
-
-/* Móviles y pantallas pequeñas */
-@media (max-width: 768px) {
+/* ===== Mi Cuenta · ajuste móvil ≤430px: bajamos un poco la tarjeta ===== */
+@media (max-width: 430px) {
   .account {
-    margin-top: -20px;
-    padding: clamp(130px, 18vw, 160px) 16px 36px;
+    place-items: start center;
+    min-height: 100dvh;
+    margin-top: -20px;       /* ajusta margen del header */
+    padding: 70px 16px 36px; /* bajamos ligeramente */
+    overflow: hidden;
   }
-  
+
   .account-background {
-    object-position: center calc(50% - 6vh);
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100dvh;
+    object-fit: cover;
+    object-position: center top;
+    z-index: -1;
   }
-  
+
+  .account-card {
+    width: min(520px, 94%);
+    padding: 22px 18px;
+    border-radius: 20px;
+    place-self: start center;
+    transform: translateY(-10px); /* ↓ bajada ligera (antes -18px) */
+    box-shadow: 0 10px 22px rgba(0,0,0,.18);
+  }
+
+  .account-title { font-size: 22px; margin-bottom: 6px; }
+  .account-info { gap: 12px; }
+  .info-item strong { font-size: 13px; }
+  .info-item span { font-size: 14px; }
+
   .account-links {
     flex-direction: column;
     align-items: center;
+    gap: 10px;
+    padding-top: 10px;
   }
-  
-  .link {
-    text-align: center;
-  }
-}
 
-/* Móviles muy pequeños */
-@media (max-width: 480px) {
-  .account {
-    padding: clamp(120px, 20vw, 150px) 16px 28px;
-  }
-  
-  .account-card {
-    padding: 20px 16px;
-    gap: 16px;
-  }
-  
-  .info-item strong {
-    font-size: 13px;
-  }
-  
-  .info-item span {
-    font-size: 14px;
-  }
-  
   .btn-logout {
     width: 100%;
     padding: 12px 16px;
+    font-size: 15px;
   }
 }
 
-/* Pantallas grandes */
-@media (min-width: 1025px) {
-  .account-background {
-    object-position: center calc(50% - 4vh);
-  }
-}
+

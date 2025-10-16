@@ -264,18 +264,14 @@ body {
   margin-top: 15px;
 }
 
-/* ===== CHECKOUT MÓVIL ≤430px ===== */
 @media (max-width: 430px) {
 
-  /* ----- Estructura general ----- */
   .checkout-container {
     grid-template-columns: 1fr;
     gap: 14px;
     padding: 0 12px;
     margin: 10px auto 20px;
   }
-
-  /* Orden correcto */
   .checkout-form {
     order: 1;
     padding: 16px;
@@ -289,8 +285,6 @@ body {
     border-radius: 12px;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
   }
-
-  /* ----- Textos ----- */
   .checkout-form h2 {
     font-size: 20px;
     font-weight: 800;
@@ -306,8 +300,6 @@ body {
     font-size: 16px;
     margin-bottom: 8px;
   }
-
-  /* ----- Campos generales ----- */
   .field {
     display: block;
     min-width: 0;
@@ -336,7 +328,6 @@ body {
     height: 64px;
   }
 
-  /* ----- Filas generales (una sola columna) ----- */
   .field-row,
   .personal-row {
     display: grid;
@@ -344,7 +335,6 @@ body {
     gap: 10px;
   }
 
-  /* ----- Campos largos al 100% ----- */
   #email,
   #address1,
   #apartment,
@@ -352,8 +342,6 @@ body {
   .field__textarea {
     grid-column: 1 / -1;
   }
-
-  /* ----- Expiración y CVV (dos columnas pequeñas) ----- */
   .payment-row {
     display: flex;
     justify-content: center;
@@ -387,8 +375,6 @@ body {
     border: 1px solid #ccc;
     background: #fff;
   }
-
-  /* ----- Botón principal ----- */
   .btn-primary {
     width: 100%;
     margin-top: 14px;
@@ -413,12 +399,10 @@ body {
     transform: translateY(1px);
   }
 
-  /* ----- Logos de tarjetas ----- */
   .cards img {
     height: 22px;
   }
 
-  /* ----- Ajustes finales para prevenir solapes ----- */
   .field-row:has(#expiration),
   .field-row:has(#exp) {
     gap: 10px !important;
