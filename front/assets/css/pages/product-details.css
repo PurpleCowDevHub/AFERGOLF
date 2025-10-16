@@ -131,78 +131,69 @@
   color: #333;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .product-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    max-width: 800px;
-  }
-  .product-thumbs { 
-    flex-direction: row; 
-    justify-content: center; 
-    gap: 15px;
-  }
-  .product-thumbs .thumb {
-    width: 100px;
-    height: 100px;
-  }
-  .product-main .main-img {
-    width: 100%;
-    height: 320px;
-  }
-  .product-info {
-    width: 100%;
-    height: 320px;
-    padding: 18px;
-    gap: 16px;
-  }
-  .product-meta {
-    gap: 6px;
-  }
-  .product-price {
-    margin: 12px 0;
-  }
-}
+/* ===== Ajuste fino 430px ===== */
+@media (max-width: 430px) {
+  .product-detail { padding: 60px 16px 40px; }
 
-@media (max-width: 768px) {
+  /* Miniaturas a la izquierda + imagen a la derecha */
   .product-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: 86px 1fr;   /* un poquito más angosta la columna de thumbs */
+    column-gap: 12px;
+    row-gap: 16px;
+    max-width: 430px;
+    margin: 0 auto;
+    align-items: start;
   }
-  .product-thumbs { 
-    flex-direction: row; 
-    margin-bottom: 16px;
-    gap: 12px;
-    justify-content: center;
+  .product-thumbs {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
   }
-  .product-thumbs .thumb {
-    width: 80px;
-    height: 80px;
+  .product-thumbs .thumb { width: 78px; height: 78px; }
+
+  /* 🔧 Imagen principal más contenida y con mejor proporción */
+  .product-main {
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
   }
   .product-main .main-img {
     width: 100%;
-    height: 280px;
+    height: 230px;          /* antes 270–280; ahora más compacta */
+    max-height: 55vh;       /* nunca ocupa demasiado alto */
+    padding: 6px;           /* un poco de respiro interno */
   }
+  .product-main .main-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;    /* se ve completa sin recortes */
+  }
+
+  /* Info y descripción: igual que venías usando (ancho completo) */
+  .product-info,
+  .product-description { grid-column: 1 / -1; }
+
   .product-info {
     width: 100%;
     height: auto;
-    min-height: 280px;
+    margin-top: 12px;
     padding: 16px;
-    gap: 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
   }
-  .product-title {
-    font-size: 16px;
+  .product-title { text-align: center; font-size: 16.5px; margin-bottom: 8px; }
+  .product-meta { font-size: 13px; gap: 5px; color:#555; }
+  .product-price { font-size: 18px; color:#d64a3a; text-align:center; margin: 8px 0 4px; }
+  .btn-cart { width: 100%; max-width: 320px; margin: 6px auto 0; border-radius: 10px; }
+
+  .product-description {
+    margin-top: 22px;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.10);
   }
-  .product-meta {
-    gap: 5px;
-  }
-  .product-price {
-    font-size: 18px;
-    margin: 10px 0;
-  }
-  .btn-cart {
-    padding: 10px 16px;
-    font-size: 13px;
-  }
+  .product-description h2 { text-align:center; font-size: 18px; margin-bottom: 8px; }
+  .product-description p { font-size: 14px; line-height: 1.55; color:#444; }
 }
