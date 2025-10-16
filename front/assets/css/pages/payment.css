@@ -16,7 +16,7 @@ body {
   grid-template-columns: 2fr 1fr;
   gap: 40px;
   max-width: 1200px;
-  margin: 20px auto; 
+  margin: 60px auto 20px; 
   padding: 0 20px;
 }
 
@@ -55,6 +55,7 @@ body {
   font-weight: 600;
   margin-bottom: 6px;
   font-size: 14px;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .field input {
@@ -62,6 +63,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
+  font-family: "Montserrat", Arial, sans-serif;
   outline: none;
   transition: 0.2s;
 }
@@ -121,6 +123,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
+  font-family: "Montserrat", Arial, sans-serif;
   outline: none;
   resize: none;
   height: 80px;
@@ -149,10 +152,16 @@ body {
 .btn-primary:hover { filter: brightness(0.97); }
 .btn-primary:active { transform: translateY(1px); }
 
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .cards {
   display: flex;
   gap: 10px;
-  margin-top: 6px;
 }
 
 .cards img {
@@ -160,11 +169,62 @@ body {
   filter: grayscale(10%);
 }
 
+/* Estilos específicos para los campos de información personal */
+.personal-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.personal-row .field {
+  margin-bottom: 0;
+}
+
+.personal-name-input,
+.personal-lastname-input {
+  width: 100%;
+  max-width: none;
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+.personal-email-input {
+  width: 70%;
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+/* Estilos específicos para los campos de pago */
+.payment-card-input {
+  width: 100%;
+  max-width: none;
+}
+
+.payment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.payment-row .field {
+  margin-bottom: 0;
+}
+
+.payment-exp-input {
+  width: 80%;
+}
+
+.payment-cvv-input {
+  width: 60%;
+}
+
 .order-summary {
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   padding: 30px;
+  height: fit-content;
+  align-self: start;
 }
 
 .order-summary h3 {
@@ -181,7 +241,13 @@ body {
 .order-summary li {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.order-summary li:last-child {
+  border-bottom: none;
 }
 
 .order-summary hr {
@@ -190,21 +256,12 @@ body {
   margin: 15px 0;
 }
 
-.order-summary .total {
+.order-summary__total {
   font-size: 18px;
-  font-weight: 700;
-}
-
-.order-summary figure {
-  margin-top: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.order-summary img {
-  width: 100%;
-  display: block;
-  object-fit: cover;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
 @media (max-width: 430px) {
