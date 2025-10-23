@@ -38,7 +38,7 @@ header {
 
 
 /* Grid productos */
-.productos {
+.catalogo-productos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
@@ -46,7 +46,7 @@ header {
 
 
 /* Card producto */
-.producto {
+.catalogo-producto {
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(0,0,0,.15);
@@ -57,11 +57,11 @@ header {
   text-align: center;
   transition: transform .2s ease;
 }
-.producto:hover { transform: translateY(-3px); }
+.catalogo-producto:hover { transform: translateY(-3px); }
 
 
 /* Todas las imágenes con mismo tamaño */
-.producto img {
+.catalogo-producto img {
   width: 100%;
   height: 220px; /* altura fija para todas */
   object-fit: cover; /* recorta sin deformar */
@@ -70,13 +70,13 @@ header {
 }
 
 
-.producto h3 {
+.catalogo-producto h3 {
   font-size: 16px;
   font-weight: 600;
   color: #222;
   margin-bottom: 6px;
 }
-.precio {
+.catalogo-precio {
   font-size: 15px;
   font-weight: 700;
   color: #d64a3a;
@@ -85,11 +85,11 @@ header {
 
 
 /* Tallas interactivas */
-.tallas {
+.catalogo-tallas {
   display: flex;
   gap: 6px;
 }
-.tallas button {
+.catalogo-tallas button {
   border: 1px solid #ccc;
   border-radius: 6px;
   padding: 4px 8px;
@@ -99,11 +99,11 @@ header {
   cursor: pointer;
   transition: all .2s;
 }
-.tallas button:hover {
+.catalogo-tallas button:hover {
   border-color: #d64a3a;
   color: #d64a3a;
 }
-.tallas button.active {
+.catalogo-tallas button.active {
   background: #d64a3a;
   color: #fff;
   border-color: #d64a3a;
@@ -111,7 +111,7 @@ header {
 
 
 /* Sidebar filtros */
-.filtros {
+.catalogo-filtros {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,.08);
@@ -121,7 +121,7 @@ header {
   top: 140px;
   border: 1px solid rgba(0,0,0,.1);
 }
-.filtros h2 {
+.catalogo-filtros h2 {
   font-size: 16px;
   font-weight: 600;
   display: flex;
@@ -130,14 +130,14 @@ header {
   margin-bottom: 12px;
   color: #333;
 }
-.filtros label {
+.catalogo-filtros label {
   font-size: 14px;
   font-weight: 500;
   display: block;
   margin-bottom: 8px;
   color: #666;
 }
-.filtros select {
+.catalogo-filtros select {
   width: 100%;
   padding: 8px 12px;
   border: 1px solid #e0e0e0;
@@ -148,10 +148,10 @@ header {
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
-.filtros select:hover {
+.catalogo-filtros select:hover {
   border-color: #d64a3a;
 }
-.filtros select:focus {
+.catalogo-filtros select:focus {
   outline: none;
   border-color: #d64a3a;
   box-shadow: 0 0 0 2px rgba(214,74,58,.1);
@@ -164,7 +164,7 @@ header {
     grid-template-columns: 1fr;
     padding: 180px 16px 60px;
   }
-  .filtros {
+  .catalogo-filtros {
     position: static;
     width: 100%;
     margin-top: 20px;
