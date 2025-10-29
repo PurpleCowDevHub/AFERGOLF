@@ -15,7 +15,7 @@ body {
   grid-template-rows: auto 1fr auto;
   font-family: "Montserrat", "Poppins", Arial, sans-serif;
   background: #fff;
-  padding-top: 100px; /* Agregar espacio para el header fijo */
+  padding-top: 100px;
 }
 
 /* Header */
