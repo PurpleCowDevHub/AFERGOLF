@@ -341,7 +341,7 @@ footer {
   height: 450px;
   position: relative;
   overflow: hidden;
-  margin-top: 30px;
+  margin: 50px 0;
 }
 
 .hero-banner img {
@@ -382,7 +382,7 @@ footer {
 
 /* Featured Products */
 .featured-products {
-  padding: 40px 40px 20px 40px;
+  padding: 50px 40px 25px 40px;
   position: relative;
   max-width: 1400px;
   margin: 0 auto;
@@ -404,26 +404,26 @@ footer {
   font-family: "Montserrat", "Poppins", Arial, sans-serif;
 }
 
-/* Contenedor de productos carrusel */
-.featured-products .productos-slider {
+/* Product carousel container */
+.featured-products .products-slider {
   position: relative;
   max-width: 1200px;
   margin: 0 auto 40px;
   padding: 0 20px;
 }
 
-.productos-viewport {
+.products-viewport {
   overflow: hidden;
 }
 
-.productos {
+.products {
   display: flex;
   gap: 2px;
   padding: 8px 2px 4px;
   transition: transform 0.3s ease;
 }
 
-.producto {
+.product {
   background: transparent;
   border-radius: 15px;
   padding: 20px;
@@ -434,15 +434,15 @@ footer {
   cursor: pointer;
 }
 
-.producto:hover {
+.product:hover {
   transform: translateY(-8px);
 }
 
-.producto:hover img {
+.product:hover img {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
-.producto img {
+.product img {
   width: 100%;
   height: 200px;
   object-fit: cover;
@@ -453,7 +453,7 @@ footer {
   transition: box-shadow 0.3s ease;
 }
 
-.producto h3 {
+.product h3 {
   font-size: 16px;
   font-weight: 400;
   color: #333;
@@ -463,7 +463,7 @@ footer {
   line-height: 1.3;
 }
 
-.producto .precio {
+.product .price {
   font-size: 14px;
   font-weight: 600;
   color: rgb(237, 27, 36);
@@ -472,14 +472,14 @@ footer {
   text-align: left;
 }
 
-.tallas {
+.sizes {
   display: flex;
   justify-content: flex-start;
   gap: 8px;
   margin-top: 10px;
 }
 
-.tallas button {
+.sizes button {
   padding: 8px 8px;
   border: 1px solid #e0e0e0;
   background: #f8f9fa;
@@ -496,15 +496,15 @@ footer {
   justify-content: center;
 }
 
-.tallas button:hover {
+.sizes button:hover {
   background: rgb(237, 27, 36);
   color: #fff;
   border-color: rgb(237, 27, 36);
   transform: translateY(-1px);
 }
 
-/* Controles del carrusel de productos */
-.productos-slider .ctrl {
+/* Product carousel controls */
+.products-slider .ctrl {
   position: absolute;
   top: 50%;
   width: 50px;
@@ -522,7 +522,7 @@ footer {
   transform: translateY(-50%);
 }
 
-.productos-slider .ctrl::before {
+.products-slider .ctrl::before {
   content: '';
   width: 12px;
   height: 12px;
@@ -532,37 +532,37 @@ footer {
   border-radius: 5px 0;
 }
 
-.productos-slider .ctrl:hover {
+.products-slider .ctrl:hover {
   transform: translateY(-50%) scale(1.1);
 }
 
-.productos-slider .ctrl:active {
+.products-slider .ctrl:active {
   transform: translateY(-50%) scale(0.95);
 }
 
-.productos-slider .ctrl:focus {
+.products-slider .ctrl:focus {
   outline: 0;
 }
 
-.productos-slider .ctrl-left {
+.products-slider .ctrl-left {
   left: -22.5px;
 }
 
-.productos-slider .ctrl-left::before {
+.products-slider .ctrl-left::before {
   margin-left: 2px;
   transform: rotate(-45deg);
 }
 
-.productos-slider .ctrl-right {
+.products-slider .ctrl-right {
   right: -22.5px;
 }
 
-.productos-slider .ctrl-right::before {
+.products-slider .ctrl-right::before {
   margin-right: 2px;
   transform: rotate(135deg);
 }
 
-.tallas button:hover {
+.sizes button:hover {
   background: rgb(237, 27, 36);
   color: #fff;
   border-color: rgb(237, 27, 36);
@@ -570,27 +570,29 @@ footer {
   box-shadow: 0 4px 8px rgba(237, 27, 36, 0.3);
 }
 
-.ver-mas {
-  padding: 12px 24px;
+.see-more {
+  padding: 0;
   background: transparent;
-  color: #8b8585;
+  color: rgb(237, 27, 36);
   border: none;
-  border-radius: 25px;
-  font-size: 16px;
-  font-weight: 300;
+  font-size: 20px;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
   font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.ver-mas:hover {
-  color: #000;
+.see-more:hover {
+  color: rgb(200, 20, 30);
+  transform: translateX(5px);
 }
 
 /* Nuestros Servicios */
 .our-services {
-  padding: 20px 0px 40px 0px;
+  padding: 25px 40px 50px 40px;
 }
 
 .our-services h2 {
@@ -604,9 +606,9 @@ footer {
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(4, 375px);
-  grid-template-rows: repeat(2, 266px);
-  gap: 30px 10px;
+  grid-template-columns: repeat(4, 330px);
+  grid-template-rows: repeat(2, 260px);
+  gap: 20px;
   max-width: 1540px;
   margin: 0 auto;
   justify-content: center;
@@ -621,8 +623,8 @@ footer {
 }
 
 .service-item img {
-  width: 375px;
-  height: 266px;
+  width: 100%;
+  height: auto;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 15px;
@@ -647,6 +649,7 @@ footer {
   height: 500px;
   position: relative;
   overflow: hidden;
+  margin: 50px 0;
 }
 
 .secondary-banner img {
@@ -683,9 +686,9 @@ footer {
 
 /* Testimonials */
 .testimonials {
-  padding: 40px 40px 100px 40px;
+  padding: 25px 40px 120px;
   text-align: center;
-  background: #f9f9f9;
+  background: #ffffff;
 }
 
 .testimonials h2 {
@@ -699,10 +702,12 @@ footer {
 
 .testimonial-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 1fr 1.1fr 1fr;
+  grid-template-rows: auto;
   gap: 25px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
+  align-items: center;
 }
 
 .testimonial-box {
@@ -715,6 +720,7 @@ footer {
   justify-content: flex-end;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
 }
 
 .testimonial-box:hover {
@@ -723,18 +729,20 @@ footer {
 }
 
 .testimonial-box:nth-child(2) {
-  transform: scale(1.1);
+  transform: scale(1);
   z-index: 1;
+  grid-row: 1;
 }
 
 .testimonial-box:nth-child(2):hover {
-  transform: translateY(-5px) scale(1.12);
+  transform: translateY(-5px) scale(1.02);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .testimonial-box img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   border-radius: 20px;
   display: block;
 }
