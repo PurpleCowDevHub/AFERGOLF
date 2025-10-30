@@ -11,6 +11,45 @@
 
 <body>
   <header>
+    <!-- Parte superior: menú hamburguesa y logo -->
+    <div class="header-top">
+      <div class="nav-item hamburguer-menu">
+        <a href="/front/partials/hamburguer_menu.html">
+          <img src="/front/assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
+        </a>
+      </div>
+      <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
+        <img src="/front/assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
+      </a>
+    </div>
+    
+    <!-- Parte inferior: iconos de navegación -->
+    <div class="header-bottom">
+      <nav class="header-nav">
+        <ul class="nav-right">
+          <li class="nav-item search">
+            <a href="/front/partials/search.html">
+              <img src="/front/assets/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
+            </a>
+            <span class="text-icon">Buscar</span>
+          </li>
+          <li class="nav-item user">
+            <a href="/front/views/my_account.html">
+              <img src="/front/assets/icon/Person.svg" alt="Acceder al perfil de usuario" class="icon" loading="lazy">
+            </a>
+            <span class="text-icon">Perfil</span>
+          </li>
+          <li class="nav-item cart">
+            <a href="/front/views/cart.html">
+              <img src="/front/assets/icon/Cart.svg" alt="Ver carrito de compras" class="icon" loading="lazy">
+            </a>
+            <span class="text-icon">Carrito</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+    <!-- Contenedor original para escritorio -->
     <div class="header-container">
       <nav class="header-nav">
         <ul class="nav-left">
@@ -42,7 +81,7 @@
         </ul>
       </nav>
     </div>
-    <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
+    <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF" class="header-logo-desktop">
       <img src="/front/assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
     </a>
   </header>

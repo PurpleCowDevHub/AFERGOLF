@@ -92,6 +92,114 @@ header {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
+/* Ocultar secciones móviles en escritorio */
+.header-top,
+.header-bottom {
+  display: none;
+}
+
+/* Media query para móvil */
+@media (max-width: 431px) {
+  body {
+    padding-top: 110px;
+  }
+
+  header {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  /* Ocultar estructura de escritorio */
+  .header-container,
+  .header-logo-desktop {
+    display: none !important;
+  }
+
+  /* Mostrar estructura móvil */
+  .header-top,
+  .header-bottom {
+    display: flex;
+  }
+
+  /* Parte superior del header */
+  .header-top {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    background-color: #F7F5F5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 2;
+  }
+
+  .header-top .hamburguer-menu {
+    margin-bottom: 0;
+    padding: 0 20px;
+  }
+
+  .header-top .hamburguer-menu .icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0;
+  }
+
+  .header-top .header-logo {
+    width: 95px;
+    height: auto;
+    position: static;
+    transform: none;
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+  }
+
+  .header-top a[aria-label="Ir al inicio de AFERGOLF"] {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+  }
+
+  /* Parte inferior del header */
+  .header-bottom {
+    height: 40px;
+    background-color: #F7F5F5;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 15px;
+    margin: 15px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-bottom .header-nav {
+    padding: 0;
+    width: auto;
+  }
+
+  .header-bottom .nav-right {
+    gap: 20px;
+  }
+
+  .header-bottom .nav-item {
+    font-size: 10px;
+    font-weight: 500;
+    color: #8b8585;
+  }
+
+  .header-bottom .icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+  }
+
+  .header-bottom .text-icon {
+    display: block;
+  }
+}
+
 /* Footer */
 footer {
   align-self: end;
@@ -180,7 +288,7 @@ footer {
 }
 
 /* Media Query para footer responsive */
-@media (max-width: 430px) {
+@media (max-width: 431px) {
   .footer-container {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
@@ -220,7 +328,7 @@ footer {
   .footer-copy {
     grid-column: 1;
     font-size: 14px;
-    padding-top: 20px;
+    padding-top: 30px;
     text-align: center;
   }
 }
