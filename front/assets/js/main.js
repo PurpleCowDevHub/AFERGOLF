@@ -6,8 +6,105 @@ class AfergolfHeader extends HTMLElement {
       .then(response => response.text())
       .then(html => {
         this.innerHTML = html;
+        // Después de insertar el HTML, inicializar la funcionalidad del header
+        this.initHeaderFunctionality();
       })
       .catch(err => console.error('Error cargando el header:', err));
+  }
+
+  initHeaderFunctionality() {
+    // Elementos del DOM
+    const overlay = document.getElementById('overlay');
+    const hamburguerMenu = document.getElementById('hamburguer-menu');
+    const searchModal = document.getElementById('search-modal');
+
+    // Botones de menú hamburguesa
+    const openMenuMobile = document.getElementById('open-menu-mobile');
+    const openMenuDesktop = document.getElementById('open-menu-desktop');
+
+    // Botones de búsqueda
+    const openSearchMobile = document.getElementById('open-search-mobile');
+    const openSearchDesktop = document.getElementById('open-search-desktop');
+
+    // Verificar que todos los elementos existen
+    if (!overlay || !hamburguerMenu || !searchModal) {
+      console.error('No se encontraron los elementos del header');
+      return;
+    }
+
+    // Función para abrir el menú hamburguesa
+    const openMenu = () => {
+      hamburguerMenu.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    // Función para cerrar el menú hamburguesa
+    const closeMenu = () => {
+      hamburguerMenu.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    // Función para abrir el buscador
+    const openSearch = () => {
+      searchModal.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Enfocar el input de búsqueda
+      const searchInput = searchModal.querySelector('.search-input');
+      setTimeout(() => searchInput?.focus(), 100);
+    };
+
+    // Función para cerrar el buscador
+    const closeSearch = () => {
+      searchModal.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    // Event listeners para abrir el menú
+    if (openMenuMobile) {
+      openMenuMobile.addEventListener('click', openMenu);
+    }
+    if (openMenuDesktop) {
+      openMenuDesktop.addEventListener('click', openMenu);
+    }
+
+    // Event listeners para abrir el buscador
+    if (openSearchMobile) {
+      openSearchMobile.addEventListener('click', openSearch);
+    }
+    if (openSearchDesktop) {
+      openSearchDesktop.addEventListener('click', openSearch);
+    }
+
+    // Evitar que el clic en el contenido de búsqueda cierre el modal
+    searchModal.addEventListener('click', (e) => {
+      if (e.target === searchModal) {
+        closeSearch();
+      }
+    });
+
+    // Evitar que el clic en el menú cierre el modal
+    hamburguerMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Cerrar al hacer clic en el overlay
+    overlay.addEventListener('click', () => {
+      closeMenu();
+      closeSearch();
+    });
+
+    // Cerrar con la tecla ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+        closeSearch();
+      }
+    });
   }
 }
 

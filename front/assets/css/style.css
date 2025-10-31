@@ -793,3 +793,65 @@ footer {
   text-align: center;
   text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.8);
 }
+
+/* Estilos para botones de iconos sin estilo de botón */
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Overlay oscuro */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Menú hamburguesa integrado */
+.menu-panel {
+  position: fixed;
+  top: 0;
+  left: -350px;
+  z-index: 999;
+  transition: left 0.3s ease;
+}
+
+.menu-panel.active {
+  left: 0;
+}
+
+/* Buscador integrado */
+.search-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  background-color: transparent;
+}
+
+.search-canvas.active {
+  opacity: 1;
+  visibility: visible;
+}
