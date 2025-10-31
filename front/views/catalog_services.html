@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/catalog_services.js" defer></script>
 </head>
 <body>
   <afergolf-header></afergolf-header>
@@ -20,75 +19,59 @@
       <img src="../assets/img/Fondo3.png" alt="Servicios AFERGOLF" class="hero-img">
     </section>
 
-    <!-- Listado de servicios (carrusel) -->
+    <!-- Listado de servicios -->
     <section class="services" aria-labelledby="titulo-servicios">
       <h2 id="titulo-servicios">Servicios</h2>
 
-      <div class="slider" data-slider>
-        <button class="ctrl ctrl-left" aria-label="Anterior" data-prev></button>
-
-        <div class="viewport" data-viewport>
-          <div class="track" data-track>
-            <!-- 1 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/Fitting.png" alt="Fitting" loading="lazy">
-              </figure>
-              <h3 class="card-title">Fitting</h3>
-            </article>
-            <!-- 2 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/Calibracion.png" alt="Calibración" loading="lazy">
-              </figure>
-              <h3 class="card-title">Calibración</h3>
-            </article>
-            <!-- 3 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/Grips.png" alt="Cambio de Grips" loading="lazy">
-              </figure>
-              <h3 class="card-title">Cambio de Grips</h3>
-            </article>
-            <!-- 4 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/Estrias.png" alt="Arreglo Estrías" loading="lazy">
-              </figure>
-              <h3 class="card-title">Arreglo Estrías</h3>
-            </article>
-            <!-- 5 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/Clases.png" alt="Clases de Golf" loading="lazy">
-              </figure>
-              <h3 class="card-title">Clases de Golf</h3>
-            </article>
-            <!-- 6 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/SwingWeight.png" alt="Swing Weight" loading="lazy">
-              </figure>
-              <h3 class="card-title">Swing Weight</h3>
-            </article>
-            <!-- 7 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/CompraVenta.png" alt="Compra y venta de equipos" loading="lazy">
-              </figure>
-              <h3 class="card-title">Compra y venta de equipos</h3>
-            </article>
-            <!-- 8 -->
-            <article class="card">
-              <figure class="thumb">
-                <img src="../assets/img/services/Alargamiento.png" alt="Alargamiento y Acortamiento" loading="lazy">
-              </figure>
-              <h3 class="card-title">Alargamiento y Acortamiento</h3>
-            </article>
-          </div>
+      <div class="services-grid">
+        <div class="service-item">
+          <a href="serv_fitting.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/Fitting.png" alt="Fitting" loading="lazy">
+            <h3>Fitting</h3>
+          </a>
         </div>
-
-        <button class="ctrl ctrl-right" aria-label="Siguiente" data-next></button>
+        <div class="service-item">
+          <a href="serv_calibracion.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/Calibracion.png" alt="Calibración" loading="lazy">
+            <h3>Calibración</h3>
+          </a>
+        </div>
+        <div class="service-item">
+          <a href="serv_cambio_grips.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/Grips.png" alt="Cambio de Grips" loading="lazy">
+            <h3>Cambio de Grips</h3>
+          </a>
+        </div>
+        <div class="service-item">
+          <a href="serv_recup_estrias.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/Estrias.png" alt="Arreglo Estrías" loading="lazy">
+            <h3>Arreglo Estrías</h3>
+          </a>
+        </div>
+        <div class="service-item">
+          <a href="serv_clases_golf.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/Clases.png" alt="Clases de Golf" loading="lazy">
+            <h3>Clases de Golf</h3>
+          </a>
+        </div>
+        <div class="service-item">
+          <a href="serv_swing_weight.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/SwingWeight.png" alt="Swing Weight" loading="lazy">
+            <h3>Swing Weight</h3>
+          </a>
+        </div>
+        <div class="service-item">
+          <a href="serv_compra_venta.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/CompraVenta.png" alt="Compra y venta de equipos" loading="lazy">
+            <h3>Compra y venta de equipos</h3>
+          </a>
+        </div>
+        <div class="service-item">
+          <a href="serv_alarg_acort.html" style="text-decoration: none; color: inherit;">
+            <img src="../assets/img/services/Alargamiento.png" alt="Alargamiento y Acortamiento" loading="lazy">
+            <h3>Alargamiento y Acortamiento</h3>
+          </a>
+        </div>
       </div>
     </section>
   </main>
