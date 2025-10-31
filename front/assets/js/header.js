@@ -1,5 +1,26 @@
-// Elementos del DOM
-const overlay = document.getElementById('overlay');
+/**
+ * ============================================================================
+ * AFERGOLF - Header Functionality
+ * ============================================================================
+ * 
+ * Este archivo contiene toda la funcionalidad interactiva del header principal.
+ * Gestiona el menú hamburguesa y el modal de búsqueda.
+ * 
+ * Funcionalidades:
+ * - Abrir/cerrar menú hamburguesa (móvil y escritorio)
+ * - Abrir/cerrar modal de búsqueda
+ * - Control de overlay y scroll del body
+ * - Cierre con tecla ESC
+ * 
+ * @author Afergolf Team
+ * @version 1.0.0
+ */
+
+// ============================================================================
+// ELEMENTOS DEL DOM
+// ============================================================================
+
+const overlay = document.getElementById('modal-overlay');
 const hamburguerMenu = document.getElementById('hamburguer-menu');
 const searchModal = document.getElementById('search-modal');
 
@@ -11,37 +32,61 @@ const openMenuDesktop = document.getElementById('open-menu-desktop');
 const openSearchMobile = document.getElementById('open-search-mobile');
 const openSearchDesktop = document.getElementById('open-search-desktop');
 
-// Función para abrir el menú hamburguesa
+// ============================================================================
+// FUNCIONES DEL MENÚ HAMBURGUESA
+// ============================================================================
+
+/**
+ * Abre el menú hamburguesa y muestra el overlay.
+ * Previene el scroll del body mientras el menú está abierto.
+ */
 function openMenu() {
   hamburguerMenu.classList.add('active');
   overlay.classList.add('active');
-  document.body.style.overflow = 'hidden'; // Evitar scroll en el body
+  document.body.style.overflow = 'hidden';
 }
 
-// Función para cerrar el menú hamburguesa
+/**
+ * Cierra el menú hamburguesa y oculta el overlay.
+ * Restaura el scroll del body.
+ */
 function closeMenu() {
   hamburguerMenu.classList.remove('active');
   overlay.classList.remove('active');
-  document.body.style.overflow = ''; // Restaurar scroll
+  document.body.style.overflow = '';
 }
 
-// Función para abrir el buscador
+// ============================================================================
+// FUNCIONES DEL MODAL DE BÚSQUEDA
+// ============================================================================
+
+/**
+ * Abre el modal de búsqueda y muestra el overlay.
+ * Enfoca automáticamente el campo de búsqueda.
+ */
 function openSearch() {
   searchModal.classList.add('active');
   overlay.classList.add('active');
-  document.body.style.overflow = 'hidden'; // Evitar scroll en el body
+  document.body.style.overflow = 'hidden';
   
   // Enfocar el input de búsqueda
   const searchInput = searchModal.querySelector('.search-input');
   setTimeout(() => searchInput.focus(), 100);
 }
 
-// Función para cerrar el buscador
+/**
+ * Cierra el modal de búsqueda y oculta el overlay.
+ * Restaura el scroll del body.
+ */
 function closeSearch() {
   searchModal.classList.remove('active');
   overlay.classList.remove('active');
-  document.body.style.overflow = ''; // Restaurar scroll
+  document.body.style.overflow = '';
 }
+
+// ============================================================================
+// EVENT LISTENERS
+// ============================================================================
 
 // Event listeners para abrir el menú
 if (openMenuMobile) {

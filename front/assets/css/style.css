@@ -805,8 +805,8 @@ footer {
   justify-content: center;
 }
 
-/* Overlay oscuro */
-.overlay {
+/* Overlay oscuro del modal (header) */
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -819,7 +819,7 @@ footer {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.overlay.active {
+.modal-overlay.active {
   opacity: 1;
   visibility: visible;
 }
