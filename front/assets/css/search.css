@@ -1,11 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Estilos específicos del buscador */
 .search-canvas {
-  min-height: 100vh;
   display: grid;
   place-items: center;
 }
@@ -30,7 +24,7 @@
   outline: none;
   padding: 10px 20px;
   font-family: "Montserrat", "Poppins", Arial, sans-serif;
-  font-size: 25px;
+  font-size: 22px;
   color: rgb(121, 119, 119);
   font-weight: 500;
 }

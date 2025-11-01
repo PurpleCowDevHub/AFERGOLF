@@ -1,20 +1,35 @@
+<<<<<<< HEAD
 
   <header>
      <img src="/front/assets/img/footer-shape.svg" class="header-semicircle" alt="Decoración semicircular del encabezado" loading="lazy">
     <div class="header-container"> 
+=======
+<!-- Estilos necesarios para el header, menú y búsqueda -->
+<link rel="stylesheet" href="/front/assets/css/hamburguer_menu.css">
+<link rel="stylesheet" href="/front/assets/css/search.css">
+
+<header>
+    <!-- Parte superior: menú hamburguesa y logo -->
+    <div class="header-top">
+      <div class="nav-item hamburguer-menu">
+        <button id="open-menu-mobile" class="icon-button" aria-label="Abrir menú de navegación">
+          <img src="/front/assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
+        </button>
+      </div>
+      <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
+        <img src="/front/assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
+      </a>
+    </div>
+    
+    <!-- Parte inferior: iconos de navegación -->
+    <div class="header-bottom">
+>>>>>>> 80aa65f6c27deb35b6bafff4437de9f485bb4799
       <nav class="header-nav">
-        <ul class="nav-left">
-          <li class="nav-item hamburguer-menu">
-            <a href="/front/partials/hamburguer_menu.html">
-              <img src="/front/assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
-            </a>
-          </li>
-        </ul>
         <ul class="nav-right">
           <li class="nav-item search">
-            <a href="/front/partials/search.html">
+            <button id="open-search-mobile" class="icon-button" aria-label="Buscar contenido">
               <img src="/front/assets/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
-            </a>
+            </button>
             <span class="text-icon">Buscar</span>
           </li>
           <li class="nav-item user">
@@ -31,8 +46,87 @@
           </li>
         </ul>
       </nav>
+<<<<<<< HEAD
     <!-- </div> -->
     <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
       <img src="/front/assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
     </a>
   </header>
+=======
+    </div>
+    
+    <!-- Contenedor original para escritorio -->
+    <div class="header-container">
+      <nav class="header-nav">
+        <ul class="nav-left">
+          <li class="nav-item hamburguer-menu">
+            <button id="open-menu-desktop" class="icon-button" aria-label="Abrir menú de navegación">
+              <img src="/front/assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
+            </button>
+          </li>
+        </ul>
+        <ul class="nav-right">
+          <li class="nav-item search">
+            <button id="open-search-desktop" class="icon-button" aria-label="Buscar contenido">
+              <img src="/front/assets/icon/Search.svg" alt="Buscar contenido" class="icon" loading="lazy">
+            </button>
+            <span class="text-icon">Buscar</span>
+          </li>
+          <li class="nav-item user">
+            <a href="/front/views/my_account.html">
+              <img src="/front/assets/icon/Person.svg" alt="Acceder al perfil de usuario" class="icon" loading="lazy">
+            </a>
+            <span class="text-icon">Perfil</span>
+          </li>
+          <li class="nav-item cart">
+            <a href="/front/views/cart.html">
+              <img src="/front/assets/icon/Cart.svg" alt="Ver carrito de compras" class="icon" loading="lazy">
+            </a>
+            <span class="text-icon">Carrito</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF" class="header-logo-desktop">
+      <img src="/front/assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
+    </a>
+  </header>
+
+  <!-- Overlay oscuro -->
+  <div id="modal-overlay" class="modal-overlay"></div>
+
+  <!-- Menú Hamburguesa -->
+  <aside id="hamburguer-menu" class="menu-panel" role="navigation" aria-label="Menú principal AFERGOLF">
+    <h1 class="brand">AFERGOLF</h1>
+    <div class="menu-section main-menu">
+      <nav>
+        <ul class="menu-list">
+          <li><a href="#" class="menu-link">Catálogo de productos</a></li>
+          <li><a href="#" class="menu-link">Catálogo de servicios</a></li>
+          <li><a href="#" class="menu-link">Nosotros</a></li>
+          <li><a href="#" class="menu-link">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="menu-section user-menu">
+      <a href="#" class="account-link">Mi cuenta</a>
+      <a href="#" class="logout-link">Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <!-- Buscador -->
+  <main id="search-modal" class="search-canvas" role="search">
+    <form class="search-shell" action="#" method="get">
+      <input
+        class="search-input"
+        type="search"
+        name="q"
+        placeholder='Busca con palabras claves… "Footjoy"'
+        autocomplete="off"
+      />
+    </form>
+  </main>
+
+<script src="/front/assets/js/partials/header.js"></script>
+>>>>>>> 80aa65f6c27deb35b6bafff4437de9f485bb4799
