@@ -1,0 +1,508 @@
+/* Reset y configuración base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  background: #fff;
+  padding-top: 120px;
+}
+
+/* Media query para móvil - body */
+@media (max-width: 431px) {
+  body {
+    padding-top: 110px;
+  }
+}
+
+/* Estilos comunes para títulos de sección */
+.section-title,
+.featured-products h2,
+.our-services h2,
+.testimonials h2 {
+  font-size: 42px;
+  font-weight: 500;
+  color: #000;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+}
+
+/* Scrollbar personalizado más elegante */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Main */
+
+/* Hero Banner */
+.hero-banner {
+  width: 100%;
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+  margin: 50px 0;
+}
+
+.hero-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-banner .overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+.hero-banner .overlay h1 {
+  font-size: 52px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.hero-banner .overlay p {
+  font-size: 48px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* Featured Products */
+.featured-products {
+  padding: 50px 0 25px;
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.featured-products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.featured-products h2 {
+  margin: 0;
+  text-align: left;
+}
+
+/* Product carousel container */
+.featured-products .products-slider {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto 40px;
+  padding: 0 30px;
+  overflow: visible;
+}
+
+.products-viewport {
+  overflow: hidden;
+  padding: 15px 0;
+  margin: -15px 0;
+}
+
+.products {
+  display: flex;
+  gap: 20px;
+  padding: 8px 25px 4px;
+  transition: transform 0.3s ease;
+}
+
+.product {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 0 0 350px;
+  min-width: 0;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.product:hover img {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.product img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  background: #fff;
+  box-shadow: 0 4px 20px 5px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.product h3 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #333;
+  margin-bottom: 8px;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.product .price {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(237, 27, 36);
+  margin-bottom: 12px;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  text-align: left;
+}
+
+.sizes {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.sizes button {
+  padding: 12px 12px;
+  border: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 17px;
+  color: #666;
+  transition: all 0.3s ease;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Product carousel controls */
+.products-slider .ctrl {
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(50, 50, 50, 0.64);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  z-index: 2;
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+}
+
+.products-slider .ctrl::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: 4px solid white;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 5px 0;
+}
+
+.products-slider .ctrl:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.products-slider .ctrl:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.products-slider .ctrl:focus {
+  outline: 0;
+}
+
+.products-slider .ctrl-left {
+  left: 0;
+}
+
+.products-slider .ctrl-left::before {
+  margin-left: 2px;
+  transform: rotate(-45deg);
+}
+
+.products-slider .ctrl-right {
+  right: 0;
+}
+
+.products-slider .ctrl-right::before {
+  margin-right: 2px;
+  transform: rotate(135deg);
+}
+
+.sizes button:hover {
+  background: rgb(237, 27, 36);
+  color: #fff;
+  border-color: rgb(237, 27, 36);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(237, 27, 36, 0.3);
+}
+
+.see-more {
+  padding: 0;
+  background: transparent;
+  color: rgb(237, 27, 36);
+  border: none;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.see-more:hover {
+  color: rgb(200, 20, 30);
+  transform: translateX(5px);
+}
+
+/* Nuestros Servicios */
+.our-services {
+  padding: 25px 40px 50px 40px;
+}
+
+.our-services h2 {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 330px);
+  grid-template-rows: repeat(2, 260px);
+  gap: 20px;
+  max-width: 1540px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.service-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.service-item:hover {
+  transform: translateY(-10px);
+}
+
+.service-item:hover img {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  transform: scale(1.02);
+}
+
+.service-item:hover h3 {
+  color: #661b1e;
+}
+
+.service-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.service-item h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+/* Secondary Banner */
+.secondary-banner {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  margin: 50px 0;
+}
+
+.secondary-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.secondary-banner .overlay {
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  transform: translateY(-50%);
+  text-align: left;
+  color: #fff;
+  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+.secondary-banner .overlay h2 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.secondary-banner .overlay p {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 25px 40px 120px;
+  text-align: center;
+  background: #ffffff;
+}
+
+.testimonials h2 {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.testimonial-container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  grid-template-rows: auto;
+  gap: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.testimonial-box {
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-box:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-box:nth-child(2) {
+  transform: scale(1);
+  z-index: 1;
+  grid-row: 1;
+}
+
+.testimonial-box:nth-child(2):hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+}
+
+.testimonial-box .gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.testimonial-box .text-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 1;
+}
+
+.testimonial-box .text-overlay p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #fff;
+  margin-bottom: 10px;
+  font-style: italic;
+  text-align: center;
+  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+.testimonial-box .text-overlay strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.8);
+}
+
