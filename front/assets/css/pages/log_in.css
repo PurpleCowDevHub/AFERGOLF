@@ -19,7 +19,7 @@ body {
   position: relative;
 }
 
-main {
+main:not(.search-canvas) {
   position: relative;
   display: flex;
   align-items: center;
