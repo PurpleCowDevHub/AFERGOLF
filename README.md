@@ -40,88 +40,140 @@ Ubicación: **Bogotá, Colombia**
 
 ## 🛠️ Tecnologías  
 
-Actualmente en uso:  
+**Frontend:**
+-**HTML5**
+-**CSS3**
+-**JavaScript (Vanilla)**
 
-- **HTML5**  
-- **CSS3**  
+**Backend:**
+-**PHP** (con XAMPP)
+-**MySQL** (integrado en XAMPP)
+-**Apache Server** (integrado en XAMPP)
 
-Futuras integraciones:  
+**Herramientas de desarrollo:**
+-**XAMPP** (servidor local con Apache, MySQL, PHP)
+-**phpMyAdmin** (gestión de base de datos)
 
-- **Gestor de base de datos** (MySQL, PostgreSQL o MongoDB).  
-- **Backend** (Node.js, Django o Laravel).  
-- **Autenticación de usuarios** (OAuth2, JWT).  
-- **Integración de pasarelas de pago**.  
+**Futuras integraciones:**  
+-**Autenticación de usuarios** (PHP Sessions, JWT)  
+-**Integración de pasarelas de pago** (PayU, Mercado Pago)
+-**API REST** para comunicación frontend-backend  
 
 ---
 
 ## 📂 Estructura del Proyecto  
 
 ```bash
-AFERGOLF/      # Cabe aclarar que todos los nombres de las carpetas y documentos están en inglés
-├── index.html            # Página principal (landing por defecto)
-├── README.md             # Documentación del repositorio
+AFERGOLF/
+├── index.html                    # Página principal
+├── README.md                     # Documentación del proyecto
 │
-├── FRONT/                # Todo lo relacionado con el frontend
-│   ├── views/            # Todas las vistas HTML
-│   │   ├── servicios.html
-│   │   ├── productos.html
-│   │   ├── reservas.html
-│   │   ├── nosotros.html
-│   │   └── contacto.html
+├── FRONT/                        # Frontend del sitio web
+│   ├── views/                    # Páginas HTML del sitio
+│   │   ├── catalog.html          # Catálogo de productos
+│   │   ├── services.html         # Servicios especializados
+│   │   ├── cart.html             # Carrito de compras
+│   │   └── ...
 │   │
-│   ├── assets/           # Recursos estáticos
-│   │   ├── css/          # Todos los estilos CSS de los partials y las vistas HTML
-│   │   │   ├── main.css  
-│   │   │   ├── header.css
-│   │   │   ├── footer.css
-│   │   │   └── pages/
-│   │   │       ├── home.css
-│   │   │       ├── servicios.css
-│   │   │       └── productos.css
+│   ├── assets/                   # Recursos estáticos
+│   │   ├── css/                  # Hojas de estilo
+│   │   │   ├── style.css         # Estilos generales
+│   │   │   ├── index.css         # Estilos del home
+│   │   │   ├── pages/            # Estilos por página
+│   │   │   └── ...
 │   │   │
-│   │   ├── js/
-│   │   │   ├── main.js
-│   │   │   └── chatbot.js
+│   │   ├── js/                   # Scripts JavaScript
+│   │   │   ├── main.js           # Script principal
+│   │   │   ├── views/            # Scripts por vista
+│   │   │   └── partials/         # Scripts de componentes
 │   │   │
-│   │   ├── img/          # Imagenes generales de la app 
-│   │   │   ├── logo.png
-│   │   │   ├── productos/    # Imagenes oficiales de los productos
-│   │   │   └── servicios/    # Imagenes oficiales de los servicios
+│   │   ├── img/                  # Imágenes del sitio
+│   │   │   ├── services/         # Imágenes de servicios
+│   │   │   └── ...
 │   │   │
-│   │   └── icons/
+│   │   └── icon/                 # Iconos y favicon
 │   │
-│   └── partials/         # Componentes reutilizables
-│       ├── header.html
-│       └── footer.html
+│   └── partials/                 # Componentes reutilizables
+│       ├── header.html           # Cabecera del sitio
+│       ├── footer.html           # Pie de página
+│       └── ...
 │
-├── BACK/                 # Backend (para cuando se implemente)
-│   ├── api/              # Endpoints
-│   ├── db/               # Base de datos o scripts de inicialización
-│   ├── controllers/      
-│   ├── models/
-│   └── routes/
+├── BACK/                         # Backend PHP
+│   ├── Proximamente...
 │
-├── DOCS/                 # Documentación técnica
-│   ├── Documento técnico de AFERGOLF.pdf
-│
+└── DOCS/                         # Documentación técnica
+    ├── Documento técnico de AFERGOLF.pdf
+    ├── database_schema.sql       # Esquema de BD
+    └── ...
 ```
 
 ---
 
-## 🚀 Instalación y uso
+## � Requisitos del Sistema
 
-1. **Clona el repositorio**  
+**Para desarrollo local:**
 
-    ```bash
-   git clone https://github.com/PurpleCowDevHub/AFERGOLF.git
-   cd AFERGOLF
-   ```
+- **XAMPP** (versión 7.4 o superior)
+  - Apache 2.4+
+  - MySQL 5.7+ o MariaDB 10.4+
+  - PHP 7.4+ o 8.0+
+  - phpMyAdmin (incluido en XAMPP)
 
-2. **Abre el proyecto**  
-   Puedes abrir `index.html` directamente en tu navegador para ver el sitio estático.
+---
 
-3. **Desarrollo y personalización**  
-   - Modifica los archivos HTML y CSS según tus necesidades.
+## �🚀 Instalación y Configuración
+
+### 1. **Preparar el entorno**
+
+```powershell
+# Descargar e instalar XAMPP desde https://www.apachefriends.org/
+# Ejecutar XAMPP Control Panel como administrador
+```
+
+### 2. **Clonar el repositorio** (omitan este paso chicos)
+
+```powershell
+git clone https://github.com/PurpleCowDevHub/AFERGOLF.git
+cd AFERGOLF
+```
+
+### 3. **Configurar XAMPP**
+
+- Abrir **XAMPP Control Panel**
+- Iniciar los servicios **Apache** y **MySQL**
+- Verificar que funcionen en `http://localhost/` y `http://localhost/phpmyadmin/`
+
+### 4. **Configurar el proyecto**
+
+```powershell
+# Copiar el proyecto a la carpeta de XAMPP
+# Por defecto: C:\xampp\htdocs\AFERGOLF\
+copy . C:\xampp\htdocs\AFERGOLF\
+```
+
+### 5. **Acceder al sitio**
+
+- **Frontend**: `http://localhost/AFERGOLF/`
+- **Panel Admin**: `http://localhost/phpmyadmin/`
+
+---
+
+## 🔧 Desarrollo Local
+
+**Estructura de trabajo:**
+-Frontend: Editar archivos en `front/`
+-Backend: Desarrollar APIs en `back/`
+-Base de datos: Gestionar desde phpMyAdmin
+
+**Comandos útiles:**
+
+```powershell
+# Ver logs de Apache (errores PHP)
+Get-Content C:\xampp\apache\logs\error.log -Tail 10
+
+# Reiniciar servicios XAMPP si es necesario
+# (usar XAMPP Control Panel)
+```
 
 ---
 
