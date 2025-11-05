@@ -5,7 +5,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Tipografía base (igual que index.css) */
+body {
   font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  font-size: 16px;
+  color: #1f1f1f;
 }
 
 /* Header siempre visible encima del contenido */
@@ -21,6 +27,20 @@
   margin: 0 auto;
   /* Más espacio arriba para separarlo del header */
   padding: 120px 24px 90px;
+}
+
+/* Encabezado de sección: usar mismo estilo que .section-title en index.css */
+.orders-header h1 {
+  font-size: 42px;
+  font-weight: 500;
+  color: #000;
+  margin: 0 0 8px 0;
+}
+
+.orders-header p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
 }
 
 /* Filtros */
@@ -208,7 +228,7 @@
 
 /* Info principal */
 .order-info h2 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: #222;
   margin-bottom: 4px;
@@ -221,7 +241,7 @@
 }
 
 .order-price {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: rgb(237, 27, 36);
   margin-bottom: 10px;
@@ -240,13 +260,13 @@
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   border-radius: 999px;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  font-family: inherit;
 }
 
 /* Botón principal */
