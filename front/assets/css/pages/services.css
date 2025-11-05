@@ -21,7 +21,7 @@ html, body {
 .service-title{
   text-align: center;
   font-weight: 700;
-  font-size: 36px;
+  font-size: 32px;
   position: relative;
   grid-column: 1 / -1;
 }

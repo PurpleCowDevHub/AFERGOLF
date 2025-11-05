@@ -84,7 +84,7 @@ body {
 }
 
 .hero-banner .overlay h1 {
-  font-size: 52px;
+  font-size: 48px;
   font-weight: 800;
   font-style: italic;
   line-height: 1.1;
@@ -92,7 +92,7 @@ body {
 }
 
 .hero-banner .overlay p {
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 700;
   font-style: italic;
   line-height: 1.1;
@@ -175,7 +175,7 @@ body {
 }
 
 .product h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: #333;
   margin-bottom: 8px;
@@ -185,7 +185,7 @@ body {
 }
 
 .product .price {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: rgb(237, 27, 36);
   margin-bottom: 12px;
@@ -358,7 +358,7 @@ body {
 }
 
 .service-item h3 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: #000;
   text-align: center;

@@ -7,61 +7,96 @@
   <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/my_account.css" />
   <script src="../assets/js/main.js" defer></script>
 </head>
 
 <body>
+  <!-- HEADER GLOBAL -->
   <afergolf-header></afergolf-header>
 
-  <!-- información de la cuenta del usuario -->
-  <main>
-    <section class="account" aria-labelledby="titulo-cuenta">
-      <img 
-        src="../assets/img/Fondo1.png" 
-        alt="Fondo de sección Mi Cuenta"
-        class="account-background"
-        loading="lazy"
-      />
-      
-      <div class="account-card" role="region" aria-labelledby="titulo-cuenta">
-        <h2 id="titulo-cuenta" class="account-title">Mi Cuenta</h2>
+  <!-- MAIN -->
+  <main class="account-main">
+    <section class="account-container">
 
-        <div class="account-info">
-          <div class="info-item">
-            <strong>Nombres</strong>
-            <span>Samuel David</span>
-          </div>
-          
-          <div class="info-item">
-            <strong>Apellidos</strong>
-            <span>Fernandez Urrea</span>
-          </div>
-          
-          <div class="info-item">
-            <strong>Correo Electrónico</strong>
-            <span>Samdezurrea@gmail.com</span>
-          </div>
-          
-          <div class="info-item">
-            <strong>Dirección</strong>
-            <span>Dg 87C # 334-97</span>
-          </div>
+      <!-- Foto e info del usuario -->
+      <div class="account-header">
+        <div class="avatar" id="avatarContainer">
+          <img id="avatarImage" src="../assets/icons/default-avatar.svg" alt="Foto de perfil del usuario">
+          <input type="file" id="avatarInput" accept="image/*">
         </div>
+        <div class="user-info">
+          <h2 class="user-name">Samuel Fernandez</h2>
+          <p class="user-email">samdezurrea@gmail.com</p>
+        </div>
+      </div>
 
-        <nav class="account-links" aria-label="Acciones de cuenta">
-          <a class="link" href="#" aria-label="Editar información del perfil">Editar Perfil</a>
-          <a class="link" href="#" aria-label="Ver historial de compras">Historial de Compras</a>
-        </nav>
+      <!-- Opciones -->
+      <div class="account-options">
+        <a href="#" class="option-card">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <h3>Editar Perfil</h3>
+            <p>Actualiza tu información personal.</p>
+          </div>
+        </a>
 
-        <button class="btn-logout" type="button" aria-label="Cerrar sesión de usuario">
-          Cerrar sesión
+        <a href="#" class="option-card">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm8 8h-7v-2h7v2zm0-4h-7v-2h7v2zm0-4h-7V7h7v2z"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <h3>Historial de Compras</h3>
+            <p>Consulta tus pedidos anteriores.</p>
+          </div>
+        </a>
+
+        <button class="logout-card">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <h3>Cerrar Sesión</h3>
+            <p>Salir de tu cuenta AFERGOLF.</p>
+          </div>
         </button>
       </div>
+
     </section>
   </main>
 
+  <!-- FOOTER GLOBAL -->
   <afergolf-footer></afergolf-footer>
+
+  <script>
+    // === SUBIR IMAGEN DE PERFIL ===
+    const avatarContainer = document.getElementById('avatarContainer');
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarImage = document.getElementById('avatarImage');
+
+    avatarContainer.addEventListener('click', () => {
+      avatarInput.click();
+    });
+
+    avatarInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          avatarImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
 </body>
 </html>
