@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial de compras - AFERGOLF</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
+  <!-- Estilos globales -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/index.css">
+  <!-- Estilos de la vista -->
+  <link rel="stylesheet" href="../assets/css/pages/Purchase_History.css">
+  <script src="../assets/js/main.js" defer></script>
+</head>
+
+<body>
+  <afergolf-header></afergolf-header>
+
+  <main>
+    <section class="orders-wrapper">
+
+      <!-- Filtros -->
+      <div class="orders-filters" aria-label="Filtros de historial de compras">
+        <div class="filter-group">
+          <label for="periodo">Periodo</label>
+          <select id="periodo" name="periodo">
+            <option>Últimos 3 meses</option>
+            <option>Últimos 6 meses</option>
+            <option>2025</option>
+            <option>2024</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="estado">Estado</label>
+          <select id="estado" name="estado">
+            <option>Todos los estados</option>
+            <option>Entregado</option>
+            <option>En proceso</option>
+            <option>Cancelado</option>
+          </select>
+        </div>
+
+        <div class="filter-search">
+          <label for="buscar">Buscar</label>
+          <div class="search-input-wrapper">
+            <input id="buscar" type="text" placeholder="Buscar por producto o número de pedido">
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de pedidos -->
+      <section class="orders-list" aria-label="Listado de pedidos recientes">
+
+        <!-- Pedido 1 -->
+        <article class="order-card">
+          <div class="order-card-top">
+            <div class="order-meta">
+              <span class="order-id">Pedido #AFT-2025-0012</span>
+              <span class="order-date">Realizado el 12 feb 2025</span>
+            </div>
+            <span class="order-status order-status--delivered">Entregado</span>
+          </div>
+
+          <div class="order-main">
+            <div class="order-thumb">
+              <img src="../assets/img/Catalog/Driver Cobra LTDx.jpeg" alt="Driver Cobra LTDx">
+            </div>
+
+            <div class="order-info">
+              <h2>Driver Cobra LTDx</h2>
+              <p class="order-detail">1 unidad · Color Black / 9° Loft</p>
+              <p class="order-price">$ 3.250.000 COP</p>
+
+              <div class="order-actions">
+                <a href="product_details.html" class="btn-secondary">Ver detalles</a>
+                <a href="cart.html" class="btn-primary">Volver a comprar</a>
+              </div>
+            </div>
+
+            <div class="order-extra">
+              <p class="order-summary-label">Entrega</p>
+              <p class="order-summary-text">Entregado el 18 feb 2025 en Bogotá, Colombia.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Pedido 2 -->
+        <article class="order-card">
+          <div class="order-card-top">
+            <div class="order-meta">
+              <span class="order-id">Pedido #AFT-2025-0009</span>
+              <span class="order-date">Realizado el 25 ene 2025</span>
+            </div>
+            <span class="order-status order-status--in-progress">En proceso</span>
+          </div>
+
+          <div class="order-main">
+            <div class="order-thumb">
+              <img src="../assets/img/Catalog/Guante Footjoy GTXtreme.jpeg" alt="Guante Footjoy GTXtreme">
+            </div>
+
+            <div class="order-info">
+              <h2>Guantes Footjoy GTXtreme</h2>
+              <p class="order-detail">2 unidades · Talla M y L</p>
+              <p class="order-price">$ 140.000 COP</p>
+
+              <div class="order-actions">
+                <a href="product_details.html" class="btn-secondary">Ver detalles</a>
+                <a href="cart.html" class="btn-primary btn-primary--ghost">Seguir compra</a>
+              </div>
+            </div>
+
+            <div class="order-extra">
+              <p class="order-summary-label">Actualización</p>
+              <p class="order-summary-text">Tu pedido está siendo preparado para envío.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Pedido 3 -->
+        <article class="order-card">
+          <div class="order-card-top">
+            <div class="order-meta">
+              <span class="order-id">Pedido #AFT-2024-0081</span>
+              <span class="order-date">Realizado el 05 nov 2024</span>
+            </div>
+            <span class="order-status order-status--canceled">Cancelado</span>
+          </div>
+
+          <div class="order-main">
+            <div class="order-thumb">
+              <img src="../assets/img/Catalog/Clases Golf.jpeg" alt="Clases de golf personalizadas">
+            </div>
+
+            <div class="order-info">
+              <h2>Clases de golf personalizadas</h2>
+              <p class="order-detail">Paquete 4 sesiones · Instructor Alex Fernández</p>
+              <p class="order-price">$ 480.000 COP</p>
+
+              <div class="order-actions">
+                <a href="serv_clases_golf.html" class="btn-secondary">Ver servicio</a>
+                <a href="serv_clases_golf.html" class="btn-primary">Volver a agendar</a>
+              </div>
+            </div>
+
+            <div class="order-extra">
+              <p class="order-summary-label">Motivo</p>
+              <p class="order-summary-text">Cancelado a solicitud del cliente antes de iniciar las sesiones.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <afergolf-footer></afergolf-footer>
+</body>
+
+</html>
