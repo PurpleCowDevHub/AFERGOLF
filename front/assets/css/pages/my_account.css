@@ -45,7 +45,7 @@
 }
 
 .account-title {
-  font-size: clamp(20px, 4vw, 24px);
+  font-size: clamp(20px, 4vw, 28px);
   font-weight: 800;
   text-align: center;
   color: #222;
@@ -66,7 +66,7 @@
 }
 
 .info-item strong {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #111;
   text-transform: uppercase;
@@ -74,7 +74,7 @@
 }
 
 .info-item span {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   color: #333;
 }
