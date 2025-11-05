@@ -300,6 +300,73 @@
   color: #666;
   line-height: 1.4;
 }
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .orders-wrapper {
+    padding: 180px 16px 60px;
+  }
 
-/* Los estilos responsive se heredan de index.css */
+  .orders-filters {
+    position: static;
+    width: 100%;
+  }
+
+  .order-main {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+  }
+
+  .order-extra {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 430px) {
+  main {
+    padding: 140px 12px 60px;
+  }
+
+  .orders-wrapper {
+    padding: 20px 16px 60px;
+  }
+
+  .orders-filters {
+    padding: 14px;
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .filter-group,
+  .filter-search {
+    width: 100%;
+  }
+
+  .filter-group select,
+  .filter-search input {
+    width: 100%;
+  }
+
+  .order-main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .order-thumb {
+    max-width: 120px;
+    height: 120px;
+  }
+
+  .order-status {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    min-width: auto;
+    max-width: none;
+    font-size: 14px;
+  }
+}
 
