@@ -33,7 +33,8 @@ header {
   gap: 28px;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 100px 24px 80px; /* Reducido de 120px a 100px */
+  padding: 80px 24px 80px;
+  align-items: start; /* Asegura que los elementos se alineen desde arriba */
 }
 
 
@@ -118,8 +119,12 @@ header {
   padding: 16px;
   height: fit-content;
   position: sticky;
-  top: 140px;
+  top: 80px;
   border: 1px solid rgba(0,0,0,.1);
+  margin-top: 0; /* Elimina cualquier margen superior */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre los elementos del filtro */
 }
 .catalogo-filtros h2 {
   font-size: 20px;
@@ -127,7 +132,7 @@ header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 0; /* Ajustado porque ahora usamos gap */
   color: #333;
 }
 .catalogo-filtros label {
