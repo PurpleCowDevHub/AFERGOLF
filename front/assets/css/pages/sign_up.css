@@ -82,11 +82,11 @@ main:not(.search-canvas) {
 
 /* Título */
 .register-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: #2b2a2a;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   letter-spacing: -0.5px;
 }
 
@@ -135,9 +135,9 @@ main:not(.search-canvas) {
 }
 
 .field-label {
-  font-size: 16px;
+  font-size: 18px;
   color: #2b2a2a;
-  font-weight: 700;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -174,7 +174,7 @@ main:not(.search-canvas) {
 
 /* Mensajes de ayuda y error */
 .field-help {
-  font-size: 13px;
+  font-size: 15px;
   color: #888;
   font-weight: 400;
   font-style: italic;
@@ -212,7 +212,7 @@ main:not(.search-canvas) {
   border: 0;
   border-radius: 14px;
   color: #fff;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 18px;
   font-family: inherit;
   letter-spacing: 0.3px;
