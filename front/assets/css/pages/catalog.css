@@ -1,24 +1,25 @@
 /* ===== Vista: Catálogo ===== */
 
-/* Layout catálogo */
+/* ===== Layout Principal ===== */
 .catalogo {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 1fr 1fr 1fr 300px;
   gap: 28px;
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 80px 24px 80px;
+  padding: 80px 24px;
   align-items: start;
 }
 
-/* Grid productos */
+/* ===== Grid de Productos ===== */
 .catalogo-productos {
+  grid-column: 1 / 4;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
-/* Card producto */
+/* ===== Cards de Productos ===== */
 .catalogo-producto {
   background: #fff;
   border-radius: 14px;
@@ -29,12 +30,13 @@
   align-items: center;
   text-align: center;
   transition: transform .2s ease;
+  min-height: 300px;
 }
+
 .catalogo-producto:hover { 
   transform: translateY(-3px); 
 }
 
-/* Imágenes con mismo tamaño */
 .catalogo-producto img {
   width: 100%;
   height: 220px;
@@ -49,6 +51,7 @@
   color: #222;
   margin-bottom: 6px;
 }
+
 .catalogo-precio {
   font-size: 16px;
   font-weight: 700;
@@ -61,6 +64,7 @@
   display: flex;
   gap: 6px;
 }
+
 .catalogo-tallas button {
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -71,43 +75,43 @@
   cursor: pointer;
   transition: all .2s;
 }
+
 .catalogo-tallas button:hover {
   border-color: #d64a3a;
   color: #d64a3a;
 }
+
 .catalogo-tallas button.active {
   background: #d64a3a;
   color: #fff;
   border-color: #d64a3a;
 }
 
-/* Sidebar filtros */
+/* ===== Sidebar de Filtros ===== */
 .catalogo-filtros {
+  grid-column: 4 / 5;
   background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+  border: 1px solid rgba(214,74,58,.08);
   padding: 24px;
   height: fit-content;
   position: sticky;
   top: 80px;
-  border: 1px solid rgba(214,74,58,.08);
-  margin-top: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   backdrop-filter: blur(10px);
 }
 
+/* Título de filtros */
 .catalogo-filtros h2 {
   font-size: 22px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 0;
   color: #1a1a1a;
-  position: relative;
+  margin-bottom: 0;
   padding-bottom: 12px;
+  position: relative;
 }
 
 .catalogo-filtros h2::after {
@@ -121,41 +125,41 @@
   border-radius: 2px;
 }
 
+/* Contenedor de filtro individual */
 .filtro {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .catalogo-filtros label {
   font-size: 16px;
   font-weight: 600;
-  display: block;
-  margin-bottom: 0;
   color: #444;
 }
 
+/* Estilos base del select */
 .catalogo-filtros select {
   width: 100%;
-  padding: 14px 16px;
+  padding: 14px 16px 14px 16px;
+  padding-right: 40px;
   border: 2px solid #e8e8e8;
   border-radius: 12px;
   font-size: 15px;
   font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
   color: #333;
   background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 16px;
-  padding-right: 40px;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Estados interactivos del select */
 .catalogo-filtros select:hover {
   border-color: #d64a3a;
   transform: translateY(-1px);
@@ -175,7 +179,9 @@
   transform: translateY(0);
 }
 
-/* Estilos para el contenedor del dropdown cuando está abierto */
+/* ===== Dropdown Personalizado ===== */
+
+/* Select múltiple/expandido */
 .catalogo-filtros select[size],
 .catalogo-filtros select[multiple] {
   background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
@@ -187,7 +193,7 @@
   overflow-y: auto;
 }
 
-/* Scrollbar personalizada para el dropdown */
+/* Scrollbar personalizada */
 .catalogo-filtros select::-webkit-scrollbar {
   width: 8px;
 }
@@ -208,19 +214,19 @@
   background: linear-gradient(135deg, #c53030, #b91c1c);
 }
 
-/* Estilos mejorados para las opciones del dropdown */
+/* Opciones del dropdown */
 .catalogo-filtros select option {
   padding: 16px 20px;
+  margin: 3px 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
   font-weight: 600;
   color: #2d3748;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: none;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 15px;
+  border-radius: 14px;
   letter-spacing: 0.025em;
   transition: all 0.2s ease;
-  margin: 3px 4px;
-  border-radius: 14px;
 }
 
 .catalogo-filtros select option:hover {
@@ -239,43 +245,120 @@
   box-shadow: 0 2px 8px rgba(214,74,58,.3);
 }
 
+.catalogo-filtros select option:first-child,
+.catalogo-filtros select option:last-child {
+  border-radius: 16px;
+}
+
 .catalogo-filtros select option:first-child {
   margin-top: 6px;
-  border-radius: 16px;
 }
 
 .catalogo-filtros select option:last-child {
   margin-bottom: 6px;
-  border-radius: 16px;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 992px) {
+/* ===== Responsive Design ===== */
+
+/* Móviles (≤430px) */
+@media (max-width: 430px) {
   .catalogo {
     grid-template-columns: 1fr;
     padding: 80px 16px 60px;
+    gap: 20px;
   }
+  
+  .catalogo-productos {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    order: 2;
+  }
+  
   .catalogo-filtros {
+    grid-column: 1;
     position: static;
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 24px;
-    padding: 20px;
-    border-radius: 12px;
-    order: -1;
+    top: auto;
+    order: 1;
+    padding: 18px;
+    width: 85%;
+    margin: 0 auto;
   }
   
   .catalogo-filtros h2 {
     font-size: 22px;
-    text-align: center;
+    text-align: left;
+    margin-bottom: 12px;
   }
   
   .filtro {
-    gap: 8px;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .catalogo-filtros label {
+    font-size: 18px;
+    text-align: left;
   }
   
   .catalogo-filtros select {
     padding: 12px 14px;
-    font-size: 14px;
+    padding-right: 35px;
+    font-size: 17px;
+    background-size: 14px;
+    background-position: right 10px center;
+    min-height: 42px;
+    text-align: left;
+  }
+  
+  /* Ajustes para dropdown en móvil */
+  .catalogo-filtros select[size],
+  .catalogo-filtros select[multiple] {
+    max-height: 150px;
+    max-width: 100%;
+    width: 100%;
+    padding: 6px 2px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(214,74,58,.15);
+    box-sizing: border-box;
+  }
+  
+  .catalogo-filtros select option {
+    padding: 10px 12px;
+    margin: 2px 0;
+    font-size: 12px;
+    border-radius: 8px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+  }
+  
+  .catalogo-producto {
+    width: 85%;
+    margin: 0 auto;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .catalogo-producto img {
+    align-self: center;
+  }
+  
+  .catalogo-producto h3 {
+    text-align: center;
+  }
+  
+  .catalogo-precio {
+    text-align: center;
+  }
+  
+  .catalogo-tallas {
+    justify-content: center;
   }
 }
