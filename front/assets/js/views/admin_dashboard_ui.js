@@ -29,6 +29,8 @@ const openProductModal = () => toggleModal('product-modal', true);
 const closeProductModal = () => toggleModal('product-modal', false);
 const openDeleteModal = () => toggleModal('delete-modal', true);
 const closeDeleteModal = () => toggleModal('delete-modal', false);
+const openLogoutModal = () => toggleModal('logout-modal', true);
+const closeLogoutModal = () => toggleModal('logout-modal', false);
 
 // ============================================================================
 // CAMPOS DINÁMICOS
@@ -191,12 +193,16 @@ function setupUIEventListeners() {
   const btnCancelDelete = document.getElementById('btn-cancel-delete');
   if (btnCancelDelete) btnCancelDelete.addEventListener('click', closeDeleteModal);
   
+  const btnCancelLogout = document.getElementById('btn-cancel-logout');
+  if (btnCancelLogout) btnCancelLogout.addEventListener('click', closeLogoutModal);
+  
   document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
         const modal = overlay.closest('.modal');
         if (modal.id === 'product-modal') closeProductModal();
         else if (modal.id === 'delete-modal') closeDeleteModal();
+        else if (modal.id === 'logout-modal') closeLogoutModal();
       }
     });
   });
@@ -205,6 +211,7 @@ function setupUIEventListeners() {
     if (e.key === 'Escape') {
       closeProductModal();
       closeDeleteModal();
+      closeLogoutModal();
     }
   });
   

@@ -25,13 +25,24 @@
         <p class="admin-subtitle">Gestión de productos</p>
       </div>
       
-      <button id="btn-create-product" class="btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Crear Producto
-      </button>
+      <div class="admin-header-actions">
+        <button id="btn-create-product" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Crear Producto
+        </button>
+        
+        <button id="btn-logout" class="btn-logout">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Cerrar Sesión
+        </button>
+      </div>
     </div>
   </header>
 
@@ -360,6 +371,27 @@
       <div class="modal-actions">
         <button type="button" id="btn-cancel-delete" class="btn-secondary">Cancelar</button>
         <button type="button" id="btn-confirm-delete" class="btn-danger">Eliminar Producto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMAR CERRAR SESIÓN -->
+  <div id="logout-modal" class="modal">
+    <div class="modal-overlay"></div>
+    
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h2>Cerrar Sesión</h2>
+      </div>
+      
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas cerrar sesión?</p>
+        <p class="text-info"><strong>Tendrás que iniciar sesión nuevamente para acceder al panel de administración.</strong></p>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" id="btn-cancel-logout" class="btn-secondary">Cancelar</button>
+        <button type="button" id="btn-confirm-logout" class="btn-danger">Cerrar Sesión</button>
       </div>
     </div>
   </div>

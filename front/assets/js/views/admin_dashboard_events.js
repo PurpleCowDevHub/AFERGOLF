@@ -502,6 +502,20 @@ function setupDataEventListeners() {
     btnCreateProduct.addEventListener('click', openCreateModal);
   }
   
+  const btnLogout = document.getElementById('btn-logout');
+  if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+      openLogoutModal();
+    });
+  }
+  
+  const btnConfirmLogout = document.getElementById('btn-confirm-logout');
+  if (btnConfirmLogout) {
+    btnConfirmLogout.addEventListener('click', () => {
+      window.location.href = '../views/log_in.html';
+    });
+  }
+  
   const searchInput = document.getElementById('search-input');
   if (searchInput) {
     searchInput.addEventListener('input', handleSearch);

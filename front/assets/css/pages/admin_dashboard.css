@@ -58,6 +58,45 @@ body {
   line-height: 1.2;
 }
 
+/* Contenedor de botones en el header */
+.admin-header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Botón de cerrar sesión */
+.btn-logout {
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #666;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-logout svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-logout:hover {
+  border-color: #d64a3a;
+  color: #d64a3a;
+  background: #fff5f5;
+}
+
+.btn-logout:active {
+  transform: translateY(1px);
+}
+
 /* Contenedor principal */
 .admin-main {
   padding: 220px 20px 40px;
@@ -523,6 +562,10 @@ body {
   color: #d32f2f;
 }
 
+.text-info {
+  color: #1976d2;
+}
+
 /* Acciones del modal */
 .modal-actions {
   padding: 20px 32px 28px;
@@ -834,26 +877,21 @@ body {
   text-align: center;
 }
 
-/* Scrollbar personalizado */
-.modal-content::-webkit-scrollbar,
-.products-table-wrapper::-webkit-scrollbar {
+/* Scrollbar personalizado más elegante */
+::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
 }
 
-.modal-content::-webkit-scrollbar-track,
-.products-table-wrapper::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
-.modal-content::-webkit-scrollbar-thumb,
-.products-table-wrapper::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: #c1c1c1;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
-.modal-content::-webkit-scrollbar-thumb:hover,
-.products-table-wrapper::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
