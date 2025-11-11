@@ -1,0 +1,940 @@
+/* =====================================================
+   ===== AFERGOLF - Admin Dashboard CSS =====
+   Panel de administración para gestión de productos
+   
+   ESTRUCTURA:
+   1. Variables y configuración base
+   2. Header administrativo
+   3. Contenedor principal
+   4. Botones y controles
+   5. Búsqueda y filtros
+   6. Tabla de productos
+   7. Estado vacío
+   8. Modales (overlay y contenido)
+   9. Formularios
+   10. Vista previa de imágenes
+   11. Responsive
+   12. Scrollbar personalizado
+   ===================================================== */
+
+/* =====================================================
+   ===== 1. VARIABLES Y CONFIGURACIÓN BASE =====
+   ===================================================== */
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f5f5f5;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+/* =====================================================
+   ===== 2. HEADER ADMINISTRATIVO =====
+   Barra superior fija con logo, título y botón crear
+   ===================================================== */
+
+.admin-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(214, 74, 58, 0.1);
+  z-index: 100;
+}
+
+.admin-header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.admin-logo {
+  flex-shrink: 0;
+}
+
+.admin-logo img {
+  height: 160px;
+  width: auto;
+  display: block;
+}
+
+.admin-header-content {
+  flex: 1;
+}
+
+.admin-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.admin-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* =====================================================
+   ===== 3. CONTENEDOR PRINCIPAL =====
+   ===================================================== */
+
+.admin-main {
+  padding: 220px 20px 40px; /* Top padding para compensar header fijo */
+  min-height: 100vh;
+}
+
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* =====================================================
+   ===== 4. BOTONES Y CONTROLES =====
+   ===================================================== */
+
+/* Botón principal (Crear Producto, Guardar, etc.) */
+.btn-primary {
+  padding: 14px 20px;
+  border-radius: 14px;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  box-shadow: 0 6px 16px rgba(224, 66, 47, 0.3);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
+}
+
+.btn-primary:hover {
+  filter: brightness(0.97);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Botón secundario (Cancelar) */
+.btn-secondary {
+  background: #fff;
+  color: #666;
+  border: 2px solid #e0e0e0;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #d64a3a;
+  color: #d64a3a;
+  background: #fff5f5;
+}
+
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+/* Botón de peligro (Eliminar) */
+.btn-danger {
+  padding: 12px 24px;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  box-shadow: 0 6px 16px rgba(224, 66, 47, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  filter: brightness(0.97);
+}
+
+.btn-danger:active {
+  transform: translateY(1px);
+}
+
+/* =====================================================
+   ===== 5. BÚSQUEDA Y FILTROS =====
+   ===================================================== */
+
+.dashboard-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+/* Caja de búsqueda con icono */
+.search-box {
+  flex: 1;
+  min-width: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box svg {
+  position: absolute;
+  left: 16px;
+  color: #999;
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
+}
+
+/* Cajas de filtros (selectores) */
+.filter-box {
+  min-width: 200px;
+}
+
+.filter-box select {
+  width: 100%;
+  padding: 14px 40px 14px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-box select:hover {
+  border-color: #d64a3a;
+}
+
+.filter-box select:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
+}
+
+/* =====================================================
+   ===== 6. TABLA DE PRODUCTOS =====
+   ===================================================== */
+
+.products-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.products-table-wrapper {
+  overflow-x: auto;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+/* Encabezado de la tabla */
+.products-table thead {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+}
+
+.products-table th {
+  padding: 20px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.products-table th.actions-header {
+  text-align: center;
+}
+
+/* Filas del cuerpo de la tabla */
+.products-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.products-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.products-table td {
+  padding: 16px;
+  color: #555;
+  vertical-align: middle;
+}
+
+/* Imagen del producto en la tabla */
+.product-image,
+.product-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Nombre del producto */
+.product-name {
+  font-weight: 600;
+  color: #222;
+  max-width: 250px;
+}
+
+/* Etiquetas de categoría y marca */
+.product-category,
+.product-brand {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.product-category {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.product-brand {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+/* Precio del producto */
+.product-price {
+  font-weight: 700;
+  color: #d64a3a;
+  font-size: 16px;
+}
+
+/* Stock del producto */
+.product-stock {
+  font-weight: 600;
+}
+
+.product-stock.low-stock {
+  color: #f57c00; /* Naranja para stock bajo */
+}
+
+.product-stock.out-of-stock {
+  color: #d32f2f; /* Rojo para sin stock */
+}
+
+/* Botones de acción en cada fila */
+.product-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Botón Ver (visualizar) */
+.action-btn.view {
+  color: #388e3c;
+  background: #e8f5e9;
+}
+
+.action-btn.view:hover {
+  background: #c8e6c9;
+  transform: scale(1.1);
+}
+
+/* Botón Editar */
+.action-btn.edit {
+  color: #1976d2;
+  background: #e3f2fd;
+}
+
+.action-btn.edit:hover {
+  background: #bbdefb;
+  transform: scale(1.1);
+}
+
+/* Botón Eliminar */
+.action-btn.delete {
+  color: #d32f2f;
+  background: #ffebee;
+}
+
+.action-btn.delete:hover {
+  background: #ffcdd2;
+  transform: scale(1.1);
+}
+
+/* =====================================================
+   ===== 7. ESTADO VACÍO =====
+   Mensaje cuando no hay productos o resultados
+   ===================================================== */
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-state svg {
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #999;
+}
+
+/* =====================================================
+   ===== 8. MODALES =====
+   Sistema de modales con overlay difuminado
+   ===================================================== */
+
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.active {
+  display: flex; /* Mostrar cuando está activo */
+}
+
+/* Overlay: Fondo oscuro difuminado */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* Contenido del modal */
+.modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 700px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1001;
+  animation: modalSlideIn 0.3s ease;
+}
+
+/* Variante pequeña (para confirmación de eliminación) */
+.modal-content.modal-small {
+  max-width: 450px;
+}
+
+/* Variante grande (para detalles de producto) */
+.modal-content.modal-product-detail {
+  max-width: 1200px;
+  width: 95%;
+}
+
+/* Animación de entrada del modal */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header del modal */
+.modal-header {
+  padding: 30px 40px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+/* Botón cerrar (X) del modal */
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #f5f5f5;
+}
+
+.modal-close svg {
+  color: #666;
+}
+
+/* Body del modal */
+.modal-body {
+  padding: 30px 40px;
+}
+
+.modal-body p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.text-warning {
+  color: #d32f2f;
+}
+
+/* Acciones del modal (botones al final) */
+.modal-actions {
+  padding: 20px 40px 30px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* =====================================================
+   ===== 9. FORMULARIOS =====
+   ===================================================== */
+
+.modal-form {
+  padding: 30px 40px;
+}
+
+/* Grid de dos columnas para detalles de producto */
+.product-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Imágenes 40%, Info 60% */
+  gap: 40px;
+  padding: 30px 40px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+/* Sección de información del producto */
+.product-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Fila de formulario (dos campos en una línea) */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Grupo de formulario (label + input) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1; /* Ocupa todo el ancho */
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Inputs, selects y textareas */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
+}
+
+/* Selects personalizados */
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* Textareas */
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Texto pequeño de ayuda */
+.form-group small {
+  font-size: 12px;
+  color: #999;
+  margin-top: -4px;
+}
+
+/* Campos dinámicos según categoría */
+.category-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  margin-top: 8px;
+}
+
+.category-fields[style*="display: none"] {
+  display: none !important;
+}
+
+/* =====================================================
+   ===== 10. VISTA PREVIA DE IMÁGENES =====
+   ===================================================== */
+
+.product-thumbs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-upload-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.image-upload-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Inputs de tipo file */
+.image-upload-group input {
+  padding: 10px 14px;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.image-upload-group input[type="file"] {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+/* Botón de selección de archivo personalizado */
+.image-upload-group input[type="file"]::file-selector-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+}
+
+.image-upload-group input[type="file"]::file-selector-button:hover {
+  filter: brightness(0.97);
+}
+
+/* Estados deshabilitados */
+.image-upload-group input[type="file"]:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.image-upload-group input[type="file"]:disabled::file-selector-button {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.image-upload-group input:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
+}
+
+/* Contenedor de vista previa de imagen */
+.image-preview {
+  width: 100%;
+  height: 120px;
+  border-radius: 10px;
+  border: 1px solid rgba(139, 133, 133, 0.75);
+  box-shadow: 0 4px 20px 5px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  position: relative;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-placeholder {
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* =====================================================
+   ===== 11. RESPONSIVE =====
+   Adaptación para dispositivos móviles
+   ===================================================== */
+
+@media (max-width: 430px) {
+  /* Header adaptado */
+  .admin-header-container {
+    padding: 15px;
+  }
+
+  .admin-logo img {
+    height: 90px;
+  }
+
+  .admin-title {
+    font-size: 22px;
+  }
+
+  .admin-subtitle {
+    font-size: 13px;
+  }
+
+  /* Contenido principal */
+  .admin-main {
+    padding: 230px 12px 40px;
+  }
+
+  /* Botones más pequeños */
+  .btn-primary {
+    font-size: 16px;
+    padding: 14px 24px;
+  }
+
+  .btn-primary svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2.5;
+  }
+
+  .btn-secondary,
+  .btn-danger {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+
+  /* Estado vacío */
+  .empty-state {
+    padding: 60px 15px;
+  }
+
+  .empty-state h3 {
+    font-size: 20px;
+  }
+
+  .empty-state p {
+    font-size: 14px;
+  }
+
+  /* Modal adaptado a móvil */
+  .modal-content.modal-product-detail {
+    max-width: 95%;
+    width: 95%;
+  }
+
+  /* Grid de una columna en móvil */
+  .product-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .image-preview {
+    height: 100px;
+  }
+
+  /* Fila de formulario en columna */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Acciones del modal en columna */
+  .modal-actions {
+    padding: 15px 20px 20px;
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}
+
+/* =====================================================
+   ===== 12. SCROLLBAR PERSONALIZADO =====
+   ===================================================== */
+
+.modal-content::-webkit-scrollbar,
+.products-table-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track,
+.products-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb,
+.products-table-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover,
+.products-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
