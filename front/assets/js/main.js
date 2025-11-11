@@ -1,41 +1,87 @@
-// Definimos una clase para el componente del header
+/**
+ * ============================================================================
+ * AFERGOLF - Main JavaScript
+ * ============================================================================
+ * 
+ * Este archivo contiene los componentes web personalizados y funcionalidades
+ * principales del sitio web de Afergolf.
+ * 
+ * Componentes:
+ * - AfergolfHeader: Header principal (carga dinámica)
+ * - AfergolfFooter: Footer del sitio
+ * 
+ * @author Afergolf Team
+ * @version 1.0.0
+ */
+
+// ============================================================================
+// COMPONENTE: HEADER PRINCIPAL
+// ============================================================================
+
+/**
+ * Componente web personalizado para el header principal del sitio.
+ * Carga dinámicamente el header desde un archivo HTML parcial.
+ * 
+ * @class AfergolfHeader
+ * @extends {HTMLElement}
+ */
 class AfergolfHeader extends HTMLElement {
+  /**
+   * Se ejecuta cuando el elemento es añadido al DOM.
+   * Carga el archivo header.html y ejecuta los scripts incluidos.
+   */
   connectedCallback() {
     // Traemos el archivo header.html que está dentro de /front/partials
     fetch('/front/partials/header.html')
       .then(response => response.text())
       .then(html => {
         this.innerHTML = html;
+        // Ejecutar los scripts que están dentro del HTML cargado
+        this.executeScripts();
       })
       .catch(err => console.error('Error cargando el header:', err));
   }
-}
 
-// Registramos la etiqueta personalizada
-customElements.define('afergolf-header', AfergolfHeader);
-
-//----------------------------------------------------------------------------
-
-// Definimos una clase para el componente del header_admin
-class AfergolfHeaderAdmin extends HTMLElement {
-  connectedCallback() {
-    // Traemos el archivo header_admin.html que está dentro de /front/partials
-    fetch('/front/partials/header_admin.html')
-      .then(response => response.text())
-      .then(html => {
-        this.innerHTML = html;
-      })
-      .catch(err => console.error('Error cargando el header_admin:', err));
+  /**
+   * Ejecuta los scripts que fueron cargados con el HTML.
+   * Necesario porque innerHTML no ejecuta scripts automáticamente.
+   */
+  executeScripts() {
+    const scripts = this.querySelectorAll('script');
+    scripts.forEach(oldScript => {
+      const newScript = document.createElement('script');
+      // Copiar atributos
+      Array.from(oldScript.attributes).forEach(attr => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+      // Copiar contenido
+      newScript.textContent = oldScript.textContent;
+      // Reemplazar el script antiguo por el nuevo
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
   }
 }
 
-// Registramos la etiqueta personalizada
-customElements.define('afergolf-header-admin', AfergolfHeaderAdmin);
+// Registramos la etiqueta personalizada <afergolf-header>
+customElements.define('afergolf-header', AfergolfHeader);
 
-//----------------------------------------------------------------------------
 
-// Definimos una clase para el componente del footer
+// ============================================================================
+// COMPONENTE: FOOTER
+// ============================================================================
+
+/**
+ * Componente web personalizado para el footer del sitio.
+ * Carga dinámicamente el footer desde un archivo HTML parcial.
+ * 
+ * @class AfergolfFooter
+ * @extends {HTMLElement}
+ */
 class AfergolfFooter extends HTMLElement {
+  /**
+   * Se ejecuta cuando el elemento es añadido al DOM.
+   * Carga el archivo footer.html.
+   */
   connectedCallback() {
     // Traemos el archivo footer.html que está dentro de /front/partials
     fetch('/front/partials/footer.html')
@@ -47,90 +93,6 @@ class AfergolfFooter extends HTMLElement {
   }
 }
 
-// Registramos la etiqueta personalizada
+// Registramos la etiqueta personalizada <afergolf-footer>
 customElements.define('afergolf-footer', AfergolfFooter);
 
-//----------------------------------------------------------------------------
-
-// Carrusel de productos
-class ProductsCarousel {
-  constructor() {
-    this.viewport = null;
-    this.track = null;
-    this.prevBtn = null;
-    this.nextBtn = null;
-    
-    this.init();
-  }
-
-  /**
-   * Initialize the carousel
-   */
-  init() {
-    this.bindElements();
-    if (!this.viewport || !this.prevBtn || !this.nextBtn) {
-      return; // No hay carrusel en esta página
-    }
-    
-    this.bindEvents();
-  }
-
-  /**
-   * Bind DOM elements
-   */
-  bindElements() {
-    const slider = document.querySelector('.productos-slider[data-slider]');
-    if (!slider) return;
-    
-    this.viewport = slider.querySelector('[data-viewport]');
-    this.track = slider.querySelector('[data-track]');
-    this.prevBtn = slider.querySelector('[data-prev]');
-    this.nextBtn = slider.querySelector('[data-next]');
-  }
-
-  /**
-   * Bind event listeners
-   */
-  bindEvents() {
-    this.prevBtn.addEventListener('click', () => {
-      this.scrollPrevious();
-    });
-    
-    this.nextBtn.addEventListener('click', () => {
-      this.scrollNext();
-    });
-  }
-
-  /**
-   * Calculate scroll step based on product width
-   */
-  getScrollStep() {
-    const productWidth = 280 + 30; // width + gap
-    return productWidth * 2; // Scroll 2 products at a time
-  }
-
-  /**
-   * Scroll to previous items
-   */
-  scrollPrevious() {
-    this.viewport.scrollBy({
-      left: -this.getScrollStep(),
-      behavior: 'smooth'
-    });
-  }
-
-  /**
-   * Scroll to next items
-   */
-  scrollNext() {
-    this.viewport.scrollBy({
-      left: this.getScrollStep(),
-      behavior: 'smooth'
-    });
-  }
-}
-
-// Initialize products carousel when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  new ProductsCarousel();
-});

@@ -1,52 +1,26 @@
 /* ===== Vista: Catálogo ===== */
 
-
-/* Header fijo */
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #f9f9f9;
-  z-index: 1000;
-  box-shadow: 0 3px 8px rgba(0,0,0,.08);
-}
-
-
-.header-logo-link {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-
-.header-logo {
-  height: 140px; /* Logo grande desde el inicio */
-  width: auto;
-}
-
-
-/* Layout catálogo */
+/* ===== Layout Principal ===== */
 .catalogo {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 1fr 1fr 1fr 300px;
   gap: 28px;
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 100px 24px 80px; /* Reducido de 120px a 100px */
+  padding: 80px 24px;
+  align-items: start;
 }
 
-
-/* Grid productos */
-.productos {
+/* ===== Grid de Productos ===== */
+.catalogo-productos {
+  grid-column: 1 / 4;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
-
-/* Card producto */
-.producto {
+/* ===== Cards de Productos ===== */
+.catalogo-producto {
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(0,0,0,.15);
@@ -56,40 +30,42 @@ header {
   align-items: center;
   text-align: center;
   transition: transform .2s ease;
+  min-height: 300px;
 }
-.producto:hover { transform: translateY(-3px); }
 
+.catalogo-producto:hover { 
+  transform: translateY(-3px); 
+}
 
-/* Todas las imágenes con mismo tamaño */
-.producto img {
+.catalogo-producto img {
   width: 100%;
-  height: 220px; /* altura fija para todas */
-  object-fit: cover; /* recorta sin deformar */
+  height: 220px;
+  object-fit: cover;
   border-radius: 10px;
   margin-bottom: 12px;
 }
 
-
-.producto h3 {
-  font-size: 16px;
+.catalogo-producto h3 {
+  font-size: 18px;
   font-weight: 600;
   color: #222;
   margin-bottom: 6px;
 }
-.precio {
-  font-size: 15px;
+
+.catalogo-precio {
+  font-size: 16px;
   font-weight: 700;
   color: #d64a3a;
   margin-bottom: 10px;
 }
 
-
 /* Tallas interactivas */
-.tallas {
+.catalogo-tallas {
   display: flex;
   gap: 6px;
 }
-.tallas button {
+
+.catalogo-tallas button {
   border: 1px solid #ccc;
   border-radius: 6px;
   padding: 4px 8px;
@@ -99,74 +75,290 @@ header {
   cursor: pointer;
   transition: all .2s;
 }
-.tallas button:hover {
+
+.catalogo-tallas button:hover {
   border-color: #d64a3a;
   color: #d64a3a;
 }
-.tallas button.active {
+
+.catalogo-tallas button.active {
   background: #d64a3a;
   color: #fff;
   border-color: #d64a3a;
 }
 
-
-/* Sidebar filtros */
-.filtros {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
-  padding: 16px;
+/* ===== Sidebar de Filtros ===== */
+.catalogo-filtros {
+  grid-column: 4 / 5;
+  background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+  border: 1px solid rgba(214,74,58,.08);
+  padding: 24px;
   height: fit-content;
   position: sticky;
-  top: 140px;
-  border: 1px solid rgba(0,0,0,.1);
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  backdrop-filter: blur(10px);
 }
-.filtros h2 {
+
+/* Título de filtros */
+.catalogo-filtros h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0;
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.catalogo-filtros h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #d64a3a, #ff6b5a);
+  border-radius: 2px;
+}
+
+/* Contenedor de filtro individual */
+.filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.catalogo-filtros label {
   font-size: 16px;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  color: #333;
+  color: #444;
 }
-.filtros label {
-  font-size: 14px;
-  font-weight: 500;
-  display: block;
-  margin-bottom: 8px;
-  color: #666;
-}
-.filtros select {
+
+/* Estilos base del select */
+.catalogo-filtros select {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 14px 16px 14px 16px;
+  padding-right: 40px;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
   color: #333;
-  background-color: #fff;
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  appearance: none;
   cursor: pointer;
-  transition: border-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.filtros select:hover {
+
+/* Estados interactivos del select */
+.catalogo-filtros select:hover {
   border-color: #d64a3a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(214,74,58,.15);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23d64a3a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
 }
-.filtros select:focus {
+
+.catalogo-filtros select:focus {
   outline: none;
   border-color: #d64a3a;
-  box-shadow: 0 0 0 2px rgba(214,74,58,.1);
+  box-shadow: 0 0 0 4px rgba(214,74,58,.1), 0 4px 12px rgba(214,74,58,.15);
+  transform: translateY(-1px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23d64a3a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
 }
 
+.catalogo-filtros select:active {
+  transform: translateY(0);
+}
 
-/* ===== Responsive ===== */
-@media (max-width: 992px) {
+/* ===== Dropdown Personalizado ===== */
+
+/* Select múltiple/expandido */
+.catalogo-filtros select[size],
+.catalogo-filtros select[multiple] {
+  background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+  border: 2px solid #d64a3a;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(214,74,58,.2), 0 4px 12px rgba(0,0,0,.1);
+  padding: 8px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Scrollbar personalizada */
+.catalogo-filtros select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.catalogo-filtros select::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.catalogo-filtros select::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #d64a3a, #c53030);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.catalogo-filtros select::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #c53030, #b91c1c);
+}
+
+/* Opciones del dropdown */
+.catalogo-filtros select option {
+  padding: 16px 20px;
+  margin: 3px 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d3748;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: none;
+  border-radius: 14px;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+}
+
+.catalogo-filtros select option:hover {
+  background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+  color: #d64a3a;
+  font-weight: 700;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(214,74,58,.15);
+}
+
+.catalogo-filtros select option:checked,
+.catalogo-filtros select option:selected {
+  background: linear-gradient(135deg, #d64a3a 0%, #c53030 100%);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(214,74,58,.3);
+}
+
+.catalogo-filtros select option:first-child,
+.catalogo-filtros select option:last-child {
+  border-radius: 16px;
+}
+
+.catalogo-filtros select option:first-child {
+  margin-top: 6px;
+}
+
+.catalogo-filtros select option:last-child {
+  margin-bottom: 6px;
+}
+
+/* ===== Responsive Design ===== */
+
+/* Móviles (≤430px) */
+@media (max-width: 430px) {
   .catalogo {
     grid-template-columns: 1fr;
-    padding: 180px 16px 60px;
+    padding: 80px 16px 60px;
+    gap: 20px;
   }
-  .filtros {
+  
+  .catalogo-productos {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    order: 2;
+  }
+  
+  .catalogo-filtros {
+    grid-column: 1;
     position: static;
+    top: auto;
+    order: 1;
+    padding: 18px;
+    width: 85%;
+    margin: 0 auto;
+  }
+  
+  .catalogo-filtros h2 {
+    font-size: 22px;
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  
+  .filtro {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .catalogo-filtros label {
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  .catalogo-filtros select {
+    padding: 12px 14px;
+    padding-right: 35px;
+    font-size: 17px;
+    background-size: 14px;
+    background-position: right 10px center;
+    min-height: 42px;
+    text-align: left;
+  }
+  
+  /* Ajustes para dropdown en móvil */
+  .catalogo-filtros select[size],
+  .catalogo-filtros select[multiple] {
+    max-height: 150px;
+    max-width: 100%;
     width: 100%;
-    margin-top: 20px;
+    padding: 6px 2px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(214,74,58,.15);
+    box-sizing: border-box;
+  }
+  
+  .catalogo-filtros select option {
+    padding: 10px 12px;
+    margin: 2px 0;
+    font-size: 12px;
+    border-radius: 8px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+  }
+  
+  .catalogo-producto {
+    width: 85%;
+    margin: 0 auto;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .catalogo-producto img {
+    align-self: center;
+  }
+  
+  .catalogo-producto h3 {
+    text-align: center;
+  }
+  
+  .catalogo-precio {
+    text-align: center;
+  }
+  
+  .catalogo-tallas {
+    justify-content: center;
   }
 }
