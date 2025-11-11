@@ -1,108 +1,73 @@
-// =====================================================
-// ===== AFERGOLF - Admin Dashboard UI (Frontend) =====
-// =====================================================
-// Este archivo maneja toda la lógica de interfaz de usuario:
-// - Apertura/cierre de modales
-// - Efectos visuales (difuminado de fondo)
-// - Vista previa de imágenes
-// - Actualización de campos dinámicos según categoría
-// - Control de estados de formularios
-// =====================================================
-
-// ===== CONTROL DE MODALES =====
-
 /**
- * Abre el modal de producto/edición/visualización
- * Activa la clase 'active' y bloquea el scroll del body
- */
-function openProductModal() {
-  const modal = document.getElementById('product-modal');
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-/**
- * Cierra el modal de producto
- * Remueve la clase 'active' y restaura el scroll del body
- */
-function closeProductModal() {
-  const modal = document.getElementById('product-modal');
-  modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-/**
- * Abre el modal de confirmación de eliminación
- */
-function openDeleteModal() {
-  const modal = document.getElementById('delete-modal');
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-/**
- * Cierra el modal de confirmación de eliminación
- */
-function closeDeleteModal() {
-  const modal = document.getElementById('delete-modal');
-  modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-// ===== GESTIÓN DE CAMPOS DINÁMICOS =====
-
-/**
- * Actualiza los campos del formulario según la categoría seleccionada
- * @param {string} category - La categoría del producto (palos, bolas, guantes, accesorios)
+ * ============================================================================
+ * AFERGOLF - Admin Dashboard UI (Frontend)
+ * ============================================================================
  * 
- * Muestra/oculta campos específicos:
- * - Palos: dimensiones, peso (sin peso de envío)
- * - Accesorios: dimensiones, peso (sin peso de envío)
- * - Guantes: stock por talla (S, M, L, XL)
- * - Bolas: unidades por paquete
+ * Lógica de interfaz de usuario: modales, vista previa de imágenes y campos dinámicos.
+ * 
+ * @author Afergolf Team
+ * @version 1.0.0
+ * ============================================================================
+ */
+
+// ============================================================================
+// CONTROL DE MODALES
+// ============================================================================
+
+/**
+ * Controla el estado de un modal.
+ * @param {string} modalId - ID del modal
+ * @param {boolean} isOpen - Estado de apertura
+ */
+const toggleModal = (modalId, isOpen) => {
+  const modal = document.getElementById(modalId);
+  modal.classList.toggle('active', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+};
+
+const openProductModal = () => toggleModal('product-modal', true);
+const closeProductModal = () => toggleModal('product-modal', false);
+const openDeleteModal = () => toggleModal('delete-modal', true);
+const closeDeleteModal = () => toggleModal('delete-modal', false);
+
+// ============================================================================
+// CAMPOS DINÁMICOS
+// ============================================================================
+
+/**
+ * Actualiza los campos del formulario según la categoría seleccionada.
+ * @param {string} category - Categoría del producto (palos, bolas, guantes, accesorios)
  */
 function updateDynamicFields(category) {
   const allCategoryFields = document.querySelectorAll('.category-fields');
   const stockFieldGeneral = document.getElementById('stock-field-general');
   
-  // Ocultar todos los campos por defecto
-  allCategoryFields.forEach(field => {
-    field.style.display = 'none';
-  });
+  allCategoryFields.forEach(field => field.style.display = 'none');
   
-  // Mostrar campo de stock general por defecto
   if (stockFieldGeneral) {
-    stockFieldGeneral.style.display = 'block';
+    stockFieldGeneral.style.display = category === 'guantes' ? 'none' : 'block';
   }
   
-  // Mostrar campos según la categoría seleccionada
   if (category) {
     allCategoryFields.forEach(field => {
-      const categories = field.dataset.category;
-      if (categories === category) {
+      if (field.dataset.category === category) {
         field.style.display = 'flex';
       }
     });
-    
-    // Para guantes, ocultar el campo de stock general
-    if (category === 'guantes') {
-      if (stockFieldGeneral) {
-        stockFieldGeneral.style.display = 'none';
-      }
-    }
   }
 }
 
-// ===== GESTIÓN DE VISTA PREVIA DE IMÁGENES =====
+// ============================================================================
+// VISTA PREVIA DE IMÁGENES
+// ============================================================================
 
 /**
- * Actualiza la vista previa de una imagen desde una URL existente
+ * Actualiza la vista previa de una imagen desde una URL.
  * @param {string} position - Posición de la imagen (main, front, top, side)
- * @param {string} imageUrl - URL de la imagen a mostrar
+ * @param {string} imageUrl - URL de la imagen
  */
 function updateImagePreviewFromUrl(position, imageUrl) {
-  const previewId = `preview-${position}`;
-  const preview = document.getElementById(previewId);
+  const preview = document.getElementById(`preview-${position}`);
   if (!preview) return;
   
   const img = preview.querySelector('img');
@@ -114,8 +79,6 @@ function updateImagePreviewFromUrl(position, imageUrl) {
     img.src = imageUrl;
     img.style.display = 'block';
     placeholder.style.display = 'none';
-    
-    // Manejar error de carga de imagen
     img.onerror = () => {
       img.style.display = 'none';
       placeholder.style.display = 'flex';
@@ -127,13 +90,12 @@ function updateImagePreviewFromUrl(position, imageUrl) {
 }
 
 /**
- * Actualiza la vista previa de una imagen desde un Data URL (archivo local)
- * @param {string} position - Posición de la imagen (main, front, top, side)
- * @param {string} dataUrl - Data URL de la imagen en Base64
+ * Actualiza la vista previa de una imagen desde un Data URL.
+ * @param {string} position - Posición de la imagen
+ * @param {string} dataUrl - Data URL de la imagen
  */
 function updateImagePreviewFromDataUrl(position, dataUrl) {
-  const previewId = `preview-${position}`;
-  const preview = document.getElementById(previewId);
+  const preview = document.getElementById(`preview-${position}`);
   if (!preview) return;
   
   const img = preview.querySelector('img');
@@ -147,12 +109,11 @@ function updateImagePreviewFromDataUrl(position, dataUrl) {
 }
 
 /**
- * Limpia una vista previa específica
- * @param {string} position - Posición de la imagen a limpiar (main, front, top, side)
+ * Limpia una vista previa específica.
+ * @param {string} position - Posición de la imagen
  */
 function clearImagePreview(position) {
-  const previewId = `preview-${position}`;
-  const preview = document.getElementById(previewId);
+  const preview = document.getElementById(`preview-${position}`);
   if (!preview) return;
   
   const img = preview.querySelector('img');
@@ -166,54 +127,44 @@ function clearImagePreview(position) {
 }
 
 /**
- * Limpia todas las vistas previas de imágenes
- * Se usa al abrir el modal de creación de producto
+ * Limpia todas las vistas previas de imágenes.
  */
 function clearImagePreviews() {
-  const positions = ['main', 'front', 'top', 'side'];
-  positions.forEach(position => {
-    clearImagePreview(position);
-  });
+  ['main', 'front', 'top', 'side'].forEach(clearImagePreview);
 }
 
 /**
- * Limpia todos los inputs de tipo file
- * Se usa al abrir el modal de creación o después de guardar
+ * Limpia todos los inputs de tipo file.
  */
 function clearFileInputs() {
-  const positions = ['main', 'front', 'top', 'side'];
-  positions.forEach(position => {
+  ['main', 'front', 'top', 'side'].forEach(position => {
     const input = document.getElementById(`product-image-${position}`);
-    if (input) {
-      input.value = '';
-    }
+    if (input) input.value = '';
   });
 }
 
-// ===== GESTIÓN DE ESTADOS DE FORMULARIO =====
+// ============================================================================
+// ESTADOS DE FORMULARIO
+// ============================================================================
 
 /**
- * Habilita todos los campos del formulario (modo edición/creación)
+ * Habilita todos los campos del formulario.
  */
 function enableFormFields() {
-  const fields = document.querySelectorAll('#product-form input, #product-form select, #product-form textarea');
-  fields.forEach(field => {
-    field.disabled = false;
-  });
+  document.querySelectorAll('#product-form input, #product-form select, #product-form textarea')
+    .forEach(field => field.disabled = false);
 }
 
 /**
- * Deshabilita todos los campos del formulario (modo solo lectura)
+ * Deshabilita todos los campos del formulario (solo lectura).
  */
 function disableFormFields() {
-  const fields = document.querySelectorAll('#product-form input, #product-form select, #product-form textarea');
-  fields.forEach(field => {
-    field.disabled = true;
-  });
+  document.querySelectorAll('#product-form input, #product-form select, #product-form textarea')
+    .forEach(field => field.disabled = true);
 }
 
 /**
- * Resetea el formulario a su estado inicial
+ * Resetea el formulario a su estado inicial.
  */
 function resetProductForm() {
   const form = document.getElementById('product-form');
@@ -223,47 +174,33 @@ function resetProductForm() {
   updateDynamicFields('');
 }
 
-// ===== CONFIGURACIÓN DE EVENTOS DE UI =====
+// ============================================================================
+// EVENT LISTENERS
+// ============================================================================
 
 /**
- * Configura todos los event listeners relacionados con la interfaz de usuario
- * Se ejecuta cuando el DOM está completamente cargado
+ * Configura todos los event listeners de la interfaz de usuario.
  */
 function setupUIEventListeners() {
-  // Event listener para cerrar el modal de producto con el botón X
   const modalClose = document.getElementById('modal-close');
-  if (modalClose) {
-    modalClose.addEventListener('click', closeProductModal);
-  }
+  if (modalClose) modalClose.addEventListener('click', closeProductModal);
   
-  // Event listener para el botón Cancelar en el modal de producto
   const btnCancel = document.getElementById('btn-cancel');
-  if (btnCancel) {
-    btnCancel.addEventListener('click', closeProductModal);
-  }
+  if (btnCancel) btnCancel.addEventListener('click', closeProductModal);
   
-  // Event listeners para el modal de eliminación
   const btnCancelDelete = document.getElementById('btn-cancel-delete');
-  if (btnCancelDelete) {
-    btnCancelDelete.addEventListener('click', closeDeleteModal);
-  }
+  if (btnCancelDelete) btnCancelDelete.addEventListener('click', closeDeleteModal);
   
-  // Cerrar modales al hacer clic en el overlay (fondo difuminado)
-  const overlays = document.querySelectorAll('.modal-overlay');
-  overlays.forEach(overlay => {
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
         const modal = overlay.closest('.modal');
-        if (modal.id === 'product-modal') {
-          closeProductModal();
-        } else if (modal.id === 'delete-modal') {
-          closeDeleteModal();
-        }
+        if (modal.id === 'product-modal') closeProductModal();
+        else if (modal.id === 'delete-modal') closeDeleteModal();
       }
     });
   });
   
-  // Cerrar modales con la tecla ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeProductModal();
@@ -271,24 +208,18 @@ function setupUIEventListeners() {
     }
   });
   
-  // Event listener para cambio de categoría (actualizar campos dinámicos)
   const categorySelect = document.getElementById('product-category');
   if (categorySelect) {
-    categorySelect.addEventListener('change', (e) => {
-      updateDynamicFields(e.target.value);
-    });
+    categorySelect.addEventListener('change', (e) => updateDynamicFields(e.target.value));
   }
   
-  // Event listeners para vista previa de imágenes al seleccionar archivos
   setupImagePreviewListeners();
 }
 
 /**
- * Configura los event listeners para la vista previa de imágenes
- * Las cajas de imagen son clickeables directamente
+ * Configura los event listeners para la vista previa de imágenes.
  */
 function setupImagePreviewListeners() {
-  // Configurar clickeabilidad de las cajas de vista previa
   const previewBoxes = [
     { previewId: 'preview-main', inputAttr: 'product-image-main' },
     { previewId: 'preview-front', inputAttr: 'product-image-front' },
@@ -299,21 +230,15 @@ function setupImagePreviewListeners() {
   previewBoxes.forEach(({ previewId, inputAttr }) => {
     const previewBox = document.getElementById(previewId);
     if (previewBox) {
-      // Hacer que la caja sea clickeable
+      previewBox.style.cursor = 'pointer';
       previewBox.addEventListener('click', () => {
         const inputId = previewBox.dataset.input || inputAttr;
         const input = document.getElementById(inputId);
-        if (input) {
-          input.click();
-        }
+        if (input) input.click();
       });
-      
-      // Agregar estilo de cursor pointer
-      previewBox.style.cursor = 'pointer';
     }
   });
   
-  // Event listeners para cuando se selecciona un archivo
   const imageInputs = [
     { id: 'product-image-main', position: 'main' },
     { id: 'product-image-front', position: 'front' },
@@ -330,9 +255,9 @@ function setupImagePreviewListeners() {
 }
 
 /**
- * Maneja la vista previa de una imagen cuando se selecciona un archivo
- * @param {Event} event - El evento de cambio del input file
- * @param {string} position - Posición de la imagen (main, front, top, side)
+ * Maneja la vista previa de una imagen cuando se selecciona un archivo.
+ * @param {Event} event - Evento change del input file
+ * @param {string} position - Posición de la imagen
  */
 function handleImagePreview(event, position) {
   const file = event.target.files[0];
@@ -342,7 +267,6 @@ function handleImagePreview(event, position) {
     return;
   }
   
-  // Validar que sea una imagen
   if (!file.type.startsWith('image/')) {
     alert('Por favor selecciona un archivo de imagen válido');
     event.target.value = '';
@@ -350,14 +274,9 @@ function handleImagePreview(event, position) {
     return;
   }
   
-  // Crear URL temporal para vista previa
   const reader = new FileReader();
   
-  reader.onload = (e) => {
-    const imageDataUrl = e.target.result;
-    updateImagePreviewFromDataUrl(position, imageDataUrl);
-  };
-  
+  reader.onload = (e) => updateImagePreviewFromDataUrl(position, e.target.result);
   reader.onerror = () => {
     alert('Error al cargar la imagen');
     clearImagePreview(position);
@@ -366,26 +285,22 @@ function handleImagePreview(event, position) {
   reader.readAsDataURL(file);
 }
 
-// ===== UTILIDADES DE UI =====
+// ============================================================================
+// UTILIDADES
+// ============================================================================
 
 /**
- * Muestra una notificación al usuario
+ * Muestra una notificación al usuario.
  * @param {string} message - Mensaje a mostrar
  * @param {string} type - Tipo de notificación (success, error, warning, info)
  */
 function showNotification(message, type = 'info') {
-  // TODO: Implementar un sistema de notificaciones más sofisticado
-  // Por ahora usamos alert simple
   console.log(`[${type.toUpperCase()}] ${message}`);
   alert(message);
 }
 
-// ===== INICIALIZACIÓN DE UI =====
+// ============================================================================
+// INICIALIZACIÓN
+// ============================================================================
 
-/**
- * Inicializa todos los event listeners de la interfaz de usuario
- * Se ejecuta automáticamente cuando el DOM está listo
- */
-document.addEventListener('DOMContentLoaded', () => {
-  setupUIEventListeners();
-});
+document.addEventListener('DOMContentLoaded', setupUIEventListeners);

@@ -1,20 +1,21 @@
-// ========================================================
-// ===== AFERGOLF - Admin Dashboard Events (Backend) =====
-// ========================================================
-// Este archivo maneja toda la lógica de negocio y datos:
-// - Gestión de datos de productos (CRUD)
-// - Búsqueda y filtrado de productos
-// - Renderizado de la tabla de productos
-// - Manejo de archivos de imágenes
-// - Envío de formularios
-// - Interacción con APIs (futuro)
-// ========================================================
+/**
+ * ============================================================================
+ * AFERGOLF - Admin Dashboard Events (Backend Logic)
+ * ============================================================================
+ * 
+ * Gestión de datos de productos: CRUD, búsqueda, filtrado y renderizado.
+ * 
+ * @author Afergolf Team
+ * @version 1.0.0
+ * ============================================================================
+ */
 
-// ===== VARIABLES GLOBALES DE DATOS =====
+// ============================================================================
+// VARIABLES GLOBALES
+// ============================================================================
 
 /**
- * Array principal de productos
- * En producción, estos datos vendrían de una API/base de datos
+ * Array principal de productos (simulación de base de datos)
  */
 let products = [
   {
@@ -74,76 +75,45 @@ let products = [
   }
 ];
 
-/**
- * ID del producto actualmente seleccionado
- * null = modo creación, número = modo edición/vista
- */
 let currentProductId = null;
-
-/**
- * Contador para generar IDs únicos de productos
- */
 let nextId = 4;
+let tempImageFiles = { main: null, front: null, top: null, side: null };
+
+// ============================================================================
+// RENDERIZADO DE PRODUCTOS
+// ============================================================================
 
 /**
- * Almacenamiento temporal de archivos de imagen
- * Guarda los Data URLs de las imágenes seleccionadas
- */
-let tempImageFiles = {
-  main: null,
-  front: null,
-  top: null,
-  side: null
-};
-
-// ===== RENDERIZADO DE PRODUCTOS =====
-
-/**
- * Renderiza la lista de productos en la tabla
- * @param {Object} filter - Objeto con filtros de búsqueda
- * @param {string} filter.search - Término de búsqueda
- * @param {string} filter.category - Categoría para filtrar
- * @param {string} filter.brand - Marca para filtrar
+ * Renderiza la lista de productos en la tabla aplicando filtros.
+ * @param {Object} filter - Filtros de búsqueda (search, category, brand)
  */
 function renderProducts(filter = {}) {
   const tbody = document.getElementById('products-tbody');
   const emptyState = document.getElementById('empty-state');
   
-  let filteredProducts = [...products];
+  let filteredProducts = products.filter(p => {
+    const matchSearch = !filter.search || 
+      p.name.toLowerCase().includes(filter.search.toLowerCase()) ||
+      p.brand.toLowerCase().includes(filter.search.toLowerCase());
+    const matchCategory = !filter.category || p.category === filter.category;
+    const matchBrand = !filter.brand || p.brand === filter.brand;
+    
+    return matchSearch && matchCategory && matchBrand;
+  });
   
-  // Aplicar filtro de búsqueda
-  if (filter.search) {
-    const searchLower = filter.search.toLowerCase();
-    filteredProducts = filteredProducts.filter(p => 
-      p.name.toLowerCase().includes(searchLower) ||
-      p.brand.toLowerCase().includes(searchLower)
-    );
-  }
-  
-  // Aplicar filtro de categoría
-  if (filter.category) {
-    filteredProducts = filteredProducts.filter(p => p.category === filter.category);
-  }
-  
-  // Aplicar filtro de marca
-  if (filter.brand) {
-    filteredProducts = filteredProducts.filter(p => p.brand === filter.brand);
-  }
-  
-  // Mostrar productos o mensaje vacío
   if (filteredProducts.length === 0) {
     tbody.innerHTML = '';
     emptyState.style.display = 'flex';
   } else {
     emptyState.style.display = 'none';
-    tbody.innerHTML = filteredProducts.map(product => createProductRow(product)).join('');
+    tbody.innerHTML = filteredProducts.map(createProductRow).join('');
     attachRowEventListeners();
   }
 }
 
 /**
- * Crea el HTML de una fila de producto para la tabla
- * @param {Object} product - Objeto del producto
+ * Crea el HTML de una fila de producto.
+ * @param {Object} product - Datos del producto
  * @returns {string} HTML de la fila
  */
 function createProductRow(product) {
@@ -154,8 +124,10 @@ function createProductRow(product) {
   return `
     <tr data-id="${product.id}">
       <td>
-        <img src="${mainImage}" alt="${product.name}" class="product-thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div style="width: 60px; height: 60px; background: #e0e0e0; border-radius: 8px; display: none; align-items: center; justify-content: center; color: #999; font-size: 12px;">IMG</div>
+        <img src="${mainImage}" alt="${product.name}" class="product-thumbnail" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div style="width: 60px; height: 60px; background: #e0e0e0; border-radius: 8px; display: none; 
+                    align-items: center; justify-content: center; color: #999; font-size: 12px;">IMG</div>
       </td>
       <td class="product-name">${product.name}</td>
       <td><span class="product-category">${capitalizeFirst(product.category)}</span></td>
@@ -189,129 +161,103 @@ function createProductRow(product) {
 }
 
 /**
- * Adjunta event listeners a los botones de acción de cada fila
+ * Adjunta event listeners a los botones de acción de las filas.
  */
 function attachRowEventListeners() {
-  const actionButtons = document.querySelectorAll('.action-btn');
-  
-  actionButtons.forEach(btn => {
+  document.querySelectorAll('.action-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const action = e.currentTarget.dataset.action;
-      const row = e.currentTarget.closest('tr');
-      const productId = parseInt(row.dataset.id);
+      const productId = parseInt(e.currentTarget.closest('tr').dataset.id);
       
-      switch(action) {
-        case 'view':
-          viewProduct(productId);
-          break;
-        case 'edit':
-          editProduct(productId);
-          break;
-        case 'delete':
-          confirmDelete(productId);
-          break;
-      }
+      const actions = {
+        view: viewProduct,
+        edit: editProduct,
+        delete: confirmDelete
+      };
+      
+      actions[action]?.(productId);
     });
   });
 }
 
-// ===== BÚSQUEDA Y FILTRADO =====
+// ============================================================================
+// BÚSQUEDA Y FILTRADO
+// ============================================================================
 
 /**
- * Maneja la búsqueda y filtrado de productos
- * Lee los valores de los inputs y aplica los filtros
+ * Maneja la búsqueda y filtrado de productos.
  */
 function handleSearch() {
-  const search = document.getElementById('search-input').value;
-  const category = document.getElementById('filter-category').value;
-  const brand = document.getElementById('filter-brand').value;
-  
-  renderProducts({ search, category, brand });
+  renderProducts({
+    search: document.getElementById('search-input').value,
+    category: document.getElementById('filter-category').value,
+    brand: document.getElementById('filter-brand').value
+  });
 }
 
-// ===== OPERACIONES CRUD =====
+// ============================================================================
+// OPERACIONES CRUD
+// ============================================================================
 
 /**
- * Abre el modal para crear un nuevo producto
+ * Abre el modal para crear un nuevo producto.
  */
 function openCreateModal() {
   currentProductId = null;
-  
-  // Configurar modal para modo creación
   document.getElementById('modal-title').textContent = 'Crear Producto';
   document.getElementById('btn-submit-text').textContent = 'Guardar Producto';
   
-  // Resetear formulario y limpiar imágenes
   resetProductForm();
   clearTempImageFiles();
-  
-  // Habilitar todos los campos
   enableFormFields();
-  
-  // Abrir modal
   openProductModal();
 }
 
 /**
- * Abre el modal para editar un producto existente
- * @param {number} id - ID del producto a editar
+ * Abre el modal para editar un producto.
+ * @param {number} id - ID del producto
  */
 function editProduct(id) {
-  currentProductId = id;
   const product = products.find(p => p.id === id);
-  
   if (!product) {
     showNotification('Producto no encontrado', 'error');
     return;
   }
   
-  // Configurar modal para modo edición
+  currentProductId = id;
   document.getElementById('modal-title').textContent = 'Editar Producto';
   document.getElementById('btn-submit-text').textContent = 'Actualizar Producto';
   
-  // Cargar datos del producto en el formulario
   loadProductDataToForm(product);
-  
-  // Habilitar todos los campos
   enableFormFields();
-  
-  // Abrir modal
   openProductModal();
 }
 
 /**
- * Abre el modal para ver un producto en modo solo lectura
- * @param {number} id - ID del producto a visualizar
+ * Abre el modal para ver un producto (solo lectura).
+ * @param {number} id - ID del producto
  */
 function viewProduct(id) {
-  currentProductId = null; // No guardar cambios en modo vista
   const product = products.find(p => p.id === id);
-  
   if (!product) {
     showNotification('Producto no encontrado', 'error');
     return;
   }
   
-  // Configurar modal para modo visualización
+  currentProductId = null;
   document.getElementById('modal-title').textContent = 'Detalles del Producto';
   document.getElementById('btn-submit-text').textContent = 'Cerrar';
   
-  // Cargar datos del producto en el formulario
   loadProductDataToForm(product);
-  
-  // Deshabilitar todos los campos (solo lectura)
   disableFormFields();
-  
-  // Abrir modal
   openProductModal();
 }
 
 /**
- * Carga los datos de un producto en el formulario
- * @param {Object} product - Objeto del producto
+ * Carga los datos de un producto en el formulario.
+ * @param {Object} product - Datos del producto
  */
 function loadProductDataToForm(product) {
-  // Campos básicos
   document.getElementById('product-id').value = product.id;
   document.getElementById('product-name').value = product.name;
   document.getElementById('product-category').value = product.category;
@@ -321,47 +267,34 @@ function loadProductDataToForm(product) {
   document.getElementById('product-model').value = product.model || '';
   document.getElementById('product-reference').value = product.reference || '';
   
-  // Limpiar archivos temporales
   clearTempImageFiles();
   
-  // Cargar imágenes existentes
   const images = product.images || { main: product.image || '', front: '', top: '', side: '' };
-  updateImagePreviewFromUrl('main', images.main);
-  updateImagePreviewFromUrl('front', images.front);
-  updateImagePreviewFromUrl('top', images.top);
-  updateImagePreviewFromUrl('side', images.side);
+  Object.keys(images).forEach(pos => updateImagePreviewFromUrl(pos, images[pos]));
   
-  // Actualizar campos dinámicos según categoría
   updateDynamicFields(product.category);
   
-  // Cargar campos específicos por categoría
   if (product.category === 'guantes') {
-    // Cargar stock por tallas
     const sizeStock = product.sizeStock || { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
-    document.getElementById('stock-size-s').value = sizeStock.S || 0;
-    document.getElementById('stock-size-m').value = sizeStock.M || 0;
-    document.getElementById('stock-size-l').value = sizeStock.L || 0;
-    document.getElementById('stock-size-xl').value = sizeStock.XL || 0;
-    document.getElementById('stock-size-xxl').value = sizeStock.XXL || 0;
+    ['S', 'M', 'L', 'XL', 'XXL'].forEach(size => {
+      document.getElementById(`stock-size-${size.toLowerCase()}`).value = sizeStock[size] || 0;
+    });
   } else {
-    // Para otras categorías, usar stock general
     document.getElementById('product-stock').value = product.stock || 0;
   }
   
   if (product.category === 'bolas') {
     document.getElementById('product-units').value = product.units || '';
-  } else if (product.category === 'palos') {
-    document.getElementById('product-dimensions').value = product.dimensions || '';
-    document.getElementById('product-weight').value = product.weight || '';
-  } else if (product.category === 'accesorios') {
-    document.getElementById('product-dimensions-acc').value = product.dimensions || '';
-    document.getElementById('product-weight-acc').value = product.weight || '';
+  } else if (product.category === 'palos' || product.category === 'accesorios') {
+    const suffix = product.category === 'accesorios' ? '-acc' : '';
+    document.getElementById(`product-dimensions${suffix}`).value = product.dimensions || '';
+    document.getElementById(`product-weight${suffix}`).value = product.weight || '';
   }
 }
 
 /**
- * Abre el modal de confirmación para eliminar un producto
- * @param {number} id - ID del producto a eliminar
+ * Abre el modal de confirmación para eliminar un producto.
+ * @param {number} id - ID del producto
  */
 function confirmDelete(id) {
   currentProductId = id;
@@ -369,70 +302,57 @@ function confirmDelete(id) {
 }
 
 /**
- * Elimina el producto seleccionado
- * Se ejecuta después de confirmar en el modal de eliminación
+ * Elimina el producto seleccionado.
  */
 function deleteProduct() {
   if (currentProductId === null) return;
   
-  // Filtrar el producto del array
   products = products.filter(p => p.id !== currentProductId);
   currentProductId = null;
   
-  // Actualizar la tabla
   renderProducts();
-  
-  // Cerrar modal y mostrar notificación
   closeDeleteModal();
   showNotification('Producto eliminado correctamente', 'success');
 }
 
 /**
- * Maneja el envío del formulario de producto
- * @param {Event} e - Evento de submit del formulario
+ * Maneja el envío del formulario de producto.
+ * @param {Event} e - Evento submit
  */
 function handleProductSubmit(e) {
   e.preventDefault();
   
-  // Si estamos en modo vista, solo cerrar
-  const isViewMode = document.getElementById('btn-submit-text').textContent === 'Cerrar';
-  if (isViewMode) {
+  if (document.getElementById('btn-submit-text').textContent === 'Cerrar') {
     closeProductModal();
     return;
   }
   
-  // Recopilar datos del formulario
   const formData = collectFormData();
   
-  // Validar datos (básico)
   if (!formData.name || !formData.category || !formData.brand) {
     showNotification('Por favor completa todos los campos obligatorios', 'error');
     return;
   }
   
   if (currentProductId) {
-    // Actualizar producto existente
     updateProduct(currentProductId, formData);
   } else {
-    // Crear nuevo producto
     createProduct(formData);
   }
   
-  // Actualizar tabla, cerrar modal y limpiar
   renderProducts();
   closeProductModal();
   clearTempImageFiles();
 }
 
 /**
- * Recopila todos los datos del formulario
- * @returns {Object} Objeto con los datos del formulario
+ * Recopila todos los datos del formulario.
+ * @returns {Object} Datos del formulario
  */
 function collectFormData() {
   const category = document.getElementById('product-category').value;
-  
-  // Obtener las imágenes (usar archivos temporales o mantener las existentes)
   const existingProduct = currentProductId ? products.find(p => p.id === currentProductId) : null;
+  
   const images = {
     main: tempImageFiles.main || existingProduct?.images?.main || '',
     front: tempImageFiles.front || existingProduct?.images?.front || '',
@@ -442,18 +362,16 @@ function collectFormData() {
   
   const formData = {
     name: document.getElementById('product-name').value,
-    category: category,
+    category,
     brand: document.getElementById('product-brand').value,
     price: parseInt(document.getElementById('product-price').value) || 0,
-    images: images,
+    images,
     description: document.getElementById('product-description').value,
     model: document.getElementById('product-model').value,
     reference: document.getElementById('product-reference').value
   };
   
-  // Agregar campos específicos según categoría
   if (category === 'guantes') {
-    // Recopilar stock por tallas
     const sizeStock = {
       S: parseInt(document.getElementById('stock-size-s').value) || 0,
       M: parseInt(document.getElementById('stock-size-m').value) || 0,
@@ -462,64 +380,53 @@ function collectFormData() {
       XXL: parseInt(document.getElementById('stock-size-xxl').value) || 0
     };
     formData.sizeStock = sizeStock;
-    // Calcular stock total
-    formData.stock = sizeStock.S + sizeStock.M + sizeStock.L + sizeStock.XL + sizeStock.XXL;
+    formData.stock = Object.values(sizeStock).reduce((a, b) => a + b, 0);
   } else {
-    // Para otras categorías, usar stock general
     formData.stock = parseInt(document.getElementById('product-stock').value) || 0;
   }
   
   if (category === 'bolas') {
     formData.units = parseInt(document.getElementById('product-units').value) || 0;
-  } else if (category === 'palos') {
-    formData.dimensions = document.getElementById('product-dimensions').value;
-    formData.weight = parseFloat(document.getElementById('product-weight').value) || 0;
-  } else if (category === 'accesorios') {
-    formData.dimensions = document.getElementById('product-dimensions-acc').value;
-    formData.weight = parseFloat(document.getElementById('product-weight-acc').value) || 0;
+  } else if (category === 'palos' || category === 'accesorios') {
+    const suffix = category === 'accesorios' ? '-acc' : '';
+    formData.dimensions = document.getElementById(`product-dimensions${suffix}`).value;
+    formData.weight = parseFloat(document.getElementById(`product-weight${suffix}`).value) || 0;
   }
   
   return formData;
 }
 
 /**
- * Crea un nuevo producto y lo agrega al array
- * @param {Object} formData - Datos del nuevo producto
+ * Crea un nuevo producto.
+ * @param {Object} formData - Datos del producto
  */
 function createProduct(formData) {
-  const newProduct = {
-    id: nextId++,
-    ...formData
-  };
-  
-  products.push(newProduct);
+  products.push({ id: nextId++, ...formData });
   showNotification('Producto creado correctamente', 'success');
 }
 
 /**
- * Actualiza un producto existente
- * @param {number} id - ID del producto a actualizar
- * @param {Object} formData - Nuevos datos del producto
+ * Actualiza un producto existente.
+ * @param {number} id - ID del producto
+ * @param {Object} formData - Nuevos datos
  */
 function updateProduct(id, formData) {
   const index = products.findIndex(p => p.id === id);
-  
   if (index !== -1) {
-    products[index] = { 
-      ...products[index], 
-      ...formData 
-    };
+    products[index] = { ...products[index], ...formData };
     showNotification('Producto actualizado correctamente', 'success');
   } else {
     showNotification('Error al actualizar el producto', 'error');
   }
 }
 
-// ===== GESTIÓN DE ARCHIVOS DE IMAGEN =====
+// ============================================================================
+// GESTIÓN DE IMÁGENES
+// ============================================================================
 
 /**
- * Maneja la carga de archivos de imagen
- * @param {Event} event - Evento de cambio del input file
+ * Maneja la carga de archivos de imagen.
+ * @param {Event} event - Evento change del input file
  * @param {string} position - Posición de la imagen (main, front, top, side)
  */
 function handleImageUpload(event, position) {
@@ -531,7 +438,6 @@ function handleImageUpload(event, position) {
     return;
   }
   
-  // Validar que sea una imagen
   if (!file.type.startsWith('image/')) {
     showNotification('Por favor selecciona un archivo de imagen válido', 'error');
     event.target.value = '';
@@ -540,14 +446,11 @@ function handleImageUpload(event, position) {
     return;
   }
   
-  // Crear URL temporal para vista previa
   const reader = new FileReader();
   
   reader.onload = (e) => {
     const imageDataUrl = e.target.result;
     updateImagePreviewFromDataUrl(position, imageDataUrl);
-    // Guardar el data URL temporalmente
-    // En producción, aquí subirías la imagen a un servidor
     tempImageFiles[position] = imageDataUrl;
   };
   
@@ -561,54 +464,44 @@ function handleImageUpload(event, position) {
 }
 
 /**
- * Limpia todos los archivos temporales de imágenes
+ * Limpia todos los archivos temporales de imágenes.
  */
 function clearTempImageFiles() {
-  tempImageFiles = {
-    main: null,
-    front: null,
-    top: null,
-    side: null
-  };
-  
-  // Limpiar los inputs de tipo file
+  tempImageFiles = { main: null, front: null, top: null, side: null };
   clearFileInputs();
 }
 
-// ===== UTILIDADES =====
+// ============================================================================
+// UTILIDADES
+// ============================================================================
 
 /**
- * Formatea un precio en pesos colombianos
+ * Formatea un precio en pesos colombianos.
  * @param {number} price - Precio a formatear
  * @returns {string} Precio formateado
  */
-function formatPrice(price) {
-  return `$${price.toLocaleString('es-CO')} COP`;
-}
+const formatPrice = (price) => `$${price.toLocaleString('es-CO')} COP`;
 
 /**
- * Capitaliza la primera letra de un string
+ * Capitaliza la primera letra de un string.
  * @param {string} str - String a capitalizar
- * @returns {string} String con primera letra mayúscula
+ * @returns {string} String capitalizado
  */
-function capitalizeFirst(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-// ===== CONFIGURACIÓN DE EVENT LISTENERS =====
+// ============================================================================
+// EVENT LISTENERS
+// ============================================================================
 
 /**
- * Configura todos los event listeners relacionados con los datos y eventos
- * Se ejecuta cuando el DOM está completamente cargado
+ * Configura todos los event listeners del dashboard.
  */
 function setupDataEventListeners() {
-  // Botón crear producto
   const btnCreateProduct = document.getElementById('btn-create-product');
   if (btnCreateProduct) {
     btnCreateProduct.addEventListener('click', openCreateModal);
   }
   
-  // Búsqueda y filtros
   const searchInput = document.getElementById('search-input');
   if (searchInput) {
     searchInput.addEventListener('input', handleSearch);
@@ -624,13 +517,11 @@ function setupDataEventListeners() {
     filterBrand.addEventListener('change', handleSearch);
   }
   
-  // Formulario de producto
   const productForm = document.getElementById('product-form');
   if (productForm) {
     productForm.addEventListener('submit', handleProductSubmit);
   }
   
-  // Vista previa de imágenes al seleccionar archivos
   const imageInputs = [
     { id: 'product-image-main', position: 'main' },
     { id: 'product-image-front', position: 'front' },
@@ -645,25 +536,22 @@ function setupDataEventListeners() {
     }
   });
   
-  // Botón confirmar eliminación
   const btnConfirmDelete = document.getElementById('btn-confirm-delete');
   if (btnConfirmDelete) {
     btnConfirmDelete.addEventListener('click', deleteProduct);
   }
 }
 
-// ===== INICIALIZACIÓN =====
+// ============================================================================
+// INICIALIZACIÓN
+// ============================================================================
 
 /**
- * Inicializa la aplicación
- * Se ejecuta automáticamente cuando el DOM está listo
+ * Inicializa la aplicación del dashboard.
  */
 function initializeApp() {
   renderProducts();
   setupDataEventListeners();
 }
 
-// Ejecutar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-  initializeApp();
-});
+document.addEventListener('DOMContentLoaded', initializeApp);
