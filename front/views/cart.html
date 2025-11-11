@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Carrito de compras AFERGOLF - Revisa y gestiona tus productos de golf antes de finalizar tu compra">
   <title>Carrito - AFERGOLF</title>
   <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/hamburguer_menu.css">
@@ -23,13 +22,13 @@
       <!-- productos en el carrito -->
       <div class="card products">
         <div class="product-top">
-          <input type="checkbox" checked>
+          <input type="checkbox" id="select-all" checked>
           <span>Productos de Afergolf</span>
         </div>
 
         
         <div class="product-row">
-          <input type="checkbox" checked>
+          <input type="checkbox" id="product-1" checked>
 
           <img
             src="../assets/img/Catalog/Driver Cobra LTDx.jpeg"
@@ -43,9 +42,18 @@
             <button class="remove" type="button">Eliminar</button>
 
             <div class="qty" aria-label="Cantidad">
-              <button type="button" class="btn-qty minus" aria-label="Disminuir">−</button>
+              <button type="button" class="btn-qty minus" aria-label="Disminuir">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
               <span class="qval" aria-live="polite">1</span>
-              <button type="button" class="btn-qty plus" aria-label="Aumentar">+</button>
+              <button type="button" class="btn-qty plus" aria-label="Aumentar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -53,7 +61,7 @@
         </div>
 
         <div class="product-row">
-          <input type="checkbox" checked>
+          <input type="checkbox" id="product-2" checked>
 
           <img
             src="../assets/img/Catalog/Guante Callaway Thermal.jpeg"
@@ -67,9 +75,18 @@
             <button class="remove" type="button">Eliminar</button>
 
             <div class="qty" aria-label="Cantidad">
-              <button type="button" class="btn-qty minus" aria-label="Disminuir">−</button>
+              <button type="button" class="btn-qty minus" aria-label="Disminuir">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
               <span class="qval" aria-live="polite">1</span>
-              <button type="button" class="btn-qty plus" aria-label="Aumentar">+</button>
+              <button type="button" class="btn-qty plus" aria-label="Aumentar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
             </div>
           </div>
 
