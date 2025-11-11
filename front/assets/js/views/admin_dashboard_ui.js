@@ -31,6 +31,8 @@ const openDeleteModal = () => toggleModal('delete-modal', true);
 const closeDeleteModal = () => toggleModal('delete-modal', false);
 const openLogoutModal = () => toggleModal('logout-modal', true);
 const closeLogoutModal = () => toggleModal('logout-modal', false);
+const openProductDetailsModal = () => toggleModal('product-details-modal', true);
+const closeProductDetailsModal = () => toggleModal('product-details-modal', false);
 
 // ============================================================================
 // CAMPOS DINÁMICOS
@@ -43,13 +45,31 @@ const closeLogoutModal = () => toggleModal('logout-modal', false);
 function updateDynamicFields(category) {
   const allCategoryFields = document.querySelectorAll('.category-fields');
   const stockFieldGeneral = document.getElementById('stock-field-general');
+  const stockInput = document.getElementById('product-stock');
   
+  // Ocultar todos los campos dinámicos
   allCategoryFields.forEach(field => field.style.display = 'none');
   
+  // Controlar el campo de stock general
   if (stockFieldGeneral) {
-    stockFieldGeneral.style.display = category === 'guantes' ? 'none' : 'block';
+    if (category === 'guantes') {
+      stockFieldGeneral.style.display = 'none';
+      stockFieldGeneral.classList.add('hidden');
+      // Hacer el input opcional para guantes
+      if (stockInput) {
+        stockInput.removeAttribute('required');
+      }
+    } else {
+      stockFieldGeneral.style.display = 'block';
+      stockFieldGeneral.classList.remove('hidden');
+      // Hacer el input requerido para otras categorías
+      if (stockInput) {
+        stockInput.setAttribute('required', 'required');
+      }
+    }
   }
   
+  // Mostrar campos específicos de la categoría seleccionada
   if (category) {
     allCategoryFields.forEach(field => {
       if (field.dataset.category === category) {
@@ -187,6 +207,9 @@ function setupUIEventListeners() {
   const modalClose = document.getElementById('modal-close');
   if (modalClose) modalClose.addEventListener('click', closeProductModal);
   
+  const productDetailsClose = document.getElementById('product-details-close');
+  if (productDetailsClose) productDetailsClose.addEventListener('click', closeProductDetailsModal);
+  
   const btnCancel = document.getElementById('btn-cancel');
   if (btnCancel) btnCancel.addEventListener('click', closeProductModal);
   
@@ -203,6 +226,7 @@ function setupUIEventListeners() {
         if (modal.id === 'product-modal') closeProductModal();
         else if (modal.id === 'delete-modal') closeDeleteModal();
         else if (modal.id === 'logout-modal') closeLogoutModal();
+        else if (modal.id === 'product-details-modal') closeProductDetailsModal();
       }
     });
   });
@@ -212,12 +236,19 @@ function setupUIEventListeners() {
       closeProductModal();
       closeDeleteModal();
       closeLogoutModal();
+      closeProductDetailsModal();
     }
   });
   
   const categorySelect = document.getElementById('product-category');
   if (categorySelect) {
-    categorySelect.addEventListener('change', (e) => updateDynamicFields(e.target.value));
+    categorySelect.addEventListener('change', (e) => {
+      console.log('Categoría seleccionada:', e.target.value); // Para debugging
+      updateDynamicFields(e.target.value);
+    });
+    
+    // Configurar estado inicial
+    updateDynamicFields(categorySelect.value);
   }
   
   setupImagePreviewListeners();

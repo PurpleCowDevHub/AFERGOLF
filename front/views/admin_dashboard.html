@@ -330,7 +330,7 @@
                 <input type="number" id="product-price" required min="0" step="1000" placeholder="125000">
               </div>
 
-              <div class="form-group" id="stock-field-general">
+              <div class="form-group stock-field-general" id="stock-field-general">
                 <label for="product-stock">Stock *</label>
                 <input type="number" id="product-stock" required min="0" placeholder="15">
               </div>
@@ -392,6 +392,120 @@
       <div class="modal-actions">
         <button type="button" id="btn-cancel-logout" class="btn-secondary">Cancelar</button>
         <button type="button" id="btn-confirm-logout" class="btn-danger">Cerrar Sesión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: VISTA PREVIA DE PRODUCTO (COMO LO VE EL CLIENTE) -->
+  <div id="product-details-modal" class="modal">
+    <div class="modal-overlay"></div>
+    
+    <div class="modal-content modal-product-preview">
+      <div class="modal-header">
+        <h2 id="product-details-title">Vista Previa del Producto</h2>
+        <button id="product-details-close" class="modal-close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Contenido del producto (mismo layout que el formulario admin) -->
+      <div class="product-detail-container">
+        
+        <!-- Sección de imágenes -->
+        <div class="product-images-section">
+          <h3 class="section-title">Vista Previa del Producto</h3>
+          
+          <div class="images-layout">
+            <!-- Miniaturas verticales -->
+            <div class="product-thumbs-vertical">
+              <div class="thumb-upload-group">
+                <div class="thumb-preview-vertical" id="preview-side-details">
+                  <img src="" alt="Vista lateral" style="display: none;">
+                  <span class="preview-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span class="thumb-label">Lateral</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="thumb-upload-group">
+                <div class="thumb-preview-vertical" id="preview-top-details">
+                  <img src="" alt="Vista superior" style="display: none;">
+                  <span class="preview-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span class="thumb-label">Superior</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="thumb-upload-group">
+                <div class="thumb-preview-vertical" id="preview-front-details">
+                  <img src="" alt="Vista frontal" style="display: none;">
+                  <span class="preview-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span class="thumb-label">Frontal</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Imagen principal -->
+            <div class="product-main-image">
+              <div class="main-image-preview" id="preview-main-details">
+                <img src="" alt="Vista previa principal" style="display: none;">
+                <span class="preview-placeholder">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                  <span>Imagen principal del producto</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Información del producto -->
+        <div class="product-info-section">
+          <h3 class="section-title">Información del Producto</h3>
+          
+          <div class="product-details-info">
+            <h1 class="product-title-details" id="product-name-details">Nombre del Producto</h1>
+            <ul class="product-meta-details">
+              <li><b>Marca:</b> <span id="product-brand-details">-</span></li>
+              <li><b>Dimensiones:</b> <span id="product-dimensions-details">-</span></li>
+              <li><b>Peso del producto:</b> <span id="product-weight-details">-</span></li>
+              <li><b>Peso de envío:</b> <span id="product-shipping-weight-details">-</span></li>
+              <li><b>Modelo:</b> <span id="product-model-details">-</span></li>
+              <li><b>Ref:</b> <span id="product-reference-details">-</span></li>
+            </ul>
+            <p class="product-price-details" id="product-price-details">$0 COP</p>
+          </div>
+
+          <!-- Descripción completa -->
+          <div class="product-description-details">
+            <h4>Descripción</h4>
+            <p id="product-description-text-details">
+              Descripción del producto...
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

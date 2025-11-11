@@ -234,7 +234,7 @@ function editProduct(id) {
 }
 
 /**
- * Abre el modal para ver un producto (solo lectura).
+ * Abre el modal para ver un producto (vista previa como lo ve el cliente).
  * @param {number} id - ID del producto
  */
 function viewProduct(id) {
@@ -244,13 +244,8 @@ function viewProduct(id) {
     return;
   }
   
-  currentProductId = null;
-  document.getElementById('modal-title').textContent = 'Detalles del Producto';
-  document.getElementById('btn-submit-text').textContent = 'Cerrar';
-  
-  loadProductDataToForm(product);
-  disableFormFields();
-  openProductModal();
+  loadProductDataToPreview(product);
+  openProductDetailsModal();
 }
 
 /**
@@ -290,6 +285,72 @@ function loadProductDataToForm(product) {
     document.getElementById(`product-dimensions${suffix}`).value = product.dimensions || '';
     document.getElementById(`product-weight${suffix}`).value = product.weight || '';
   }
+}
+
+/**
+ * Carga los datos de un producto en el modal de vista previa (como lo ve el cliente).
+ * @param {Object} product - Datos del producto
+ */
+function loadProductDataToPreview(product) {
+  // Título del producto
+  document.getElementById('product-name-preview').textContent = product.name;
+  
+  // Precio
+  document.getElementById('product-price-preview').textContent = formatPrice(product.price);
+  
+  // Marca
+  document.getElementById('product-brand-preview').textContent = capitalizeFirst(product.brand);
+  
+  // Modelo y referencia
+  document.getElementById('product-model-preview').textContent = product.model || '-';
+  document.getElementById('product-reference-preview').textContent = product.reference || '-';
+  
+  // Dimensiones y peso (solo para palos y accesorios)
+  const dimensionsSpan = document.getElementById('product-dimensions-preview');
+  const weightSpan = document.getElementById('product-weight-preview');
+  const shippingWeightSpan = document.getElementById('product-shipping-weight-preview');
+  
+  if (product.category === 'palos' || product.category === 'accesorios') {
+    dimensionsSpan.textContent = product.dimensions ? `${product.dimensions} mts` : '-';
+    weightSpan.textContent = product.weight ? `${product.weight} kg` : '-';
+    shippingWeightSpan.textContent = product.weight ? `${product.weight} kg` : '-';
+  } else {
+    dimensionsSpan.textContent = '-';
+    weightSpan.textContent = '-';
+    shippingWeightSpan.textContent = '-';
+  }
+  
+  // Descripción
+  document.getElementById('product-description-text-preview').textContent = 
+    product.description || 'Descripción no disponible.';
+  
+  // Imágenes
+  const images = product.images || { main: product.image || '', front: '', top: '', side: '' };
+  
+  // Imagen principal
+  const mainImg = document.querySelector('#main-img-preview img');
+  if (mainImg) {
+    if (images.main) {
+      mainImg.src = images.main;
+      mainImg.style.display = 'block';
+    } else {
+      mainImg.style.display = 'none';
+    }
+  }
+  
+  // Miniaturas
+  const thumbs = ['side', 'top', 'front'];
+  thumbs.forEach((position, index) => {
+    const thumbImg = document.querySelector(`#thumb-${position}-preview img`);
+    if (thumbImg) {
+      if (images[position]) {
+        thumbImg.src = images[position];
+        thumbImg.style.display = 'block';
+      } else {
+        thumbImg.style.display = 'none';
+      }
+    }
+  });
 }
 
 /**
