@@ -1,20 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Catálogo - AFERGOLF</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/catalog.css" />
   <script src="../assets/js/main.js" defer></script>
 </head>
-
 
 <body>
   <afergolf-header></afergolf-header>
 
 
   <main>
+    <!-- filtros de productos -->
+    <aside class="catalogo-filtros">
+      <h2>Filtros</h2>
+
+      <div class="filtro">
+        <label for="tipo">Tipo de producto</label>
+        <select id="tipo" name="tipo">
+          <option value="">Todos</option>
+          <option value="palos">Palos</option>
+          <option value="bolas">Bolas</option>
+          <option value="guantes">Guantes</option>
+        </select>
+      </div>
+
+      <div class="filtro">
+        <label for="marca">Marca</label>
+        <select id="marca" name="marca">
+          <option value="">Todas</option>
+          <option value="footjoy">Footjoy</option>
+          <option value="callaway">Callaway</option>
+          <option value="srixon">Srixon</option>
+          <option value="titleist">Titleist</option>
+          <option value="cobra">Cobra</option>
+          <option value="taylormade">TaylorMade</option>
+        </select>
+      </div>
+    </aside>
+    
+    
     <section class="catalogo">
       <!-- lista de productos -->
       <div class="catalogo-productos">
@@ -39,7 +69,7 @@
           <p class="catalogo-precio">Desde 2.500.000 COP</p>
         </article>
 
-        
+
         <article class="catalogo-producto">
           <img src="../assets/img/Catalog/Guante Callaway Thermal.jpeg" alt="Guante Callaway Thermal" loading="lazy">
           <h3>Guante Callaway Thermal</h3>
@@ -58,46 +88,17 @@
 
 
         <article class="catalogo-producto">
-          <img src="../assets/img/Catalog/Madera TaylorMade Stealth 2.jpeg" alt="Madera TaylorMade Stealth 2" loading="lazy">
+          <img src="../assets/img/Catalog/Madera TaylorMade Stealth 2.jpeg" alt="Madera TaylorMade Stealth 2"
+            loading="lazy">
           <h3>Madera TaylorMade Stealth 2</h3>
           <p class="catalogo-precio">Desde 2.100.000 COP</p>
         </article>
       </div>
-
-      <!-- filtros de productos -->
-      <aside class="catalogo-filtros">
-        <h2>Filtros</h2>
-
-        <div class="filtro">
-          <label for="tipo">Tipo de producto</label>
-          <select id="tipo" name="tipo">
-            <option value="">Todos</option>
-            <option value="palos">Palos</option>
-            <option value="bolas">Bolas</option>
-            <option value="guantes">Guantes</option>
-          </select>
-        </div>
-
-        <div class="filtro">
-          <label for="marca">Marca</label>
-          <select id="marca" name="marca">
-            <option value="">Todas</option>
-            <option value="footjoy">Footjoy</option>
-            <option value="callaway">Callaway</option>
-            <option value="srixon">Srixon</option>
-            <option value="titleist">Titleist</option>
-            <option value="cobra">Cobra</option>
-            <option value="taylormade">TaylorMade</option>
-          </select>
-        </div>
-      </aside>
     </section>
   </main>
 
 
   <afergolf-footer></afergolf-footer>
-
-
-  <script src="../assets/js/catalogo.js"></script>
 </body>
+
 </html>
