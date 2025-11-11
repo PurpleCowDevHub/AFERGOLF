@@ -56,26 +56,40 @@ function closeDeleteModal() {
  * @param {string} category - La categoría del producto (palos, bolas, guantes, accesorios)
  * 
  * Muestra/oculta campos específicos:
- * - Palos/Accesorios: dimensiones, peso, peso de envío
- * - Guantes: tallas disponibles
+ * - Palos: dimensiones, peso (sin peso de envío)
+ * - Accesorios: dimensiones, peso (sin peso de envío)
+ * - Guantes: stock por talla (S, M, L, XL)
  * - Bolas: unidades por paquete
  */
 function updateDynamicFields(category) {
   const allCategoryFields = document.querySelectorAll('.category-fields');
+  const stockFieldGeneral = document.getElementById('stock-field-general');
   
   // Ocultar todos los campos por defecto
   allCategoryFields.forEach(field => {
     field.style.display = 'none';
   });
   
+  // Mostrar campo de stock general por defecto
+  if (stockFieldGeneral) {
+    stockFieldGeneral.style.display = 'block';
+  }
+  
   // Mostrar campos según la categoría seleccionada
   if (category) {
     allCategoryFields.forEach(field => {
-      const categories = field.dataset.category.split(',');
-      if (categories.includes(category)) {
+      const categories = field.dataset.category;
+      if (categories === category) {
         field.style.display = 'flex';
       }
     });
+    
+    // Para guantes, ocultar el campo de stock general
+    if (category === 'guantes') {
+      if (stockFieldGeneral) {
+        stockFieldGeneral.style.display = 'none';
+      }
+    }
   }
 }
 
@@ -87,11 +101,14 @@ function updateDynamicFields(category) {
  * @param {string} imageUrl - URL de la imagen a mostrar
  */
 function updateImagePreviewFromUrl(position, imageUrl) {
-  const preview = document.getElementById(`preview-${position}`);
+  const previewId = `preview-${position}`;
+  const preview = document.getElementById(previewId);
   if (!preview) return;
   
   const img = preview.querySelector('img');
   const placeholder = preview.querySelector('.preview-placeholder');
+  
+  if (!img || !placeholder) return;
   
   if (imageUrl && imageUrl.trim() !== '') {
     img.src = imageUrl;
@@ -101,13 +118,11 @@ function updateImagePreviewFromUrl(position, imageUrl) {
     // Manejar error de carga de imagen
     img.onerror = () => {
       img.style.display = 'none';
-      placeholder.style.display = 'block';
-      placeholder.textContent = '❌ Error al cargar';
+      placeholder.style.display = 'flex';
     };
   } else {
     img.style.display = 'none';
-    placeholder.style.display = 'block';
-    placeholder.textContent = '📷 Seleccionar imagen';
+    placeholder.style.display = 'flex';
   }
 }
 
@@ -117,15 +132,18 @@ function updateImagePreviewFromUrl(position, imageUrl) {
  * @param {string} dataUrl - Data URL de la imagen en Base64
  */
 function updateImagePreviewFromDataUrl(position, dataUrl) {
-  const preview = document.getElementById(`preview-${position}`);
+  const previewId = `preview-${position}`;
+  const preview = document.getElementById(previewId);
   if (!preview) return;
   
   const img = preview.querySelector('img');
   const placeholder = preview.querySelector('.preview-placeholder');
   
-  img.src = dataUrl;
-  img.style.display = 'block';
-  placeholder.style.display = 'none';
+  if (img && placeholder) {
+    img.src = dataUrl;
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
+  }
 }
 
 /**
@@ -133,16 +151,18 @@ function updateImagePreviewFromDataUrl(position, dataUrl) {
  * @param {string} position - Posición de la imagen a limpiar (main, front, top, side)
  */
 function clearImagePreview(position) {
-  const preview = document.getElementById(`preview-${position}`);
+  const previewId = `preview-${position}`;
+  const preview = document.getElementById(previewId);
   if (!preview) return;
   
   const img = preview.querySelector('img');
   const placeholder = preview.querySelector('.preview-placeholder');
   
-  img.style.display = 'none';
-  img.src = '';
-  placeholder.style.display = 'block';
-  placeholder.textContent = '📷 Seleccionar imagen';
+  if (img && placeholder) {
+    img.style.display = 'none';
+    img.src = '';
+    placeholder.style.display = 'flex';
+  }
 }
 
 /**
@@ -265,8 +285,35 @@ function setupUIEventListeners() {
 
 /**
  * Configura los event listeners para la vista previa de imágenes
+ * Las cajas de imagen son clickeables directamente
  */
 function setupImagePreviewListeners() {
+  // Configurar clickeabilidad de las cajas de vista previa
+  const previewBoxes = [
+    { previewId: 'preview-main', inputAttr: 'product-image-main' },
+    { previewId: 'preview-front', inputAttr: 'product-image-front' },
+    { previewId: 'preview-top', inputAttr: 'product-image-top' },
+    { previewId: 'preview-side', inputAttr: 'product-image-side' }
+  ];
+  
+  previewBoxes.forEach(({ previewId, inputAttr }) => {
+    const previewBox = document.getElementById(previewId);
+    if (previewBox) {
+      // Hacer que la caja sea clickeable
+      previewBox.addEventListener('click', () => {
+        const inputId = previewBox.dataset.input || inputAttr;
+        const input = document.getElementById(inputId);
+        if (input) {
+          input.click();
+        }
+      });
+      
+      // Agregar estilo de cursor pointer
+      previewBox.style.cursor = 'pointer';
+    }
+  });
+  
+  // Event listeners para cuando se selecciona un archivo
   const imageInputs = [
     { id: 'product-image-main', position: 'main' },
     { id: 'product-image-front', position: 'front' },

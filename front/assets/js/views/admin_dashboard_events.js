@@ -31,7 +31,7 @@ let products = [
       side: ''
     },
     description: 'Guante de golf premium con tecnología GTXtreme para máximo agarre y comodidad en todas las condiciones climáticas.',
-    sizes: 'S, M, L, XL',
+    sizeStock: { S: 3, M: 5, L: 5, XL: 2, XXL: 0 },
     model: 'GTX-2024',
     reference: 'FJ-GTX-001'
   },
@@ -69,7 +69,6 @@ let products = [
     description: 'El Hammer X Dr. Sandtrap Wedge de 60° está diseñado para ofrecer máximo control y precisión en golpes delicados, especialmente desde el búnker o el rough.',
     dimensions: '0.89 x 0.10 x 0.10',
     weight: 0.91,
-    shippingWeight: 0.91,
     model: 'B0D562R3XQ',
     reference: 'B0D562R3XQ'
   }
@@ -318,7 +317,6 @@ function loadProductDataToForm(product) {
   document.getElementById('product-category').value = product.category;
   document.getElementById('product-brand').value = product.brand;
   document.getElementById('product-price').value = product.price;
-  document.getElementById('product-stock').value = product.stock;
   document.getElementById('product-description').value = product.description || '';
   document.getElementById('product-model').value = product.model || '';
   document.getElementById('product-reference').value = product.reference || '';
@@ -338,13 +336,26 @@ function loadProductDataToForm(product) {
   
   // Cargar campos específicos por categoría
   if (product.category === 'guantes') {
-    document.getElementById('product-sizes').value = product.sizes || '';
-  } else if (product.category === 'bolas') {
+    // Cargar stock por tallas
+    const sizeStock = product.sizeStock || { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
+    document.getElementById('stock-size-s').value = sizeStock.S || 0;
+    document.getElementById('stock-size-m').value = sizeStock.M || 0;
+    document.getElementById('stock-size-l').value = sizeStock.L || 0;
+    document.getElementById('stock-size-xl').value = sizeStock.XL || 0;
+    document.getElementById('stock-size-xxl').value = sizeStock.XXL || 0;
+  } else {
+    // Para otras categorías, usar stock general
+    document.getElementById('product-stock').value = product.stock || 0;
+  }
+  
+  if (product.category === 'bolas') {
     document.getElementById('product-units').value = product.units || '';
-  } else if (product.category === 'palos' || product.category === 'accesorios') {
+  } else if (product.category === 'palos') {
     document.getElementById('product-dimensions').value = product.dimensions || '';
     document.getElementById('product-weight').value = product.weight || '';
-    document.getElementById('product-shipping-weight').value = product.shippingWeight || '';
+  } else if (product.category === 'accesorios') {
+    document.getElementById('product-dimensions-acc').value = product.dimensions || '';
+    document.getElementById('product-weight-acc').value = product.weight || '';
   }
 }
 
@@ -434,7 +445,6 @@ function collectFormData() {
     category: category,
     brand: document.getElementById('product-brand').value,
     price: parseInt(document.getElementById('product-price').value) || 0,
-    stock: parseInt(document.getElementById('product-stock').value) || 0,
     images: images,
     description: document.getElementById('product-description').value,
     model: document.getElementById('product-model').value,
@@ -443,13 +453,30 @@ function collectFormData() {
   
   // Agregar campos específicos según categoría
   if (category === 'guantes') {
-    formData.sizes = document.getElementById('product-sizes').value;
-  } else if (category === 'bolas') {
+    // Recopilar stock por tallas
+    const sizeStock = {
+      S: parseInt(document.getElementById('stock-size-s').value) || 0,
+      M: parseInt(document.getElementById('stock-size-m').value) || 0,
+      L: parseInt(document.getElementById('stock-size-l').value) || 0,
+      XL: parseInt(document.getElementById('stock-size-xl').value) || 0,
+      XXL: parseInt(document.getElementById('stock-size-xxl').value) || 0
+    };
+    formData.sizeStock = sizeStock;
+    // Calcular stock total
+    formData.stock = sizeStock.S + sizeStock.M + sizeStock.L + sizeStock.XL + sizeStock.XXL;
+  } else {
+    // Para otras categorías, usar stock general
+    formData.stock = parseInt(document.getElementById('product-stock').value) || 0;
+  }
+  
+  if (category === 'bolas') {
     formData.units = parseInt(document.getElementById('product-units').value) || 0;
-  } else if (category === 'palos' || category === 'accesorios') {
+  } else if (category === 'palos') {
     formData.dimensions = document.getElementById('product-dimensions').value;
     formData.weight = parseFloat(document.getElementById('product-weight').value) || 0;
-    formData.shippingWeight = parseFloat(document.getElementById('product-shipping-weight').value) || 0;
+  } else if (category === 'accesorios') {
+    formData.dimensions = document.getElementById('product-dimensions-acc').value;
+    formData.weight = parseFloat(document.getElementById('product-weight-acc').value) || 0;
   }
   
   return formData;

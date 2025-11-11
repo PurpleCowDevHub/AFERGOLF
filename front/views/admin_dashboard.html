@@ -164,55 +164,84 @@
         <!-- Campo oculto para el ID del producto (usado en edición) -->
         <input type="hidden" id="product-id">
         
-        <!-- Grid de dos columnas: Imágenes + Información -->
-        <div class="product-detail-grid">
+        <!-- Layout: Miniaturas verticales + Imagen principal + Info -->
+        <div class="product-detail-container">
           
-          <!-- ===== COLUMNA 1: MINIATURAS E IMÁGENES ===== -->
-          <div class="product-thumbs-section">
+          <!-- ===== SECCIÓN DE IMÁGENES (MINIATURAS + PRINCIPAL) ===== -->
+          <div class="product-images-section">
             <h3 class="section-title">Imágenes del Producto</h3>
             
-            <!-- Imagen principal (obligatoria) -->
-            <div class="image-upload-group">
-              <label for="product-image-main">Imagen Principal *</label>
-              <input type="file" id="product-image-main" accept="image/*" required>
-              <div class="image-preview" id="preview-main">
-                <img src="" alt="Vista previa principal" style="display: none;">
-                <span class="preview-placeholder">📷 Seleccionar imagen</span>
-              </div>
-            </div>
+            <div class="images-layout">
+              <!-- ===== MINIATURAS VERTICALES (IZQUIERDA) ===== -->
+              <div class="product-thumbs-vertical">
+                <!-- Vista lateral -->
+                <div class="thumb-upload-group">
+                  <input type="file" id="product-image-side" accept="image/*" style="display: none;">
+                  <div class="thumb-preview-vertical" id="preview-side" data-input="product-image-side">
+                    <img src="" alt="Vista lateral" style="display: none;">
+                    <span class="preview-placeholder">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <span class="thumb-label">Lateral</span>
+                    </span>
+                  </div>
+                </div>
 
-            <!-- Vista frontal (opcional) -->
-            <div class="image-upload-group">
-              <label for="product-image-front">Vista Frontal</label>
-              <input type="file" id="product-image-front" accept="image/*">
-              <div class="image-preview" id="preview-front">
-                <img src="" alt="Vista previa frontal" style="display: none;">
-                <span class="preview-placeholder">📷 Seleccionar imagen</span>
-              </div>
-            </div>
+                <!-- Vista superior -->
+                <div class="thumb-upload-group">
+                  <input type="file" id="product-image-top" accept="image/*" style="display: none;">
+                  <div class="thumb-preview-vertical" id="preview-top" data-input="product-image-top">
+                    <img src="" alt="Vista superior" style="display: none;">
+                    <span class="preview-placeholder">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <span class="thumb-label">Superior</span>
+                    </span>
+                  </div>
+                </div>
 
-            <!-- Vista superior (opcional) -->
-            <div class="image-upload-group">
-              <label for="product-image-top">Vista Superior</label>
-              <input type="file" id="product-image-top" accept="image/*">
-              <div class="image-preview" id="preview-top">
-                <img src="" alt="Vista previa superior" style="display: none;">
-                <span class="preview-placeholder">📷 Seleccionar imagen</span>
+                <!-- Vista frontal -->
+                <div class="thumb-upload-group">
+                  <input type="file" id="product-image-front" accept="image/*" style="display: none;">
+                  <div class="thumb-preview-vertical" id="preview-front" data-input="product-image-front">
+                    <img src="" alt="Vista frontal" style="display: none;">
+                    <span class="preview-placeholder">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <span class="thumb-label">Frontal</span>
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <!-- Vista lateral (opcional) -->
-            <div class="image-upload-group">
-              <label for="product-image-side">Vista Lateral</label>
-              <input type="file" id="product-image-side" accept="image/*">
-              <div class="image-preview" id="preview-side">
-                <img src="" alt="Vista previa lateral" style="display: none;">
-                <span class="preview-placeholder">📷 Seleccionar imagen</span>
+              <!-- ===== IMAGEN PRINCIPAL (CENTRO) ===== -->
+              <div class="product-main-image">
+                <input type="file" id="product-image-main" accept="image/*" required style="display: none;">
+                <div class="main-image-preview" id="preview-main" data-input="product-image-main">
+                  <img src="" alt="Vista previa principal" style="display: none;">
+                  <span class="preview-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span>Haz clic para seleccionar imagen principal</span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- ===== COLUMNA 2: INFORMACIÓN DEL PRODUCTO ===== -->
+          <!-- ===== INFORMACIÓN DEL PRODUCTO ===== -->
           <div class="product-info-section">
             <h3 class="section-title">Información del Producto</h3>
             
@@ -231,7 +260,6 @@
                   <option value="palos">Palos</option>
                   <option value="bolas">Bolas</option>
                   <option value="guantes">Guantes</option>
-                  <option value="accesorios">Accesorios</option>
                 </select>
               </div>
 
@@ -268,32 +296,56 @@
             <!-- ===== CAMPOS DINÁMICOS SEGÚN CATEGORÍA ===== -->
             <div id="dynamic-fields">
               
-              <!-- Campos para Palos y Accesorios -->
-              <div class="category-fields" data-category="palos,accesorios">
+              <!-- Campos para Palos -->
+              <div class="category-fields" data-category="palos" style="display: none;">
                 <div class="form-group">
                   <label for="product-dimensions">Dimensiones (m)</label>
                   <input type="text" id="product-dimensions" placeholder="Ej: 0.89 x 0.10 x 0.10">
                 </div>
                 
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="product-weight">Peso del producto (kg)</label>
-                    <input type="number" step="0.01" id="product-weight" placeholder="0.91">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="product-shipping-weight">Peso de envío (kg)</label>
-                    <input type="number" step="0.01" id="product-shipping-weight" placeholder="0.91">
-                  </div>
+                <div class="form-group">
+                  <label for="product-weight">Peso del producto (kg)</label>
+                  <input type="number" step="0.01" id="product-weight" placeholder="0.91">
+                </div>
+              </div>
+
+              <!-- Campos para Accesorios -->
+              <div class="category-fields" data-category="accesorios" style="display: none;">
+                <div class="form-group">
+                  <label for="product-dimensions-acc">Dimensiones (m)</label>
+                  <input type="text" id="product-dimensions-acc" placeholder="Ej: 0.89 x 0.10 x 0.10">
+                </div>
+                
+                <div class="form-group">
+                  <label for="product-weight-acc">Peso del producto (kg)</label>
+                  <input type="number" step="0.01" id="product-weight-acc" placeholder="0.91">
                 </div>
               </div>
 
               <!-- Campos para Guantes -->
               <div class="category-fields" data-category="guantes" style="display: none;">
-                <div class="form-group">
-                  <label for="product-sizes">Tallas Disponibles *</label>
-                  <input type="text" id="product-sizes" placeholder="S, M, L, XL (separadas por comas)">
-                  <small>Ejemplo: S, M, L, XL</small>
+                <label class="sizes-label">Stock por Talla *</label>
+                <div class="sizes-grid">
+                  <div class="form-group">
+                    <label for="stock-size-s">Talla S</label>
+                    <input type="number" id="stock-size-s" min="0" placeholder="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="stock-size-m">Talla M</label>
+                    <input type="number" id="stock-size-m" min="0" placeholder="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="stock-size-l">Talla L</label>
+                    <input type="number" id="stock-size-l" min="0" placeholder="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="stock-size-xl">Talla XL</label>
+                    <input type="number" id="stock-size-xl" min="0" placeholder="0">
+                  </div>
+                  <div class="form-group">
+                    <label for="stock-size-xxl">Talla XXL</label>
+                    <input type="number" id="stock-size-xxl" min="0" placeholder="0">
+                  </div>
                 </div>
               </div>
 
@@ -313,7 +365,7 @@
                 <input type="number" id="product-price" required min="0" step="1000" placeholder="125000">
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="stock-field-general">
                 <label for="product-stock">Stock *</label>
                 <input type="number" id="product-stock" required min="0" placeholder="15">
               </div>
