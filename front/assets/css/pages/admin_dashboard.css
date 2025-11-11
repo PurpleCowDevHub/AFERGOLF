@@ -1,26 +1,6 @@
-/* =====================================================
-   ===== AFERGOLF - Admin Dashboard CSS =====
-   Panel de administración para gestión de productos
-   
-   ESTRUCTURA:
-   1. Variables y configuración base
-   2. Header administrativo
-   3. Contenedor principal
-   4. Botones y controles
-   5. Búsqueda y filtros
-   6. Tabla de productos
-   7. Estado vacío
-   8. Modales (overlay y contenido)
-   9. Formularios
-   10. Vista previa de imágenes
-   11. Responsive
-   12. Scrollbar personalizado
-   ===================================================== */
+/* AFERGOLF - Admin Dashboard CSS */
 
-/* =====================================================
-   ===== 1. VARIABLES Y CONFIGURACIÓN BASE =====
-   ===================================================== */
-
+/* Configuración base */
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: #f5f5f5;
@@ -29,11 +9,7 @@ body {
   padding: 0;
 }
 
-/* =====================================================
-   ===== 2. HEADER ADMINISTRATIVO =====
-   Barra superior fija con logo, título y botón crear
-   ===================================================== */
-
+/* Header administrativo */
 .admin-header {
   position: fixed;
   top: 0;
@@ -83,12 +59,9 @@ body {
   line-height: 1.2;
 }
 
-/* =====================================================
-   ===== 3. CONTENEDOR PRINCIPAL =====
-   ===================================================== */
-
+/* Contenedor principal */
 .admin-main {
-  padding: 220px 20px 40px; /* Top padding para compensar header fijo */
+  padding: 220px 20px 40px;
   min-height: 100vh;
 }
 
@@ -97,11 +70,9 @@ body {
   margin: 0 auto;
 }
 
-/* =====================================================
-   ===== 4. BOTONES Y CONTROLES =====
-   ===================================================== */
+/* Botones y controles */
 
-/* Botón principal (Crear Producto, Guardar, etc.) */
+/* Botón principal */
 .btn-primary {
   padding: 11px 20px;
   border-radius: 10px;
@@ -180,10 +151,7 @@ body {
   transform: translateY(1px);
 }
 
-/* =====================================================
-   ===== 5. BÚSQUEDA Y FILTROS =====
-   ===================================================== */
-
+/* Búsqueda y filtros */
 .dashboard-controls {
   display: flex;
   gap: 16px;
@@ -260,10 +228,7 @@ body {
   box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
 }
 
-/* =====================================================
-   ===== 6. TABLA DE PRODUCTOS =====
-   ===================================================== */
-
+/* Tabla de productos */
 .products-section {
   background: #fff;
   border-radius: 16px;
@@ -432,11 +397,7 @@ body {
   transform: scale(1.1);
 }
 
-/* =====================================================
-   ===== 7. ESTADO VACÍO =====
-   Mensaje cuando no hay productos o resultados
-   ===================================================== */
-
+/* Estado vacío */
 .empty-state {
   text-align: center;
   padding: 80px 20px;
@@ -459,13 +420,9 @@ body {
   color: #999;
 }
 
-/* =====================================================
-   ===== 8. MODALES =====
-   Sistema de modales con overlay difuminado
-   ===================================================== */
-
+/* Modales */
 .modal {
-  display: none; /* Oculto por defecto */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -477,10 +434,10 @@ body {
 }
 
 .modal.active {
-  display: flex; /* Mostrar cuando está activo */
+  display: flex;
 }
 
-/* Overlay: Fondo oscuro difuminado */
+/* Fondo oscuro difuminado */
 .modal-overlay {
   position: absolute;
   top: 0;
@@ -505,18 +462,18 @@ body {
   animation: modalSlideIn 0.3s ease;
 }
 
-/* Variante pequeña (para confirmación de eliminación) */
+/* Variante pequeña */
 .modal-content.modal-small {
   max-width: 450px;
 }
 
-/* Variante optimizada (para detalles de producto) */
+/* Variante para detalles de producto */
 .modal-content.modal-product-detail {
   max-width: 750px;
   width: 90%;
 }
 
-/* Animación de entrada del modal */
+/* Animación de entrada */
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -546,7 +503,7 @@ body {
   letter-spacing: -0.5px;
 }
 
-/* Botón cerrar (X) del modal */
+/* Botón cerrar del modal */
 .modal-close {
   background: none;
   border: none;
@@ -583,7 +540,7 @@ body {
   color: #d32f2f;
 }
 
-/* Acciones del modal (botones al final) */
+/* Acciones del modal */
 .modal-actions {
   padding: 20px 32px 28px;
   display: flex;
@@ -593,10 +550,7 @@ body {
   background: #fafafa;
 }
 
-/* =====================================================
-   ===== 9. FORMULARIOS =====
-   ===================================================== */
-
+/* Formularios */
 .modal-form {
   padding: 30px 40px;
 }
@@ -619,7 +573,7 @@ body {
   letter-spacing: -0.3px;
 }
 
-/* ===== SECCIÓN DE IMÁGENES (MINIATURAS + PRINCIPAL) ===== */
+/* Sección de imágenes */
 .product-images-section {
   display: flex;
   flex-direction: column;
@@ -637,7 +591,7 @@ body {
   margin: 0 auto;
 }
 
-/* ===== MINIATURAS VERTICALES (IZQUIERDA) ===== */
+/* Miniaturas verticales */
 .product-thumbs-vertical {
   display: flex;
   flex-direction: column;
@@ -702,7 +656,7 @@ body {
   color: #888;
 }
 
-/* ===== IMAGEN PRINCIPAL (CENTRO-DERECHA) ===== */
+/* Imagen principal */
 .product-main-image {
   display: flex;
   align-items: center;
@@ -773,12 +727,13 @@ body {
 .form-group {
   display: flex !important;
   flex-direction: column !important;
-  gap: 8px;
+  gap: 16px;
   margin: 0;
 }
 
+/* Ocupar todo el ancho */
 .form-group.full-width {
-  grid-column: 1 / -1; /* Ocupa todo el ancho */
+  grid-column: 1 / -1;
 }
 
 .form-group label {
@@ -786,7 +741,7 @@ body {
   font-weight: 600;
   color: #444;
   letter-spacing: -0.1px;
-  display: block; /* Asegura que el label ocupe toda la línea */
+  display: block;
   width: 100%;
 }
 
@@ -838,7 +793,7 @@ body {
 
 /* Contenedor de campos dinámicos */
 #dynamic-fields {
-  display: contents; /* No añade espacio adicional, renderiza hijos directamente */
+  display: contents;
 }
 
 /* Campos dinámicos según categoría */
@@ -850,7 +805,7 @@ body {
   background: #f9f9f9;
   border-radius: 8px;
   border: 1px solid #e8e8e8;
-  margin: 0; /* Eliminado margin-top */
+  margin: 0;
 }
 
 .category-fields[style*="display: none"] {
@@ -896,153 +851,7 @@ body {
   font-size: 14px;
 }
 
-/* =====================================================
-   ===== 10. VISTA PREVIA DE IMÁGENES =====
-   ===================================================== */
-
-/* Los estilos ya están definidos arriba en la sección de imágenes */
-
-/* =====================================================
-   ===== 11. RESPONSIVE =====
-   Adaptación para dispositivos móviles
-   ===================================================== */
-
-@media (max-width: 430px) {
-  /* Header adaptado */
-  .admin-header-container {
-    padding: 15px;
-  }
-
-  .admin-logo img {
-    height: 90px;
-  }
-
-  .admin-title {
-    font-size: 22px;
-  }
-
-  .admin-subtitle {
-    font-size: 13px;
-  }
-
-  /* Contenido principal */
-  .admin-main {
-    padding: 230px 12px 40px;
-  }
-
-  /* Botones más pequeños */
-  .btn-primary {
-    font-size: 16px;
-    padding: 14px 24px;
-  }
-
-  .btn-primary svg {
-    width: 22px;
-    height: 22px;
-    stroke-width: 2.5;
-  }
-
-  .btn-secondary,
-  .btn-danger {
-    font-size: 14px;
-    padding: 12px 20px;
-  }
-
-  /* Estado vacío */
-  .empty-state {
-    padding: 60px 15px;
-  }
-
-  .empty-state h3 {
-    font-size: 20px;
-  }
-
-  .empty-state p {
-    font-size: 14px;
-  }
-
-  /* Modal adaptado a móvil */
-  .modal-content.modal-product-detail {
-    max-width: 95%;
-    width: 95%;
-  }
-
-  /* Layout adaptado en móvil */
-  .product-detail-container {
-    padding: 20px;
-    gap: 20px;
-  }
-
-  .section-title {
-    font-size: 16px;
-    margin-bottom: 16px;
-  }
-
-  /* Layout de imágenes en móvil: vertical */
-  .images-layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  /* Imagen principal más pequeña */
-  .main-image-preview {
-    width: 100%;
-    max-width: 320px;
-    height: 280px;
-  }
-
-  /* Miniaturas horizontales en móvil */
-  .product-thumbs-vertical {
-    flex-direction: row;
-    gap: 8px;
-    justify-content: center;
-    width: 100%;
-    max-width: 320px;
-  }
-
-  .thumb-preview-vertical {
-    width: 90px;
-    height: 90px;
-  }
-
-  .thumb-preview-vertical .preview-placeholder svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .thumb-label {
-    font-size: 10px;
-  }
-
-  /* Grid de tallas en columna */
-  .sizes-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  /* Fila de formulario en columna */
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  /* Acciones del modal en columna */
-  .modal-actions {
-    padding: 15px 20px 20px;
-    flex-direction: column;
-  }
-
-  .modal-actions button {
-    width: 100%;
-  }
-}
-
-/* =====================================================
-   ===== 12. SCROLLBAR PERSONALIZADO =====
-   ===================================================== */
-
+/* Scrollbar personalizado */
 .modal-content::-webkit-scrollbar,
 .products-table-wrapper::-webkit-scrollbar {
   width: 8px;

@@ -1,48 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- ===== META TAGS ===== -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Panel de Administración AFERGOLF - Gestión de productos de golf">
-  
-  <!-- ===== TITLE & FAVICON ===== -->
   <title>Admin Dashboard - AFERGOLF</title>
   <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
-  
-  <!-- ===== FONTS ===== -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
-  <!-- ===== ESTILOS ===== -->
   <link rel="stylesheet" href="../assets/css/pages/admin_dashboard.css" />
-  
-  <!-- ===== SCRIPTS ===== -->
-  <!-- Script de UI: Controla modales, efectos visuales y vista previa de imágenes -->
   <script src="../assets/js/views/admin_dashboard_ui.js" defer></script>
-  
-  <!-- Script de eventos: Gestiona datos, CRUD y lógica de negocio -->
   <script src="../assets/js/views/admin_dashboard_events.js" defer></script>
 </head>
 
 <body>
-  <!-- =====================================================
-       ===== HEADER ADMINISTRATIVO =====
-       Barra superior con logo, título y botón de crear producto
-       ===================================================== -->
+  <!-- HEADER ADMINISTRATIVO -->
   <header class="admin-header">
     <div class="admin-header-container">
-      <!-- Logo de AFERGOLF -->
       <div class="admin-logo">
         <img src="../assets/img/Logo.svg" alt="AFERGOLF Logo" />
       </div>
       
-      <!-- Título del panel -->
       <div class="admin-header-content">
         <h1 class="admin-title">Panel de Administración</h1>
         <p class="admin-subtitle">Gestión de productos</p>
       </div>
       
-      <!-- Botón para crear nuevo producto -->
       <button id="btn-create-product" class="btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -53,16 +35,12 @@
     </div>
   </header>
 
-  <!-- =====================================================
-       ===== CONTENIDO PRINCIPAL =====
-       Búsqueda, filtros y tabla de productos
-       ===================================================== -->
+  <!-- MAIN -->
   <main class="admin-main">
     <div class="admin-container">
 
-      <!-- ===== CONTROLES DE BÚSQUEDA Y FILTROS ===== -->
+      <!-- Controles de búsqueda y filtros -->
       <section class="dashboard-controls">
-        <!-- Buscador de productos -->
         <div class="search-box">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
@@ -71,7 +49,6 @@
           <input type="text" id="search-input" placeholder="Buscar productos...">
         </div>
         
-        <!-- Filtro por categoría -->
         <div class="filter-box">
           <select id="filter-category">
             <option value="">Todas las categorías</option>
@@ -82,7 +59,6 @@
           </select>
         </div>
         
-        <!-- Filtro por marca -->
         <div class="filter-box">
           <select id="filter-brand">
             <option value="">Todas las marcas</option>
@@ -96,11 +72,10 @@
         </div>
       </section>
 
-      <!-- ===== TABLA DE PRODUCTOS ===== -->
+      <!-- Tabla de productos -->
       <section class="products-section">
         <div class="products-table-wrapper">
           <table class="products-table">
-            <!-- Encabezado de la tabla -->
             <thead>
               <tr>
                 <th>Imagen</th>
@@ -112,16 +87,13 @@
                 <th class="actions-header">Acciones</th>
               </tr>
             </thead>
-            
-            <!-- Cuerpo de la tabla (se llena dinámicamente con JS) -->
             <tbody id="products-tbody">
-              <!-- Los productos se cargarán aquí dinámicamente -->
+              <!-- Los productos se cargarán dinámicamente -->
             </tbody>
           </table>
         </div>
 
-        <!-- ===== MENSAJE DE ESTADO VACÍO ===== -->
-        <!-- Se muestra cuando no hay productos o no hay resultados de búsqueda -->
+        <!-- Mensaje cuando no hay productos -->
         <div id="empty-state" class="empty-state" style="display: none;">
           <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
@@ -133,24 +105,15 @@
           <p>Intenta ajustar los filtros o crea un nuevo producto</p>
         </div>
       </section>
-    </div>
   </main>
 
-  <!-- =====================================================
-       ===== MODAL: CREAR/EDITAR/VER PRODUCTO =====
-       Modal principal para gestionar productos
-       Modos: Crear, Editar, Visualizar (solo lectura)
-       ===================================================== -->
+  <!-- MODAL: CREAR/EDITAR/VER PRODUCTO -->
   <div id="product-modal" class="modal">
-    <!-- Overlay: Fondo difuminado -->
     <div class="modal-overlay"></div>
     
-    <!-- Contenido del modal -->
     <div class="modal-content modal-product-detail">
-      <!-- Header del modal -->
       <div class="modal-header">
         <h2 id="modal-title">Crear Producto</h2>
-        <!-- Botón cerrar (X) -->
         <button id="modal-close" class="modal-close">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -159,22 +122,19 @@
         </button>
       </div>
 
-      <!-- ===== FORMULARIO DEL PRODUCTO ===== -->
+      <!-- Formulario del producto -->
       <form id="product-form" class="modal-form">
-        <!-- Campo oculto para el ID del producto (usado en edición) -->
         <input type="hidden" id="product-id">
         
-        <!-- Layout: Miniaturas verticales + Imagen principal + Info -->
         <div class="product-detail-container">
           
-          <!-- ===== SECCIÓN DE IMÁGENES (MINIATURAS + PRINCIPAL) ===== -->
+          <!-- Sección de imágenes -->
           <div class="product-images-section">
             <h3 class="section-title">Imágenes del Producto</h3>
             
             <div class="images-layout">
-              <!-- ===== MINIATURAS VERTICALES (IZQUIERDA) ===== -->
+              <!-- Miniaturas verticales -->
               <div class="product-thumbs-vertical">
-                <!-- Vista lateral -->
                 <div class="thumb-upload-group">
                   <input type="file" id="product-image-side" accept="image/*" style="display: none;">
                   <div class="thumb-preview-vertical" id="preview-side" data-input="product-image-side">
@@ -190,7 +150,6 @@
                   </div>
                 </div>
 
-                <!-- Vista superior -->
                 <div class="thumb-upload-group">
                   <input type="file" id="product-image-top" accept="image/*" style="display: none;">
                   <div class="thumb-preview-vertical" id="preview-top" data-input="product-image-top">
@@ -206,7 +165,6 @@
                   </div>
                 </div>
 
-                <!-- Vista frontal -->
                 <div class="thumb-upload-group">
                   <input type="file" id="product-image-front" accept="image/*" style="display: none;">
                   <div class="thumb-preview-vertical" id="preview-front" data-input="product-image-front">
@@ -223,7 +181,7 @@
                 </div>
               </div>
 
-              <!-- ===== IMAGEN PRINCIPAL (CENTRO) ===== -->
+              <!-- Imagen principal -->
               <div class="product-main-image">
                 <input type="file" id="product-image-main" accept="image/*" required style="display: none;">
                 <div class="main-image-preview" id="preview-main" data-input="product-image-main">
@@ -241,17 +199,15 @@
             </div>
           </div>
 
-          <!-- ===== INFORMACIÓN DEL PRODUCTO ===== -->
+          <!-- Información del producto -->
           <div class="product-info-section">
             <h3 class="section-title">Información del Producto</h3>
             
-            <!-- Nombre del producto -->
             <div class="form-group">
               <label for="product-name">Nombre del Producto *</label>
               <input type="text" id="product-name" required placeholder="Ej: Hammer X Dr. Sandtrap Wedge De Golf De 60 Grados">
             </div>
 
-            <!-- Categoría y Marca -->
             <div class="form-row">
               <div class="form-group">
                 <label for="product-category">Categoría *</label>
@@ -280,7 +236,6 @@
               </div>
             </div>
 
-            <!-- Modelo y Referencia -->
             <div class="form-row">
               <div class="form-group">
                 <label for="product-model">Modelo</label>
@@ -293,7 +248,7 @@
               </div>
             </div>
 
-            <!-- ===== CAMPOS DINÁMICOS SEGÚN CATEGORÍA ===== -->
+            <!-- Campos dinámicos según categoría -->
             <div id="dynamic-fields">
               
               <!-- Campos para Palos -->
@@ -358,7 +313,6 @@
               </div>
             </div>
 
-            <!-- Precio y Stock -->
             <div class="form-row">
               <div class="form-group">
                 <label for="product-price">Precio (COP) *</label>
@@ -371,7 +325,6 @@
               </div>
             </div>
 
-            <!-- Descripción completa -->
             <div class="form-group">
               <label for="product-description">Descripción Completa</label>
               <textarea id="product-description" rows="5" placeholder="Descripción detallada del producto..."></textarea>
@@ -379,7 +332,7 @@
           </div>
         </div>
 
-        <!-- ===== BOTONES DE ACCIÓN ===== -->
+        <!-- Botones de acción -->
         <div class="modal-actions">
           <button type="button" id="btn-cancel" class="btn-secondary">Cancelar</button>
           <button type="submit" class="btn-primary">
@@ -390,28 +343,20 @@
     </div>
   </div>
 
-  <!-- =====================================================
-       ===== MODAL: CONFIRMAR ELIMINACIÓN =====
-       Modal de confirmación para eliminar productos
-       ===================================================== -->
+  <!-- MODAL: CONFIRMAR ELIMINACIÓN -->
   <div id="delete-modal" class="modal">
-    <!-- Overlay: Fondo difuminado -->
     <div class="modal-overlay"></div>
     
-    <!-- Contenido del modal -->
     <div class="modal-content modal-small">
-      <!-- Header del modal -->
       <div class="modal-header">
         <h2>Confirmar Eliminación</h2>
       </div>
       
-      <!-- Cuerpo del modal -->
       <div class="modal-body">
         <p>¿Estás seguro de que deseas eliminar este producto?</p>
         <p class="text-warning"><strong>Esta acción no se puede deshacer.</strong></p>
       </div>
       
-      <!-- Botones de acción -->
       <div class="modal-actions">
         <button type="button" id="btn-cancel-delete" class="btn-secondary">Cancelar</button>
         <button type="button" id="btn-confirm-delete" class="btn-danger">Eliminar Producto</button>

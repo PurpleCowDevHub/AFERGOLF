@@ -1,4 +1,4 @@
-/* ===== Historial de compras – AFERGOLF ===== */
+/* Historial de compras – AFERGOLF */
 
 /* Reset y configuración base */
 * {
@@ -320,7 +320,7 @@ body {
   color: #666;
   line-height: 1.4;
 }
-/* ===== Responsive ===== */
+/* Responsive */
 @media (max-width: 992px) {
   .orders-wrapper {
     padding: 180px 16px 60px;
