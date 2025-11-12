@@ -288,27 +288,27 @@ function loadProductDataToForm(product) {
 }
 
 /**
- * Carga los datos de un producto en el modal de vista previa (como lo ve el cliente).
+ * Carga los datos de un producto en el modal de vista previa (manteniendo el tamaño original de las cajas).
  * @param {Object} product - Datos del producto
  */
 function loadProductDataToPreview(product) {
   // Título del producto
-  document.getElementById('product-name-preview').textContent = product.name;
+  document.getElementById('product-name-details').textContent = product.name;
   
   // Precio
-  document.getElementById('product-price-preview').textContent = formatPrice(product.price);
+  document.getElementById('product-price-details').textContent = formatPrice(product.price);
   
   // Marca
-  document.getElementById('product-brand-preview').textContent = capitalizeFirst(product.brand);
+  document.getElementById('product-brand-details').textContent = capitalizeFirst(product.brand);
   
   // Modelo y referencia
-  document.getElementById('product-model-preview').textContent = product.model || '-';
-  document.getElementById('product-reference-preview').textContent = product.reference || '-';
+  document.getElementById('product-model-details').textContent = product.model || '-';
+  document.getElementById('product-reference-details').textContent = product.reference || '-';
   
   // Dimensiones y peso (solo para palos y accesorios)
-  const dimensionsSpan = document.getElementById('product-dimensions-preview');
-  const weightSpan = document.getElementById('product-weight-preview');
-  const shippingWeightSpan = document.getElementById('product-shipping-weight-preview');
+  const dimensionsSpan = document.getElementById('product-dimensions-details');
+  const weightSpan = document.getElementById('product-weight-details');
+  const shippingWeightSpan = document.getElementById('product-shipping-weight-details');
   
   if (product.category === 'palos' || product.category === 'accesorios') {
     dimensionsSpan.textContent = product.dimensions ? `${product.dimensions} mts` : '-';
@@ -321,36 +321,47 @@ function loadProductDataToPreview(product) {
   }
   
   // Descripción
-  document.getElementById('product-description-text-preview').textContent = 
+  document.getElementById('product-description-text-details').textContent = 
     product.description || 'Descripción no disponible.';
   
   // Imágenes
   const images = product.images || { main: product.image || '', front: '', top: '', side: '' };
   
   // Imagen principal
-  const mainImg = document.querySelector('#main-img-preview img');
-  if (mainImg) {
-    if (images.main) {
-      mainImg.src = images.main;
-      mainImg.style.display = 'block';
-    } else {
-      mainImg.style.display = 'none';
-    }
-  }
+  updateProductImagePreview('main-details', images.main);
   
   // Miniaturas
-  const thumbs = ['side', 'top', 'front'];
-  thumbs.forEach((position, index) => {
-    const thumbImg = document.querySelector(`#thumb-${position}-preview img`);
-    if (thumbImg) {
-      if (images[position]) {
-        thumbImg.src = images[position];
-        thumbImg.style.display = 'block';
-      } else {
-        thumbImg.style.display = 'none';
-      }
-    }
-  });
+  updateProductImagePreview('side-details', images.side);
+  updateProductImagePreview('top-details', images.top);
+  updateProductImagePreview('front-details', images.front);
+}
+
+/**
+ * Actualiza la vista previa de una imagen en el modal de detalles.
+ * @param {string} position - Posición de la imagen (main-details, side-details, etc.)
+ * @param {string} imageUrl - URL de la imagen
+ */
+function updateProductImagePreview(position, imageUrl) {
+  const preview = document.getElementById(`preview-${position}`);
+  if (!preview) return;
+  
+  const img = preview.querySelector('img');
+  const placeholder = preview.querySelector('.preview-placeholder');
+  
+  if (!img || !placeholder) return;
+  
+  if (imageUrl && imageUrl.trim() !== '') {
+    img.src = imageUrl;
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
+    img.onerror = () => {
+      img.style.display = 'none';
+      placeholder.style.display = 'flex';
+    };
+  } else {
+    img.style.display = 'none';
+    placeholder.style.display = 'flex';
+  }
 }
 
 /**

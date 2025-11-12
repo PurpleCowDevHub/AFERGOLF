@@ -589,6 +589,17 @@ body {
   padding: 20px 32px 32px;
 }
 
+/* Layout específico para el modal de vista previa */
+#product-details-modal .product-detail-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: none;
+  width: 100%;
+  padding: 20px 0 0;
+}
+
 .section-title {
   font-size: 22px;
   font-weight: 600;
@@ -741,6 +752,12 @@ body {
   gap: 18px;
 }
 
+/* Ajustes para el modal de vista previa */
+#product-details-modal .product-info-section {
+  flex-shrink: 0;
+  width: auto;
+}
+
 /* Fila de formulario (dos campos en una línea) */
 .form-row {
   display: grid;
@@ -885,126 +902,93 @@ body {
 /* Modal de vista previa del producto */
 .modal-content.modal-product-preview {
   max-width: 1000px;
-  width: 95%;
+  width: auto;
+  min-width: 920px;
 }
 
-.product-detail-preview {
-  padding: 40px;
+/* Estilos específicos para el modal de detalles */
+#product-details-modal .thumb-preview-vertical {
+  cursor: default;
 }
 
-.product-grid-preview {
-  display: grid;
-  grid-template-columns: 120px 1fr 1fr;
-  gap: 20px;
-  max-width: 920px;
-  margin: 0 auto;
-  align-items: start;
+#product-details-modal .thumb-preview-vertical:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-color: #e8e8e8;
 }
 
-/* Miniaturas de vista previa */
-.product-thumbs-preview {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+#product-details-modal .main-image-preview {
+  cursor: default;
 }
 
-.product-thumbs-preview .thumb-preview {
-  width: 120px;
-  height: 120px;
-  border-radius: 10px;
-  border: 1px solid rgba(139, 133, 133, 0.75);
-  box-shadow: 0 4px 20px 5px rgba(0,0,0,.15);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#product-details-modal .main-image-preview:hover {
+  transform: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-color: #e8e8e8;
+}
+
+/* Información del producto en el modal de detalles */
+.product-details-info {
   background: #fff;
+  border-radius: 12px; 
+  border: 2px solid #e8e8e8;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+  width: 300px;
+  height: 360px;
+  box-sizing: border-box;
 }
 
-.product-thumbs-preview .thumb-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Imagen principal de vista previa */
-.product-main-preview {
-  border-radius: 14px;
-  border: 1px solid rgba(139, 133, 133, 0.75);
-  box-shadow: 0 4px 20px 5px rgba(0,0,0,.15);
-  background: #fff;
-  overflow: hidden;
-}
-
-.product-main-preview .main-img-preview {
-  width: 400px;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product-main-preview .main-img-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Información del producto de vista previa */
-.product-info-preview {
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid rgba(139, 133, 133, 0.75);
-  padding: 24px;
-  box-shadow: 0 4px 20px 5px rgba(0,0,0,.15);
-  display: flex;
-  flex-direction: column;
-  width: 380px;
-  height: 400px;
-}
-
-.product-title-preview {
-  font-size: 24px;
+.product-title-details {
+  font-size: 22px;
   font-weight: 700;
   color: #222;
   line-height: 1.3;
   margin-bottom: 12px;
 }
 
-.product-meta-preview {
-  font-size: 16px;
+.product-meta-details {
+  font-size: 15px;
   color: #444;
   list-style: none;
   padding: 0;
-  margin: 0 0 auto 0;
+  margin: 0 0 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
-.product-price-preview {
-  font-size: 25px;
+.product-price-details {
+  font-size: 24px;
   font-weight: 700;
   color: #D64A3A;
-  margin: 16px 0 12px 0;
+  margin: 0;
 }
 
-/* Descripción de vista previa */
-.product-description-preview {
-  max-width: 900px;
-  margin: 40px auto 0;
+/* Descripción en el modal de detalles */
+#product-details-modal .product-description-details {
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid #e8e8e8;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin: 16px auto 0;
+  max-width: 750px;
 }
 
-.product-description-preview h2 {
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 16px;
+.product-description-details h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 12px 0;
 }
 
-.product-description-preview p {
-  font-size: 17px;
+.product-description-details p {
+  font-size: 15px;
   line-height: 1.6;
-  color: #333;
+  color: #555;
+  margin: 0;
 }
 
 /* Scrollbar personalizado más elegante */
