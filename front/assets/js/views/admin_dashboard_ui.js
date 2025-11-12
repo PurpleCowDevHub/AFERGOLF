@@ -219,6 +219,9 @@ function setupUIEventListeners() {
   const btnCancelLogout = document.getElementById('btn-cancel-logout');
   if (btnCancelLogout) btnCancelLogout.addEventListener('click', closeLogoutModal);
   
+  const btnClosePreview = document.getElementById('btn-close-preview');
+  if (btnClosePreview) btnClosePreview.addEventListener('click', closeProductDetailsModal);
+  
   document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
