@@ -568,7 +568,7 @@ body {
 
 /* Acciones del modal */
 .modal-actions {
-  padding: 20px 32px 0  ;
+  padding: 20px 32px 20px;
   display: flex;
   gap: 12px;
   justify-content: flex-end;
@@ -578,7 +578,7 @@ body {
 
 /* Formularios */
 .modal-form {
-  padding: 30px 40px;
+  padding: 30px 40px 0px;
 }
 
 /* Layout principal del formulario */
