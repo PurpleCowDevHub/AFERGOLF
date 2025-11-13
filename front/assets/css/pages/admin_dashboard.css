@@ -1,0 +1,1011 @@
+/* AFERGOLF - Admin Dashboard CSS */
+
+/* Configuración base */
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f5f5f5;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header administrativo */
+.admin-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(214, 74, 58, 0.1);
+  z-index: 100;
+}
+
+.admin-header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.admin-logo {
+  flex-shrink: 0;
+}
+
+.admin-logo img {
+  height: 160px;
+  width: auto;
+  display: block;
+}
+
+.admin-header-content {
+  flex: 1;
+}
+
+.admin-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.admin-subtitle {
+  font-size: 20px;
+  color: #666;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Contenedor de botones en el header */
+.admin-header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Botón de cerrar sesión */
+.btn-logout {
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #666;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-logout svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-logout:hover {
+  border-color: #d64a3a;
+  color: #d64a3a;
+  background: #fff5f5;
+}
+
+.btn-logout:active {
+  transform: translateY(1px);
+}
+
+/* Contenedor principal */
+.admin-main {
+  padding: 220px 20px 40px;
+  min-height: 100vh;
+}
+
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Botones y controles */
+
+/* Botones principales y de peligro (estilos comunes) */
+.btn-primary,
+.btn-danger {
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  box-shadow: 0 4px 12px rgba(224, 66, 47, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-danger {
+  padding: 10px 20px;
+}
+
+.btn-primary svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+}
+
+.btn-primary:hover,
+.btn-danger:hover {
+  filter: brightness(0.97);
+}
+
+.btn-primary:active,
+.btn-secondary:active,
+.btn-danger:active {
+  transform: translateY(1px);
+}
+
+/* Botón secundario (Cancelar) */
+.btn-secondary {
+  padding: 10px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #666;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #d64a3a;
+  color: #d64a3a;
+  background: #fff5f5;
+}
+
+/* Búsqueda y filtros */
+.dashboard-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+/* Caja de búsqueda con icono */
+.search-box {
+  flex: 1;
+  min-width: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box svg {
+  position: absolute;
+  left: 16px;
+  color: #999;
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
+}
+
+/* Cajas de filtros (selectores) */
+.filter-box {
+  min-width: 200px;
+}
+
+.filter-box select {
+  width: 100%;
+  padding: 14px 40px 14px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-box select:hover {
+  border-color: #d64a3a;
+}
+
+.filter-box select:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
+}
+
+/* Tabla de productos */
+.products-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.products-table-wrapper {
+  overflow-x: auto;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+/* Encabezado de la tabla */
+.products-table thead {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+}
+
+.products-table th {
+  padding: 20px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.products-table th.actions-header {
+  text-align: center;
+}
+
+/* Filas del cuerpo de la tabla */
+.products-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.products-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.products-table td {
+  padding: 16px;
+  color: #555;
+  vertical-align: middle;
+}
+
+/* Imagen del producto en la tabla */
+.product-image,
+.product-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Nombre del producto */
+.product-name {
+  font-weight: 600;
+  color: #222;
+  max-width: 250px;
+}
+
+/* Etiquetas de categoría y marca */
+.product-category,
+.product-brand {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.product-category {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.product-brand {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+/* Precio del producto */
+.product-price {
+  font-weight: 700;
+  color: #d64a3a;
+  font-size: 16px;
+}
+
+/* Stock del producto */
+.product-stock {
+  font-weight: 600;
+}
+
+.product-stock.low-stock {
+  color: #f57c00; /* Naranja para stock bajo */
+}
+
+.product-stock.out-of-stock {
+  color: #d32f2f; /* Rojo para sin stock */
+}
+
+/* Botones de acción en cada fila */
+.product-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.action-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Botón Ver (visualizar) */
+.action-btn.view {
+  color: #388e3c;
+  background: #e8f5e9;
+}
+
+.action-btn.view:hover {
+  background: #c8e6c9;
+  transform: scale(1.1);
+}
+
+/* Botón Editar */
+.action-btn.edit {
+  color: #1976d2;
+  background: #e3f2fd;
+}
+
+.action-btn.edit:hover {
+  background: #bbdefb;
+  transform: scale(1.1);
+}
+
+/* Botón Eliminar */
+.action-btn.delete {
+  color: #d32f2f;
+  background: #ffebee;
+}
+
+.action-btn.delete:hover {
+  background: #ffcdd2;
+  transform: scale(1.1);
+}
+
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-state svg {
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #999;
+}
+
+/* Modales */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+/* Fondo oscuro difuminado */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* Contenido del modal */
+.modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 700px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1001;
+  animation: modalSlideIn 0.3s ease;
+}
+
+/* Variante pequeña */
+.modal-content.modal-small {
+  max-width: 450px;
+}
+
+/* Variante para detalles de producto */
+.modal-content.modal-product-detail {
+  max-width: 750px;
+  width: 90%;
+}
+
+/* Animación de entrada */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header del modal */
+.modal-header {
+  padding: 22px 32px 18px;
+  border-bottom: 2px solid #e8e8e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+}
+
+.modal-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Botón cerrar del modal */
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #f5f5f5;
+}
+
+.modal-close svg {
+  color: #666;
+}
+
+/* Body del modal */
+.modal-body {
+  padding: 30px 40px;
+}
+
+.modal-body p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.text-warning {
+  color: #d32f2f;
+}
+
+.text-info {
+  color: #1976d2;
+}
+
+/* Acciones del modal */
+.modal-actions {
+  padding: 20px 32px 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 2px solid #e8e8e8;
+  background: #fafafa;
+}
+
+/* Formularios */
+.modal-form {
+  padding: 30px 40px 0px;
+}
+
+/* Layout principal del formulario */
+.product-detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 20px 32px 32px;
+}
+
+/* Layout específico para el modal de vista previa */
+#product-details-modal .product-detail-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: none;
+  width: 100%;
+  padding: 20px 0 0;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 16px 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  letter-spacing: -0.3px;
+}
+
+/* Sección de imágenes */
+.product-images-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.images-layout {
+  display: grid;
+  grid-template-columns: 110px 360px;
+  gap: 16px;
+  align-items: start;
+  justify-content: center;
+  max-width: 486px;
+  margin: 0 auto;
+}
+
+/* Miniaturas verticales */
+.product-thumbs-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-sizing: border-box;
+}
+
+.thumb-upload-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.thumb-preview-vertical {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  border: 2px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.thumb-preview-vertical:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 12px rgba(214, 74, 58, 0.15);
+  border-color: #d64a3a;
+}
+
+.thumb-preview-vertical img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb-preview-vertical .preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #888;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px;
+}
+
+.thumb-preview-vertical .preview-placeholder svg {
+  color: #bbb;
+}
+
+.thumb-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+}
+
+/* Imagen principal */
+.product-main-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-image-preview {
+  width: 360px;
+  height: 360px;
+  border-radius: 12px;
+  border: 2px solid #e8e8e8;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.main-image-preview:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 20px rgba(214, 74, 58, 0.2);
+  border-color: #d64a3a;
+}
+
+.main-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main-image-preview .preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #888;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  padding: 20px;
+}
+
+.main-image-preview .preview-placeholder svg {
+  color: #bbb;
+}
+
+/* Sección de información del producto */
+.product-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Ajustes para el modal de vista previa */
+#product-details-modal .product-info-section {
+  flex-shrink: 0;
+  width: auto;
+}
+
+/* Fila de formulario (dos campos en una línea) */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 0;
+}
+
+/* Grupo de formulario (label + input) */
+.form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Ocupar todo el ancho */
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: -0.1px;
+  display: block;
+  width: 100%;
+}
+
+/* Inputs, selects y textareas */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 11px 14px;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #d64a3a;
+  box-shadow: 0 0 0 4px rgba(214, 74, 58, 0.1);
+}
+
+/* Selects personalizados */
+.form-group select {
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Textareas */
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Texto pequeño de ayuda */
+.form-group small {
+  font-size: 12px;
+  color: #999;
+  margin-top: -4px;
+}
+
+/* Contenedor de campos dinámicos */
+#dynamic-fields {
+  display: contents;
+}
+
+/* Campos dinámicos según categoría */
+.category-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  margin: 0;
+}
+
+.category-fields[style*="display: none"] {
+  display: none !important;
+}
+
+/* Campo de stock general - se oculta para guantes */
+.stock-field-general.hidden {
+  display: none !important;
+}
+
+/* Grid de tallas para guantes */
+.sizes-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.sizes-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.sizes-grid .form-group {
+  margin: 0;
+  flex: 0 0 auto;
+  width: 60px;
+}
+
+.sizes-grid .form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-align: center;
+  display: block;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.sizes-grid .form-group input {
+  width: 100%;
+  padding: 8px 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Modal de vista previa del producto */
+.modal-content.modal-product-preview {
+  max-width: 1000px;
+  width: auto;
+  min-width: 920px;
+}
+
+/* Estilos específicos para el modal de detalles */
+#product-details-modal .thumb-preview-vertical {
+  cursor: default;
+}
+
+#product-details-modal .thumb-preview-vertical:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-color: #e8e8e8;
+}
+
+#product-details-modal .main-image-preview {
+  cursor: default;
+}
+
+#product-details-modal .main-image-preview:hover {
+  transform: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-color: #e8e8e8;
+}
+
+/* Información del producto en el modal de detalles */
+.product-details-info {
+  background: #fff;
+  border-radius: 12px; 
+  border: 2px solid #e8e8e8;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+  width: 300px;
+  height: 360px;
+  box-sizing: border-box;
+}
+
+.product-title-details {
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.product-meta-details {
+  font-size: 15px;
+  color: #444;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-price-details {
+  font-size: 24px;
+  font-weight: 700;
+  color: #D64A3A;
+  margin: 0;
+}
+
+/* Descripción en el modal de detalles */
+#product-details-modal .product-description-details {
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid #e8e8e8;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin: 16px auto 20px;
+  max-width: 750px;
+}
+
+.product-description-details h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 12px 0;
+}
+
+.product-description-details p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+/* Scrollbar personalizado más elegante */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

@@ -1,4 +1,4 @@
-/* ===== CONTENEDOR PRINCIPAL ===== */
+/* Contenedor principal */
 .product-detail {
   padding: clamp(80px, 5vw, 50px) 40px 60px;
 }
@@ -12,7 +12,7 @@
   align-items: start;
 }
 
-/* ===== MINIATURAS ===== */
+/* Miniaturas */
 .product-thumbs {
   display: flex;
   flex-direction: column;
@@ -44,7 +44,7 @@
   object-fit: cover;
 }
 
-/* ===== IMAGEN PRINCIPAL ===== */
+/* Imagen principal */
 .product-main {
   border-radius: 14px;
   border: 1px solid rgba(139, 133, 133, 0.75);
@@ -67,7 +67,7 @@
   object-fit: cover;
 }
 
-/* ===== INFORMACIÓN DEL PRODUCTO ===== */
+/* Información del producto */
 .product-info {
   background: #fff;
   border-radius: 12px;
@@ -129,7 +129,7 @@
   transform: translateY(1px); 
 }
 
-/* ===== DESCRIPCIÓN ===== */
+/* Descripción */
 .product-description {
   max-width: 900px;
   margin: 40px auto 0;
@@ -147,7 +147,7 @@
   color: #333;
 }
 
-/* ===== RESPONSIVE MÓVIL (430px) ===== */
+/* Responsive móvil (430px) */
 @media (max-width: 430px) {
   .product-detail { 
     padding: 60px 20px 40px; 

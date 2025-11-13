@@ -1,4 +1,4 @@
-/* === AFERGOLF - Mi Cuenta === */
+/* AFERGOLF - Mi Cuenta */
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: #f5f5f5;
@@ -24,7 +24,7 @@ body {
   padding: 40px 50px;
 }
 
-/* === HEADER DEL PERFIL === */
+/* Header del perfil */
 .account-header {
   display: flex;
   align-items: center;
@@ -87,7 +87,7 @@ body {
   margin-top: 5px;
 }
 
-/* === TARJETAS DE OPCIONES === */
+/* Tarjetas de opciones */
 .account-options {
   margin-top: 40px;
   display: grid;
@@ -147,7 +147,7 @@ body {
   color: #555;
 }
 
-/* === CERRAR SESIÓN === */
+/* Cerrar sesión */
 .logout-card {
   border: 1px solid #f1c0c0;
   background: #fff3f3;
@@ -165,8 +165,8 @@ body {
   background-color: #f8d7da;
 }
 
-/* === RESPONSIVE === */
-@media (max-width: 700px) {
+/* Responsive */
+@media (max-width: 768px) {
   .account-container {
     padding: 30px 20px;
   }
