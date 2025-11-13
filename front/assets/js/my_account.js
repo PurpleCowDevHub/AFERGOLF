@@ -95,6 +95,39 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ============================================================================
+// CARGA DE IMAGEN DE AVATAR
+// ============================================================================
+
+const avatarContainer = document.getElementById('avatarContainer');
+const avatarInput = document.getElementById('avatarInput');
+const avatarImage = document.getElementById('avatarImage');
+
+// Permitir clic en el avatar para seleccionar imagen
+if (avatarContainer && avatarInput) {
+  avatarContainer.addEventListener('click', (e) => {
+    e.stopPropagation();
+    avatarInput.click();
+  });
+
+  // Procesar cambio de imagen
+  avatarInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        if (avatarImage) {
+          avatarImage.src = event.target.result;
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  });
+}
+
+// ============================================================================
 // VALIDACIÓN DE FORMULARIO
 // ============================================================================
 
