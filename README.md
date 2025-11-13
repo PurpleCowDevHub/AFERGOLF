@@ -200,7 +200,7 @@ C:\xampp\htdocs\AFERGOLF
 
 3. **Crear la tabla de usuarios:**
    - Selecciona la base de datos `afergolf_db` que acabas de crear
-   - Haz clic en la pestaña **"SQL"** 
+   - Haz clic en la pestaña **"SQL"**
    - Copia y pega el siguiente código SQL (si no, crea la tabla como nos enseñó el profe, desde la interfaz):
 
 ```sql
