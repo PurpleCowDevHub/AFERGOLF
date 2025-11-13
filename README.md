@@ -1,5 +1,4 @@
 
-
 # 🌐 AFERGOLF - Sitio Web Oficial
 
 Este proyecto corresponde al **diseño y desarrollo del sitio web oficial de AFERGOLF**, empresa especializada en venta, reparación y fitting profesional de palos de golf, con más de 15 años de trayectoria.
@@ -18,9 +17,9 @@ El objetivo del proyecto es ofrecer una **experiencia digital integral**, que pe
 
 1. [Equipo de Desarrollo](#-equipo-de-desarrollo)
 2. [Características principales](#-características-principales)
-3. [Tecnologías](#-tecnologías)
+3. [Tecnologías](#️-tecnologías)
 4. [Estructura del Proyecto](#-estructura-del-proyecto)
-5. [Configuración del entorno local con XAMPP](#-configuración-del-entorno-local-con-xampp)
+5. [Configuración del entorno local con XAMPP](#️-configuración-del-entorno-local-con-xampp)
 6. [Desarrollo Local](#-desarrollo-local)
 7. [Documentación](#-documentación)
 
@@ -55,34 +54,38 @@ Ubicación: **Bogotá, Colombia**
 ## 🛠️ Tecnologías
 
 **Frontend:**
--**HTML5**
--**CSS3**
--**JavaScript (Vanilla)**
+
+- **HTML5**
+- **CSS3**
+- **JavaScript (Vanilla)**
 
 **Backend:**
--**PHP** (con XAMPP)
--**MySQL** (integrado en XAMPP)
--**Apache Server** (integrado en XAMPP)
+
+- **PHP** (con XAMPP)
+- **MySQL** (integrado en XAMPP)
+- **Apache Server** (integrado en XAMPP)
 
 **Herramientas de desarrollo:**
--**XAMPP** (servidor local con Apache, MySQL, PHP)
--**phpMyAdmin** (gestión de base de datos)
+
+- **XAMPP** (servidor local con Apache, MySQL, PHP)
+- **phpMyAdmin** (gestión de base de datos)
 
 **Futuras integraciones:**
--**Autenticación de usuarios** (PHP Sessions, JWT)
--**Integración de pasarelas de pago** (PayU, Mercado Pago)
--**API REST** para comunicación frontend-backend
+
+- **Autenticación de usuarios** (PHP Sessions, JWT)
+- **Integración de pasarelas de pago** (PayU, Mercado Pago)
+- **API REST** para comunicación frontend-backend
 
 ---
 
 ## 📂 Estructura del Proyecto
 
-```bash
+```plaintext
 AFERGOLF/
 ├── index.html                    # Página principal
 ├── README.md                     # Documentación del proyecto
 │
-├── FRONT/                        # Frontend del sitio web
+├── front/                        # Frontend del sitio web
 │   ├── views/                    # Páginas HTML del sitio
 │   │   ├── catalog.html          # Catálogo de productos
 │   │   ├── services.html         # Servicios especializados
@@ -112,10 +115,10 @@ AFERGOLF/
 │       ├── footer.html           # Pie de página
 │       └── ...
 │
-├── BACK/                         # Backend PHP
+├── back/                         # Backend PHP
 │   ├── Proximamente...
 │
-└── DOCS/                         # Documentación técnica
+└── docs/                         # Documentación técnica
     ├── Documento técnico de AFERGOLF.pdf
     ├── database_schema.sql       # Esquema de BD
     └── ...
@@ -137,8 +140,8 @@ A continuación se explica cómo preparar el entorno local para ejecutar el back
    - **Apache**
    - **MySQL**
 4. Verifica el funcionamiento:
-   - [http://localhost/](http://localhost/) → Página inicial de XAMPP
-   - [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/) → Interfaz de administración de bases de datos
+   - <http://localhost/> → Página inicial de XAMPP
+   - <http://localhost/phpmyadmin/> → Interfaz de administración de bases de datos
 5. Si alguno no inicia:
    - Revisa conflictos de puerto (80/443 para Apache, 3306 para MySQL).
    - Cambia el puerto desde el botón **Config** → *Service and Port Settings*.
@@ -149,20 +152,24 @@ A continuación se explica cómo preparar el entorno local para ejecutar el back
 
 ```bash
 git clone https://github.com/PurpleCowDevHub/AFERGOLF.git
+```
 
-- O copia la carpeta del proyecto dentro del directorio de XAMPP:
+O copia la carpeta del proyecto dentro del directorio de XAMPP:
+
+```plaintext
 C:\xampp\htdocs\AFERGOLF
 ```
 
-### 3️⃣ Verifica el acceso al proyecto desde el navegador:
+### 3️⃣ Verifica el acceso al proyecto desde el navegador
 
-👉 http://localhost/AFERGOLF/
+👉 <http://localhost/AFERGOLF/>
 
 Si la interfaz se carga correctamente, el entorno local está listo para continuar con la configuración de la base de datos y el backend.
 
 ## 🔧 Desarrollo Local
 
 **Estructura de trabajo:**
+
 - Frontend: Editar archivos en `front/`
 - Backend: Desarrollar APIs en `back/`
 - Base de datos: Gestionar desde phpMyAdmin
