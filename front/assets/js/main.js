@@ -31,7 +31,8 @@ class AfergolfHeader extends HTMLElement {
     fetch(path)
       .then(response => response.text())
       .then(html => {
-        this.innerHTML = html;
+        const fixed = this.rewriteAbsoluteUrls(html);
+        this.innerHTML = fixed;
         this.executeScripts();
       })
       .catch(err => console.error('Error cargando el header:', err));
@@ -61,10 +62,30 @@ class AfergolfHeader extends HTMLElement {
       const newScript = document.createElement('script');
       Array.from(oldScript.attributes).forEach(attr => 
         newScript.setAttribute(attr.name, attr.value)
-      );
+      );  
       newScript.textContent = oldScript.textContent;
       oldScript.parentNode.replaceChild(newScript, oldScript);
     });
+  }
+
+  /**
+   * Retorna el prefijo base del proyecto (e.g. '/AFERGOLF/' en XAMPP o '/' en Live Server).
+   */
+  getBasePrefix() {
+    const parts = (window.location.pathname || '/').split('/').filter(Boolean);
+    return parts.length ? `/${parts[0]}/` : '/';
+  }
+
+  /**
+   * Reescribe URLs absolutas que empiezan por "/" a la base del proyecto.
+   * Solo afecta atributos src/href escritos como comenzando con "/".
+   */
+  rewriteAbsoluteUrls(html) {
+    const base = this.getBasePrefix();
+    // Reemplaza href="/..." y src="/..." por href="${base}..." y src="${base}..."
+    return html
+      .replace(/(href\s*=\s*")\/(?!\/)/g, `$1${base}`)
+      .replace(/(src\s*=\s*")\/(?!\/)/g, `$1${base}`);
   }
 }
 
@@ -90,7 +111,10 @@ class AfergolfFooter extends HTMLElement {
     const path = this.getRelativePath('footer.html');
     fetch(path)
       .then(response => response.text())
-      .then(html => this.innerHTML = html)
+      .then(html => {
+        const fixed = this.rewriteAbsoluteUrls(html);
+        this.innerHTML = fixed;
+      })
       .catch(err => console.error('Error cargando el footer:', err));
   }
 
@@ -107,6 +131,18 @@ class AfergolfFooter extends HTMLElement {
     }
     // Si estamos en la raíz o en /front/
     return `front/partials/${filename}`;
+  }
+
+  getBasePrefix() {
+    const parts = (window.location.pathname || '/').split('/').filter(Boolean);
+    return parts.length ? `/${parts[0]}/` : '/';
+  }
+
+  rewriteAbsoluteUrls(html) {
+    const base = this.getBasePrefix();
+    return html
+      .replace(/(href\s*=\s*")\/(?!\/)/g, `$1${base}`)
+      .replace(/(src\s*=\s*")\/(?!\/)/g, `$1${base}`);
   }
 }
 
