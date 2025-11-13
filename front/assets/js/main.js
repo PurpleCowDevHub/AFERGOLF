@@ -26,13 +26,30 @@ class AfergolfHeader extends HTMLElement {
    * Se ejecuta cuando el elemento es añadido al DOM.
    */
   connectedCallback() {
-    fetch('/front/partials/header.html')
+    // Calcular la ruta relativa al partial basada en la ubicación actual
+    const path = this.getRelativePath('header.html');
+    fetch(path)
       .then(response => response.text())
       .then(html => {
         this.innerHTML = html;
         this.executeScripts();
       })
       .catch(err => console.error('Error cargando el header:', err));
+  }
+
+  /**
+   * Calcula la ruta relativa correcta al archivo partial.
+   * @param {string} filename - Nombre del archivo partial
+   * @returns {string} Ruta relativa al archivo
+   */
+  getRelativePath(filename) {
+    const path = window.location.pathname;
+    // Si estamos en /front/views/, subir un nivel
+    if (path.includes('/front/views/')) {
+      return `../partials/${filename}`;
+    }
+    // Si estamos en la raíz o en /front/
+    return `front/partials/${filename}`;
   }
 
   /**
@@ -69,10 +86,27 @@ class AfergolfFooter extends HTMLElement {
    * Se ejecuta cuando el elemento es añadido al DOM.
    */
   connectedCallback() {
-    fetch('/front/partials/footer.html')
+    // Calcular la ruta relativa al partial basada en la ubicación actual
+    const path = this.getRelativePath('footer.html');
+    fetch(path)
       .then(response => response.text())
       .then(html => this.innerHTML = html)
       .catch(err => console.error('Error cargando el footer:', err));
+  }
+
+  /**
+   * Calcula la ruta relativa correcta al archivo partial.
+   * @param {string} filename - Nombre del archivo partial
+   * @returns {string} Ruta relativa al archivo
+   */
+  getRelativePath(filename) {
+    const path = window.location.pathname;
+    // Si estamos en /front/views/, subir un nivel
+    if (path.includes('/front/views/')) {
+      return `../partials/${filename}`;
+    }
+    // Si estamos en la raíz o en /front/
+    return `front/partials/${filename}`;
   }
 }
 
