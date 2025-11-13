@@ -1,28 +1,15 @@
 /**
  * ============================================================================
- * AFERGOLF - Carousel de Productos Destacados (Index)
+ * AFERGOLF - Carousel de Productos Destacados
  * ============================================================================
  * 
- * Este archivo maneja la funcionalidad del carousel horizontal para la sección
- * de productos destacados en la página principal (index.html).
- * 
- * Funcionalidades:
- * - Scroll horizontal con botones de navegación
- * - Transiciones suaves
- * - Responsive design
- * - Touch/swipe support para dispositivos móviles
+ * Carousel horizontal con scroll suave, soporte táctil y navegación por teclado.
  * 
  * @author Afergolf Team
  * @version 1.0.0
+ * ============================================================================
  */
 
-// ============================================================================
-// CLASE PRINCIPAL: PRODUCTOS CAROUSEL
-// ============================================================================
-
-/**
- * Clase para manejar el carousel de productos destacados
- */
 class ProductsCarousel {
   constructor() {
     this.slider = null;
@@ -32,8 +19,8 @@ class ProductsCarousel {
     this.nextButton = null;
     this.products = [];
     this.currentIndex = 0;
-    this.productWidth = 370; // ancho del producto + gap
-    this.visibleProducts = 3; // productos visibles por defecto
+    this.productWidth = 370;
+    this.visibleProducts = 3;
     this.maxIndex = 0;
     
     // Variables para touch/swipe
@@ -46,10 +33,9 @@ class ProductsCarousel {
   }
 
   /**
-   * Inicializa el carousel
+   * Inicializa el carousel.
    */
   init() {
-    // Esperar a que el DOM esté completamente cargado
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.setup());
     } else {
@@ -58,10 +44,9 @@ class ProductsCarousel {
   }
 
   /**
-   * Configura todos los elementos y eventos del carousel
+   * Configura todos los elementos y eventos del carousel.
    */
   setup() {
-    // Obtener elementos del DOM
     this.slider = document.querySelector('[data-slider]');
     this.track = document.querySelector('[data-track]');
     this.viewport = document.querySelector('[data-viewport]');
@@ -73,7 +58,6 @@ class ProductsCarousel {
       return;
     }
 
-    // Obtener productos
     this.products = Array.from(this.track.querySelectorAll('.product'));
     
     if (this.products.length === 0) {
@@ -81,31 +65,22 @@ class ProductsCarousel {
       return;
     }
 
-    // Calcular valores iniciales
     this.calculateDimensions();
     this.maxIndex = Math.max(0, this.products.length - this.visibleProducts);
-
-    // Configurar eventos
     this.setupEvents();
-
-    // Configurar estado inicial
     this.updateButtons();
     
-    // Forzar recálculo después de que todo esté renderizado
-    setTimeout(() => {
-      this.recalculateAndUpdate();
-    }, 100);
+    setTimeout(() => this.recalculateAndUpdate(), 100);
     
     console.log('Carousel de productos inicializado correctamente');
   }
 
   /**
-   * Calcula las dimensiones según el tamaño de pantalla
+   * Calcula las dimensiones según el tamaño de pantalla.
    */
   calculateDimensions() {
     const screenWidth = window.innerWidth;
     
-    // Determinar productos visibles según pantalla
     if (screenWidth <= 430) {
       this.visibleProducts = 1;
     } else if (screenWidth <= 768) {
@@ -116,7 +91,6 @@ class ProductsCarousel {
       this.visibleProducts = 3;
     }
 
-    // Calcular ancho real del producto incluyendo gap
     if (this.products.length > 0) {
       const firstProduct = this.products[0];
       const productRect = firstProduct.getBoundingClientRect();
@@ -125,7 +99,6 @@ class ProductsCarousel {
       
       this.productWidth = productRect.width + gap;
       
-      // Calcular maxIndex basado en el espacio real disponible
       const viewportWidth = this.viewport.getBoundingClientRect().width;
       const marginLeft = parseInt(trackStyles.marginLeft) || 30;
       const marginRight = parseInt(trackStyles.marginRight) || 30;
@@ -133,59 +106,44 @@ class ProductsCarousel {
       const totalProductsWidth = this.products.length * this.productWidth;
       
       if (totalProductsWidth <= availableWidth) {
-        // Si todos los productos caben, no necesitamos scroll
         this.maxIndex = 0;
       } else {
-        // Calcular cuántos steps necesitamos para mostrar todos los productos
         const availableScrollWidth = totalProductsWidth - availableWidth;
         this.maxIndex = Math.ceil(availableScrollWidth / this.productWidth);
       }
     } else {
-      // Fallback values
       this.productWidth = screenWidth <= 430 ? 370 : 370;
       this.maxIndex = Math.max(0, this.products.length - this.visibleProducts);
     }
   }
 
   /**
-   * Configura todos los event listeners
+   * Configura todos los event listeners.
    */
   setupEvents() {
-    // Botones de navegación
     this.prevButton.addEventListener('click', () => this.prev());
     this.nextButton.addEventListener('click', () => this.next());
-
-    // Eventos de resize
     window.addEventListener('resize', () => this.handleResize());
-
-    // Touch events para móviles y tablets
     this.setupTouchEvents();
-
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => this.handleKeyboard(e));
   }
 
   /**
-   * Configura eventos táctiles para swipe
+   * Configura eventos táctiles para swipe.
    */
   setupTouchEvents() {
-    // Touch events
     this.viewport.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
     this.viewport.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
     this.viewport.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
-
-    // Mouse events para desktop
     this.viewport.addEventListener('mousedown', (e) => this.handleMouseDown(e));
     this.viewport.addEventListener('mousemove', (e) => this.handleMouseMove(e));
     this.viewport.addEventListener('mouseup', (e) => this.handleMouseUp(e));
     this.viewport.addEventListener('mouseleave', (e) => this.handleMouseUp(e));
-
-    // Prevenir drag por defecto en imágenes
     this.track.addEventListener('dragstart', (e) => e.preventDefault());
   }
 
   /**
-   * Maneja el inicio del touch/mouse
+   * Maneja el inicio del touch/mouse.
    */
   handleTouchStart(e) {
     this.startX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -201,7 +159,7 @@ class ProductsCarousel {
   }
 
   /**
-   * Maneja el movimiento del touch/mouse
+   * Maneja el movimiento del touch/mouse.
    */
   handleTouchMove(e) {
     if (!this.isDragging) return;
@@ -209,7 +167,6 @@ class ProductsCarousel {
     this.currentX = e.touches ? e.touches[0].clientX : e.clientX;
     const deltaX = this.currentX - this.startX;
     
-    // Aplicar resistencia en los bordes
     let resistance = 1;
     if ((this.currentIndex === 0 && deltaX > 0) || 
         (this.currentIndex === this.maxIndex && deltaX < 0)) {
@@ -221,7 +178,6 @@ class ProductsCarousel {
     
     this.track.style.transform = `translateX(${newTransform}px)`;
     
-    // Prevenir scroll vertical en móviles
     if (Math.abs(deltaX) > 10) {
       e.preventDefault();
     }
@@ -233,7 +189,7 @@ class ProductsCarousel {
   }
 
   /**
-   * Maneja el final del touch/mouse
+   * Maneja el final del touch/mouse.
    */
   handleTouchEnd(e) {
     if (!this.isDragging) return;
@@ -245,7 +201,6 @@ class ProductsCarousel {
     const deltaTime = Date.now() - this.startTime;
     const velocity = Math.abs(deltaX) / deltaTime;
     
-    // Determinar si debe cambiar de slide
     const threshold = this.productWidth * 0.3;
     const shouldChange = Math.abs(deltaX) > threshold || velocity > 0.5;
     
@@ -267,7 +222,7 @@ class ProductsCarousel {
   }
 
   /**
-   * Maneja navegación por teclado
+   * Maneja navegación por teclado.
    */
   handleKeyboard(e) {
     if (e.key === 'ArrowLeft') {
@@ -280,41 +235,29 @@ class ProductsCarousel {
   }
 
   /**
-   * Maneja el redimensionamiento de ventana
+   * Maneja el redimensionamiento de ventana.
    */
   handleResize() {
-    // Debounce para evitar muchas llamadas
     clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => {
-      this.recalculateAndUpdate();
-    }, 250);
+    this.resizeTimeout = setTimeout(() => this.recalculateAndUpdate(), 250);
   }
 
   /**
-   * Recalcula dimensiones y actualiza posición
+   * Recalcula dimensiones y actualiza posición.
    */
   recalculateAndUpdate() {
-    // Forzar recálculo removiendo temporalmente la transición
     this.track.style.transition = 'none';
-    
-    // Recalcular dimensiones
     this.calculateDimensions();
-    
-    // Ajustar índice actual si excede el máximo
     this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
-    
-    // Actualizar posición y botones
     this.updatePosition();
     this.updateButtons();
-    
-    // Restaurar transición después de un frame
     requestAnimationFrame(() => {
       this.track.style.transition = 'transform 0.3s ease';
     });
   }
 
   /**
-   * Navega al producto anterior
+   * Navega al producto anterior.
    */
   prev() {
     if (this.currentIndex > 0) {
@@ -325,7 +268,7 @@ class ProductsCarousel {
   }
 
   /**
-   * Navega al siguiente producto
+   * Navega al siguiente producto.
    */
   next() {
     if (this.currentIndex < this.maxIndex) {
@@ -336,29 +279,23 @@ class ProductsCarousel {
   }
 
   /**
-   * Actualiza la posición del carousel
+   * Actualiza la posición del carousel.
    */
   updatePosition() {
-    // Obtener el margen lateral del contenedor .products
     const trackStyles = window.getComputedStyle(this.track);
     const marginLeft = parseInt(trackStyles.marginLeft) || 30;
     const marginRight = parseInt(trackStyles.marginRight) || 30;
     
-    // Calcular dimensiones
     const viewportWidth = this.viewport.getBoundingClientRect().width;
     const trackWidth = this.products.length * this.productWidth;
     const availableWidth = viewportWidth - marginLeft - marginRight;
     
-    // Calcular la posición máxima permitida, manteniendo el margen derecho
     const maxTranslate = Math.max(0, trackWidth - availableWidth);
     
-    // Calcular la posición deseada
     let translateX = -this.currentIndex * this.productWidth;
     
-    // Limitar la posición para mantener el margen uniforme
     if (Math.abs(translateX) > maxTranslate) {
       translateX = -maxTranslate;
-      // Ajustar el índice actual si es necesario
       this.currentIndex = Math.floor(maxTranslate / this.productWidth);
     }
     
@@ -366,30 +303,18 @@ class ProductsCarousel {
   }
 
   /**
-   * Actualiza el estado de los botones de navegación
+   * Actualiza el estado de los botones de navegación.
    */
   updateButtons() {
-    // Actualizar botón anterior
-    if (this.currentIndex === 0) {
-      this.prevButton.style.opacity = '0.5';
-      this.prevButton.style.cursor = 'not-allowed';
-    } else {
-      this.prevButton.style.opacity = '1';
-      this.prevButton.style.cursor = 'pointer';
-    }
-
-    // Actualizar botón siguiente
-    if (this.currentIndex >= this.maxIndex) {
-      this.nextButton.style.opacity = '0.5';
-      this.nextButton.style.cursor = 'not-allowed';
-    } else {
-      this.nextButton.style.opacity = '1';
-      this.nextButton.style.cursor = 'pointer';
-    }
+    this.prevButton.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
+    this.prevButton.style.cursor = this.currentIndex === 0 ? 'not-allowed' : 'pointer';
+    
+    this.nextButton.style.opacity = this.currentIndex >= this.maxIndex ? '0.5' : '1';
+    this.nextButton.style.cursor = this.currentIndex >= this.maxIndex ? 'not-allowed' : 'pointer';
   }
 
   /**
-   * Va a un índice específico
+   * Va a un índice específico.
    */
   goTo(index) {
     if (index >= 0 && index <= this.maxIndex) {
@@ -400,7 +325,7 @@ class ProductsCarousel {
   }
 
   /**
-   * Reinicia el carousel al primer elemento
+   * Reinicia el carousel al primer elemento.
    */
   reset() {
     this.currentIndex = 0;
@@ -413,10 +338,8 @@ class ProductsCarousel {
 // INICIALIZACIÓN
 // ============================================================================
 
-// Instanciar el carousel cuando el script se carga
 const productsCarousel = new ProductsCarousel();
 
-// Exportar para uso externo si es necesario
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = ProductsCarousel;
 } else if (typeof window !== 'undefined') {

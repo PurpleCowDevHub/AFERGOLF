@@ -1,5 +1,4 @@
 
-
 # 🌐 AFERGOLF - Sitio Web Oficial
 
 Este proyecto corresponde al **diseño y desarrollo del sitio web oficial de AFERGOLF**, empresa especializada en venta, reparación y fitting profesional de palos de golf, con más de 15 años de trayectoria.
@@ -18,9 +17,9 @@ El objetivo del proyecto es ofrecer una **experiencia digital integral**, que pe
 
 1. [Equipo de Desarrollo](#-equipo-de-desarrollo)
 2. [Características principales](#-características-principales)
-3. [Tecnologías](#-tecnologías)
+3. [Tecnologías](#️-tecnologías)
 4. [Estructura del Proyecto](#-estructura-del-proyecto)
-5. [Configuración del entorno local con XAMPP](#-configuración-del-entorno-local-con-xampp)
+5. [Configuración del entorno local con XAMPP](#️-configuración-del-entorno-local-con-xampp)
 6. [Desarrollo Local](#-desarrollo-local)
 7. [Documentación](#-documentación)
 
@@ -55,34 +54,38 @@ Ubicación: **Bogotá, Colombia**
 ## 🛠️ Tecnologías
 
 **Frontend:**
--**HTML5**
--**CSS3**
--**JavaScript (Vanilla)**
+
+- **HTML5**
+- **CSS3**
+- **JavaScript (Vanilla)**
 
 **Backend:**
--**PHP** (con XAMPP)
--**MySQL** (integrado en XAMPP)
--**Apache Server** (integrado en XAMPP)
+
+- **PHP** (con XAMPP)
+- **MySQL** (integrado en XAMPP)
+- **Apache Server** (integrado en XAMPP)
 
 **Herramientas de desarrollo:**
--**XAMPP** (servidor local con Apache, MySQL, PHP)
--**phpMyAdmin** (gestión de base de datos)
+
+- **XAMPP** (servidor local con Apache, MySQL, PHP)
+- **phpMyAdmin** (gestión de base de datos)
 
 **Futuras integraciones:**
--**Autenticación de usuarios** (PHP Sessions, JWT)
--**Integración de pasarelas de pago** (PayU, Mercado Pago)
--**API REST** para comunicación frontend-backend
+
+- **Autenticación de usuarios** (PHP Sessions, JWT)
+- **Integración de pasarelas de pago** (PayU, Mercado Pago)
+- **API REST** para comunicación frontend-backend
 
 ---
 
 ## 📂 Estructura del Proyecto
 
-```bash
+```plaintext
 AFERGOLF/
 ├── index.html                    # Página principal
 ├── README.md                     # Documentación del proyecto
 │
-├── FRONT/                        # Frontend del sitio web
+├── front/                        # Frontend del sitio web
 │   ├── views/                    # Páginas HTML del sitio
 │   │   ├── catalog.html          # Catálogo de productos
 │   │   ├── services.html         # Servicios especializados
@@ -112,13 +115,39 @@ AFERGOLF/
 │       ├── footer.html           # Pie de página
 │       └── ...
 │
-├── BACK/                         # Backend PHP
-│   ├── Proximamente...
+├── back/                         # Backend PHP
+│   ├── index.php                 # Punto de entrada del backend
+│   ├── config/                   # Configuración del sistema
+│   │   ├── config.php            # Configuración general
+│   │   └── db_connect.php        # Conexión a base de datos
+│   │
+│   └── modules/                  # Módulos del backend
+│       ├── products/             # Módulo de productos
+│       │   ├── api/              # APIs REST de productos
+│       │   │   ├── catalog.php   # API del catálogo
+│       │   │   └── products.php  # API de productos
+│       │   ├── js/               # Scripts AJAX de productos
+│       │   │   └── product_ajax.js
+│       │   └── php/              # Lógica de negocio de productos
+│       │       ├── Product.php   # Modelo de producto
+│       │       ├── ProductDAO.php# Acceso a datos
+│       │       └── ProductLogic.php# Lógica de negocio
+│       │
+│       └── users/                # Módulo de usuarios
+│           ├── api/              # APIs REST de usuarios
+│           │   ├── auth.php      # API de autenticación
+│           │   └── profile.php   # API de perfil
+│           ├── js/               # Scripts AJAX de usuarios
+│           │   └── user_ajax.js
+│           └── php/              # Lógica de negocio de usuarios
+│               ├── User.php      # Modelo de usuario
+│               ├── UserDAO.php   # Acceso a datos
+│               ├── AuthLogic.php # Lógica de autenticación
+│               └── ProfileLogic.php# Lógica de perfil
 │
-└── DOCS/                         # Documentación técnica
-    ├── Documento técnico de AFERGOLF.pdf
-    ├── database_schema.sql       # Esquema de BD
-    └── ...
+└── docs/                         # Documentación técnica
+    └── Documento técnico de AFERGOLF.pdf
+    
 ```
 
 ---
@@ -137,8 +166,8 @@ A continuación se explica cómo preparar el entorno local para ejecutar el back
    - **Apache**
    - **MySQL**
 4. Verifica el funcionamiento:
-   - [http://localhost/](http://localhost/) → Página inicial de XAMPP
-   - [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/) → Interfaz de administración de bases de datos
+   - <http://localhost/> → Página inicial de XAMPP
+   - <http://localhost/phpmyadmin/> → Interfaz de administración de bases de datos
 5. Si alguno no inicia:
    - Revisa conflictos de puerto (80/443 para Apache, 3306 para MySQL).
    - Cambia el puerto desde el botón **Config** → *Service and Port Settings*.
@@ -149,20 +178,61 @@ A continuación se explica cómo preparar el entorno local para ejecutar el back
 
 ```bash
 git clone https://github.com/PurpleCowDevHub/AFERGOLF.git
+```
 
-- O copia la carpeta del proyecto dentro del directorio de XAMPP:
+O copia la carpeta del proyecto dentro del directorio de XAMPP:
+
+```plaintext
 C:\xampp\htdocs\AFERGOLF
 ```
 
-### 3️⃣ Verifica el acceso al proyecto desde el navegador:
+### 3️⃣ Configuración de la base de datos
 
-👉 http://localhost/AFERGOLF/
+1. **Accede a phpMyAdmin:**
+   - Abre tu navegador y ve a: <http://localhost/phpmyadmin/>
+   - Usuario: `root` (sin contraseña por defecto)
 
-Si la interfaz se carga correctamente, el entorno local está listo para continuar con la configuración de la base de datos y el backend.
+2. **Crear la base de datos:**
+   - Haz clic en **"Nueva"** en el panel izquierdo
+   - Nombre de la base de datos: `afergolf_db`
+   - Cotejamiento: `utf8mb4_spanish_ci`
+   - Haz clic en **"Crear"**
+
+3. **Crear la tabla de usuarios:**
+   - Selecciona la base de datos `afergolf_db` que acabas de crear
+   - Haz clic en la pestaña **"SQL"**
+   - Copia y pega el siguiente código SQL (si no, crea la tabla como nos enseñó el profe, desde la interfaz):
+
+```sql
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombres VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    password VARCHAR(255) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo BOOLEAN DEFAULT TRUE
+);
+```
+
+- Haz clic en **"Continuar"**
+
+1. **Verificar la tabla creada:**
+   - En el panel izquierdo, expande `afergolf_db`
+   - Deberías ver la tabla `usuarios`
+   - Haz clic en ella para ver su estructura
+
+### 4️⃣ Verifica el acceso al proyecto desde el navegador
+
+👉 <http://localhost/AFERGOLF/>
+
+Si la interfaz se carga correctamente y la base de datos está creada, el entorno local está listo para el desarrollo.
 
 ## 🔧 Desarrollo Local
 
 **Estructura de trabajo:**
+
 - Frontend: Editar archivos en `front/`
 - Backend: Desarrollar APIs en `back/`
 - Base de datos: Gestionar desde phpMyAdmin

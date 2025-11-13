@@ -352,18 +352,20 @@ footer {
   justify-content: center;
 }
 
-/* Overlay oscuro del modal (header) */
+/* Overlay oscuro del modal (header) - Consistente con admin dashboard */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 998;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .modal-overlay.active {
@@ -371,20 +373,35 @@ footer {
   visibility: visible;
 }
 
-/* Menú hamburguesa integrado */
+/* Menú hamburguesa integrado - Con animación consistente */
 .menu-panel {
   position: fixed;
   top: 0;
   left: -350px;
   z-index: 999;
-  transition: left 0.3s ease;
+  opacity: 0;
+  transition: left 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .menu-panel.active {
   left: 0;
+  opacity: 1;
+  animation: menuSlideIn 0.3s ease;
 }
 
-/* Buscador integrado */
+@keyframes menuSlideIn {
+  from {
+    left: -350px;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+  }
+}
+
+/* Buscador integrado - Con animación consistente de modal */
 .search-canvas {
   position: fixed;
   top: 0;
@@ -401,4 +418,16 @@ footer {
 .search-canvas.active {
   opacity: 1;
   visibility: visible;
+  animation: searchFadeIn 0.3s ease;
+}
+
+@keyframes searchFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
