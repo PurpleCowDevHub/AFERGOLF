@@ -116,12 +116,38 @@ AFERGOLF/
 │       └── ...
 │
 ├── back/                         # Backend PHP
-│   ├── Proximamente...
+│   ├── index.php                 # Punto de entrada del backend
+│   ├── config/                   # Configuración del sistema
+│   │   ├── config.php            # Configuración general
+│   │   └── db_connect.php        # Conexión a base de datos
+│   │
+│   └── modules/                  # Módulos del backend
+│       ├── products/             # Módulo de productos
+│       │   ├── api/              # APIs REST de productos
+│       │   │   ├── catalog.php   # API del catálogo
+│       │   │   └── products.php  # API de productos
+│       │   ├── js/               # Scripts AJAX de productos
+│       │   │   └── product_ajax.js
+│       │   └── php/              # Lógica de negocio de productos
+│       │       ├── Product.php   # Modelo de producto
+│       │       ├── ProductDAO.php# Acceso a datos
+│       │       └── ProductLogic.php# Lógica de negocio
+│       │
+│       └── users/                # Módulo de usuarios
+│           ├── api/              # APIs REST de usuarios
+│           │   ├── auth.php      # API de autenticación
+│           │   └── profile.php   # API de perfil
+│           ├── js/               # Scripts AJAX de usuarios
+│           │   └── user_ajax.js
+│           └── php/              # Lógica de negocio de usuarios
+│               ├── User.php      # Modelo de usuario
+│               ├── UserDAO.php   # Acceso a datos
+│               ├── AuthLogic.php # Lógica de autenticación
+│               └── ProfileLogic.php# Lógica de perfil
 │
 └── docs/                         # Documentación técnica
-    ├── Documento técnico de AFERGOLF.pdf
-    ├── database_schema.sql       # Esquema de BD
-    └── ...
+    └── Documento técnico de AFERGOLF.pdf
+    
 ```
 
 ---
@@ -160,11 +186,48 @@ O copia la carpeta del proyecto dentro del directorio de XAMPP:
 C:\xampp\htdocs\AFERGOLF
 ```
 
-### 3️⃣ Verifica el acceso al proyecto desde el navegador
+### 3️⃣ Configuración de la base de datos
+
+1. **Accede a phpMyAdmin:**
+   - Abre tu navegador y ve a: <http://localhost/phpmyadmin/>
+   - Usuario: `root` (sin contraseña por defecto)
+
+2. **Crear la base de datos:**
+   - Haz clic en **"Nueva"** en el panel izquierdo
+   - Nombre de la base de datos: `afergolf_db`
+   - Cotejamiento: `utf8mb4_spanish_ci`
+   - Haz clic en **"Crear"**
+
+3. **Crear la tabla de usuarios:**
+   - Selecciona la base de datos `afergolf_db` que acabas de crear
+   - Haz clic en la pestaña **"SQL"** 
+   - Copia y pega el siguiente código SQL (si no, crea la tabla como nos enseñó el profe, desde la interfaz):
+
+```sql
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombres VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    password VARCHAR(255) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo BOOLEAN DEFAULT TRUE
+);
+```
+
+- Haz clic en **"Continuar"**
+
+1. **Verificar la tabla creada:**
+   - En el panel izquierdo, expande `afergolf_db`
+   - Deberías ver la tabla `usuarios`
+   - Haz clic en ella para ver su estructura
+
+### 4️⃣ Verifica el acceso al proyecto desde el navegador
 
 👉 <http://localhost/AFERGOLF/>
 
-Si la interfaz se carga correctamente, el entorno local está listo para continuar con la configuración de la base de datos y el backend.
+Si la interfaz se carga correctamente y la base de datos está creada, el entorno local está listo para el desarrollo.
 
 ## 🔧 Desarrollo Local
 
