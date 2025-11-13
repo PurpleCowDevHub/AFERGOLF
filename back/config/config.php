@@ -1,20 +1,31 @@
 <?php
 /**
- * Archivo de Configuración
- * 
- * Este archivo contiene todas las variables globales, constantes y configuraciones 
- * generales para la aplicación backend de AFERGOLF.
- * 
- * Incluye:
- * - Parámetros de conexión a la base de datos
- * - Constantes de la aplicación (URLs, rutas, etc.)
- * - Configuración de manejo de errores
- * - Configuraciones de seguridad
- * - Variables de entorno
+ * Archivo de Configuración Global - AFERGOLF
  */
 
-// La configuración de base de datos se cargará aquí
-// Las constantes globales y configuraciones se definirán aquí
-// Las configuraciones de seguridad se establecerán aquí
+// ================================
+// CONFIGURACIÓN DE BASE DE DATOS
+// ================================
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'afergolf_db');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
+// ================================
+// CONFIGURACIONES GENERALES
+// ================================
+define('BASE_URL', 'http://localhost/AFERGOLF/');
+define('DEBUG_MODE', true); // cambiar a false en producción
+
+// ================================
+// CONFIGURACIÓN DE ERRORES
+// ================================
+if (DEBUG_MODE) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+}
 
 ?>

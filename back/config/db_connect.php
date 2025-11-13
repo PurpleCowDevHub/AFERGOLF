@@ -1,19 +1,21 @@
 <?php
 /**
- * Archivo de Conexión a Base de Datos
- * 
- * Este archivo gestiona la conexión a la base de datos MySQL usando mysqli o PDO.
- * Maneja:
- * - Establecimiento de conexión a la base de datos
- * - Manejo de errores de conexión
- * - Parámetros de conexión (host, usuario, contraseña, nombre de base de datos)
- * - Pruebas y validación de conexión
- * 
- * Utilizado por todos los módulos que necesiten acceso a la base de datos.
+ * Conexión a Base de Datos con PDO - AFERGOLF
  */
 
-// La lógica de conexión a la base de datos se implementará aquí
-// Los parámetros de conexión se definirán aquí
-// El manejo de errores para conexiones de base de datos se gestionará aquí
+require_once __DIR__ . '/config.php';
+
+try {
+    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,        // Mostrar errores
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,   // Fetch en array asociativo
+        PDO::ATTR_EMULATE_PREPARES => false                 // Preparación real
+    ]);
+
+} catch (PDOException $e) {
+    die("Error al conectar a la Base de Datos: " . $e->getMessage());
+}
 
 ?>
