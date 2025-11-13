@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar perfil - AFERGOLF</title>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/pages/Edit_profile.css">
+</head>
+
+<body>
+  <main class="account-main">
+    <section class="account-container">
+
+      <!-- Header del perfil -->
+      <div class="account-header">
+        <div class="avatar" id="avatarContainer">
+          <img id="avatarImage" src="../assets/icon/Person.svg" alt="Foto de perfil del usuario">
+          <input type="file" id="avatarInput" accept="image/*">
+        </div>
+
+        <div class="user-info">
+          <h2 class="user-name">Samuel Fernandez</h2>
+          <p class="user-email">samdezurrea@gmail.com</p>
+          <p class="user-helper">Actualiza tu información personal.</p>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <form class="profile-form">
+        <div class="form-group">
+          <label for="firstName">Nombre</label>
+          <input id="firstName" type="text" placeholder="Samuel" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Apellidos</label>
+          <input id="lastName" type="text" placeholder="Fernandez Urrea" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input id="email" type="email" placeholder="correo@ejemplo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Teléfono</label>
+          <input id="phone" type="tel" placeholder="+57 300 000 0000">
+        </div>
+
+        <div class="form-group full-width">
+          <label for="city">Ciudad</label>
+          <input id="city" type="text" placeholder="Bogotá, Colombia">
+        </div>
+
+        <div class="form-group full-width inline-link">
+          <span>¿Quieres cambiar tu contraseña?</span>
+          <a href="change_password.html">Ir a cambiar contraseña</a>
+        </div>
+
+        <div class="form-actions">
+          <a href="my_account.html" class="btn-secondary">Cancelar</a>
+          <button type="submit" class="btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+
+    </section>
+  </main>
+
+  <!-- Script para previsualizar la foto -->
+  <script>
+    const avatarContainer = document.getElementById('avatarContainer');
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarImage = document.getElementById('avatarImage');
+
+    avatarContainer.addEventListener('click', () => avatarInput.click());
+    avatarInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = ev => avatarImage.src = ev.target.result;
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>

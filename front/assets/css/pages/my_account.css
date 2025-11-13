@@ -61,16 +61,17 @@ body {
   display: none;
 }
 
-.avatar::after {
-  content: "📷";
+.avatar::before {
+  content: '';
   position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background-color: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 0.8rem;
-  padding: 3px 6px;
-  border-radius: 6px;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.avatar:hover::before {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .user-info h2 {
@@ -184,5 +185,246 @@ body {
   .option-card,
   .logout-card {
     padding: 16px;
+  }
+}
+
+/* ===== OVERLAY PARA MODALES ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== MODAL DE EDITAR PERFIL ===== */
+.edit-profile-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.edit-profile-modal.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Header del modal */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-close:hover {
+  color: #d32f2f;
+  transform: rotate(90deg);
+}
+
+.btn-close svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* Body del modal */
+.modal-body {
+  padding: 28px 24px;
+}
+
+/* Formulario dentro del modal */
+.modal-body .profile-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 16px;
+}
+
+.modal-body .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body .form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-body .form-group input {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-body .form-group input:focus {
+  outline: none;
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.15);
+  background-color: #fff;
+}
+
+.modal-body .form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.modal-body .form-group.inline-link {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+.modal-body .form-group.inline-link a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #d32f2f;
+  text-decoration: none;
+}
+
+.modal-body .form-group.inline-link a:hover {
+  text-decoration: underline;
+}
+
+/* Botones del formulario modal */
+.modal-body .form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-body .btn-primary,
+.modal-body .btn-secondary {
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.modal-body .btn-primary {
+  background-color: #d32f2f;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(211, 47, 47, 0.35);
+}
+
+.modal-body .btn-primary:hover {
+  background-color: #b71c1c;
+  box-shadow: 0 4px 14px rgba(211, 47, 47, 0.45);
+  transform: translateY(-1px);
+}
+
+.modal-body .btn-secondary {
+  background-color: #fff;
+  color: #555;
+  border: 1px solid #ddd;
+}
+
+.modal-body .btn-secondary:hover {
+  background-color: #f5f5f5;
+}
+
+/* ===== RESPONSIVE PARA MODAL ===== */
+@media (max-width: 600px) {
+  .edit-profile-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .edit-avatar-section .avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .modal-body .profile-form {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .modal-body .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-body .btn-primary,
+  .modal-body .btn-secondary {
+    width: 100%;
   }
 }
