@@ -1,22 +1,154 @@
 <?php
 /**
- * Endpoint de API de Productos
+ * Endpoint API de Productos
  * 
- * Este archivo sirve como el endpoint principal de API para operaciones de productos.
- * Maneja solicitudes HTTP del JavaScript del frontend y devuelve respuestas JSON.
- * 
- * Operaciones soportadas:
- * - GET: Obtener información de producto(s)
- * - POST: Crear nuevo producto
- * - PUT: Actualizar producto existente
+ * Maneja operaciones CRUD de productos:
+ * - POST: Crear producto
+ * - GET: Obtener productos
+ * - PUT: Actualizar producto
  * - DELETE: Eliminar producto
- * 
- * Enruta solicitudes a manejadores de lógica apropiados y formatea respuestas.
- * Interactúa directamente con product_ajax.js del frontend.
  */
 
-// La lógica de enrutamiento de API se implementará aquí
-// El manejo de métodos HTTP se definirá aquí
-// El formato de respuestas JSON se gestionará aquí
+// Desactivar display de errores y solo registrarlos
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
+header('Content-Type: application/json; charset=utf-8');
+
+try {
+  require_once '../../../config/db_connect.php';
+  
+  $method = $_SERVER['REQUEST_METHOD'];
+
+  switch ($method) {
+    case 'POST':
+      createProduct();
+      break;
+    case 'GET':
+      getProducts();
+      break;
+    case 'PUT':
+      updateProduct();
+      break;
+    case 'DELETE':
+      deleteProduct();
+      break;
+    default:
+      http_response_code(405);
+      echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+  }
+} catch (Exception $e) {
+  http_response_code(500);
+  echo json_encode(['success' => false, 'message' => 'Error del servidor: ' . $e->getMessage()]);
+}
+
+/**
+ * Crea un nuevo producto
+ */
+function createProduct() {
+  global $conn;
+  
+  $data = json_decode(file_get_contents("php://input"), true);
+  
+  if (!$data) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'JSON inválido']);
+    return;
+  }
+  
+  // Validar campos obligatorios
+  if (empty($data['nombre']) || empty($data['categoria']) || empty($data['marca']) || !isset($data['precio'])) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Campos obligatorios faltantes: nombre, categoria, marca, precio']);
+    return;
+  }
+
+  // Escapar y preparar datos
+  $nombre = $conn->real_escape_string($data['nombre']);
+  $descripcion = $conn->real_escape_string($data['descripcion'] ?? '');
+  $categoria = $conn->real_escape_string($data['categoria']);
+  $marca = $conn->real_escape_string($data['marca']);
+  $modelo = $conn->real_escape_string($data['modelo'] ?? '');
+  $referencia = $conn->real_escape_string($data['referencia'] ?? '');
+  $precio = (int)$data['precio'];
+  $stock = (int)($data['stock'] ?? 0);
+  $imagen_principal = $conn->real_escape_string($data['imagen_principal'] ?? '');
+  $imagen_frontal = $conn->real_escape_string($data['imagen_frontal'] ?? '');
+  $imagen_superior = $conn->real_escape_string($data['imagen_superior'] ?? '');
+  $imagen_lateral = $conn->real_escape_string($data['imagen_lateral'] ?? '');
+  $dimensiones = $conn->real_escape_string($data['dimensiones'] ?? '');
+  $peso = (float)($data['peso'] ?? 0);
+  $unidades_paquete = (int)($data['unidades_paquete'] ?? 0);
+
+  // Stock por tallas (guantes)
+  $stock_talla_s = (int)($data['stock_talla_s'] ?? 0);
+  $stock_talla_m = (int)($data['stock_talla_m'] ?? 0);
+  $stock_talla_l = (int)($data['stock_talla_l'] ?? 0);
+  $stock_talla_xl = (int)($data['stock_talla_xl'] ?? 0);
+  $stock_talla_xxl = (int)($data['stock_talla_xxl'] ?? 0);
+
+  $sql = "INSERT INTO productos (
+    nombre, descripcion, categoria, marca, modelo, referencia, precio, stock,
+    imagen_principal, imagen_frontal, imagen_superior, imagen_lateral,
+    dimensiones, peso, unidades_paquete,
+    stock_talla_s, stock_talla_m, stock_talla_l, stock_talla_xl, stock_talla_xxl
+  ) VALUES (
+    '$nombre', '$descripcion', '$categoria', '$marca', '$modelo', '$referencia', 
+    $precio, $stock, '$imagen_principal', '$imagen_frontal', '$imagen_superior', '$imagen_lateral',
+    '$dimensiones', $peso, $unidades_paquete,
+    $stock_talla_s, $stock_talla_m, $stock_talla_l, $stock_talla_xl, $stock_talla_xxl
+  )";
+
+  if ($conn->query($sql)) {
+    $product_id = $conn->insert_id;
+    http_response_code(201);
+    echo json_encode([
+      'success' => true,
+      'message' => 'Producto creado correctamente',
+      'product_id' => $product_id
+    ]);
+  } else {
+    http_response_code(500);
+    echo json_encode([
+      'success' => false,
+      'message' => 'Error al crear el producto: ' . $conn->error
+    ]);
+  }
+}
+
+/**
+ * Obtiene todos los productos
+ */
+function getProducts() {
+  global $conn;
+  
+  $sql = "SELECT * FROM productos ORDER BY fecha_creacion DESC";
+  $result = $conn->query($sql);
+
+  if ($result) {
+    $productos = [];
+    while ($row = $result->fetch_assoc()) {
+      $productos[] = $row;
+    }
+    echo json_encode(['success' => true, 'productos' => $productos]);
+  } else {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Error al obtener productos']);
+  }
+}
+
+/**
+ * Actualiza un producto (placeholder para futuro)
+ */
+function updateProduct() {
+  echo json_encode(['success' => false, 'message' => 'Funcionalidad en desarrollo']);
+}
+
+/**
+ * Elimina un producto (placeholder para futuro)
+ */
+function deleteProduct() {
+  echo json_encode(['success' => false, 'message' => 'Funcionalidad en desarrollo']);
+}
 ?>
