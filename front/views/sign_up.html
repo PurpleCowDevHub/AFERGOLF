@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../assets/css/pages/sign_up.css">
   <script src="../assets/js/main.js" defer></script>
   <script src="../assets/js/ui/components.js" defer></script>
+  <script src="../assets/js/ajax/auth.js" defer></script>
 </head>
 
 <body data-page="registro">
@@ -63,21 +64,21 @@
               </div>
 
               <div class="field">
-                <label class="field-label" for="email">
+                <label class="field-label" for="correo">
                   Correo electrónico <span class="required" aria-label="requerido">*</span>
                 </label>
                 <input 
                   class="field-input" 
                   type="email" 
-                  id="email" 
-                  name="email"
+                  id="correo" 
+                  name="correo"
                   placeholder="tucorreo@gmail.com" 
                   autocomplete="email"
                   maxlength="100"
                   required
-                  aria-describedby="email-error email-help">
-                <span id="email-help" class="field-help"></span>
-                <span id="email-error" class="field-error" role="alert"></span>
+                  aria-describedby="correo-error correo-help">
+                <span id="correo-help" class="field-help"></span>
+                <span id="correo-error" class="field-error" role="alert"></span>
               </div>
 
               <div class="field">
@@ -121,21 +122,21 @@
               </div>
 
               <div class="field">
-                <label class="field-label" for="password-confirm">
+                <label class="field-label" for="confirmar_password">
                   Confirmar contraseña <span class="required" aria-label="requerido">*</span>
                 </label>
                 <input 
                   class="field-input" 
                   type="password" 
-                  id="password-confirm" 
-                  name="password-confirm"
+                  id="confirmar_password" 
+                  name="confirmar_password"
                   placeholder="••••••••" 
                   autocomplete="new-password"
                   minlength="8"
                   maxlength="100"
                   required
-                  aria-describedby="password-confirm-error">
-                <span id="password-confirm-error" class="field-error" role="alert"></span>
+                  aria-describedby="confirmar_password-error">
+                <span id="confirmar_password-error" class="field-error" role="alert"></span>
               </div>
             </div>
           </fieldset>
@@ -154,6 +155,7 @@
             <a href="./log_in.html" class="link-soft">Iniciar sesión</a>
           </p>
         </div>
+        <span id="respuesta"></span>
       </div>
     </section>
   </main>
