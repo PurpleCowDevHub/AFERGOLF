@@ -64,7 +64,8 @@ let tempImageFiles = {
  * 3. Limpia el formulario de datos anteriores
  * 4. Limpia las imágenes temporales
  * 5. Habilita todos los campos del formulario
- * 6. Muestra el modal
+ * 6. Hace que la imagen principal sea requerida
+ * 7. Muestra el modal
  * 
  * @function openCreateModal
  * @returns {void}
@@ -85,6 +86,12 @@ function openCreateModal() {
   
   // Habilitar campos para edición (función definida en components.js)
   if (typeof enableFormFields === 'function') enableFormFields();
+  
+  // Hacer que la imagen principal sea requerida en modo creación
+  const mainImageInput = document.getElementById('product-image-main');
+  if (mainImageInput) {
+    mainImageInput.setAttribute('required', 'required');
+  }
   
   // Mostrar el modal (función definida en components.js)
   if (typeof openProductModal === 'function') openProductModal();
@@ -228,23 +235,25 @@ function collectFormData() {
 }
 
 /**
- * Envía el producto a la API REST para guardarlo en la base de datos
+ * Envía el producto a la API REST para guardarlo o actualizarlo en la base de datos
  * 
  * FLUJO:
- * 1. Realiza petición POST a la API con los datos en formato JSON
- * 2. Espera respuesta del servidor
- * 3. Si es exitoso:
+ * 1. Determina si es creación (POST) o actualización (PUT) según currentProductId
+ * 2. Realiza petición a la API con los datos en formato JSON
+ * 3. Espera respuesta del servidor
+ * 4. Si es exitoso:
  *    - Muestra notificación de éxito
  *    - Cierra el modal
  *    - Limpia las imágenes temporales
  *    - Recarga la lista de productos
- * 4. Si hay error:
+ * 5. Si hay error:
  *    - Muestra notificación de error con el mensaje del servidor
- * 5. Si hay error de conexión:
+ * 6. Si hay error de conexión:
  *    - Muestra notificación de error de conexión
  * 
- * NOTA: La referencia del producto se genera AUTOMÁTICAMENTE en el backend
- * con formato: AFG-P001 (Palos), AFG-B001 (Bolas), AFG-G001 (Guantes), AFG-A001 (Accesorios)
+ * NOTA: 
+ * - Para crear: La referencia se genera AUTOMÁTICAMENTE en el backend
+ * - Para actualizar: Se envía la referencia existente en formData
  * 
  * @function saveProduct
  * @async
@@ -253,9 +262,18 @@ function collectFormData() {
  */
 async function saveProduct(formData) {
   try {
-    // Realizar petición HTTP POST a la API
+    // Determinar si es creación o actualización
+    const isUpdate = currentProductId !== null;
+    const method = isUpdate ? 'PUT' : 'POST';
+    
+    // Si es actualización, incluir la referencia
+    if (isUpdate) {
+      formData.referencia = currentProductId;
+    }
+    
+    // Realizar petición HTTP a la API
     const response = await fetch(API_URL, {
-      method: 'POST',
+      method: method,
       headers: {
         'Content-Type': 'application/json' // Indicar que enviamos JSON
       },
@@ -269,7 +287,8 @@ async function saveProduct(formData) {
     if (result.success) {
       // Mostrar notificación de éxito
       if (typeof showNotification === 'function') {
-        showNotification('Producto creado correctamente', 'success');
+        const mensaje = isUpdate ? 'Producto actualizado correctamente' : 'Producto creado correctamente';
+        showNotification(mensaje, 'success');
       }
       
       // Cerrar el modal (función definida en components.js)
@@ -278,13 +297,16 @@ async function saveProduct(formData) {
       // Limpiar imágenes temporales
       clearTempImageFiles();
       
+      // Resetear currentProductId
+      currentProductId = null;
+      
       // Recargar lista de productos en la tabla
       loadProducts();
       
     } else {
       // Mostrar mensaje de error del servidor
       if (typeof showNotification === 'function') {
-        showNotification(result.message || 'Error al crear el producto', 'error');
+        showNotification(result.message || 'Error al guardar el producto', 'error');
       }
     }
     
@@ -403,18 +425,16 @@ function clearTempImageFiles() {
 /**
  * Carga la lista de productos desde el servidor y renderiza la tabla
  * 
- * FUNCIONALIDAD PENDIENTE (TODO)
- * Esta función aún no está implementada. Cuando se implemente, deberá:
+ * FLUJO:
+ * 1. Hace petición GET a la API para obtener todos los productos
+ * 2. Recibe array de productos en formato JSON
+ * 3. Itera sobre cada producto
+ * 4. Crea filas HTML con los datos de cada producto
+ * 5. Inserta filas en la tabla del dashboard
+ * 6. Agrega botones de acciones (editar, eliminar, ver)
+ * 7. Muestra mensaje si no hay productos
  * 
- * 1. Hacer petición GET a la API para obtener todos los productos
- * 2. Recibir array de productos en formato JSON
- * 3. Iterar sobre cada producto
- * 4. Crear filas HTML con los datos de cada producto
- * 5. Insertar filas en la tabla del dashboard
- * 6. Agregar botones de acciones (editar, eliminar, ver)
- * 7. Mostrar mensaje si no hay productos
- * 
- * EJEMPLO DE RESPUESTA ESPERADA:
+ * RESPUESTA ESPERADA:
  * {
  *   "success": true,
  *   "productos": [
@@ -431,16 +451,696 @@ function clearTempImageFiles() {
  * }
  * 
  * @function loadProducts
+ * @async
+ * @returns {Promise<void>}
+ */
+async function loadProducts() {
+  try {
+    // Realizar petición GET a la API
+    const response = await fetch(API_URL, {
+      method: 'GET'
+    });
+
+    // Convertir respuesta a JSON
+    const result = await response.json();
+
+    // Verificar si la operación fue exitosa
+    if (result.success) {
+      // Renderizar productos en la tabla
+      renderProductsTable(result.productos);
+      
+    } else {
+      // Mostrar mensaje de error
+      if (typeof showNotification === 'function') {
+        showNotification(result.message || 'Error al cargar productos', 'error');
+      }
+      renderProductsTable([]);
+    }
+    
+  } catch (error) {
+    // Error de conexión o error inesperado
+    console.error('Error al cargar productos:', error);
+    if (typeof showNotification === 'function') {
+      showNotification('Error al conectar con el servidor', 'error');
+    }
+    renderProductsTable([]);
+  }
+}
+
+/**
+ * Renderiza la tabla de productos con los datos recibidos
+ * 
+ * Si no hay productos, muestra el estado vacío.
+ * Si hay productos, crea una fila por cada uno con sus datos y botones de acción.
+ * 
+ * @function renderProductsTable
+ * @param {Array} productos - Array de objetos producto
  * @returns {void}
  */
-function loadProducts() {
-  // TODO: Implementar carga de productos desde servidor
-  // Esta función renderizará la tabla con los productos existentes
-  console.log('TODO: Implementar loadProducts() para mostrar productos en la tabla');
+function renderProductsTable(productos) {
+  const tbody = document.getElementById('products-tbody');
+  const emptyState = document.getElementById('empty-state');
+  
+  // Limpiar tabla
+  if (tbody) tbody.innerHTML = '';
+  
+  // Si no hay productos, mostrar estado vacío
+  if (!productos || productos.length === 0) {
+    if (emptyState) emptyState.style.display = 'flex';
+    return;
+  }
+  
+  // Ocultar estado vacío
+  if (emptyState) emptyState.style.display = 'none';
+  
+  // Crear filas para cada producto
+  productos.forEach(producto => {
+    const row = createProductRow(producto);
+    tbody.appendChild(row);
+  });
+}
+
+/**
+ * Crea una fila HTML para un producto
+ * 
+ * Cada fila contiene:
+ * - Imagen principal (miniatura)
+ * - Nombre del producto
+ * - Categoría
+ * - Marca
+ * - Precio formateado ($ COP)
+ * - Stock disponible
+ * - Botones de acción (Ver, Editar, Eliminar)
+ * 
+ * @function createProductRow
+ * @param {Object} producto - Datos del producto
+ * @returns {HTMLTableRowElement} Elemento <tr> con los datos del producto
+ */
+function createProductRow(producto) {
+  const tr = document.createElement('tr');
+  tr.dataset.referencia = producto.referencia;
+  
+  // Columna: Imagen
+  const tdImage = document.createElement('td');
+  const img = document.createElement('img');
+  img.src = producto.imagen_principal || '../assets/img/placeholder-product.jpg';
+  img.alt = producto.nombre;
+  img.className = 'product-image';
+  tdImage.appendChild(img);
+  
+  // Columna: Nombre
+  const tdName = document.createElement('td');
+  const nameSpan = document.createElement('span');
+  nameSpan.className = 'product-name';
+  nameSpan.textContent = producto.nombre;
+  nameSpan.title = producto.nombre; // Tooltip con nombre completo
+  tdName.appendChild(nameSpan);
+  
+  // Columna: Categoría
+  const tdCategory = document.createElement('td');
+  const categorySpan = document.createElement('span');
+  categorySpan.className = 'product-category';
+  categorySpan.textContent = capitalizeFirstLetter(producto.categoria);
+  tdCategory.appendChild(categorySpan);
+  
+  // Columna: Marca
+  const tdBrand = document.createElement('td');
+  const brandSpan = document.createElement('span');
+  brandSpan.className = 'product-brand';
+  brandSpan.textContent = producto.marca;
+  tdBrand.appendChild(brandSpan);
+  
+  // Columna: Precio
+  const tdPrice = document.createElement('td');
+  const priceSpan = document.createElement('span');
+  priceSpan.className = 'product-price';
+  priceSpan.textContent = formatPrice(producto.precio);
+  tdPrice.appendChild(priceSpan);
+  
+  // Columna: Stock
+  const tdStock = document.createElement('td');
+  const stockSpan = document.createElement('span');
+  stockSpan.className = 'product-stock';
+  stockSpan.textContent = producto.stock || 0;
+  
+  // Aplicar clase según disponibilidad
+  if (producto.stock === 0) {
+    stockSpan.classList.add('out-of-stock');
+  } else if (producto.stock < 5) {
+    stockSpan.classList.add('low-stock');
+  }
+  
+  tdStock.appendChild(stockSpan);
+  
+  // Columna: Acciones
+  const tdActions = document.createElement('td');
+  tdActions.className = 'product-actions';
+  
+  // Botón Ver
+  const btnView = document.createElement('button');
+  btnView.className = 'action-btn view';
+  btnView.title = 'Ver detalles';
+  btnView.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+      <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+  `;
+  btnView.onclick = () => viewProduct(producto.referencia);
+  
+  // Botón Editar
+  const btnEdit = document.createElement('button');
+  btnEdit.className = 'action-btn edit';
+  btnEdit.title = 'Editar producto';
+  btnEdit.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+    </svg>
+  `;
+  btnEdit.onclick = () => editProduct(producto.referencia);
+  
+  // Botón Eliminar
+  const btnDelete = document.createElement('button');
+  btnDelete.className = 'action-btn delete';
+  btnDelete.title = 'Eliminar producto';
+  btnDelete.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+    </svg>
+  `;
+  btnDelete.onclick = () => confirmDeleteProduct(producto.referencia);
+  
+  tdActions.appendChild(btnView);
+  tdActions.appendChild(btnEdit);
+  tdActions.appendChild(btnDelete);
+  
+  // Ensamblar fila
+  tr.appendChild(tdImage);
+  tr.appendChild(tdName);
+  tr.appendChild(tdCategory);
+  tr.appendChild(tdBrand);
+  tr.appendChild(tdPrice);
+  tr.appendChild(tdStock);
+  tr.appendChild(tdActions);
+  
+  return tr;
+}
+
+/**
+ * Formatea un número como precio en pesos colombianos
+ * 
+ * Ejemplos:
+ * - 250000 → "$250.000 COP"
+ * - 1500000 → "$1.500.000 COP"
+ * 
+ * @function formatPrice
+ * @param {number} price - Precio a formatear
+ * @returns {string} Precio formateado
+ */
+function formatPrice(price) {
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(price);
+}
+
+/**
+ * Capitaliza la primera letra de un string
+ * 
+ * Ejemplos:
+ * - "palos" → "Palos"
+ * - "guantes" → "Guantes"
+ * 
+ * @function capitalizeFirstLetter
+ * @param {string} str - String a capitalizar
+ * @returns {string} String capitalizado
+ */
+function capitalizeFirstLetter(str) {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 // ============================================================================
-// SECCIÓN 4: INICIALIZACIÓN Y EVENT LISTENERS
+// SECCIÓN 4: ACCIONES DE PRODUCTOS (Ver, Editar, Eliminar)
+// ============================================================================
+
+/**
+ * Obtiene los datos de un producto específico desde el servidor
+ * 
+ * FLUJO:
+ * 1. Hace petición GET a la API con parámetro ?referencia=XXX
+ * 2. Recibe los datos completos del producto
+ * 3. Retorna el objeto producto
+ * 
+ * @function fetchProductByReference
+ * @async
+ * @param {string} referencia - Referencia del producto a obtener
+ * @returns {Promise<Object|null>} Datos del producto o null si hay error
+ */
+async function fetchProductByReference(referencia) {
+  try {
+    // Hacer petición GET con parámetro en la URL
+    const response = await fetch(`${API_URL}?referencia=${encodeURIComponent(referencia)}`, {
+      method: 'GET'
+    });
+
+    const result = await response.json();
+
+    if (result.success && result.producto) {
+      return result.producto;
+    } else {
+      if (typeof showNotification === 'function') {
+        showNotification(result.message || 'Producto no encontrado', 'error');
+      }
+      return null;
+    }
+    
+  } catch (error) {
+    console.error('Error al obtener producto:', error);
+    if (typeof showNotification === 'function') {
+      showNotification('Error al conectar con el servidor', 'error');
+    }
+    return null;
+  }
+}
+
+/**
+ * Abre el modal para ver los detalles de un producto en modo solo lectura
+ * 
+ * FLUJO:
+ * 1. Obtiene los datos del producto desde el servidor
+ * 2. Carga las imágenes en el modal de vista previa
+ * 3. Carga todos los datos del producto
+ * 4. Muestra el modal
+ * 
+ * @function viewProduct
+ * @async
+ * @param {string} referencia - Referencia del producto a ver
+ * @returns {Promise<void>}
+ */
+async function viewProduct(referencia) {
+  // Obtener datos del producto
+  const producto = await fetchProductByReference(referencia);
+  
+  if (!producto) {
+    return; // Si no se encontró el producto, detener
+  }
+
+  // Cargar imágenes en el modal de vista previa
+  loadProductImages(producto, 'details');
+  
+  // Cargar información del producto
+  loadProductInfo(producto);
+  
+  // Abrir el modal de vista previa
+  if (typeof openProductDetailsModal === 'function') {
+    openProductDetailsModal();
+  } else {
+    // Fallback: abrir modal manualmente
+    const modal = document.getElementById('product-details-modal');
+    if (modal) {
+      modal.classList.add('active');
+    }
+  }
+}
+
+/**
+ * Carga las imágenes del producto en el modal
+ * 
+ * @function loadProductImages
+ * @param {Object} producto - Datos del producto
+ * @param {string} suffix - Sufijo para los IDs ('details' para modal de vista)
+ * @returns {void}
+ */
+function loadProductImages(producto, suffix = '') {
+  const positions = ['main', 'front', 'top', 'side'];
+  const imageFields = {
+    'main': 'imagen_principal',
+    'front': 'imagen_frontal',
+    'top': 'imagen_superior',
+    'side': 'imagen_lateral'
+  };
+
+  positions.forEach(position => {
+    const previewId = suffix ? `preview-${position}-${suffix}` : `preview-${position}`;
+    const preview = document.getElementById(previewId);
+    
+    if (preview) {
+      const img = preview.querySelector('img');
+      const placeholder = preview.querySelector('.preview-placeholder');
+      const imageData = producto[imageFields[position]];
+
+      if (imageData) {
+        // Mostrar imagen
+        if (img) {
+          img.src = imageData;
+          img.style.display = 'block';
+        }
+        if (placeholder) {
+          placeholder.style.display = 'none';
+        }
+      } else {
+        // Mostrar placeholder
+        if (img) {
+          img.style.display = 'none';
+        }
+        if (placeholder) {
+          placeholder.style.display = 'flex';
+        }
+      }
+    }
+  });
+}
+
+/**
+ * Carga la información del producto en el modal de vista previa
+ * 
+ * @function loadProductInfo
+ * @param {Object} producto - Datos del producto
+ * @returns {void}
+ */
+function loadProductInfo(producto) {
+  // Título del producto
+  const titleElement = document.getElementById('product-name-details');
+  if (titleElement) {
+    titleElement.textContent = producto.nombre || 'Sin nombre';
+  }
+
+  // Marca
+  const brandElement = document.getElementById('product-brand-details');
+  if (brandElement) {
+    brandElement.textContent = producto.marca || '-';
+  }
+
+  // Dimensiones
+  const dimensionsElement = document.getElementById('product-dimensions-details');
+  if (dimensionsElement) {
+    dimensionsElement.textContent = producto.dimensiones || '-';
+  }
+
+  // Peso del producto
+  const weightElement = document.getElementById('product-weight-details');
+  if (weightElement) {
+    weightElement.textContent = producto.peso ? `${producto.peso} kg` : '-';
+  }
+
+  // Peso de envío (calculado como peso + 0.1 kg de empaque)
+  const shippingWeightElement = document.getElementById('product-shipping-weight-details');
+  if (shippingWeightElement) {
+    const shippingWeight = producto.peso ? (parseFloat(producto.peso) + 0.1).toFixed(2) : null;
+    shippingWeightElement.textContent = shippingWeight ? `${shippingWeight} kg` : '-';
+  }
+
+  // Modelo
+  const modelElement = document.getElementById('product-model-details');
+  if (modelElement) {
+    modelElement.textContent = producto.modelo || '-';
+  }
+
+  // Referencia
+  const referenceElement = document.getElementById('product-reference-details');
+  if (referenceElement) {
+    referenceElement.textContent = producto.referencia || '-';
+  }
+
+  // Precio
+  const priceElement = document.getElementById('product-price-details');
+  if (priceElement) {
+    priceElement.textContent = formatPrice(producto.precio || 0);
+  }
+
+  // Descripción
+  const descriptionElement = document.getElementById('product-description-text-details');
+  if (descriptionElement) {
+    descriptionElement.textContent = producto.descripcion || 'Sin descripción disponible';
+  }
+  
+  // Configurar interacción con miniaturas para cambiar imagen principal
+  setupImageThumbnailInteraction('details');
+}
+
+/**
+ * Configura la interacción con las miniaturas de imágenes
+ * Permite cambiar la imagen principal al hacer clic en una miniatura
+ * 
+ * @function setupImageThumbnailInteraction
+ * @param {string} suffix - Sufijo para los IDs ('details' para modal de vista)
+ * @returns {void}
+ */
+function setupImageThumbnailInteraction(suffix = '') {
+  const mainPreviewId = suffix ? `preview-main-${suffix}` : 'preview-main';
+  const mainPreview = document.getElementById(mainPreviewId);
+  
+  if (!mainPreview) return;
+  
+  const thumbnailPositions = ['front', 'top', 'side'];
+  
+  thumbnailPositions.forEach(position => {
+    const thumbId = suffix ? `preview-${position}-${suffix}` : `preview-${position}`;
+    const thumb = document.getElementById(thumbId);
+    
+    if (thumb) {
+      // Agregar cursor pointer si tiene imagen
+      const thumbImg = thumb.querySelector('img');
+      if (thumbImg && thumbImg.style.display !== 'none') {
+        thumb.style.cursor = 'pointer';
+        
+        // Event listener para cambiar imagen principal
+        thumb.onclick = () => {
+          const mainImg = mainPreview.querySelector('img');
+          const mainPlaceholder = mainPreview.querySelector('.preview-placeholder');
+          
+          if (mainImg && thumbImg && thumbImg.src) {
+            // Intercambiar imágenes
+            const tempSrc = mainImg.src;
+            mainImg.src = thumbImg.src;
+            thumbImg.src = tempSrc;
+            
+            // Asegurar que ambas estén visibles
+            mainImg.style.display = 'block';
+            thumbImg.style.display = 'block';
+            if (mainPlaceholder) mainPlaceholder.style.display = 'none';
+          }
+        };
+      }
+    }
+  });
+}
+
+/**
+ * Abre el modal para editar un producto existente
+ * 
+ * FLUJO:
+ * 1. Obtiene los datos del producto desde el servidor
+ * 2. Cambia el título del modal a "Editar Producto"
+ * 3. Carga todos los datos en el formulario
+ * 4. Guarda la referencia en currentProductId
+ * 5. Abre el modal
+ * 
+ * @function editProduct
+ * @async
+ * @param {string} referencia - Referencia del producto a editar
+ * @returns {Promise<void>}
+ */
+async function editProduct(referencia) {
+  // Obtener datos del producto
+  const producto = await fetchProductByReference(referencia);
+  
+  if (!producto) {
+    return; // Si no se encontró el producto, detener
+  }
+
+  // Cambiar a modo edición
+  currentProductId = referencia;
+  
+  // Actualizar textos del modal
+  document.getElementById('modal-title').textContent = 'Editar Producto';
+  document.getElementById('btn-submit-text').textContent = 'Actualizar Producto';
+  
+  // Remover el atributo required de la imagen principal (ya tiene imagen)
+  const mainImageInput = document.getElementById('product-image-main');
+  if (mainImageInput) {
+    mainImageInput.removeAttribute('required');
+  }
+  
+  // Cargar datos en el formulario
+  loadProductIntoForm(producto);
+  
+  // Habilitar campos para edición
+  if (typeof enableFormFields === 'function') enableFormFields();
+  
+  // Abrir el modal
+  if (typeof openProductModal === 'function') openProductModal();
+}
+
+/**
+ * Carga los datos de un producto en el formulario de edición
+ * 
+ * @function loadProductIntoForm
+ * @param {Object} producto - Datos del producto
+ * @returns {void}
+ */
+function loadProductIntoForm(producto) {
+  // Campos generales
+  document.getElementById('product-name').value = producto.nombre || '';
+  document.getElementById('product-description').value = producto.descripcion || '';
+  document.getElementById('product-category').value = producto.categoria || '';
+  document.getElementById('product-brand').value = producto.marca || '';
+  document.getElementById('product-model').value = producto.modelo || '';
+  document.getElementById('product-price').value = producto.precio || 0;
+  
+  // Disparar evento change en categoría para mostrar campos dinámicos
+  const categoryElement = document.getElementById('product-category');
+  if (categoryElement) {
+    categoryElement.dispatchEvent(new Event('change'));
+  }
+  
+  // Stock general o por tallas según categoría
+  if (producto.categoria === 'guantes') {
+    // Stock por tallas
+    document.getElementById('stock-size-s').value = producto.stock_talla_s || 0;
+    document.getElementById('stock-size-m').value = producto.stock_talla_m || 0;
+    document.getElementById('stock-size-l').value = producto.stock_talla_l || 0;
+    document.getElementById('stock-size-xl').value = producto.stock_talla_xl || 0;
+    document.getElementById('stock-size-xxl').value = producto.stock_talla_xxl || 0;
+  } else {
+    // Stock general
+    const stockElement = document.getElementById('product-stock');
+    if (stockElement) {
+      stockElement.value = producto.stock || 0;
+    }
+  }
+  
+  // Campos específicos por categoría
+  if (producto.categoria === 'bolas') {
+    const unitsElement = document.getElementById('product-units');
+    if (unitsElement) {
+      unitsElement.value = producto.unidades_paquete || 0;
+    }
+  } else if (producto.categoria === 'palos') {
+    const dimensionsElement = document.getElementById('product-dimensions');
+    const weightElement = document.getElementById('product-weight');
+    if (dimensionsElement) dimensionsElement.value = producto.dimensiones || '';
+    if (weightElement) weightElement.value = producto.peso || 0;
+  } else if (producto.categoria === 'accesorios') {
+    const dimensionsElement = document.getElementById('product-dimensions-acc');
+    const weightElement = document.getElementById('product-weight-acc');
+    if (dimensionsElement) dimensionsElement.value = producto.dimensiones || '';
+    if (weightElement) weightElement.value = producto.peso || 0;
+  }
+  
+  // Cargar imágenes
+  tempImageFiles.main = producto.imagen_principal || null;
+  tempImageFiles.front = producto.imagen_frontal || null;
+  tempImageFiles.top = producto.imagen_superior || null;
+  tempImageFiles.side = producto.imagen_lateral || null;
+  
+  // Actualizar previsualizaciones de imágenes
+  loadProductImages(producto, '');
+}
+
+/**
+ * Abre el modal de confirmación para eliminar un producto
+ * 
+ * @function confirmDeleteProduct
+ * @param {string} referencia - Referencia del producto a eliminar
+ * @returns {void}
+ */
+function confirmDeleteProduct(referencia) {
+  // Guardar referencia para usar en la confirmación
+  currentProductId = referencia;
+  
+  // Abrir modal de confirmación
+  if (typeof openDeleteModal === 'function') {
+    openDeleteModal();
+  } else {
+    // Fallback: abrir modal manualmente
+    const modal = document.getElementById('delete-modal');
+    if (modal) {
+      modal.classList.add('active');
+    }
+  }
+}
+
+/**
+ * Elimina un producto de la base de datos
+ * 
+ * FLUJO:
+ * 1. Realiza petición DELETE a la API con la referencia
+ * 2. Espera respuesta del servidor
+ * 3. Si es exitoso:
+ *    - Muestra notificación de éxito
+ *    - Cierra el modal de confirmación
+ *    - Recarga la lista de productos
+ * 4. Si hay error:
+ *    - Muestra notificación de error
+ * 
+ * @function deleteProductConfirmed
+ * @async
+ * @returns {Promise<void>}
+ */
+async function deleteProductConfirmed() {
+  if (!currentProductId) {
+    if (typeof showNotification === 'function') {
+      showNotification('No se ha seleccionado ningún producto', 'error');
+    }
+    return;
+  }
+
+  try {
+    // Realizar petición DELETE a la API
+    const response = await fetch(`${API_URL}?referencia=${encodeURIComponent(currentProductId)}`, {
+      method: 'DELETE'
+    });
+
+    // Convertir respuesta a JSON
+    const result = await response.json();
+
+    // Verificar si la operación fue exitosa
+    if (result.success) {
+      // Mostrar notificación de éxito
+      if (typeof showNotification === 'function') {
+        showNotification('Producto eliminado correctamente', 'success');
+      }
+      
+      // Cerrar el modal de confirmación
+      if (typeof closeDeleteModal === 'function') {
+        closeDeleteModal();
+      } else {
+        const modal = document.getElementById('delete-modal');
+        if (modal) {
+          modal.classList.remove('active');
+        }
+      }
+      
+      // Resetear currentProductId
+      currentProductId = null;
+      
+      // Recargar lista de productos en la tabla
+      loadProducts();
+      
+    } else {
+      // Mostrar mensaje de error del servidor
+      if (typeof showNotification === 'function') {
+        showNotification(result.message || 'Error al eliminar el producto', 'error');
+      }
+    }
+    
+  } catch (error) {
+    // Error de conexión o error inesperado
+    console.error('Error:', error);
+    if (typeof showNotification === 'function') {
+      showNotification('Error al conectar con el servidor', 'error');
+    }
+  }
+}
+
+// ============================================================================
+// SECCIÓN 5: INICIALIZACIÓN Y EVENT LISTENERS
 // ============================================================================
 
 /**
@@ -484,6 +1184,32 @@ function setupProductsEventListeners() {
       input.addEventListener('change', (e) => handleImageUpload(e, position));
     }
   });
+  
+  // Event listener para cerrar modal de vista previa
+  const btnClosePreview = document.getElementById('btn-close-preview');
+  if (btnClosePreview) {
+    btnClosePreview.addEventListener('click', () => {
+      if (typeof closeProductDetailsModal === 'function') {
+        closeProductDetailsModal();
+      }
+    });
+  }
+  
+  // Event listener para cerrar modal con el botón X
+  const productDetailsClose = document.getElementById('product-details-close');
+  if (productDetailsClose) {
+    productDetailsClose.addEventListener('click', () => {
+      if (typeof closeProductDetailsModal === 'function') {
+        closeProductDetailsModal();
+      }
+    });
+  }
+  
+  // Event listener para confirmar eliminación
+  const btnConfirmDelete = document.getElementById('btn-confirm-delete');
+  if (btnConfirmDelete) {
+    btnConfirmDelete.addEventListener('click', deleteProductConfirmed);
+  }
 }
 
 /**

@@ -355,10 +355,11 @@ function generateProductReference($conn, $categoria) {
 // ============================================================================
 
 /**
- * Obtiene la lista de todos los productos de la base de datos
+ * Obtiene productos de la base de datos
  * 
  * FUNCIONALIDAD ACTUAL:
- * - Retorna TODOS los productos ordenados por fecha de creación (más recientes primero)
+ * - Si se proporciona parámetro ?referencia=XXX en la URL, retorna UN producto específico
+ * - Si NO se proporciona parámetro, retorna TODOS los productos
  * 
  * FUNCIONALIDAD FUTURA (TODO):
  * - Filtrar por categoría, marca, etc.
@@ -366,27 +367,33 @@ function generateProductReference($conn, $categoria) {
  * - Búsqueda por nombre o referencia
  * - Ordenamiento personalizado
  * 
- * RESPUESTA EXITOSA (HTTP 200):
+ * RESPUESTA EXITOSA - UN PRODUCTO (HTTP 200):
+ * {
+ *   "success": true,
+ *   "producto": {
+ *     "referencia": "AFG-P001",
+ *     "nombre": "Palo de Golf X",
+ *     "categoria": "palos",
+ *     "marca": "TaylorMade",
+ *     "precio": 250000,
+ *     "stock": 10,
+ *     ...demás campos
+ *   }
+ * }
+ * 
+ * RESPUESTA EXITOSA - TODOS LOS PRODUCTOS (HTTP 200):
  * {
  *   "success": true,
  *   "productos": [
- *     {
- *       "referencia": "AFG-P001",
- *       "nombre": "Palo de Golf X",
- *       "categoria": "palos",
- *       "marca": "TaylorMade",
- *       "precio": 250000,
- *       "stock": 10,
- *       ...demás campos
- *     },
- *     ...más productos
+ *     {...producto 1...},
+ *     {...producto 2...}
  *   ]
  * }
  * 
- * RESPUESTA DE ERROR (HTTP 500):
+ * RESPUESTA DE ERROR (HTTP 404 o 500):
  * {
  *   "success": false,
- *   "message": "Error al obtener productos"
+ *   "message": "Descripción del error"
  * }
  * 
  * @return void - Envía respuesta JSON y termina ejecución
@@ -394,32 +401,71 @@ function generateProductReference($conn, $categoria) {
 function getProducts() {
   global $conn; // Usar conexión global de base de datos
   
-  // Query para obtener todos los productos ordenados por fecha de creación
-  $sql = "SELECT * FROM productos ORDER BY fecha_creacion DESC";
-  $result = $conn->query($sql);
-
-  if ($result) {
-    // ✅ ÉXITO: Query ejecutada correctamente
-    $productos = [];
+  // Verificar si se solicita un producto específico por referencia
+  $referencia = $_GET['referencia'] ?? null;
+  
+  if ($referencia) {
+    // -------------------------------------------------------------------------
+    // OBTENER UN PRODUCTO ESPECÍFICO POR REFERENCIA
+    // -------------------------------------------------------------------------
     
-    // Iterar sobre todos los resultados y agregarlos al array
-    while ($row = $result->fetch_assoc()) {
-      $productos[] = $row;
+    // Escapar referencia para prevenir SQL Injection
+    $referencia = $conn->real_escape_string($referencia);
+    
+    // Query para obtener un producto específico
+    $sql = "SELECT * FROM productos WHERE referencia = '$referencia' LIMIT 1";
+    $result = $conn->query($sql);
+    
+    if ($result && $result->num_rows > 0) {
+      // ✅ ÉXITO: Producto encontrado
+      $producto = $result->fetch_assoc();
+      
+      echo json_encode([
+        'success' => true,
+        'producto' => $producto
+      ]);
+      
+    } else {
+      // ❌ ERROR: Producto no encontrado
+      http_response_code(404); // 404 = Not Found
+      echo json_encode([
+        'success' => false,
+        'message' => 'Producto no encontrado'
+      ]);
     }
     
-    // Retornar array de productos
-    echo json_encode([
-      'success' => true, 
-      'productos' => $productos
-    ]);
-    
   } else {
-    // ❌ ERROR: No se pudo ejecutar la query
-    http_response_code(500);
-    echo json_encode([
-      'success' => false, 
-      'message' => 'Error al obtener productos'
-    ]);
+    // -------------------------------------------------------------------------
+    // OBTENER TODOS LOS PRODUCTOS
+    // -------------------------------------------------------------------------
+    
+    // Query para obtener todos los productos ordenados por fecha de creación
+    $sql = "SELECT * FROM productos ORDER BY fecha_creacion DESC";
+    $result = $conn->query($sql);
+
+    if ($result) {
+      // ✅ ÉXITO: Query ejecutada correctamente
+      $productos = [];
+      
+      // Iterar sobre todos los resultados y agregarlos al array
+      while ($row = $result->fetch_assoc()) {
+        $productos[] = $row;
+      }
+      
+      // Retornar array de productos
+      echo json_encode([
+        'success' => true, 
+        'productos' => $productos
+      ]);
+      
+    } else {
+      // ❌ ERROR: No se pudo ejecutar la query
+      http_response_code(500);
+      echo json_encode([
+        'success' => false, 
+        'message' => 'Error al obtener productos'
+      ]);
+    }
   }
 }
 
@@ -430,22 +476,209 @@ function getProducts() {
 /**
  * Actualiza un producto existente en la base de datos
  * 
- * PENDIENTE DE IMPLEMENTAR
+ * FLUJO:
+ * 1. Recibe referencia del producto a actualizar en el body JSON
+ * 2. Recibe campos a actualizar en el body
+ * 3. Valida que el producto exista
+ * 4. Actualiza los campos proporcionados
+ * 5. Retorna confirmación
  * 
- * Funcionalidad esperada:
- * 1. Recibir referencia del producto a actualizar
- * 2. Recibir campos a actualizar en el body
- * 3. Validar que el producto exista
- * 4. Actualizar solo los campos proporcionados
- * 5. Retornar producto actualizado
+ * CAMPOS REQUERIDOS:
+ * - referencia: Referencia del producto a actualizar (no se puede cambiar)
+ * 
+ * CAMPOS ACTUALIZABLES:
+ * - nombre, descripcion, categoria, marca, modelo, precio, stock
+ * - imagen_principal, imagen_frontal, imagen_superior, imagen_lateral
+ * - dimensiones, peso, unidades_paquete
+ * - stock_talla_s, stock_talla_m, stock_talla_l, stock_talla_xl, stock_talla_xxl
+ * 
+ * RESPUESTA EXITOSA (HTTP 200):
+ * {
+ *   "success": true,
+ *   "message": "Producto actualizado correctamente",
+ *   "referencia": "AFG-P001"
+ * }
+ * 
+ * RESPUESTA DE ERROR (HTTP 400 o 404 o 500):
+ * {
+ *   "success": false,
+ *   "message": "Descripción del error"
+ * }
  * 
  * @return void
  */
 function updateProduct() {
-  echo json_encode([
-    'success' => false, 
-    'message' => 'Funcionalidad en desarrollo'
-  ]);
+  global $conn;
+  
+  // Obtener datos del body
+  $data = json_decode(file_get_contents("php://input"), true);
+  
+  // Verificar que el JSON sea válido
+  if (!$data) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false, 
+      'message' => 'JSON inválido'
+    ]);
+    return;
+  }
+  
+  // Validar que se proporcione la referencia
+  if (empty($data['referencia'])) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false, 
+      'message' => 'Referencia del producto es obligatoria'
+    ]);
+    return;
+  }
+  
+  $referencia = $conn->real_escape_string($data['referencia']);
+  
+  // Verificar que el producto exista
+  $checkSql = "SELECT referencia FROM productos WHERE referencia = '$referencia' LIMIT 1";
+  $checkResult = $conn->query($checkSql);
+  
+  if (!$checkResult || $checkResult->num_rows === 0) {
+    http_response_code(404);
+    echo json_encode([
+      'success' => false, 
+      'message' => 'Producto no encontrado'
+    ]);
+    return;
+  }
+  
+  // Construir array de campos a actualizar
+  $updates = [];
+  
+  // Campos de texto
+  if (isset($data['nombre'])) {
+    $nombre = $conn->real_escape_string($data['nombre']);
+    $updates[] = "nombre = '$nombre'";
+  }
+  
+  if (isset($data['descripcion'])) {
+    $descripcion = $conn->real_escape_string($data['descripcion']);
+    $updates[] = "descripcion = '$descripcion'";
+  }
+  
+  if (isset($data['categoria'])) {
+    $categoria = $conn->real_escape_string($data['categoria']);
+    $updates[] = "categoria = '$categoria'";
+  }
+  
+  if (isset($data['marca'])) {
+    $marca = $conn->real_escape_string($data['marca']);
+    $updates[] = "marca = '$marca'";
+  }
+  
+  if (isset($data['modelo'])) {
+    $modelo = $conn->real_escape_string($data['modelo']);
+    $updates[] = "modelo = '$modelo'";
+  }
+  
+  // Campos numéricos
+  if (isset($data['precio'])) {
+    $precio = (int)$data['precio'];
+    $updates[] = "precio = $precio";
+  }
+  
+  if (isset($data['stock'])) {
+    $stock = (int)$data['stock'];
+    $updates[] = "stock = $stock";
+  }
+  
+  // Imágenes
+  if (isset($data['imagen_principal'])) {
+    $imagen_principal = $conn->real_escape_string($data['imagen_principal']);
+    $updates[] = "imagen_principal = '$imagen_principal'";
+  }
+  
+  if (isset($data['imagen_frontal'])) {
+    $imagen_frontal = $conn->real_escape_string($data['imagen_frontal']);
+    $updates[] = "imagen_frontal = '$imagen_frontal'";
+  }
+  
+  if (isset($data['imagen_superior'])) {
+    $imagen_superior = $conn->real_escape_string($data['imagen_superior']);
+    $updates[] = "imagen_superior = '$imagen_superior'";
+  }
+  
+  if (isset($data['imagen_lateral'])) {
+    $imagen_lateral = $conn->real_escape_string($data['imagen_lateral']);
+    $updates[] = "imagen_lateral = '$imagen_lateral'";
+  }
+  
+  // Campos específicos por categoría
+  if (isset($data['dimensiones'])) {
+    $dimensiones = $conn->real_escape_string($data['dimensiones']);
+    $updates[] = "dimensiones = '$dimensiones'";
+  }
+  
+  if (isset($data['peso'])) {
+    $peso = (float)$data['peso'];
+    $updates[] = "peso = $peso";
+  }
+  
+  if (isset($data['unidades_paquete'])) {
+    $unidades_paquete = (int)$data['unidades_paquete'];
+    $updates[] = "unidades_paquete = $unidades_paquete";
+  }
+  
+  // Stock por tallas (guantes)
+  if (isset($data['stock_talla_s'])) {
+    $stock_talla_s = (int)$data['stock_talla_s'];
+    $updates[] = "stock_talla_s = $stock_talla_s";
+  }
+  
+  if (isset($data['stock_talla_m'])) {
+    $stock_talla_m = (int)$data['stock_talla_m'];
+    $updates[] = "stock_talla_m = $stock_talla_m";
+  }
+  
+  if (isset($data['stock_talla_l'])) {
+    $stock_talla_l = (int)$data['stock_talla_l'];
+    $updates[] = "stock_talla_l = $stock_talla_l";
+  }
+  
+  if (isset($data['stock_talla_xl'])) {
+    $stock_talla_xl = (int)$data['stock_talla_xl'];
+    $updates[] = "stock_talla_xl = $stock_talla_xl";
+  }
+  
+  if (isset($data['stock_talla_xxl'])) {
+    $stock_talla_xxl = (int)$data['stock_talla_xxl'];
+    $updates[] = "stock_talla_xxl = $stock_talla_xxl";
+  }
+  
+  // Si no hay campos a actualizar
+  if (empty($updates)) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false, 
+      'message' => 'No hay campos para actualizar'
+    ]);
+    return;
+  }
+  
+  // Construir y ejecutar query UPDATE
+  $updateStr = implode(', ', $updates);
+  $sql = "UPDATE productos SET $updateStr WHERE referencia = '$referencia'";
+  
+  if ($conn->query($sql)) {
+    http_response_code(200);
+    echo json_encode([
+      'success' => true,
+      'message' => 'Producto actualizado correctamente',
+      'referencia' => $referencia
+    ]);
+  } else {
+    http_response_code(500);
+    echo json_encode([
+      'success' => false,
+      'message' => 'Error al actualizar el producto: ' . $conn->error
+    ]);
+  }
 }
 
 // ============================================================================
@@ -455,21 +688,85 @@ function updateProduct() {
 /**
  * Elimina un producto de la base de datos
  * 
- * PENDIENTE DE IMPLEMENTAR
+ * FLUJO:
+ * 1. Recibe referencia del producto a eliminar desde parámetro GET o body JSON
+ * 2. Valida que el producto exista
+ * 3. Elimina el producto
+ * 4. Retorna confirmación
  * 
- * Funcionalidad esperada:
- * 1. Recibir referencia del producto a eliminar
- * 2. Validar que el producto exista
- * 3. Verificar que no haya dependencias (pedidos, etc.)
- * 4. Eliminar el producto
- * 5. Retornar confirmación
+ * NOTA: En el futuro se debería verificar que no haya dependencias
+ * (pedidos relacionados, etc.) antes de eliminar
+ * 
+ * RESPUESTA EXITOSA (HTTP 200):
+ * {
+ *   "success": true,
+ *   "message": "Producto eliminado correctamente",
+ *   "referencia": "AFG-P001"
+ * }
+ * 
+ * RESPUESTA DE ERROR (HTTP 400 o 404 o 500):
+ * {
+ *   "success": false,
+ *   "message": "Descripción del error"
+ * }
  * 
  * @return void
  */
 function deleteProduct() {
-  echo json_encode([
-    'success' => false, 
-    'message' => 'Funcionalidad en desarrollo'
-  ]);
+  global $conn;
+  
+  // Intentar obtener referencia del query string o del body
+  $referencia = $_GET['referencia'] ?? null;
+  
+  if (!$referencia) {
+    // Si no está en query string, buscar en el body
+    $data = json_decode(file_get_contents("php://input"), true);
+    $referencia = $data['referencia'] ?? null;
+  }
+  
+  // Validar que se proporcione la referencia
+  if (empty($referencia)) {
+    http_response_code(400);
+    echo json_encode([
+      'success' => false, 
+      'message' => 'Referencia del producto es obligatoria'
+    ]);
+    return;
+  }
+  
+  $referencia = $conn->real_escape_string($referencia);
+  
+  // Verificar que el producto exista
+  $checkSql = "SELECT referencia FROM productos WHERE referencia = '$referencia' LIMIT 1";
+  $checkResult = $conn->query($checkSql);
+  
+  if (!$checkResult || $checkResult->num_rows === 0) {
+    http_response_code(404);
+    echo json_encode([
+      'success' => false, 
+      'message' => 'Producto no encontrado'
+    ]);
+    return;
+  }
+  
+  // TODO: En el futuro, verificar dependencias (pedidos, etc.)
+  
+  // Eliminar el producto
+  $sql = "DELETE FROM productos WHERE referencia = '$referencia'";
+  
+  if ($conn->query($sql)) {
+    http_response_code(200);
+    echo json_encode([
+      'success' => true,
+      'message' => 'Producto eliminado correctamente',
+      'referencia' => $referencia
+    ]);
+  } else {
+    http_response_code(500);
+    echo json_encode([
+      'success' => false,
+      'message' => 'Error al eliminar el producto: ' . $conn->error
+    ]);
+  }
 }
 ?>
