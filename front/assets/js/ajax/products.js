@@ -63,7 +63,6 @@ function collectFormData() {
     categoria: category,
     marca: document.getElementById('product-brand').value,
     modelo: document.getElementById('product-model').value,
-    referencia: document.getElementById('product-reference').value,
     precio: parseInt(document.getElementById('product-price').value) || 0,
     imagen_principal: tempImageFiles.main || '',
     imagen_frontal: tempImageFiles.front || '',

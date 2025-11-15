@@ -236,19 +236,18 @@ CREATE TABLE usuarios (
 
 ```sql
 CREATE TABLE productos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    referencia VARCHAR(50) PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
     descripcion TEXT,
     categoria VARCHAR(50) NOT NULL,
     marca VARCHAR(100) NOT NULL,
     modelo VARCHAR(100),
-    referencia VARCHAR(100),
     precio INT NOT NULL,
     stock INT NOT NULL,
-    imagen_principal VARCHAR(255),
-    imagen_lateral VARCHAR(255),
-    imagen_superior VARCHAR(255),
-    imagen_frontal VARCHAR(255),
+    imagen_principal MEDIUMTEXT,
+    imagen_lateral MEDIUMTEXT,
+    imagen_superior MEDIUMTEXT,
+    imagen_frontal MEDIUMTEXT,
     dimensiones VARCHAR(100),
     peso DECIMAL(8, 2),
     unidades_paquete INT,
@@ -264,19 +263,18 @@ CREATE TABLE productos (
 
 **Explicación de las columnas de productos:**
 
-- `id`: Identificador único de cada producto (clave primaria)
+- `referencia`: **Referencia única del producto (clave primaria, máximo 50 caracteres)** - Se genera automáticamente en formato `AFG-{CATEGORIA_INICIAL}{NUMERO}` pero es editable ⭐ **Campo requerido**
 - `nombre`: Nombre del producto (máximo 150 caracteres) ⭐ **Campo requerido**
 - `descripcion`: Descripción completa del producto (texto largo, puede ser nulo)
 - `categoria`: Categoría del producto: palos, bolas, guantes, accesorios (máximo 50 caracteres) ⭐ **Campo requerido**
 - `marca`: Marca del producto: Footjoy, Callaway, Titleist, Srixon, Cobra, TaylorMade, PING, Hammer X, etc. (máximo 100 caracteres) ⭐ **Campo requerido**
 - `modelo`: Modelo del producto (ej: B0D562R3XQ) (máximo 100 caracteres)
-- `referencia`: Referencia del producto (máximo 100 caracteres)
 - `precio`: Precio del producto en COP (en pesos colombianos, sin decimales) ⭐ **Campo requerido**
 - `stock`: Cantidad total en stock ⭐ **Campo requerido**
-- `imagen_principal`: **URL de la imagen principal del producto** (máximo 255 caracteres)
-- `imagen_lateral`: **URL de la vista lateral del producto** (máximo 255 caracteres)
-- `imagen_superior`: **URL de la vista superior del producto** (máximo 255 caracteres)
-- `imagen_frontal`: **URL de la vista frontal del producto** (máximo 255 caracteres)
+- `imagen_principal`: **Imagen principal del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `imagen_lateral`: **Vista lateral del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `imagen_superior`: **Vista superior del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `imagen_frontal`: **Vista frontal del producto en base64** (MEDIUMTEXT hasta 16MB)
 - `dimensiones`: Dimensiones del producto (ej: "0.89 x 0.10 x 0.10 m") (máximo 100 caracteres)
 - `peso`: Peso del producto en kg (número decimal con hasta 2 decimales)
 - `unidades_paquete`: Para bolas de golf, cantidad de unidades por paquete (ej: 12)

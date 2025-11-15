@@ -70,9 +70,16 @@ function createProduct() {
   $categoria = $conn->real_escape_string($data['categoria']);
   $marca = $conn->real_escape_string($data['marca']);
   $modelo = $conn->real_escape_string($data['modelo'] ?? '');
-  $referencia = $conn->real_escape_string($data['referencia'] ?? '');
   $precio = (int)$data['precio'];
   $stock = (int)($data['stock'] ?? 0);
+  
+  // Generar referencia automática si no se proporciona (híbrido - editable)
+  $referencia = $data['referencia'] ?? '';
+  if (empty($referencia)) {
+    $referencia = generateProductReference($conn, $categoria);
+  } else {
+    $referencia = $conn->real_escape_string($referencia);
+  }
   $imagen_principal = $conn->real_escape_string($data['imagen_principal'] ?? '');
   $imagen_frontal = $conn->real_escape_string($data['imagen_frontal'] ?? '');
   $imagen_superior = $conn->real_escape_string($data['imagen_superior'] ?? '');
@@ -89,24 +96,23 @@ function createProduct() {
   $stock_talla_xxl = (int)($data['stock_talla_xxl'] ?? 0);
 
   $sql = "INSERT INTO productos (
-    nombre, descripcion, categoria, marca, modelo, referencia, precio, stock,
+    referencia, nombre, descripcion, categoria, marca, modelo, precio, stock,
     imagen_principal, imagen_frontal, imagen_superior, imagen_lateral,
     dimensiones, peso, unidades_paquete,
     stock_talla_s, stock_talla_m, stock_talla_l, stock_talla_xl, stock_talla_xxl
   ) VALUES (
-    '$nombre', '$descripcion', '$categoria', '$marca', '$modelo', '$referencia', 
+    '$referencia', '$nombre', '$descripcion', '$categoria', '$marca', '$modelo', 
     $precio, $stock, '$imagen_principal', '$imagen_frontal', '$imagen_superior', '$imagen_lateral',
     '$dimensiones', $peso, $unidades_paquete,
     $stock_talla_s, $stock_talla_m, $stock_talla_l, $stock_talla_xl, $stock_talla_xxl
   )";
 
   if ($conn->query($sql)) {
-    $product_id = $conn->insert_id;
     http_response_code(201);
     echo json_encode([
       'success' => true,
       'message' => 'Producto creado correctamente',
-      'product_id' => $product_id
+      'referencia' => $referencia
     ]);
   } else {
     http_response_code(500);
@@ -115,6 +121,40 @@ function createProduct() {
       'message' => 'Error al crear el producto: ' . $conn->error
     ]);
   }
+}
+
+/**
+ * Genera una referencia única para un producto
+ * Formato: AFG-{P|B|G|A}{NUMERO}
+ * P=Palos, B=Bolas, G=Guantes, A=Accesorios
+ */
+function generateProductReference($conn, $categoria) {
+  $prefijos = [
+    'palos' => 'P',
+    'bolas' => 'B',
+    'guantes' => 'G',
+    'accesorios' => 'A'
+  ];
+  
+  $prefix = $prefijos[$categoria] ?? 'X';
+  $pattern = "AFG-{$prefix}%";
+  
+  // Obtener el último número usado para esta categoría
+  $sql = "SELECT referencia FROM productos WHERE referencia LIKE '$pattern' ORDER BY referencia DESC LIMIT 1";
+  $result = $conn->query($sql);
+  
+  $numero = 1;
+  if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $lastRef = $row['referencia'];
+    // Extraer el número de la referencia (ej: "AFG-P003" -> 3)
+    if (preg_match('/AFG-[A-Z](\d+)$/', $lastRef, $matches)) {
+      $numero = intval($matches[1]) + 1;
+    }
+  }
+  
+  // Formato: AFG-P001, AFG-B002, etc.
+  return sprintf("AFG-%s%03d", $prefix, $numero);
 }
 
 /**
