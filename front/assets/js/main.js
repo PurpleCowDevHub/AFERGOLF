@@ -4,6 +4,7 @@
  * ============================================================================
  * 
  * Componentes web personalizados para la carga dinámica de partials HTML.
+ * Este archivo se carga en todas las páginas del sitio.
  * 
  * @author Afergolf Team
  * @version 1.0.0
@@ -66,6 +67,11 @@ class AfergolfHeader extends HTMLElement {
       newScript.textContent = oldScript.textContent;
       oldScript.parentNode.replaceChild(newScript, oldScript);
     });
+    
+    // Reinicializar componentes UI después de cargar el header
+    if (typeof initializeUIComponents === 'function') {
+      initializeUIComponents();
+    }
   }
 
   /**

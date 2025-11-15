@@ -211,17 +211,87 @@ CREATE TABLE usuarios (
     email VARCHAR(100) NOT NULL UNIQUE,
     telefono VARCHAR(20),
     password VARCHAR(255) NOT NULL,
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    activo BOOLEAN DEFAULT TRUE
+    foto_perfil VARCHAR(255),
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
+**Explicación de las columnas de usuarios:**
+
+- `id`: Identificador único de cada usuario (clave primaria)
+- `nombres`: Nombre(s) del usuario (máximo 50 caracteres)
+- `apellidos`: Apellido(s) del usuario (máximo 50 caracteres)
+- `email`: Correo electrónico único del usuario (máximo 100 caracteres)
+- `telefono`: Teléfono de contacto (máximo 20 caracteres, puede ser nulo)
+- `password`: Contraseña encriptada del usuario (máximo 255 caracteres para mayor seguridad con hash)
+- `foto_perfil`: **URL de la foto de perfil del usuario** (máximo 255 caracteres, puede ser nulo)
+- `fecha_registro`: Fecha y hora automática de cuando se registró el usuario
+
 - Haz clic en **"Continuar"**
 
-1. **Verificar la tabla creada:**
+1. **Crear la tabla de productos:**
+   - Selecciona la base de datos `afergolf_db` en el panel izquierdo
+   - Haz clic en la pestaña **"SQL"**
+   - Copia y pega el siguiente código SQL:
+
+```sql
+CREATE TABLE productos (
+    referencia VARCHAR(50) PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT,
+    categoria VARCHAR(50) NOT NULL,
+    marca VARCHAR(100) NOT NULL,
+    modelo VARCHAR(100),
+    precio INT NOT NULL,
+    stock INT NOT NULL,
+    imagen_principal MEDIUMTEXT,
+    imagen_lateral MEDIUMTEXT,
+    imagen_superior MEDIUMTEXT,
+    imagen_frontal MEDIUMTEXT,
+    dimensiones VARCHAR(100),
+    peso DECIMAL(8, 2),
+    unidades_paquete INT,
+    stock_talla_s INT,
+    stock_talla_m INT,
+    stock_talla_l INT,
+    stock_talla_xl INT,
+    stock_talla_xxl INT,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+**Explicación de las columnas de productos:**
+
+- `referencia`: **Referencia única del producto (clave primaria, máximo 50 caracteres)** - Se genera automáticamente en formato `AFG-{CATEGORIA_INICIAL}{NUMERO}` pero es editable ⭐ **Campo requerido**
+- `nombre`: Nombre del producto (máximo 150 caracteres) ⭐ **Campo requerido**
+- `descripcion`: Descripción completa del producto (texto largo, puede ser nulo)
+- `categoria`: Categoría del producto: palos, bolas, guantes, accesorios (máximo 50 caracteres) ⭐ **Campo requerido**
+- `marca`: Marca del producto: Footjoy, Callaway, Titleist, Srixon, Cobra, TaylorMade, PING, Hammer X, etc. (máximo 100 caracteres) ⭐ **Campo requerido**
+- `modelo`: Modelo del producto (ej: B0D562R3XQ) (máximo 100 caracteres)
+- `precio`: Precio del producto en COP (en pesos colombianos, sin decimales) ⭐ **Campo requerido**
+- `stock`: Cantidad total en stock ⭐ **Campo requerido**
+- `imagen_principal`: **Imagen principal del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `imagen_lateral`: **Vista lateral del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `imagen_superior`: **Vista superior del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `imagen_frontal`: **Vista frontal del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `dimensiones`: Dimensiones del producto (ej: "0.89 x 0.10 x 0.10 m") (máximo 100 caracteres)
+- `peso`: Peso del producto en kg (número decimal con hasta 2 decimales)
+- `unidades_paquete`: Para bolas de golf, cantidad de unidades por paquete (ej: 12)
+- `stock_talla_s`: Stock disponible en talla S (solo para guantes)
+- `stock_talla_m`: Stock disponible en talla M (solo para guantes)
+- `stock_talla_l`: Stock disponible en talla L (solo para guantes)
+- `stock_talla_xl`: Stock disponible en talla XL (solo para guantes)
+- `stock_talla_xxl`: Stock disponible en talla XXL (solo para guantes)
+- `fecha_creacion`: Fecha y hora automática de cuando se creó el producto
+- `fecha_actualizacion`: Fecha y hora que se actualiza automáticamente cada vez que se modifica el producto
+
+- Haz clic en **"Continuar"**
+
+1. **Verificar las tablas creadas:**
    - En el panel izquierdo, expande `afergolf_db`
-   - Deberías ver la tabla `usuarios`
-   - Haz clic en ella para ver su estructura
+   - Deberías ver las tablas `usuarios` y `productos`
+   - Haz clic en cada una para ver su estructura
 
 ### 4️⃣ Verifica el acceso al proyecto desde el navegador
 
