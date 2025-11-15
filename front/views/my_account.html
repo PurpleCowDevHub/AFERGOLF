@@ -8,7 +8,9 @@
   <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/my_account.css" />
+  <link rel="stylesheet" href="../assets/css/style.css">
   <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/my_account.js" defer></script>
 </head>
 
 <body>
@@ -73,29 +75,67 @@
     </section>
   </main>
 
+  <!-- OVERLAY PARA MODAL DE EDITAR PERFIL -->
+  <div id="edit-profile-overlay" class="modal-overlay"></div>
+
+  <!-- MODAL DE EDITAR PERFIL -->
+  <div id="edit-profile-modal" class="edit-profile-modal">
+    <div class="modal-content">
+      <!-- Header del modal -->
+      <div class="modal-header">
+        <h2>Editar Perfil</h2>
+        <button id="close-edit-profile" class="btn-close" aria-label="Cerrar modal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Contenido del modal (formulario de editar perfil) -->
+      <div class="modal-body">
+        <!-- Formulario -->
+        <form class="profile-form">
+          <div class="form-group">
+            <label for="firstName">Nombre</label>
+            <input id="firstName" type="text" placeholder="Samuel" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Apellidos</label>
+            <input id="lastName" type="text" placeholder="Fernandez Urrea" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input id="email" type="email" placeholder="correo@ejemplo.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Teléfono</label>
+            <input id="phone" type="tel" placeholder="+57 300 000 0000">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="city">Ciudad</label>
+            <input id="city" type="text" placeholder="Bogotá, Colombia">
+          </div>
+
+          <div class="form-group full-width inline-link">
+            <span>¿Quieres cambiar tu contraseña?</span>
+            <a href="change_password.html">Ir a cambiar contraseña</a>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="form-actions">
+            <button type="button" class="btn-secondary">Cancelar</button>
+            <button type="submit" class="btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER GLOBAL -->
   <afergolf-footer></afergolf-footer>
-
-  <script>
-    // === SUBIR IMAGEN DE PERFIL ===
-    const avatarContainer = document.getElementById('avatarContainer');
-    const avatarInput = document.getElementById('avatarInput');
-    const avatarImage = document.getElementById('avatarImage');
-
-    avatarContainer.addEventListener('click', () => {
-      avatarInput.click();
-    });
-
-    avatarInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          avatarImage.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
 </body>
 </html>
