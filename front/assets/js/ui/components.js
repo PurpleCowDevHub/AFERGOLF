@@ -35,6 +35,46 @@ const closeLogoutModal = () => toggleModal('logout-modal', false);
 const openProductDetailsModal = () => toggleModal('product-details-modal', true);
 const closeProductDetailsModal = () => toggleModal('product-details-modal', false);
 
+/**
+ * Abre el modal de editar perfil y muestra el overlay.
+ */
+const openEditProfile = () => {
+  console.log('🚀 openEditProfile ejecutado');
+  const modal = document.getElementById('edit-profile-modal');
+  const overlay = document.getElementById('edit-profile-overlay');
+  
+  console.log('Modal encontrado:', modal);
+  console.log('Overlay encontrado:', overlay);
+  
+  if (modal) {
+    modal.classList.add('active');
+    console.log('✅ Clase active agregada al modal');
+  } else {
+    console.error('❌ Modal no encontrado!');
+  }
+  
+  if (overlay) {
+    overlay.classList.add('active');
+    console.log('✅ Clase active agregada al overlay');
+  } else {
+    console.error('❌ Overlay no encontrado!');
+  }
+  
+  document.body.style.overflow = 'hidden';
+  console.log('✅ Body overflow establecido a hidden');
+};
+
+/**
+ * Cierra el modal de editar perfil y oculta el overlay.
+ */
+const closeEditProfile = () => {
+  const modal = document.getElementById('edit-profile-modal');
+  const overlay = document.getElementById('edit-profile-overlay');
+  if (modal) modal.classList.remove('active');
+  if (overlay) overlay.classList.remove('active');
+  document.body.style.overflow = '';
+};
+
 // ============================================================================
 // MENÚ HAMBURGUESA Y BÚSQUEDA
 // ============================================================================
@@ -107,6 +147,145 @@ const closeAll = () => {
   closeMenu();
   closeSearch();
 };
+
+// ============================================================================
+// MI CUENTA - MODAL DE EDITAR PERFIL
+// ============================================================================
+
+/**
+ * Configura los event listeners del modal de editar perfil.
+ */
+function setupMyAccountEventListeners() {
+  console.log('setupMyAccountEventListeners ejecutado');
+  
+  // Buscar elementos con un pequeño delay para asegurar que el DOM esté listo
+  setTimeout(() => {
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const closeEditBtn = document.getElementById('close-edit-profile');
+    const cancelEditBtn = document.querySelector('.btn-secondary');
+    const editProfileOverlay = document.getElementById('edit-profile-overlay');
+    const editProfileModal = document.getElementById('edit-profile-modal');
+    const profileForm = document.querySelector('.profile-form');
+    
+    console.log('Elementos encontrados:');
+    console.log('- editProfileBtn:', editProfileBtn);
+    console.log('- closeEditBtn:', closeEditBtn);
+    console.log('- editProfileOverlay:', editProfileOverlay);
+    console.log('- editProfileModal:', editProfileModal);
+    console.log('- profileForm:', profileForm);
+    
+    // Abrir modal al hacer clic en "Editar Perfil"
+    if (editProfileBtn) {
+      console.log('✅ Event listener agregado al botón de editar perfil');
+      editProfileBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('🔥 Botón de editar perfil clickeado!');
+        console.log('Ejecutando openEditProfile...');
+        openEditProfile();
+      });
+    } else {
+      console.error('❌ No se encontró el botón de editar perfil (#edit-profile-btn)');
+      // Buscar alternativas
+      const allOptionCards = document.querySelectorAll('.option-card');
+      console.log('Option cards encontrados:', allOptionCards);
+      allOptionCards.forEach((card, index) => {
+        console.log(`Card ${index}:`, card);
+      });
+    }
+    
+    // Cerrar al hacer clic en el botón X
+    if (closeEditBtn) {
+      closeEditBtn.addEventListener('click', closeEditProfile);
+    }
+    
+    // Cerrar al hacer clic en "Cancelar"
+    if (cancelEditBtn) {
+      cancelEditBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeEditProfile();
+      });
+    }
+    
+    // Cerrar al hacer clic en el overlay
+    if (editProfileOverlay) {
+      editProfileOverlay.addEventListener('click', closeEditProfile);
+    }
+    
+    // Evitar que el clic dentro del modal cierre el modal
+    if (editProfileModal) {
+      editProfileModal.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+    
+    // Cerrar con la tecla ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && editProfileModal && editProfileModal.classList.contains('active')) {
+        closeEditProfile();
+      }
+    });
+    
+    // Configurar avatar
+    setupAvatarUpload();
+    
+    // Validación de formulario
+    if (profileForm) {
+      profileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        console.log('Formulario de perfil enviado');
+        // Aquí se puede agregar lógica de validación y envío al backend
+        closeEditProfile();
+      });
+    }
+  }, 100); // 100ms delay
+}
+
+// ============================================================================
+// MI CUENTA - CARGA DE AVATAR
+// ============================================================================
+
+/**
+ * Configura la funcionalidad de carga de avatar.
+ */
+function setupAvatarUpload() {
+  const avatarContainer = document.getElementById('avatarContainer');
+  const avatarInput = document.getElementById('avatarInput');
+  const avatarImage = document.getElementById('avatarImage');
+  
+  if (!avatarContainer || !avatarInput || !avatarImage) return;
+  
+  // Permitir clic en el avatar para seleccionar imagen
+  avatarContainer.addEventListener('click', (e) => {
+    e.stopPropagation();
+    avatarInput.click();
+  });
+  
+  // Procesar cambio de imagen
+  avatarInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    
+    if (!file) return;
+    
+    // Validar que sea una imagen
+    if (!file.type.startsWith('image/')) {
+      alert('Por favor selecciona un archivo de imagen válido');
+      avatarInput.value = '';
+      return;
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onload = (event) => {
+      avatarImage.src = event.target.result;
+    };
+    
+    reader.onerror = () => {
+      alert('Error al cargar la imagen');
+    };
+    
+    reader.readAsDataURL(file);
+  });
+}
 
 // ============================================================================
 // CAMPOS DINÁMICOS DEL DASHBOARD
@@ -480,6 +659,13 @@ function initializeUIComponents() {
   if (document.getElementById('product-modal') || document.getElementById('delete-modal')) {
     setupDashboardModalsEventListeners();
   }
+  
+  // Inicializar funcionalidad de Mi Cuenta si existe
+  const editProfileModal = document.getElementById('edit-profile-modal');
+  if (editProfileModal) {
+    console.log('Modal de editar perfil encontrado, inicializando...');
+    setupMyAccountEventListeners();
+  }
 }
 
 // Exponer globalmente para que main.js pueda llamarla
@@ -487,9 +673,32 @@ if (typeof window !== 'undefined') {
   window.initializeUIComponents = initializeUIComponents;
 }
 
-// Auto-inicialización
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeUIComponents);
-} else {
+// Auto-inicialización con múltiples intentos
+function initWithRetry(attempts = 3) {
+  console.log(`Intento de inicialización #${4 - attempts}`);
   initializeUIComponents();
+  
+  // Si aún hay elementos faltantes y tenemos intentos restantes, reintentar
+  if (attempts > 1) {
+    setTimeout(() => {
+      const editModal = document.getElementById('edit-profile-modal');
+      const editBtn = document.getElementById('edit-profile-btn');
+      if (editModal && !editBtn) {
+        console.log('Reintentando inicialización...');
+        initWithRetry(attempts - 1);
+      }
+    }, 200);
+  }
 }
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => initWithRetry());
+} else {
+  initWithRetry();
+}
+
+// También ejecutar cuando la página esté completamente cargada
+window.addEventListener('load', () => {
+  console.log('Página completamente cargada, ejecutando inicialización final');
+  initWithRetry();
+});

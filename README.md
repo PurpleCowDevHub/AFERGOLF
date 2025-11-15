@@ -212,6 +212,7 @@ CREATE TABLE usuarios (
     telefono VARCHAR(20),
     password VARCHAR(255) NOT NULL,
     foto_perfil VARCHAR(255),
+    ciudad VARCHAR(50)
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
@@ -244,10 +245,10 @@ CREATE TABLE productos (
     modelo VARCHAR(100),
     precio INT NOT NULL,
     stock INT NOT NULL,
-    imagen_principal MEDIUMTEXT,
-    imagen_lateral MEDIUMTEXT,
-    imagen_superior MEDIUMTEXT,
-    imagen_frontal MEDIUMTEXT,
+    imagen_principal VARCHAR(500),
+    imagen_lateral VARCHAR(500),
+    imagen_superior VARCHAR(500),
+    imagen_frontal VARCHAR(500),
     dimensiones VARCHAR(100),
     peso DECIMAL(8, 2),
     unidades_paquete INT,
@@ -271,10 +272,10 @@ CREATE TABLE productos (
 - `modelo`: Modelo del producto (ej: B0D562R3XQ) (máximo 100 caracteres)
 - `precio`: Precio del producto en COP (en pesos colombianos, sin decimales) ⭐ **Campo requerido**
 - `stock`: Cantidad total en stock ⭐ **Campo requerido**
-- `imagen_principal`: **Imagen principal del producto en base64** (MEDIUMTEXT hasta 16MB)
-- `imagen_lateral`: **Vista lateral del producto en base64** (MEDIUMTEXT hasta 16MB)
-- `imagen_superior`: **Vista superior del producto en base64** (MEDIUMTEXT hasta 16MB)
-- `imagen_frontal`: **Vista frontal del producto en base64** (MEDIUMTEXT hasta 16MB)
+- `imagen_principal`: **URL de la imagen principal del producto** (VARCHAR hasta 500 caracteres)
+- `imagen_lateral`: **URL de la vista lateral del producto** (VARCHAR hasta 500 caracteres)
+- `imagen_superior`: **URL de la vista superior del producto** (VARCHAR hasta 500 caracteres)
+- `imagen_frontal`: **URL de la vista frontal del producto** (VARCHAR hasta 500 caracteres)
 - `dimensiones`: Dimensiones del producto (ej: "0.89 x 0.10 x 0.10 m") (máximo 100 caracteres)
 - `peso`: Peso del producto en kg (número decimal con hasta 2 decimales)
 - `unidades_paquete`: Para bolas de golf, cantidad de unidades por paquete (ej: 12)
