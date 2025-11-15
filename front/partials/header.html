@@ -9,6 +9,56 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Botón del menú hamburguesa
+  const logout1 = document.querySelector(".logout-link");
+
+  // Botón dentro de las opciones del menú móvil o desktop
+  if (logout1) {
+    logout1.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // 🔥 Limpia toda la sesión
+      localStorage.removeItem("afergolf_logged");
+      localStorage.removeItem("afergolf_user_id");
+      localStorage.removeItem("afergolf_user_email");
+
+      // Redirigir al login
+      window.location.href = "/front/views/log_in.html";
+    });
+  }
+
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  
+  const profileBtns = document.querySelectorAll("a[href='/front/views/my_account.html']");
+
+  profileBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+
+      const isLogged = localStorage.getItem("afergolf_logged");
+      const userId = localStorage.getItem("afergolf_user_id");
+
+      if (!isLogged || !userId) {
+        e.preventDefault();
+        alert("Debes iniciar sesión primero");
+        window.location.href = "/front/views/log_in.html";
+      }
+    });
+  });
+
+});
+</script>
+
+
+
 <body>
 
 <header>
@@ -120,6 +170,7 @@
       />
     </form>
   </main>
+
 
 <!-- El script de components.js se carga desde la página principal -->
 </body>
