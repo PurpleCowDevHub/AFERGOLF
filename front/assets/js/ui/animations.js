@@ -1,14 +1,18 @@
 /**
  * ============================================================================
- * AFERGOLF - Carousel de Productos Destacados
+ * AFERGOLF - Animations & Effects Module
  * ============================================================================
  * 
- * Carousel horizontal con scroll suave, soporte táctil y navegación por teclado.
+ * Carousel de productos, animaciones y efectos visuales.
  * 
  * @author Afergolf Team
  * @version 1.0.0
  * ============================================================================
  */
+
+// ============================================================================
+// CAROUSEL DE PRODUCTOS
+// ============================================================================
 
 class ProductsCarousel {
   constructor() {
@@ -335,14 +339,24 @@ class ProductsCarousel {
 }
 
 // ============================================================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN DEL CAROUSEL
 // ============================================================================
 
-const productsCarousel = new ProductsCarousel();
+let productsCarousel = null;
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = ProductsCarousel;
-} else if (typeof window !== 'undefined') {
+// Inicializar el carousel si existe en la página
+if (document.querySelector('[data-slider]')) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      productsCarousel = new ProductsCarousel();
+    });
+  } else {
+    productsCarousel = new ProductsCarousel();
+  }
+}
+
+// Exportar para uso global
+if (typeof window !== 'undefined') {
   window.ProductsCarousel = ProductsCarousel;
   window.productsCarousel = productsCarousel;
 }
