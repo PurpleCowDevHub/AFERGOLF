@@ -84,6 +84,10 @@ function handleLogin(e) {
           if (data.user) {
             localStorage.setItem('user', JSON.stringify(data.user));
           }
+
+          localStorage.setItem("afergolf_logged", "true");
+          localStorage.setItem("afergolf_user_id", data.user.id);
+          
           // Redirect to index
           setTimeout(() => window.location.href = '../../index.html', 1500);
         }
