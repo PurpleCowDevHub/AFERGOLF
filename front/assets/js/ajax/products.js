@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * AFERGOLF - Admin Dashboard Events (Backend Logic)
+ * AFERGOLF - Products AJAX Module
  * ============================================================================
  * 
  * Gestión de datos de productos: CRUD, búsqueda, filtrado y renderizado.
@@ -90,6 +90,8 @@ let tempImageFiles = { main: null, front: null, top: null, side: null };
 function renderProducts(filter = {}) {
   const tbody = document.getElementById('products-tbody');
   const emptyState = document.getElementById('empty-state');
+  
+  if (!tbody || !emptyState) return;
   
   let filteredProducts = products.filter(p => {
     const matchSearch = !filter.search || 
@@ -189,9 +191,9 @@ function attachRowEventListeners() {
  */
 function handleSearch() {
   renderProducts({
-    search: document.getElementById('search-input').value,
-    category: document.getElementById('filter-category').value,
-    brand: document.getElementById('filter-brand').value
+    search: document.getElementById('search-input')?.value || '',
+    category: document.getElementById('filter-category')?.value || '',
+    brand: document.getElementById('filter-brand')?.value || ''
   });
 }
 
@@ -207,10 +209,10 @@ function openCreateModal() {
   document.getElementById('modal-title').textContent = 'Crear Producto';
   document.getElementById('btn-submit-text').textContent = 'Guardar Producto';
   
-  resetProductForm();
+  if (typeof resetProductForm === 'function') resetProductForm();
   clearTempImageFiles();
-  enableFormFields();
-  openProductModal();
+  if (typeof enableFormFields === 'function') enableFormFields();
+  if (typeof openProductModal === 'function') openProductModal();
 }
 
 /**
@@ -220,7 +222,9 @@ function openCreateModal() {
 function editProduct(id) {
   const product = products.find(p => p.id === id);
   if (!product) {
-    showNotification('Producto no encontrado', 'error');
+    if (typeof showNotification === 'function') {
+      showNotification('Producto no encontrado', 'error');
+    }
     return;
   }
   
@@ -229,8 +233,8 @@ function editProduct(id) {
   document.getElementById('btn-submit-text').textContent = 'Actualizar Producto';
   
   loadProductDataToForm(product);
-  enableFormFields();
-  openProductModal();
+  if (typeof enableFormFields === 'function') enableFormFields();
+  if (typeof openProductModal === 'function') openProductModal();
 }
 
 /**
@@ -240,12 +244,14 @@ function editProduct(id) {
 function viewProduct(id) {
   const product = products.find(p => p.id === id);
   if (!product) {
-    showNotification('Producto no encontrado', 'error');
+    if (typeof showNotification === 'function') {
+      showNotification('Producto no encontrado', 'error');
+    }
     return;
   }
   
   loadProductDataToPreview(product);
-  openProductDetailsModal();
+  if (typeof openProductDetailsModal === 'function') openProductDetailsModal();
 }
 
 /**
@@ -265,25 +271,36 @@ function loadProductDataToForm(product) {
   clearTempImageFiles();
   
   const images = product.images || { main: product.image || '', front: '', top: '', side: '' };
-  Object.keys(images).forEach(pos => updateImagePreviewFromUrl(pos, images[pos]));
+  Object.keys(images).forEach(pos => {
+    if (typeof updateImagePreviewFromUrl === 'function') {
+      updateImagePreviewFromUrl(pos, images[pos]);
+    }
+  });
   
-  updateDynamicFields(product.category);
+  if (typeof updateDynamicFields === 'function') {
+    updateDynamicFields(product.category);
+  }
   
   if (product.category === 'guantes') {
     const sizeStock = product.sizeStock || { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
     ['S', 'M', 'L', 'XL', 'XXL'].forEach(size => {
-      document.getElementById(`stock-size-${size.toLowerCase()}`).value = sizeStock[size] || 0;
+      const input = document.getElementById(`stock-size-${size.toLowerCase()}`);
+      if (input) input.value = sizeStock[size] || 0;
     });
   } else {
-    document.getElementById('product-stock').value = product.stock || 0;
+    const stockInput = document.getElementById('product-stock');
+    if (stockInput) stockInput.value = product.stock || 0;
   }
   
   if (product.category === 'bolas') {
-    document.getElementById('product-units').value = product.units || '';
+    const unitsInput = document.getElementById('product-units');
+    if (unitsInput) unitsInput.value = product.units || '';
   } else if (product.category === 'palos' || product.category === 'accesorios') {
     const suffix = product.category === 'accesorios' ? '-acc' : '';
-    document.getElementById(`product-dimensions${suffix}`).value = product.dimensions || '';
-    document.getElementById(`product-weight${suffix}`).value = product.weight || '';
+    const dimensionsInput = document.getElementById(`product-dimensions${suffix}`);
+    const weightInput = document.getElementById(`product-weight${suffix}`);
+    if (dimensionsInput) dimensionsInput.value = product.dimensions || '';
+    if (weightInput) weightInput.value = product.weight || '';
   }
 }
 
@@ -293,17 +310,23 @@ function loadProductDataToForm(product) {
  */
 function loadProductDataToPreview(product) {
   // Título del producto
-  document.getElementById('product-name-details').textContent = product.name;
+  const nameElement = document.getElementById('product-name-details');
+  if (nameElement) nameElement.textContent = product.name;
   
   // Precio
-  document.getElementById('product-price-details').textContent = formatPrice(product.price);
+  const priceElement = document.getElementById('product-price-details');
+  if (priceElement) priceElement.textContent = formatPrice(product.price);
   
   // Marca
-  document.getElementById('product-brand-details').textContent = capitalizeFirst(product.brand);
+  const brandElement = document.getElementById('product-brand-details');
+  if (brandElement) brandElement.textContent = capitalizeFirst(product.brand);
   
   // Modelo y referencia
-  document.getElementById('product-model-details').textContent = product.model || '-';
-  document.getElementById('product-reference-details').textContent = product.reference || '-';
+  const modelElement = document.getElementById('product-model-details');
+  if (modelElement) modelElement.textContent = product.model || '-';
+  
+  const referenceElement = document.getElementById('product-reference-details');
+  if (referenceElement) referenceElement.textContent = product.reference || '-';
   
   // Dimensiones y peso (solo para palos y accesorios)
   const dimensionsSpan = document.getElementById('product-dimensions-details');
@@ -311,18 +334,20 @@ function loadProductDataToPreview(product) {
   const shippingWeightSpan = document.getElementById('product-shipping-weight-details');
   
   if (product.category === 'palos' || product.category === 'accesorios') {
-    dimensionsSpan.textContent = product.dimensions ? `${product.dimensions} mts` : '-';
-    weightSpan.textContent = product.weight ? `${product.weight} kg` : '-';
-    shippingWeightSpan.textContent = product.weight ? `${product.weight} kg` : '-';
+    if (dimensionsSpan) dimensionsSpan.textContent = product.dimensions ? `${product.dimensions} mts` : '-';
+    if (weightSpan) weightSpan.textContent = product.weight ? `${product.weight} kg` : '-';
+    if (shippingWeightSpan) shippingWeightSpan.textContent = product.weight ? `${product.weight} kg` : '-';
   } else {
-    dimensionsSpan.textContent = '-';
-    weightSpan.textContent = '-';
-    shippingWeightSpan.textContent = '-';
+    if (dimensionsSpan) dimensionsSpan.textContent = '-';
+    if (weightSpan) weightSpan.textContent = '-';
+    if (shippingWeightSpan) shippingWeightSpan.textContent = '-';
   }
   
   // Descripción
-  document.getElementById('product-description-text-details').textContent = 
-    product.description || 'Descripción no disponible.';
+  const descriptionElement = document.getElementById('product-description-text-details');
+  if (descriptionElement) {
+    descriptionElement.textContent = product.description || 'Descripción no disponible.';
+  }
   
   // Imágenes
   const images = product.images || { main: product.image || '', front: '', top: '', side: '' };
@@ -370,7 +395,7 @@ function updateProductImagePreview(position, imageUrl) {
  */
 function confirmDelete(id) {
   currentProductId = id;
-  openDeleteModal();
+  if (typeof openDeleteModal === 'function') openDeleteModal();
 }
 
 /**
@@ -383,8 +408,10 @@ function deleteProduct() {
   currentProductId = null;
   
   renderProducts();
-  closeDeleteModal();
-  showNotification('Producto eliminado correctamente', 'success');
+  if (typeof closeDeleteModal === 'function') closeDeleteModal();
+  if (typeof showNotification === 'function') {
+    showNotification('Producto eliminado correctamente', 'success');
+  }
 }
 
 /**
@@ -394,15 +421,18 @@ function deleteProduct() {
 function handleProductSubmit(e) {
   e.preventDefault();
   
-  if (document.getElementById('btn-submit-text').textContent === 'Cerrar') {
-    closeProductModal();
+  const btnText = document.getElementById('btn-submit-text');
+  if (btnText && btnText.textContent === 'Cerrar') {
+    if (typeof closeProductModal === 'function') closeProductModal();
     return;
   }
   
   const formData = collectFormData();
   
   if (!formData.name || !formData.category || !formData.brand) {
-    showNotification('Por favor completa todos los campos obligatorios', 'error');
+    if (typeof showNotification === 'function') {
+      showNotification('Por favor completa todos los campos obligatorios', 'error');
+    }
     return;
   }
   
@@ -413,7 +443,7 @@ function handleProductSubmit(e) {
   }
   
   renderProducts();
-  closeProductModal();
+  if (typeof closeProductModal === 'function') closeProductModal();
   clearTempImageFiles();
 }
 
@@ -445,24 +475,26 @@ function collectFormData() {
   
   if (category === 'guantes') {
     const sizeStock = {
-      S: parseInt(document.getElementById('stock-size-s').value) || 0,
-      M: parseInt(document.getElementById('stock-size-m').value) || 0,
-      L: parseInt(document.getElementById('stock-size-l').value) || 0,
-      XL: parseInt(document.getElementById('stock-size-xl').value) || 0,
-      XXL: parseInt(document.getElementById('stock-size-xxl').value) || 0
+      S: parseInt(document.getElementById('stock-size-s')?.value) || 0,
+      M: parseInt(document.getElementById('stock-size-m')?.value) || 0,
+      L: parseInt(document.getElementById('stock-size-l')?.value) || 0,
+      XL: parseInt(document.getElementById('stock-size-xl')?.value) || 0,
+      XXL: parseInt(document.getElementById('stock-size-xxl')?.value) || 0
     };
     formData.sizeStock = sizeStock;
     formData.stock = Object.values(sizeStock).reduce((a, b) => a + b, 0);
   } else {
-    formData.stock = parseInt(document.getElementById('product-stock').value) || 0;
+    formData.stock = parseInt(document.getElementById('product-stock')?.value) || 0;
   }
   
   if (category === 'bolas') {
-    formData.units = parseInt(document.getElementById('product-units').value) || 0;
+    formData.units = parseInt(document.getElementById('product-units')?.value) || 0;
   } else if (category === 'palos' || category === 'accesorios') {
     const suffix = category === 'accesorios' ? '-acc' : '';
-    formData.dimensions = document.getElementById(`product-dimensions${suffix}`).value;
-    formData.weight = parseFloat(document.getElementById(`product-weight${suffix}`).value) || 0;
+    const dimensionsInput = document.getElementById(`product-dimensions${suffix}`);
+    const weightInput = document.getElementById(`product-weight${suffix}`);
+    formData.dimensions = dimensionsInput?.value || '';
+    formData.weight = parseFloat(weightInput?.value) || 0;
   }
   
   return formData;
@@ -474,7 +506,9 @@ function collectFormData() {
  */
 function createProduct(formData) {
   products.push({ id: nextId++, ...formData });
-  showNotification('Producto creado correctamente', 'success');
+  if (typeof showNotification === 'function') {
+    showNotification('Producto creado correctamente', 'success');
+  }
 }
 
 /**
@@ -486,9 +520,13 @@ function updateProduct(id, formData) {
   const index = products.findIndex(p => p.id === id);
   if (index !== -1) {
     products[index] = { ...products[index], ...formData };
-    showNotification('Producto actualizado correctamente', 'success');
+    if (typeof showNotification === 'function') {
+      showNotification('Producto actualizado correctamente', 'success');
+    }
   } else {
-    showNotification('Error al actualizar el producto', 'error');
+    if (typeof showNotification === 'function') {
+      showNotification('Error al actualizar el producto', 'error');
+    }
   }
 }
 
@@ -505,15 +543,17 @@ function handleImageUpload(event, position) {
   const file = event.target.files[0];
   
   if (!file) {
-    clearImagePreview(position);
+    if (typeof clearImagePreview === 'function') clearImagePreview(position);
     tempImageFiles[position] = null;
     return;
   }
   
   if (!file.type.startsWith('image/')) {
-    showNotification('Por favor selecciona un archivo de imagen válido', 'error');
+    if (typeof showNotification === 'function') {
+      showNotification('Por favor selecciona un archivo de imagen válido', 'error');
+    }
     event.target.value = '';
-    clearImagePreview(position);
+    if (typeof clearImagePreview === 'function') clearImagePreview(position);
     tempImageFiles[position] = null;
     return;
   }
@@ -522,13 +562,17 @@ function handleImageUpload(event, position) {
   
   reader.onload = (e) => {
     const imageDataUrl = e.target.result;
-    updateImagePreviewFromDataUrl(position, imageDataUrl);
+    if (typeof updateImagePreviewFromDataUrl === 'function') {
+      updateImagePreviewFromDataUrl(position, imageDataUrl);
+    }
     tempImageFiles[position] = imageDataUrl;
   };
   
   reader.onerror = () => {
-    showNotification('Error al cargar la imagen', 'error');
-    clearImagePreview(position);
+    if (typeof showNotification === 'function') {
+      showNotification('Error al cargar la imagen', 'error');
+    }
+    if (typeof clearImagePreview === 'function') clearImagePreview(position);
     tempImageFiles[position] = null;
   };
   
@@ -540,7 +584,7 @@ function handleImageUpload(event, position) {
  */
 function clearTempImageFiles() {
   tempImageFiles = { main: null, front: null, top: null, side: null };
-  clearFileInputs();
+  if (typeof clearFileInputs === 'function') clearFileInputs();
 }
 
 // ============================================================================
@@ -566,26 +610,12 @@ const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 // ============================================================================
 
 /**
- * Configura todos los event listeners del dashboard.
+ * Configura todos los event listeners del dashboard de productos.
  */
-function setupDataEventListeners() {
+function setupProductsEventListeners() {
   const btnCreateProduct = document.getElementById('btn-create-product');
   if (btnCreateProduct) {
     btnCreateProduct.addEventListener('click', openCreateModal);
-  }
-  
-  const btnLogout = document.getElementById('btn-logout');
-  if (btnLogout) {
-    btnLogout.addEventListener('click', () => {
-      openLogoutModal();
-    });
-  }
-  
-  const btnConfirmLogout = document.getElementById('btn-confirm-logout');
-  if (btnConfirmLogout) {
-    btnConfirmLogout.addEventListener('click', () => {
-      window.location.href = '../views/log_in.html';
-    });
   }
   
   const searchInput = document.getElementById('search-input');
@@ -633,11 +663,18 @@ function setupDataEventListeners() {
 // ============================================================================
 
 /**
- * Inicializa la aplicación del dashboard.
+ * Inicializa el módulo de productos.
  */
-function initializeApp() {
+function initializeProductsModule() {
   renderProducts();
-  setupDataEventListeners();
+  setupProductsEventListeners();
 }
 
-document.addEventListener('DOMContentLoaded', initializeApp);
+// Auto-inicialización si está en el dashboard de admin
+if (document.getElementById('products-tbody')) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeProductsModule);
+  } else {
+    initializeProductsModule();
+  }
+}

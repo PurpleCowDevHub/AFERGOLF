@@ -1,9 +1,9 @@
 /**
  * ============================================================================
- * AFERGOLF - Admin Dashboard UI (Frontend)
+ * AFERGOLF - UI Components Module
  * ============================================================================
  * 
- * Lógica de interfaz de usuario: modales, vista previa de imágenes y campos dinámicos.
+ * Modales, menú hamburguesa, búsqueda, alertas y componentes de interfaz.
  * 
  * @author Afergolf Team
  * @version 1.0.0
@@ -21,6 +21,7 @@
  */
 const toggleModal = (modalId, isOpen) => {
   const modal = document.getElementById(modalId);
+  if (!modal) return;
   modal.classList.toggle('active', isOpen);
   document.body.style.overflow = isOpen ? 'hidden' : '';
 };
@@ -35,7 +36,77 @@ const openProductDetailsModal = () => toggleModal('product-details-modal', true)
 const closeProductDetailsModal = () => toggleModal('product-details-modal', false);
 
 // ============================================================================
-// CAMPOS DINÁMICOS
+// MENÚ HAMBURGUESA Y BÚSQUEDA
+// ============================================================================
+
+/**
+ * Alterna el estado del body overflow y overlay.
+ * @param {boolean} isOpen - Estado de apertura
+ */
+const toggleBodyScroll = (isOpen) => {
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+  const overlay = document.getElementById('modal-overlay');
+  if (overlay) overlay.classList.toggle('active', isOpen);
+};
+
+/**
+ * Abre el menú hamburguesa.
+ */
+const openMenu = () => {
+  const hamburguerMenu = document.getElementById('hamburguer-menu');
+  if (hamburguerMenu) {
+    hamburguerMenu.classList.add('active');
+    toggleBodyScroll(true);
+  }
+};
+
+/**
+ * Cierra el menú hamburguesa.
+ */
+const closeMenu = () => {
+  const hamburguerMenu = document.getElementById('hamburguer-menu');
+  if (hamburguerMenu) {
+    hamburguerMenu.classList.remove('active');
+    toggleBodyScroll(false);
+  }
+};
+
+/**
+ * Abre el modal de búsqueda y enfoca el input.
+ */
+const openSearch = () => {
+  const searchModal = document.getElementById('search-modal');
+  if (searchModal) {
+    searchModal.classList.add('active');
+    toggleBodyScroll(true);
+    setTimeout(() => {
+      const searchInput = searchModal.querySelector('.search-input');
+      if (searchInput) searchInput.focus();
+    }, 100);
+  }
+};
+
+/**
+ * Cierra el modal de búsqueda.
+ */
+const closeSearch = () => {
+  const searchModal = document.getElementById('search-modal');
+  if (searchModal) {
+    searchModal.classList.remove('active');
+    toggleBodyScroll(false);
+  }
+};
+
+/**
+ * Cierra todos los modales.
+ */
+const closeAll = () => {
+  closeMenu();
+  closeSearch();
+};
+
+// ============================================================================
+// CAMPOS DINÁMICOS DEL DASHBOARD
 // ============================================================================
 
 /**
@@ -190,10 +261,24 @@ function disableFormFields() {
  */
 function resetProductForm() {
   const form = document.getElementById('product-form');
-  form.reset();
+  if (form) form.reset();
   clearImagePreviews();
   clearFileInputs();
   updateDynamicFields('');
+}
+
+// ============================================================================
+// NOTIFICACIONES
+// ============================================================================
+
+/**
+ * Muestra una notificación al usuario.
+ * @param {string} message - Mensaje a mostrar
+ * @param {string} type - Tipo de notificación (success, error, warning, info)
+ */
+function showNotification(message, type = 'info') {
+  console.log(`[${type.toUpperCase()}] ${message}`);
+  alert(message);
 }
 
 // ============================================================================
@@ -201,9 +286,54 @@ function resetProductForm() {
 // ============================================================================
 
 /**
- * Configura todos los event listeners de la interfaz de usuario.
+ * Configura los event listeners del menú hamburguesa y búsqueda.
  */
-function setupUIEventListeners() {
+function setupHeaderEventListeners() {
+  const overlay = document.getElementById('modal-overlay');
+  const hamburguerMenu = document.getElementById('hamburguer-menu');
+  const searchModal = document.getElementById('search-modal');
+  const openMenuMobile = document.getElementById('open-menu-mobile');
+  const openMenuDesktop = document.getElementById('open-menu-desktop');
+  const openSearchMobile = document.getElementById('open-search-mobile');
+  const openSearchDesktop = document.getElementById('open-search-desktop');
+
+  // Menú hamburguesa
+  [openMenuMobile, openMenuDesktop].forEach(btn => {
+    if (btn) btn.addEventListener('click', openMenu);
+  });
+
+  // Búsqueda
+  [openSearchMobile, openSearchDesktop].forEach(btn => {
+    if (btn) btn.addEventListener('click', openSearch);
+  });
+
+  // Cerrar búsqueda al clicar en el fondo
+  if (searchModal) {
+    searchModal.addEventListener('click', (e) => {
+      if (e.target === searchModal) closeSearch();
+    });
+  }
+
+  // Evitar cierre del menú al clicar dentro
+  if (hamburguerMenu) {
+    hamburguerMenu.addEventListener('click', (e) => e.stopPropagation());
+  }
+
+  // Cerrar con overlay
+  if (overlay) {
+    overlay.addEventListener('click', closeAll);
+  }
+
+  // Cerrar con tecla ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAll();
+  });
+}
+
+/**
+ * Configura todos los event listeners de modales del dashboard.
+ */
+function setupDashboardModalsEventListeners() {
   const modalClose = document.getElementById('modal-close');
   if (modalClose) modalClose.addEventListener('click', closeProductModal);
   
@@ -246,7 +376,7 @@ function setupUIEventListeners() {
   const categorySelect = document.getElementById('product-category');
   if (categorySelect) {
     categorySelect.addEventListener('change', (e) => {
-      console.log('Categoría seleccionada:', e.target.value); // Para debugging
+      console.log('Categoría seleccionada:', e.target.value);
       updateDynamicFields(e.target.value);
     });
     
@@ -327,21 +457,27 @@ function handleImagePreview(event, position) {
 }
 
 // ============================================================================
-// UTILIDADES
-// ============================================================================
-
-/**
- * Muestra una notificación al usuario.
- * @param {string} message - Mensaje a mostrar
- * @param {string} type - Tipo de notificación (success, error, warning, info)
- */
-function showNotification(message, type = 'info') {
-  console.log(`[${type.toUpperCase()}] ${message}`);
-  alert(message);
-}
-
-// ============================================================================
 // INICIALIZACIÓN
 // ============================================================================
 
-document.addEventListener('DOMContentLoaded', setupUIEventListeners);
+/**
+ * Inicializa los componentes de UI según el contexto de la página.
+ */
+function initializeUIComponents() {
+  // Inicializar componentes del header si existen
+  if (document.getElementById('hamburguer-menu') || document.getElementById('search-modal')) {
+    setupHeaderEventListeners();
+  }
+  
+  // Inicializar modales del dashboard si existen
+  if (document.getElementById('product-modal') || document.getElementById('delete-modal')) {
+    setupDashboardModalsEventListeners();
+  }
+}
+
+// Auto-inicialización
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeUIComponents);
+} else {
+  initializeUIComponents();
+}
