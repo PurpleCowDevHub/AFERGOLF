@@ -423,6 +423,18 @@ function createElement(tag, attributes = {}, content = '') {
 
 // Hacer las funciones disponibles globalmente
 if (typeof window !== 'undefined') {
+  // Exponer funciones individuales más usadas
+  window.formatPrice = formatPrice;
+  window.capitalizeFirst = capitalizeFirst;
+  window.formatDate = formatDate;
+  window.formatPhone = formatPhone;
+  window.isValidEmail = isValidEmail;
+  window.isValidPhone = isValidPhone;
+  window.isValidPassword = isValidPassword;
+  window.isNotEmpty = isNotEmpty;
+  window.isPositiveNumber = isPositiveNumber;
+  
+  // Exponer colección completa de helpers
   window.AfergolfHelpers = {
     formatPrice,
     capitalizeFirst,

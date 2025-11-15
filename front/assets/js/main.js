@@ -67,6 +67,11 @@ class AfergolfHeader extends HTMLElement {
       newScript.textContent = oldScript.textContent;
       oldScript.parentNode.replaceChild(newScript, oldScript);
     });
+    
+    // Reinicializar componentes UI después de cargar el header
+    if (typeof initializeUIComponents === 'function') {
+      initializeUIComponents();
+    }
   }
 
   /**

@@ -39,6 +39,9 @@ const closeProductDetailsModal = () => toggleModal('product-details-modal', fals
 // MENÚ HAMBURGUESA Y BÚSQUEDA
 // ============================================================================
 
+// Variables para evitar duplicación de event listeners
+let headerListenersInitialized = false;
+
 /**
  * Alterna el estado del body overflow y overlay.
  * @param {boolean} isOpen - Estado de apertura
@@ -289,6 +292,10 @@ function showNotification(message, type = 'info') {
  * Configura los event listeners del menú hamburguesa y búsqueda.
  */
 function setupHeaderEventListeners() {
+  // Evitar duplicación de event listeners
+  if (headerListenersInitialized) return;
+  headerListenersInitialized = true;
+  
   const overlay = document.getElementById('modal-overlay');
   const hamburguerMenu = document.getElementById('hamburguer-menu');
   const searchModal = document.getElementById('search-modal');
@@ -473,6 +480,11 @@ function initializeUIComponents() {
   if (document.getElementById('product-modal') || document.getElementById('delete-modal')) {
     setupDashboardModalsEventListeners();
   }
+}
+
+// Exponer globalmente para que main.js pueda llamarla
+if (typeof window !== 'undefined') {
+  window.initializeUIComponents = initializeUIComponents;
 }
 
 // Auto-inicialización

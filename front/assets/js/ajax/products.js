@@ -588,24 +588,6 @@ function clearTempImageFiles() {
 }
 
 // ============================================================================
-// UTILIDADES
-// ============================================================================
-
-/**
- * Formatea un precio en pesos colombianos.
- * @param {number} price - Precio a formatear
- * @returns {string} Precio formateado
- */
-const formatPrice = (price) => `$${price.toLocaleString('es-CO')} COP`;
-
-/**
- * Capitaliza la primera letra de un string.
- * @param {string} str - String a capitalizar
- * @returns {string} String capitalizado
- */
-const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
-// ============================================================================
 // EVENT LISTENERS
 // ============================================================================
 
