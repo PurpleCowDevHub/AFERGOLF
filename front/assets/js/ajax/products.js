@@ -525,11 +525,12 @@ function renderProductsTable(productos) {
  * 
  * Cada fila contiene:
  * - Imagen principal (miniatura)
+ * - Referencia del producto
  * - Nombre del producto
  * - Categoría
  * - Marca
  * - Precio formateado ($ COP)
- * - Stock disponible
+ * - Stock disponible (con desglose por tallas para guantes)
  * - Botones de acción (Ver, Editar, Eliminar)
  * 
  * @function createProductRow
@@ -547,6 +548,13 @@ function createProductRow(producto) {
   img.alt = producto.nombre;
   img.className = 'product-image';
   tdImage.appendChild(img);
+  
+  // Columna: Referencia
+  const tdReference = document.createElement('td');
+  const referenceSpan = document.createElement('span');
+  referenceSpan.className = 'product-reference';
+  referenceSpan.textContent = producto.referencia;
+  tdReference.appendChild(referenceSpan);
   
   // Columna: Nombre
   const tdName = document.createElement('td');
@@ -577,20 +585,54 @@ function createProductRow(producto) {
   priceSpan.textContent = formatPrice(producto.precio);
   tdPrice.appendChild(priceSpan);
   
-  // Columna: Stock
+  // Columna: Stock (diferente para guantes)
   const tdStock = document.createElement('td');
-  const stockSpan = document.createElement('span');
-  stockSpan.className = 'product-stock';
-  stockSpan.textContent = producto.stock || 0;
   
-  // Aplicar clase según disponibilidad
-  if (producto.stock === 0) {
-    stockSpan.classList.add('out-of-stock');
-  } else if (producto.stock < 5) {
-    stockSpan.classList.add('low-stock');
+  if (producto.categoria === 'guantes') {
+    // Para guantes: mostrar desglose por tallas
+    const stockContainer = document.createElement('div');
+    stockContainer.className = 'stock-sizes-container';
+    
+    const sizes = [
+      { label: 'S', value: producto.stock_talla_s || 0 },
+      { label: 'M', value: producto.stock_talla_m || 0 },
+      { label: 'L', value: producto.stock_talla_l || 0 },
+      { label: 'XL', value: producto.stock_talla_xl || 0 },
+      { label: 'XXL', value: producto.stock_talla_xxl || 0 }
+    ];
+    
+    sizes.forEach(size => {
+      const sizeItem = document.createElement('span');
+      sizeItem.className = 'stock-size-item';
+      
+      // Aplicar clase según disponibilidad
+      if (size.value === 0) {
+        sizeItem.classList.add('out-of-stock');
+      } else if (size.value < 3) {
+        sizeItem.classList.add('low-stock');
+      }
+      
+      sizeItem.textContent = `${size.label}: ${size.value}`;
+      sizeItem.title = `Talla ${size.label}: ${size.value} unidades`;
+      stockContainer.appendChild(sizeItem);
+    });
+    
+    tdStock.appendChild(stockContainer);
+  } else {
+    // Para otros productos: stock general
+    const stockSpan = document.createElement('span');
+    stockSpan.className = 'product-stock';
+    stockSpan.textContent = producto.stock || 0;
+    
+    // Aplicar clase según disponibilidad
+    if (producto.stock === 0) {
+      stockSpan.classList.add('out-of-stock');
+    } else if (producto.stock < 5) {
+      stockSpan.classList.add('low-stock');
+    }
+    
+    tdStock.appendChild(stockSpan);
   }
-  
-  tdStock.appendChild(stockSpan);
   
   // Columna: Acciones
   const tdActions = document.createElement('td');
@@ -638,6 +680,7 @@ function createProductRow(producto) {
   
   // Ensamblar fila
   tr.appendChild(tdImage);
+  tr.appendChild(tdReference);
   tr.appendChild(tdName);
   tr.appendChild(tdCategory);
   tr.appendChild(tdBrand);
