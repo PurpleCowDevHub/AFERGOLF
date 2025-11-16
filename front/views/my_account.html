@@ -28,7 +28,7 @@
       <div class="account-header">
         <div class="avatar" id="avatarContainer">
           <img id="avatarImage" src="../assets/icons/default-avatar.svg" alt="Foto de perfil del usuario">
-          <input type="file" id="avatarInput" accept="image/*">
+          <!-- SIN input file - la imagen NO se edita aquí, solo se muestra -->
         </div>
         <div class="user-info">
           <h2 class="user-name">Samuel Fernandez</h2>
@@ -96,6 +96,15 @@
 
       <!-- Contenido del modal (formulario de editar perfil) -->
       <div class="modal-body">
+        <!-- Sección de imagen -->
+        <div class="image-section">
+          <div class="avatar-edit" id="modalAvatarContainer">
+            <img id="modalAvatarImage" src="../assets/icons/default-avatar.svg" alt="Foto de perfil">
+            <input type="file" id="modalAvatarInput" accept="image/*">
+          </div>
+          <p class="image-helper">Haz clic en la foto para cambiarla</p>
+        </div>
+
         <!-- Formulario -->
         <form class="profile-form">
           <div class="form-group">

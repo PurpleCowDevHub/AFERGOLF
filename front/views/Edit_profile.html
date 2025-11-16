@@ -10,9 +10,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/edit_profile.css">
+  <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/ui/components.js" defer></script>
+  <script src="../assets/js/ajax/edit_profile_page.js" defer></script>
 </head>
 
 <body>
+  <!-- HEADER GLOBAL -->
+  <afergolf-header></afergolf-header>
+
   <main class="account-main">
     <section class="account-container">
 
@@ -26,12 +32,12 @@
         <div class="user-info">
           <h2 class="user-name">Samuel Fernandez</h2>
           <p class="user-email">samdezurrea@gmail.com</p>
-          <p class="user-helper">Actualiza tu información personal.</p>
+          <p class="user-helper">Haz clic en tu foto para cambiarla</p>
         </div>
       </div>
 
       <!-- Formulario -->
-      <form class="profile-form">
+      <form class="profile-form" id="editProfileForm">
         <div class="form-group">
           <label for="firstName">Nombre</label>
           <input id="firstName" type="text" placeholder="Samuel" required>
@@ -68,24 +74,12 @@
         </div>
       </form>
 
+      <div id="edit-profile-response" style="display: none; margin-top: 20px; padding: 15px; border-radius: 8px;"></div>
+
     </section>
   </main>
 
-  <!-- Script para previsualizar la foto -->
-  <script>
-    const avatarContainer = document.getElementById('avatarContainer');
-    const avatarInput = document.getElementById('avatarInput');
-    const avatarImage = document.getElementById('avatarImage');
-
-    avatarContainer.addEventListener('click', () => avatarInput.click());
-    avatarInput.addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = ev => avatarImage.src = ev.target.result;
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
+  <!-- FOOTER GLOBAL -->
+  <afergolf-footer></afergolf-footer>
 </body>
 </html>

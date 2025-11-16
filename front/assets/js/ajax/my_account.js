@@ -48,24 +48,20 @@ document.addEventListener("DOMContentLoaded", () => {
             // Cargar imagen de perfil si existe
             if (user.foto_perfil && user.foto_perfil.trim() !== "") {
                 const avatarImage = document.getElementById("avatarImage");
-                // Construir la ruta correcta desde front/views/my_account.html
-                // ../assets/img/profiles/profile_X_Y.jpg
+                const modalAvatarImage = document.getElementById("modalAvatarImage");
                 const imagePath = "../" + user.foto_perfil;
                 
-                console.log("🖼️  Ruta en BD:", user.foto_perfil);
-                console.log("🖼️  Ruta relativa:", imagePath);
+                // Cargar en el header de la página
+                if (avatarImage) {
+                    avatarImage.src = imagePath;
+                }
                 
-                avatarImage.onload = () => {
-                    console.log("✅ Imagen cargada correctamente:", imagePath);
-                };
+                // Cargar en el modal también
+                if (modalAvatarImage) {
+                    modalAvatarImage.src = imagePath;
+                }
                 
-                avatarImage.onerror = () => {
-                    console.error("❌ Error al cargar imagen:", imagePath);
-                };
-                
-                avatarImage.src = imagePath;
-            } else {
-                console.log("⚠️  No hay foto_perfil en BD o está vacía");
+                console.log("✓ Imagen de perfil cargada:", imagePath);
             }
         })
         .catch(err => {

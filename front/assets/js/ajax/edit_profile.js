@@ -90,10 +90,10 @@ function handleEditProfile(e) {
   formData.append('telefono', telefono);
   formData.append('ciudad', ciudad);
 
-  // Agregar imagen si existe
-  const avatarInput = document.getElementById('avatarInput');
-  if (avatarInput && avatarInput.files.length > 0) {
-    const file = avatarInput.files[0];
+  // Agregar imagen si existe en el modal
+  const modalAvatarInput = document.getElementById('modalAvatarInput');
+  if (modalAvatarInput && modalAvatarInput.files.length > 0) {
+    const file = modalAvatarInput.files[0];
     
     // Validar tipo de archivo
     const allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -109,6 +109,7 @@ function handleEditProfile(e) {
     }
     
     formData.append('profileImage', file);
+    console.log("✓ Imagen incluida en formulario:", file.name);
   }
 
   // Enviar solicitud de actualización al servidor
@@ -154,7 +155,8 @@ function handleEditProfile(e) {
             if (data.user.foto_perfil && data.user.foto_perfil.trim() !== "") {
               const imagePath = "../" + data.user.foto_perfil;
               document.getElementById('avatarImage').src = imagePath;
-              console.log("✓ Avatar actualizado:", imagePath);
+              document.getElementById('modalAvatarImage').src = imagePath;
+              console.log("✓ Imagen actualizada:", imagePath);
             }
 
             // Actualizar localStorage con nueva información
@@ -162,15 +164,12 @@ function handleEditProfile(e) {
             userStorageData.nombres = data.user.nombres;
             userStorageData.apellidos = data.user.apellidos;
             userStorageData.email = data.user.email;
-            if (data.user.foto_perfil) {
-              userStorageData.foto_perfil = data.user.foto_perfil;
-            }
             localStorage.setItem('user', JSON.stringify(userStorageData));
+          }
 
-            // Limpiar input de archivo
-            if (avatarInput) {
-              avatarInput.value = '';
-            }
+          // Limpiar input de archivo
+          if (modalAvatarInput) {
+            modalAvatarInput.value = '';
           }
 
           // Cerrar modal después de 1.5 segundos
@@ -272,30 +271,61 @@ function setupEditProfileEventListeners() {
     });
   }
 
-  // Avatar - Hacer clic para subir imagen
-  const avatarContainer = document.getElementById('avatarContainer');
-  const avatarInput = document.getElementById('avatarInput');
-  
-  if (avatarContainer && avatarInput) {
-    avatarContainer.addEventListener('click', () => {
-      avatarInput.click();
-    });
+  // Configurar listeners para la imagen en el modal
+  setupModalImageUploadListeners();
+}
 
-    // Previsualizar imagen
-    avatarInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const avatarImage = document.getElementById('avatarImage');
-          if (avatarImage) {
-            avatarImage.src = event.target.result;
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+/**
+ * Configura los listeners para la edición de imagen en el modal
+ */
+function setupModalImageUploadListeners() {
+  const avatarEditContainer = document.getElementById('modalAvatarContainer');
+  const avatarInput = document.getElementById('modalAvatarInput');
+  
+  if (!avatarEditContainer || !avatarInput) {
+    console.warn("⚠️ Avatar modal elements not found");
+    return;
   }
+  
+  // Click en el contenedor de avatar abre el selector de archivo
+  avatarEditContainer.addEventListener('click', (e) => {
+    e.stopPropagation();
+    avatarInput.click();
+  });
+
+  // Cambio de archivo muestra preview
+  avatarInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validar tipo de imagen
+      const allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowed_types.includes(file.type)) {
+        showEditProfileResponse('Tipo de imagen no permitido. Use JPEG, PNG, GIF o WEBP', 'error');
+        avatarInput.value = '';
+        return;
+      }
+      
+      // Validar tamaño
+      if (file.size > 5 * 1024 * 1024) {
+        showEditProfileResponse('La imagen es muy grande. Máximo 5MB', 'error');
+        avatarInput.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const modalAvatarImage = document.getElementById('modalAvatarImage');
+        if (modalAvatarImage) {
+          modalAvatarImage.src = event.target.result;
+          console.log("✓ Preview de imagen cargado en modal");
+        }
+      };
+      reader.onerror = () => {
+        showEditProfileResponse('Error al leer la imagen', 'error');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 }
 
 // ============================================================================
