@@ -33,6 +33,7 @@ function handleRegister(e) {
   const nombre = document.getElementById('nombre').value.trim();
   const apellidos = document.getElementById('apellido').value.trim();
   const correo = document.getElementById('correo').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
   const password = document.getElementById('password').value;
   const confirmar_password = document.getElementById('confirmar_password').value;
 
@@ -96,7 +97,7 @@ function handleRegister(e) {
     showResponse('Error de conexión con el servidor', 'error');
   };
 
-  xhr.send(JSON.stringify({ nombre, apellidos, correo, password }));
+  xhr.send(JSON.stringify({ nombre, apellidos, correo, telefono, password }));
 }
 
 /**

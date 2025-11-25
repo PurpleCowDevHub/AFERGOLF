@@ -13,6 +13,7 @@ $input = json_decode(file_get_contents("php://input"), true);
 $nombre = $input['nombre'] ?? '';
 $apellidos = $input['apellidos'] ?? '';
 $correo = $input['correo'] ?? '';
+$telefono = $input['telefono'] ?? '';
 $password = $input['password'] ?? '';
 
 // Validate required fields
@@ -42,8 +43,8 @@ if ($count > 0) {
 
 // Hash password and insert user
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $conn->prepare("INSERT INTO usuarios (nombres, apellidos, email, password) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("ssss", $nombre, $apellidos, $correo, $hashed_password);
+$stmt = $conn->prepare("INSERT INTO usuarios (nombres, apellidos, email, telefono, password) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param("sssss", $nombre, $apellidos, $correo, $telefono, $hashed_password);
 
 // Return response
 if ($stmt->execute()) {
