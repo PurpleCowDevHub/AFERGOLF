@@ -4,102 +4,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Catálogo de productos AFERGOLF - Palos, guantes, bolas y accesorios de golf de las mejores marcas">
+  <meta name="description" content="Catálogo de productos AFERGOLF">
   <title>Catálogo - AFERGOLF</title>
+
   <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/pages/catalog.css" />
+  <link rel="stylesheet" href="../assets/css/pages/catalog.css">
+
   <script src="../assets/js/main.js" defer></script>
   <script src="../assets/js/ui/components.js" defer></script>
+
+  <!-- 👇 AGREGAMOS ESTE SCRIPT NUEVO -->
+  <script src="../assets/js/ajax/catalog.js" defer></script>
 </head>
 
 <body>
   <afergolf-header></afergolf-header>
 
-
   <main>
     <section class="catalogo">
-      <!-- lista de productos -->
-      <div class="catalogo-productos">
-        <article class="catalogo-producto">
-          <img src="../assets/img/Catalog/Guante Footjoy GTXtreme.jpeg" alt="Guante Footjoy GTXtreme" loading="lazy">
-          <h3>Guante Footjoy GTXtreme</h3>
-          <p class="catalogo-precio">Desde 70.000 COP</p>
-          <div class="catalogo-tallas">
-            <button>S</button><button>M</button><button>L</button><button>XL</button>
-          </div>
-        </article>
 
-        <article class="catalogo-producto">
-          <img src="../assets/img/Catalog/Bolas Titleist Trufeel 2024.jpeg" alt="Bolas Titleist Trufeel" loading="lazy">
-          <h3>Bolas Titleist Trufeel 2024</h3>
-          <p class="catalogo-precio">Desde 150.000 COP</p>
-        </article>
+      <!-- LISTA DINÁMICA DE PRODUCTOS -->
+      <div id="catalogo-productos" class="catalogo-productos"></div>
 
-        <article class="catalogo-producto">
-          <img src="../assets/img/Catalog/Hierros Srixon ZXi4.jpeg" alt="Hierros Srixon ZX i4" loading="lazy">
-          <h3>Hierros Srixon ZX i4</h3>
-          <p class="catalogo-precio">Desde 2.500.000 COP</p>
-        </article>
-
-
-        <article class="catalogo-producto">
-          <img src="../assets/img/Catalog/Guante Callaway Thermal.jpeg" alt="Guante Callaway Thermal" loading="lazy">
-          <h3>Guante Callaway Thermal</h3>
-          <p class="catalogo-precio">Desde 85.000 COP</p>
-          <div class="catalogo-tallas">
-            <button>S</button><button>M</button><button>L</button>
-          </div>
-        </article>
-
-
-        <article class="catalogo-producto">
-          <img src="../assets/img/Catalog/Driver Cobra LTDx.jpeg" alt="Driver Cobra LTDx" loading="lazy">
-          <h3>Driver Cobra LTDx</h3>
-          <p class="catalogo-precio">Desde 3.250.000 COP</p>
-        </article>
-
-
-        <article class="catalogo-producto">
-          <img src="../assets/img/Catalog/Madera TaylorMade Stealth 2.jpeg" alt="Madera TaylorMade Stealth 2"
-            loading="lazy">
-          <h3>Madera TaylorMade Stealth 2</h3>
-          <p class="catalogo-precio">Desde 2.100.000 COP</p>
-        </article>
-      </div>
-
-      <!-- filtros de productos en la 4ta columna -->
+      <!-- FILTROS -->
       <aside class="catalogo-filtros">
         <h2>Filtros</h2>
 
         <div class="filtro">
           <label for="tipo">Tipo de producto</label>
-          <select id="tipo" name="tipo">
+          <select id="tipo">
             <option value="">Todos</option>
             <option value="palos">Palos</option>
             <option value="bolas">Bolas</option>
             <option value="guantes">Guantes</option>
+            <option value="accesorios">Accesorios</option>
           </select>
         </div>
 
         <div class="filtro">
           <label for="marca">Marca</label>
-          <select id="marca" name="marca">
+          <select id="marca">
             <option value="">Todas</option>
-            <option value="footjoy">Footjoy</option>
             <option value="callaway">Callaway</option>
-            <option value="srixon">Srixon</option>
             <option value="titleist">Titleist</option>
-            <option value="cobra">Cobra</option>
+            <option value="footjoy">Footjoy</option>
+            <option value="srixon">Srixon</option>
             <option value="taylormade">TaylorMade</option>
+            <option value="cobra">Cobra</option>
+            <option value="ping">PING</option>
           </select>
         </div>
       </aside>
     </section>
   </main>
 
-
   <afergolf-footer></afergolf-footer>
 </body>
-
 </html>
