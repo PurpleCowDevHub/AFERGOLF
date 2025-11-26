@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', '0');
+session_start(); // Iniciar sesión para acceder a $_SESSION
 include_once __DIR__ . "/../../../config/db_connect.php";
 header("Content-Type: application/json; charset=utf-8");
 
@@ -52,10 +53,15 @@ try {
     $user = $result->fetch_assoc();
     $verifiedUserId = $user['id'];
     $stmt->close();
+  } elseif (isset($_SESSION['user_id'])) {
+    // Si hay sesión activa, usamos el ID de la sesión (más seguro)
+    $verifiedUserId = $_SESSION['user_id'];
   } elseif (!empty($userId)) {
+    // Fallback inseguro: usamos el ID enviado por el cliente (comportamiento original)
+    // TODO: Considerar eliminar esto en producción para mayor seguridad
     $verifiedUserId = $userId;
   } else {
-    echo json_encode(["status" => "error", "message" => "Método de verificación no válido"]);
+    echo json_encode(["status" => "error", "message" => "No se pudo identificar al usuario. Por favor inicia sesión nuevamente."]);
     exit;
   }
 

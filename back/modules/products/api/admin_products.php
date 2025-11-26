@@ -196,14 +196,35 @@ function createProduct() {
   }
   
   // -------------------------------------------------------------------------
-  // PASO 4: Preparar imágenes (base64)
+  // PASO 4: Procesar y guardar imágenes
   // -------------------------------------------------------------------------
   
-  // Escapar imágenes en base64 (pueden ser strings muy largos)
-  $imagen_principal = $conn->real_escape_string($data['imagen_principal'] ?? '');
-  $imagen_frontal = $conn->real_escape_string($data['imagen_frontal'] ?? '');
-  $imagen_superior = $conn->real_escape_string($data['imagen_superior'] ?? '');
-  $imagen_lateral = $conn->real_escape_string($data['imagen_lateral'] ?? '');
+  // Definir directorios
+  // Ruta física: c:\xampp\htdocs\AFERGOLF\uploads\products\{referencia}\
+  $base_upload_dir = realpath(__DIR__ . '/../../../../') . '/uploads/products/';
+  $product_dir = $base_upload_dir . $referencia . '/';
+  
+  // Ruta web absoluta para guardar en BD: /AFERGOLF/uploads/products/{referencia}/archivo.jpg
+  $web_path_base = '/AFERGOLF/uploads/products/' . $referencia . '/';
+
+  // Guardar imágenes en disco y obtener nombres de archivo
+  $img_principal_name = saveBase64Image($data['imagen_principal'] ?? '', $product_dir, 'principal');
+  $img_frontal_name = saveBase64Image($data['imagen_frontal'] ?? '', $product_dir, 'frontal');
+  $img_superior_name = saveBase64Image($data['imagen_superior'] ?? '', $product_dir, 'superior');
+  $img_lateral_name = saveBase64Image($data['imagen_lateral'] ?? '', $product_dir, 'lateral');
+  
+  // Construir rutas completas para BD (o vacías si falló/no había)
+  // Si saveBase64Image devuelve '', guardamos '' en la BD
+  $imagen_principal = $img_principal_name ? $web_path_base . $img_principal_name : '';
+  $imagen_frontal = $img_frontal_name ? $web_path_base . $img_frontal_name : '';
+  $imagen_superior = $img_superior_name ? $web_path_base . $img_superior_name : '';
+  $imagen_lateral = $img_lateral_name ? $web_path_base . $img_lateral_name : '';
+  
+  // Escapar las rutas resultantes (aunque son seguras porque las generamos nosotros)
+  $imagen_principal = $conn->real_escape_string($imagen_principal);
+  $imagen_frontal = $conn->real_escape_string($imagen_frontal);
+  $imagen_superior = $conn->real_escape_string($imagen_superior);
+  $imagen_lateral = $conn->real_escape_string($imagen_lateral);
   
   // -------------------------------------------------------------------------
   // PASO 5: Preparar campos específicos por categoría
@@ -768,5 +789,50 @@ function deleteProduct() {
       'message' => 'Error al eliminar el producto: ' . $conn->error
     ]);
   }
+}
+
+/**
+ * Guarda una imagen codificada en Base64 en el sistema de archivos
+ * 
+ * @param string $base64_string - Cadena Base64 de la imagen (puede incluir prefijo data:image/...)
+ * @param string $output_dir - Directorio donde guardar la imagen (debe terminar en /)
+ * @param string $filename_prefix - Prefijo para el nombre del archivo
+ * @return string - Nombre del archivo generado (con extensión) o cadena vacía si falla
+ */
+function saveBase64Image($base64_string, $output_dir, $filename_prefix) {
+  if (empty($base64_string)) return '';
+
+  // Separar metadatos de la imagen (data:image/png;base64,...)
+  $parts = explode(',', $base64_string);
+  $data = count($parts) > 1 ? $parts[1] : $parts[0];
+  
+  // Decodificar
+  $decoded = base64_decode($data);
+  if ($decoded === false) return '';
+
+  // Detectar extensión usando finfo
+  $f = finfo_open();
+  $mime_type = finfo_buffer($f, $decoded, FILEINFO_MIME_TYPE);
+  finfo_close($f);
+  
+  $extension = 'jpg'; // Default
+  if ($mime_type == 'image/png') $extension = 'png';
+  if ($mime_type == 'image/gif') $extension = 'gif';
+  if ($mime_type == 'image/webp') $extension = 'webp';
+  if ($mime_type == 'image/jpeg') $extension = 'jpg';
+
+  // Crear directorio si no existe
+  if (!is_dir($output_dir)) {
+      mkdir($output_dir, 0755, true);
+  }
+
+  // Generar nombre de archivo
+  $filename = $filename_prefix . '_' . time() . '.' . $extension;
+  $file_path = $output_dir . $filename;
+
+  if (file_put_contents($file_path, $decoded)) {
+      return $filename;
+  }
+  return '';
 }
 ?>

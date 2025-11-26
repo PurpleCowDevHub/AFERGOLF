@@ -36,7 +36,7 @@ function handleChangePassword(e) {
   // Get user ID from URL parameter or localStorage
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get('token');
-  const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem('afergolf_user_id');
 
   // Validate required fields
   if (!newPassword || !confirmPassword) {
@@ -100,6 +100,11 @@ function handleChangePassword(e) {
         if (data.status === 'success') {
           // Clear form
           document.getElementById('passwordForm').reset();
+
+          // Clear session data to force re-login
+          localStorage.removeItem('afergolf_logged');
+          localStorage.removeItem('afergolf_user_id');
+          localStorage.removeItem('user');
           
           // Redirect after success
           setTimeout(() => {

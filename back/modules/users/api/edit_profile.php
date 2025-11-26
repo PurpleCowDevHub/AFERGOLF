@@ -79,7 +79,7 @@ if (!empty($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLO
     }
     
     // Crear directorio si no existe
-    $upload_dir = realpath(__DIR__ . '/../../../../') . '/front/assets/img/profiles/';
+    $upload_dir = realpath(__DIR__ . '/../../../../') . '/uploads/profiles/';
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0755, true);
     }
@@ -95,8 +95,9 @@ if (!empty($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLO
         exit;
     }
     
-    // Guardar ruta relativa para la BD
-    $profileImage = 'assets/img/profiles/' . $filename;
+    // Guardar ruta relativa para la BD (compatible con ../ del frontend)
+    // ../uploads/profiles/file.jpg -> frontend agrega ../ -> ../../uploads/profiles/file.jpg (Correcto desde views/)
+    $profileImage = '../uploads/profiles/' . $filename;
     
     // Eliminar imagen anterior si existe
     $stmt = $conn->prepare("SELECT foto_perfil FROM usuarios WHERE id = ?");
@@ -107,8 +108,11 @@ if (!empty($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLO
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if ($row['foto_perfil']) {
+            // La ruta guardada puede ser antigua (assets/...) o nueva (../uploads/...)
+            // Si es ../uploads/..., realpath lo resolverá correctamente desde front/
             $old_file = realpath(__DIR__ . '/../../../../') . '/front/' . $row['foto_perfil'];
-            if (file_exists($old_file) && strpos($old_file, 'profiles') !== false) {
+            
+            if (file_exists($old_file) && (strpos($old_file, 'profiles') !== false)) {
                 unlink($old_file);
             }
         }
