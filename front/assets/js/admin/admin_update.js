@@ -134,6 +134,35 @@ const UPDATE_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/admi
  */
 window.currentProductId = null;
 
+/**
+ * Parsea un string de dimensiones y lo asigna a los campos individuales
+ * 
+ * @function parseDimensionsToFields
+ * @param {string} dimensions - String de dimensiones (ej: "0.89 x 0.10 x 0.10")
+ * @param {string} largoId - ID del input de largo
+ * @param {string} anchoId - ID del input de ancho
+ * @param {string} altoId - ID del input de alto
+ */
+function parseDimensionsToFields(dimensions, largoId, anchoId, altoId) {
+  const largoInput = document.getElementById(largoId);
+  const anchoInput = document.getElementById(anchoId);
+  const altoInput = document.getElementById(altoId);
+  
+  if (!dimensions || dimensions.trim() === '') {
+    if (largoInput) largoInput.value = '';
+    if (anchoInput) anchoInput.value = '';
+    if (altoInput) altoInput.value = '';
+    return;
+  }
+  
+  // Separar por 'x' y limpiar espacios
+  const parts = dimensions.split('x').map(p => p.trim());
+  
+  if (largoInput) largoInput.value = parts[0] || '';
+  if (anchoInput) anchoInput.value = parts[1] || '';
+  if (altoInput) altoInput.value = parts[2] || '';
+}
+
 // ============================================================================
 // FUNCIÓN: EDITAR PRODUCTO
 // ============================================================================
@@ -255,14 +284,14 @@ function loadProductIntoForm(producto) {
     const unitsInput = document.getElementById('product-units');
     if (unitsInput) unitsInput.value = producto.unidades_paquete || 0;
   } else if (producto.categoria === 'palos') {
-    const dimInput = document.getElementById('product-dimensions');
+    // Separar dimensiones en campos individuales
+    parseDimensionsToFields(producto.dimensiones, 'product-dim-largo', 'product-dim-ancho', 'product-dim-alto');
     const weightInput = document.getElementById('product-weight');
-    if (dimInput) dimInput.value = producto.dimensiones || '';
     if (weightInput) weightInput.value = producto.peso || 0;
   } else if (producto.categoria === 'accesorios') {
-    const dimInput = document.getElementById('product-dimensions-acc');
+    // Separar dimensiones en campos individuales
+    parseDimensionsToFields(producto.dimensiones, 'product-dim-largo-acc', 'product-dim-ancho-acc', 'product-dim-alto-acc');
     const weightInput = document.getElementById('product-weight-acc');
-    if (dimInput) dimInput.value = producto.dimensiones || '';
     if (weightInput) weightInput.value = producto.peso || 0;
   }
   

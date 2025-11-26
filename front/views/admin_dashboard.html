@@ -79,7 +79,6 @@
             <option value="palos">Palos</option>
             <option value="bolas">Bolas</option>
             <option value="guantes">Guantes</option>
-            <option value="accesorios">Accesorios</option>
           </select>
         </div>
         
@@ -266,7 +265,6 @@
                   <option value="palos">Palos</option>
                   <option value="bolas">Bolas</option>
                   <option value="guantes">Guantes</option>
-                  <option value="accesorios">Accesorios</option>
                 </select>
               </div>
 
@@ -297,27 +295,25 @@
               
               <!-- Campos para Palos -->
               <div class="category-fields" data-category="palos" style="display: none;">
-                <div class="form-group">
-                  <label for="product-dimensions">Dimensiones (m)</label>
-                  <input type="text" id="product-dimensions" placeholder="Ej: 0.89 x 0.10 x 0.10">
+                <label class="dimensions-label">Dimensiones (metros)</label>
+                <div class="dimensions-grid">
+                  <div class="form-group">
+                    <label for="product-dim-largo">Largo</label>
+                    <input type="number" step="0.01" min="0" id="product-dim-largo" placeholder="0.89">
+                  </div>
+                  <div class="form-group">
+                    <label for="product-dim-ancho">Ancho</label>
+                    <input type="number" step="0.01" min="0" id="product-dim-ancho" placeholder="0.10">
+                  </div>
+                  <div class="form-group">
+                    <label for="product-dim-alto">Alto</label>
+                    <input type="number" step="0.01" min="0" id="product-dim-alto" placeholder="0.10">
+                  </div>
                 </div>
                 
                 <div class="form-group">
                   <label for="product-weight">Peso del producto (kg)</label>
                   <input type="number" step="0.01" id="product-weight" placeholder="0.91">
-                </div>
-              </div>
-
-              <!-- Campos para Accesorios -->
-              <div class="category-fields" data-category="accesorios" style="display: none;">
-                <div class="form-group">
-                  <label for="product-dimensions-acc">Dimensiones (m)</label>
-                  <input type="text" id="product-dimensions-acc" placeholder="Ej: 0.89 x 0.10 x 0.10">
-                </div>
-                
-                <div class="form-group">
-                  <label for="product-weight-acc">Peso del producto (kg)</label>
-                  <input type="number" step="0.01" id="product-weight-acc" placeholder="0.91">
                 </div>
               </div>
 
@@ -513,16 +509,30 @@
 
         <!-- Información del producto -->
         <div class="product-info-section">
-          <div class="product-details-info">
+          <div class="product-details-info" id="product-details-info-container">
             <h1 class="product-title-details" id="product-name-details">Nombre del Producto</h1>
-            <ul class="product-meta-details">
+            
+            <!-- Badge de categoría -->
+            <span class="category-badge" id="product-category-badge">Categoría</span>
+            
+            <!-- Información común -->
+            <ul class="product-meta-details" id="product-meta-common">
               <li><b>Marca:</b> <span id="product-brand-details">-</span></li>
-              <li><b>Dimensiones:</b> <span id="product-dimensions-details">-</span></li>
-              <li><b>Peso del producto:</b> <span id="product-weight-details">-</span></li>
-              <li><b>Peso de envío:</b> <span id="product-shipping-weight-details">-</span></li>
               <li><b>Modelo:</b> <span id="product-model-details">-</span></li>
               <li><b>Ref:</b> <span id="product-reference-details">-</span></li>
             </ul>
+            
+            <!-- Información específica por categoría (se llena dinámicamente) -->
+            <div class="product-category-specs" id="product-category-specs">
+              <!-- Se genera desde JS según la categoría -->
+            </div>
+            
+            <!-- Stock -->
+            <div class="product-stock-info" id="product-stock-container">
+              <span class="stock-label">Stock:</span>
+              <span class="stock-value" id="product-stock-details">0</span>
+            </div>
+            
             <p class="product-price-details" id="product-price-details">$0 COP</p>
           </div>
 

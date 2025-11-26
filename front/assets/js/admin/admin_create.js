@@ -247,6 +247,42 @@ function handleProductSubmit(e) {
 // ============================================================================
 
 /**
+ * Formatea la marca con primera letra mayúscula de cada palabra
+ * 
+ * @function formatBrand
+ * @param {string} brand - Marca a formatear
+ * @returns {string} Marca formateada
+ */
+function formatBrand(brand) {
+  if (!brand) return '';
+  return brand
+    .trim()
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+/**
+ * Construye el string de dimensiones a partir de los campos separados
+ * 
+ * @function buildDimensionsString
+ * @param {string} largoId - ID del input de largo
+ * @param {string} anchoId - ID del input de ancho
+ * @param {string} altoId - ID del input de alto
+ * @returns {string} Dimensiones en formato "largo x ancho x alto"
+ */
+function buildDimensionsString(largoId, anchoId, altoId) {
+  const largo = document.getElementById(largoId)?.value || '';
+  const ancho = document.getElementById(anchoId)?.value || '';
+  const alto = document.getElementById(altoId)?.value || '';
+  
+  if (!largo && !ancho && !alto) return '';
+  
+  return `${largo || '0'} x ${ancho || '0'} x ${alto || '0'}`;
+}
+
+/**
  * Recopila todos los datos del formulario en un objeto
  * 
  * Maneja campos dinámicos según la categoría seleccionada:
@@ -261,12 +297,12 @@ function handleProductSubmit(e) {
 function collectFormData() {
   const category = document.getElementById('product-category')?.value || '';
   
-  // Datos generales
+  // Datos generales (marca formateada)
   const formData = {
     nombre: document.getElementById('product-name')?.value || '',
     descripcion: document.getElementById('product-description')?.value || '',
     categoria: category,
-    marca: document.getElementById('product-brand')?.value || '',
+    marca: formatBrand(document.getElementById('product-brand')?.value || ''),
     modelo: document.getElementById('product-model')?.value || '',
     precio: parseInt(document.getElementById('product-price')?.value) || 0,
     
@@ -299,10 +335,10 @@ function collectFormData() {
   if (category === 'bolas') {
     formData.unidades_paquete = parseInt(document.getElementById('product-units')?.value) || 0;
   } else if (category === 'palos') {
-    formData.dimensiones = document.getElementById('product-dimensions')?.value || '';
+    formData.dimensiones = buildDimensionsString('product-dim-largo', 'product-dim-ancho', 'product-dim-alto');
     formData.peso = parseFloat(document.getElementById('product-weight')?.value) || 0;
   } else if (category === 'accesorios') {
-    formData.dimensiones = document.getElementById('product-dimensions-acc')?.value || '';
+    formData.dimensiones = buildDimensionsString('product-dim-largo-acc', 'product-dim-ancho-acc', 'product-dim-alto-acc');
     formData.peso = parseFloat(document.getElementById('product-weight-acc')?.value) || 0;
   }
   

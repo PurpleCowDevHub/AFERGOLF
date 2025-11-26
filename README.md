@@ -273,7 +273,7 @@ CREATE TABLE productos (
 - `nombre`: Nombre del producto (máximo 150 caracteres) ⭐ **Campo requerido**
 - `descripcion`: Descripción completa del producto (texto largo, puede ser nulo)
 - `categoria`: Categoría del producto: palos, bolas, guantes, accesorios (máximo 50 caracteres) ⭐ **Campo requerido**
-- `marca`: Marca del producto: Footjoy, Callaway, Titleist, Srixon, Cobra, TaylorMade, PING, Hammer X, etc. (máximo 100 caracteres) ⭐ **Campo requerido**
+- `marca`: Marca del producto en formato Title Case (primera letra mayúscula): Footjoy, Callaway, Titleist, Srixon, Cobra, Taylor Made, Ping, Hammer X, etc. (máximo 100 caracteres) ⭐ **Campo requerido** - El sistema formatea automáticamente la marca al guardar
 - `modelo`: Modelo del producto (ej: B0D562R3XQ) (máximo 100 caracteres)
 - `precio`: Precio del producto en COP (en pesos colombianos, sin decimales) ⭐ **Campo requerido**
 - `stock`: Cantidad total en stock ⭐ **Campo requerido**
@@ -281,7 +281,7 @@ CREATE TABLE productos (
 - `imagen_lateral`: **URL de la vista lateral del producto** (VARCHAR hasta 500 caracteres)
 - `imagen_superior`: **URL de la vista superior del producto** (VARCHAR hasta 500 caracteres)
 - `imagen_frontal`: **URL de la vista frontal del producto** (VARCHAR hasta 500 caracteres)
-- `dimensiones`: Dimensiones del producto (ej: "0.89 x 0.10 x 0.10 m") (máximo 100 caracteres)
+- `dimensiones`: Dimensiones del producto en formato "largo x ancho x alto" en metros (ej: "0.89 x 0.10 x 0.10") - En el formulario se ingresan los 3 valores por separado y se combinan automáticamente (máximo 100 caracteres)
 - `peso`: Peso del producto en kg (número decimal con hasta 2 decimales)
 - `unidades_paquete`: Para bolas de golf, cantidad de unidades por paquete (ej: 12)
 - `stock_talla_s`: Stock disponible en talla S (solo para guantes)
@@ -291,6 +291,15 @@ CREATE TABLE productos (
 - `stock_talla_xxl`: Stock disponible en talla XXL (solo para guantes)
 - `fecha_creacion`: Fecha y hora automática de cuando se creó el producto
 - `fecha_actualizacion`: Fecha y hora que se actualiza automáticamente cada vez que se modifica el producto
+
+**Campos específicos por categoría:**
+
+| Categoría    | Campos específicos                                      |
+|--------------|--------------------------------------------------------|
+| Palos        | `dimensiones` (largo x ancho x alto), `peso`           |
+| Bolas        | `unidades_paquete`                                      |
+| Guantes      | `stock_talla_s`, `stock_talla_m`, `stock_talla_l`, `stock_talla_xl`, `stock_talla_xxl` |
+| Accesorios   | `dimensiones` (largo x ancho x alto), `peso`           |
 
 - Haz clic en **"Continuar"**
 

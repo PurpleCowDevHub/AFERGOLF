@@ -567,24 +567,17 @@ function loadProductInfoInModal(producto) {
   const nameEl = document.getElementById('product-name-details');
   if (nameEl) nameEl.textContent = producto.nombre || 'Sin nombre';
   
+  // Badge de categoría
+  const categoryBadge = document.getElementById('product-category-badge');
+  if (categoryBadge) {
+    const categoria = producto.categoria || 'otro';
+    categoryBadge.textContent = capitalizeFirstLetter(categoria);
+    categoryBadge.className = `category-badge category-${categoria}`;
+  }
+  
   // Marca
   const brandEl = document.getElementById('product-brand-details');
   if (brandEl) brandEl.textContent = producto.marca || '-';
-  
-  // Dimensiones
-  const dimEl = document.getElementById('product-dimensions-details');
-  if (dimEl) dimEl.textContent = producto.dimensiones || '-';
-  
-  // Peso
-  const weightEl = document.getElementById('product-weight-details');
-  if (weightEl) weightEl.textContent = producto.peso ? `${producto.peso} kg` : '-';
-  
-  // Peso de envío
-  const shippingEl = document.getElementById('product-shipping-weight-details');
-  if (shippingEl) {
-    const shipping = producto.peso ? (parseFloat(producto.peso) + 0.1).toFixed(2) : null;
-    shippingEl.textContent = shipping ? `${shipping} kg` : '-';
-  }
   
   // Modelo
   const modelEl = document.getElementById('product-model-details');
@@ -601,6 +594,142 @@ function loadProductInfoInModal(producto) {
   // Descripción
   const descEl = document.getElementById('product-description-text-details');
   if (descEl) descEl.textContent = producto.descripcion || 'Sin descripción disponible';
+  
+  // Generar información específica por categoría
+  generateCategorySpecs(producto);
+  
+  // Mostrar stock
+  updateStockDisplay(producto);
+}
+
+/**
+ * Genera las especificaciones según la categoría del producto
+ * 
+ * @function generateCategorySpecs
+ * @param {Object} producto - Datos del producto
+ */
+function generateCategorySpecs(producto) {
+  const specsContainer = document.getElementById('product-category-specs');
+  if (!specsContainer) return;
+  
+  const categoria = producto.categoria || '';
+  let specsHTML = '';
+  
+  switch (categoria) {
+    case 'palos':
+      specsHTML = `
+        <div class="specs-grid">
+          <div class="spec-card">
+            <span class="spec-card-label">Dimensiones</span>
+            <span class="spec-card-value">${producto.dimensiones || 'No especificado'}</span>
+          </div>
+          <div class="spec-card">
+            <span class="spec-card-label">Peso</span>
+            <span class="spec-card-value">${producto.peso ? producto.peso + ' kg' : 'No especificado'}</span>
+          </div>
+        </div>
+      `;
+      break;
+      
+    case 'bolas':
+      specsHTML = `
+        <div class="specs-grid">
+          <div class="spec-card spec-card-highlight">
+            <span class="spec-card-label">Unidades por paquete</span>
+            <span class="spec-card-value">${producto.unidades_paquete || 12}</span>
+          </div>
+        </div>
+      `;
+      break;
+      
+    case 'guantes':
+      const tallas = [
+        { key: 'stock_talla_s', label: 'S', stock: producto.stock_talla_s || 0 },
+        { key: 'stock_talla_m', label: 'M', stock: producto.stock_talla_m || 0 },
+        { key: 'stock_talla_l', label: 'L', stock: producto.stock_talla_l || 0 },
+        { key: 'stock_talla_xl', label: 'XL', stock: producto.stock_talla_xl || 0 },
+        { key: 'stock_talla_xxl', label: 'XXL', stock: producto.stock_talla_xxl || 0 }
+      ];
+      
+      const tallasHTML = tallas.map(t => {
+        const statusClass = t.stock > 5 ? 'available' : (t.stock > 0 ? 'low' : 'out');
+        return `
+          <div class="talla-card ${statusClass}">
+            <span class="talla-card-label">${t.label}</span>
+            <span class="talla-card-stock">${t.stock}</span>
+          </div>
+        `;
+      }).join('');
+      
+      specsHTML = `
+        <div class="specs-section-guantes">
+          <span class="specs-section-title">Stock por talla</span>
+          <div class="tallas-grid">
+            ${tallasHTML}
+          </div>
+        </div>
+      `;
+      break;
+      
+    case 'accesorios':
+      const hasSpecs = producto.dimensiones || producto.peso;
+      if (hasSpecs) {
+        specsHTML = `
+          <div class="specs-grid">
+            ${producto.dimensiones ? `
+            <div class="spec-card">
+              <span class="spec-card-label">Dimensiones</span>
+              <span class="spec-card-value">${producto.dimensiones}</span>
+            </div>
+            ` : ''}
+            ${producto.peso ? `
+            <div class="spec-card">
+              <span class="spec-card-label">Peso</span>
+              <span class="spec-card-value">${producto.peso} kg</span>
+            </div>
+            ` : ''}
+          </div>
+        `;
+      }
+      break;
+      
+    default:
+      specsHTML = '';
+  }
+  
+  specsContainer.innerHTML = specsHTML;
+}
+
+/**
+ * Actualiza el display de stock según la categoría
+ * 
+ * @function updateStockDisplay
+ * @param {Object} producto - Datos del producto
+ */
+function updateStockDisplay(producto) {
+  const stockContainer = document.getElementById('product-stock-container');
+  const stockValue = document.getElementById('product-stock-details');
+  
+  if (!stockContainer || !stockValue) return;
+  
+  // Para guantes, ocultar el stock general (ya se muestra por tallas)
+  if (producto.categoria === 'guantes') {
+    stockContainer.style.display = 'none';
+  } else {
+    stockContainer.style.display = 'flex';
+    const stock = producto.stock || 0;
+    stockValue.textContent = stock;
+    
+    // Colorear según disponibilidad
+    stockValue.className = 'stock-value';
+    if (stock === 0) {
+      stockValue.classList.add('out-of-stock');
+    } else if (stock < 5) {
+      stockValue.classList.add('low-stock');
+    } else {
+      stockValue.classList.add('in-stock');
+    }
+  }
 }
 
 /**

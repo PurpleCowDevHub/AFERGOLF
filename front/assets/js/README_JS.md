@@ -62,10 +62,16 @@ Módulos separados para gestión CRUD de productos:
 
 | Archivo | Propósito | Funciones principales |
 |---------|-----------|----------------------|
-| `admin_create.js` | Crear productos | `openCreateModal()`, `handleProductSubmit()`, `handleImageUpload()` |
-| `admin_read.js` | Listar productos | `loadProducts()`, `renderProductsTable()`, `viewProduct()` |
-| `admin_update.js` | Actualizar productos | `editProduct()`, `updateProduct()`, `loadProductIntoForm()` |
+| `admin_create.js` | Crear productos | `openCreateModal()`, `handleProductSubmit()`, `handleImageUpload()`, `formatBrand()`, `buildDimensionsString()` |
+| `admin_read.js` | Listar productos | `loadProducts()`, `renderProductsTable()`, `viewProduct()`, `generateCategorySpecs()` |
+| `admin_update.js` | Actualizar productos | `editProduct()`, `updateProduct()`, `loadProductIntoForm()`, `parseDimensionsToFields()` |
 | `admin_delete.js` | Eliminar productos | `confirmDeleteProduct()`, `deleteProductConfirmed()` |
+
+**Funciones de utilidad para productos:**
+- `formatBrand(brand)`: Formatea la marca en Title Case (ej: "taylor made" → "Taylor Made")
+- `buildDimensionsString(largoId, anchoId, altoId)`: Construye string de dimensiones desde campos separados
+- `parseDimensionsToFields(dimensions, largoId, anchoId, altoId)`: Separa un string de dimensiones en campos individuales
+- `generateCategorySpecs(producto)`: Genera HTML de especificaciones según categoría del producto
 
 **Carga en**: `admin_dashboard.html`
 
