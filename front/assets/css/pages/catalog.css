@@ -258,6 +258,100 @@
   margin-bottom: 6px;
 }
 
+/* Estado vacío - Mensaje mejorado */
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 40px 80px;
+  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.1);
+}
+
+.empty-state-icon {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.empty-state-icon > svg {
+  color: #d64a3a;
+  opacity: 0.25;
+  filter: drop-shadow(0 4px 12px rgba(214, 74, 58, 0.15));
+}
+
+.empty-state-badge {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #f5f5f5 0%, #fff 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  border: 2px solid #fff;
+}
+
+.empty-state-badge svg {
+  color: #999;
+}
+
+.empty-state-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+
+.empty-state-description {
+  font-size: 16px;
+  color: #777;
+  margin: 0 0 32px 0;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.empty-state-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.empty-state-actions .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.empty-state-actions .btn-secondary:hover {
+  border-color: #d64a3a;
+  color: #d64a3a;
+  background: #fff5f5;
+}
+
+.empty-state-actions .btn-secondary:active {
+  transform: translateY(1px);
+}
+
 /* Responsive Design */
 
 /* Móviles (≤430px) */
@@ -360,5 +454,43 @@
   
   .catalogo-tallas {
     justify-content: center;
+  }
+
+  /* Estado vacío en móvil */
+  .empty-state {
+    padding: 40px 20px 60px;
+    margin: 0 auto;
+    width: 85%;
+  }
+
+  .empty-state-icon > svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .empty-state-badge {
+    width: 36px;
+    height: 36px;
+    bottom: -6px;
+    right: -6px;
+  }
+
+  .empty-state-badge svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .empty-state-title {
+    font-size: 20px;
+  }
+
+  .empty-state-description {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .empty-state-actions .btn-secondary {
+    padding: 10px 18px;
+    font-size: 13px;
   }
 }

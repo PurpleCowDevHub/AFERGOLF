@@ -244,45 +244,101 @@ function renderCartItems() {
   const cart = getCart();
   
   if (cart.length === 0) {
-    cartContainer.innerHTML = `
-      <div class="empty-cart">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <h3>Tu carrito está vacío</h3>
-        <p>Agrega productos desde nuestro catálogo</p>
-        <a href="catalog.html" class="btn">Ver catálogo</a>
+    // Ocultar el resumen y términos cuando el carrito está vacío
+    const summary = document.querySelector('.summary');
+    const terms = document.querySelector('.terms');
+    if (summary) summary.style.display = 'none';
+    if (terms) terms.style.display = 'none';
+    
+    // Agregar clase para centrar el estado vacío
+    const cartingSection = document.querySelector('.carting');
+    if (cartingSection) cartingSection.classList.add('cart-is-empty');
+    
+    // Reemplazar el contenedor de productos con el estado vacío directamente
+    cartContainer.outerHTML = `
+      <div class="cart-empty-state">
+        <div class="cart-empty-state-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <div class="cart-empty-state-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+        </div>
+        <h3 class="cart-empty-state-title">Tu carrito está vacío</h3>
+        <p class="cart-empty-state-description">Parece que aún no has agregado productos. ¡Explora nuestro catálogo y encuentra lo que necesitas!</p>
+        <div class="cart-empty-state-actions">
+          <a href="catalog.html" class="btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            Ver catálogo
+          </a>
+        </div>
       </div>
     `;
-    updateCartTotals();
     return;
   }
   
-  // Renderizar cada producto
-  cartContainer.innerHTML = cart.map(item => `
+  // Mostrar el resumen y términos cuando hay productos
+  const summary = document.querySelector('.summary');
+  const terms = document.querySelector('.terms');
+  if (summary) summary.style.display = 'block';
+  if (terms) terms.style.display = 'block';
+  
+  // Generar header + productos con la estructura original
+  const headerHTML = `
+    <div class="product-top">
+      <input type="checkbox" id="select-all" checked>
+      <span>Productos de Afergolf</span>
+    </div>
+  `;
+  
+  // Renderizar cada producto con la estructura original completa
+  const productsHTML = cart.map(item => `
     <div class="product-row" data-product-id="${item.id}">
       <input type="checkbox" checked>
+
+      <img
+        src="${item.image || '../assets/img/placeholder-product.jpg'}"
+        alt="${item.name}"
+        class="pimg"
+        loading="lazy"
+      >
+
       <div class="product-info">
-        <img src="${item.image || '../assets/img/placeholder-product.jpg'}" alt="${item.name}">
-        <div>
-          <h4>${item.name}</h4>
-          <p class="product-price">${formatPrice(item.price)}</p>
+        <h4>${item.name}</h4>
+        <button class="remove" type="button" onclick="removeFromCart('${item.id}')">Eliminar</button>
+
+        <div class="qty" aria-label="Cantidad">
+          <button type="button" class="btn-qty minus" aria-label="Disminuir" onclick="updateCartQuantity('${item.id}', -1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <span class="qval" aria-live="polite">${item.quantity}</span>
+          <button type="button" class="btn-qty plus" aria-label="Aumentar" onclick="updateCartQuantity('${item.id}', 1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
         </div>
       </div>
-      <div class="qty">
-        <button class="btn-qty minus" onclick="updateCartQuantity('${item.id}', -1)">-</button>
-        <span class="qval">${item.quantity}</span>
-        <button class="btn-qty plus" onclick="updateCartQuantity('${item.id}', 1)">+</button>
-      </div>
-      <button class="remove" onclick="removeFromCart('${item.id}')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-        </svg>
-      </button>
+
+      <div class="product-price">${formatPrice(item.price)}</div>
     </div>
   `).join('');
+  
+  cartContainer.innerHTML = headerHTML + productsHTML;
   
   updateCartTotals();
 }

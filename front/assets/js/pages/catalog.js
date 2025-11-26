@@ -226,18 +226,38 @@ function renderStockBadge(producto) {
  * Muestra un mensaje cuando no hay productos para mostrar.
  * @param {string} [message] - Mensaje personalizado
  */
-function renderEmptyState(message = 'No se encontraron productos para los filtros seleccionados.') {
+function renderEmptyState(message = 'No hay productos que coincidan con tu búsqueda o filtros actuales.') {
   const container = document.getElementById('catalogo-productos');
   if (!container) return;
   
   container.innerHTML = `
     <div class="empty-state">
-      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="M21 21l-4.35-4.35"></path>
-      </svg>
-      <p>${message}</p>
-      <button class="btn-reset-filters" onclick="resetFilters()">Limpiar filtros</button>
+      <div class="empty-state-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <div class="empty-state-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+        </div>
+      </div>
+      <h3 class="empty-state-title">No se encontraron productos</h3>
+      <p class="empty-state-description">${message}</p>
+      <div class="empty-state-actions">
+        <button class="btn-secondary" onclick="resetFilters()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"></path>
+            <path d="M7 12h10"></path>
+            <path d="M10 18h4"></path>
+          </svg>
+          Limpiar filtros
+        </button>
+      </div>
     </div>
   `;
 }
