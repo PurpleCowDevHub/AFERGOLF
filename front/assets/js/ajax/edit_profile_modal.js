@@ -173,8 +173,17 @@ function handleEditProfile(e) {
               const avatarImage = document.getElementById('avatarImage');
               const modalAvatarImage = document.getElementById('modalAvatarImage');
               
+              // Mostrar imagen y ocultar placeholders
               avatarImage.src = imagePath;
+              avatarImage.style.display = "block";
               modalAvatarImage.src = imagePath;
+              modalAvatarImage.style.display = "block";
+              
+              const mainPlaceholder = document.querySelector('.avatar .avatar-placeholder');
+              const modalPlaceholder = document.querySelector('.avatar-edit .avatar-placeholder');
+              if (mainPlaceholder) mainPlaceholder.style.display = "none";
+              if (modalPlaceholder) modalPlaceholder.style.display = "none";
+              
               console.log("✓ Imagen actualizada:", imagePath);
               
               // Aplicar colores dinámicos a ambos avatares
@@ -363,6 +372,12 @@ function setupModalImageUploadListeners() {
         const modalAvatarImage = document.getElementById('modalAvatarImage');
         if (modalAvatarImage) {
           modalAvatarImage.src = event.target.result;
+          modalAvatarImage.style.display = "block";
+          
+          // Ocultar placeholder SVG
+          const modalPlaceholder = document.querySelector('.avatar-edit .avatar-placeholder');
+          if (modalPlaceholder) modalPlaceholder.style.display = "none";
+          
           console.log("✓ Preview de imagen cargado en modal");
           
           // Aplicar colores dinámicos al nuevo preview

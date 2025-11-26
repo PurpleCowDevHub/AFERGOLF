@@ -38,7 +38,7 @@ main {
   align-items: center;
   justify-content: center;
   flex: 1;
-  padding: 50px 16px;
+  padding: 100px 16px;
   width: 100%;
   z-index: 1;
 }
@@ -269,7 +269,7 @@ main {
 /* Media Queries - Responsivo */
 @media (max-width: 768px) {
   main {
-    padding: 50px 16px;
+    padding: 100px 16px;
   }
 
   .register-card {
@@ -304,7 +304,7 @@ main {
 
 @media (max-width: 480px) {
   main {
-    padding: 40px 12px;
+    padding: 80px 12px;
   }
 
   .register-card {

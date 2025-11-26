@@ -30,7 +30,7 @@ main:not(.search-canvas) {
   justify-content: center;
   min-height: 100vh;
   flex: 1;
-  padding: 50px 16px;
+  padding: 100px 16px;
 }
 
 /* Imagen de fondo */
@@ -244,7 +244,7 @@ main:not(.search-canvas) {
 /* Media Queries - Responsivo */
 @media (max-width: 480px) {
   main:not(.search-canvas) {
-    padding: 40px 12px;
+    padding: 80px 12px;
   }
 
   .login-card {

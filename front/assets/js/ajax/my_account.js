@@ -70,6 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Cargar en el header de la página
                 if (avatarImage) {
                     avatarImage.src = imagePath;
+                    avatarImage.style.display = "block";
+                    
+                    // Ocultar el placeholder SVG
+                    const mainPlaceholder = document.querySelector('.avatar .avatar-placeholder');
+                    if (mainPlaceholder) mainPlaceholder.style.display = "none";
                     
                     // Aplicar colores dinámicos al avatar cuando cargue la imagen
                     avatarImage.addEventListener('load', () => {
@@ -85,6 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Cargar en el modal también
                 if (modalAvatarImage) {
                     modalAvatarImage.src = imagePath;
+                    modalAvatarImage.style.display = "block";
+                    
+                    // Ocultar el placeholder SVG del modal
+                    const modalPlaceholder = document.querySelector('.avatar-edit .avatar-placeholder');
+                    if (modalPlaceholder) modalPlaceholder.style.display = "none";
                     
                     // Aplicar colores dinámicos al avatar del modal
                     modalAvatarImage.addEventListener('load', () => {

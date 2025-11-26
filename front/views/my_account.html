@@ -33,12 +33,16 @@
       <!-- Foto e info del usuario -->
       <div class="account-header">
         <div class="avatar" id="avatarContainer">
-          <img id="avatarImage" src="../assets/icons/default-avatar.svg" alt="Foto de perfil del usuario">
+          <img id="avatarImage" src="" alt="Foto de perfil del usuario" style="display: none;">
+          <svg class="avatar-placeholder" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#9e9e9e">
+            <path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/>
+            <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+          </svg>
           <!-- SIN input file - la imagen NO se edita aquí, solo se muestra -->
         </div>
         <div class="user-info">
-          <h2 class="user-name">Samuel Fernandez</h2>
-          <p class="user-email">samdezurrea@gmail.com</p>
+          <h2 class="user-name">Sin nombre</h2>
+          <p class="user-email">Sin correo</p>
         </div>
         <div class="user-details">
           <span class="user-detail" id="user-phone">
@@ -119,10 +123,14 @@
         <!-- Sección de imagen -->
         <div class="image-section">
           <div class="avatar-edit" id="modalAvatarContainer">
-            <img id="modalAvatarImage" src="../assets/icons/default-avatar.svg" alt="Foto de perfil">
+            <img id="modalAvatarImage" src="" alt="Foto de perfil" style="display: none;">
+            <svg class="avatar-placeholder" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#9e9e9e">
+              <path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/>
+              <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+            </svg>
             <input type="file" id="modalAvatarInput" accept="image/*">
           </div>
-          <p class="image-helper">Haz clic en la foto para cambiarla</p>
+          <p class="image-helper">Haz clic para cambiar tu foto</p>
         </div>
 
         <!-- Formulario -->
