@@ -179,9 +179,6 @@
   transform: translateY(0);
 }
 
-<<<<<<< HEAD
-/* ===== Responsive ===== */
-=======
 /* Dropdown Personalizado */
 
 /* Select múltiple/expandido */
@@ -264,7 +261,6 @@
 /* Responsive Design */
 
 /* Móviles (≤430px) */
->>>>>>> dd78e4b1a2e17b05633e3cbd0a31d700ffbbd177
 @media (max-width: 430px) {
   .catalogo {
     grid-template-columns: 1fr;
