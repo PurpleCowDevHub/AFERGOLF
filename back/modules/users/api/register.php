@@ -5,7 +5,7 @@
  */
 
 // Database connection and setup
-include_once "../../../../config/db_connect.php";
+include_once "../../../config/db_connect.php";
 header("Content-Type: application/json");
 
 // Receive and validate input data

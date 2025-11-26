@@ -212,8 +212,11 @@ CREATE TABLE usuarios (
     telefono VARCHAR(20),
     password VARCHAR(255) NOT NULL,
     foto_perfil VARCHAR(255),
-    ciudad VARCHAR(50)
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ciudad VARCHAR(50),
+    recovery_token VARCHAR(64) DEFAULT NULL,
+    token_expires_at DATETIME DEFAULT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_recovery_token (recovery_token)
 );
 ```
 
@@ -226,6 +229,8 @@ CREATE TABLE usuarios (
 - `telefono`: Teléfono de contacto (máximo 20 caracteres, puede ser nulo)
 - `password`: Contraseña encriptada del usuario (máximo 255 caracteres para mayor seguridad con hash)
 - `foto_perfil`: **URL de la foto de perfil del usuario** (máximo 255 caracteres, puede ser nulo)
+- `recovery_token`: Token único para recuperación de contraseña (máximo 64 caracteres)
+- `token_expires_at`: Fecha y hora de expiración del token de recuperación
 - `fecha_registro`: Fecha y hora automática de cuando se registró el usuario
 
 - Haz clic en **"Continuar"**

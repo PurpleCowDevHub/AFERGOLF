@@ -4,7 +4,7 @@
  * Este script verifica si la columna existe y la crea si no está presente
  */
 
-include_once "../config/db_connect.php";
+include_once "../../../config/db_connect.php";
 
 try {
     // Verificar si la columna foto_perfil ya existe
