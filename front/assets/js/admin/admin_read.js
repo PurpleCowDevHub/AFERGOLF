@@ -691,6 +691,32 @@ function setupReadEventListeners() {
     brandFilter.addEventListener('change', applyFilters);
   }
   
+  // Botón limpiar filtros (estado vacío)
+  const btnClearFilters = document.getElementById('btn-clear-filters');
+  if (btnClearFilters) {
+    btnClearFilters.addEventListener('click', clearAllFilters);
+  }
+  
+  // Botón crear producto desde estado vacío
+  const btnCreateEmpty = document.getElementById('btn-create-product-empty');
+  if (btnCreateEmpty) {
+    btnCreateEmpty.addEventListener('click', () => {
+      // Usar la función de admin_create.js si está disponible
+      if (typeof openCreateModal === 'function') {
+        openCreateModal();
+      } else {
+        // Fallback: abrir modal directamente
+        const modal = document.getElementById('product-modal');
+        if (modal) {
+          if (typeof resetProductForm === 'function') {
+            resetProductForm();
+          }
+          modal.classList.add('active');
+        }
+      }
+    });
+  }
+  
   // Botón cerrar vista previa
   const btnClosePreview = document.getElementById('btn-close-preview');
   if (btnClosePreview) {
@@ -716,6 +742,26 @@ function setupReadEventListeners() {
       }
     });
   }
+}
+
+/**
+ * Limpia todos los filtros y recarga los productos
+ * 
+ * @function clearAllFilters
+ * @global
+ */
+function clearAllFilters() {
+  const searchInput = document.getElementById('search-input');
+  const categoryFilter = document.getElementById('filter-category');
+  const brandFilter = document.getElementById('filter-brand');
+  
+  // Limpiar valores
+  if (searchInput) searchInput.value = '';
+  if (categoryFilter) categoryFilter.value = '';
+  if (brandFilter) brandFilter.value = '';
+  
+  // Recargar todos los productos
+  loadProducts();
 }
 
 /**
