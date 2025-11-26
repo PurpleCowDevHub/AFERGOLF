@@ -95,8 +95,6 @@ function openEditProfileModal() {
     overlay.classList.add('active');
   }
   document.body.style.overflow = 'hidden';
-  
-  console.log('✅ Modal de edición abierto');
 }
 
 /**
@@ -113,8 +111,6 @@ function closeEditProfileModal() {
     overlay.classList.remove('active');
   }
   document.body.style.overflow = '';
-  
-  console.log('✅ Modal de edición cerrado');
 }
 
 // ============================================================================
@@ -173,7 +169,6 @@ async function handleEditProfile(event) {
     }
     
     submitData.append('profileImage', file);
-    console.log('✓ Imagen incluida:', file.name);
   }
   
   try {
@@ -285,38 +280,38 @@ function updateAvatarImage(imagePath) {
   // Avatar principal
   const avatarImage = document.getElementById('avatarImage');
   const avatarPlaceholder = document.querySelector('.avatar .avatar-placeholder');
+  const avatarContainer = document.querySelector('.avatar');
   
   if (avatarImage) {
     avatarImage.src = fullPath;
     avatarImage.style.display = 'block';
-  }
-  if (avatarPlaceholder) {
-    avatarPlaceholder.style.display = 'none';
-  }
-  
-  // Avatar del modal
-  const modalAvatarImage = document.getElementById('modalAvatarImage');
-  const modalPlaceholder = document.querySelector('.avatar-edit .avatar-placeholder');
-  
-  if (modalAvatarImage) {
-    modalAvatarImage.src = fullPath;
-    modalAvatarImage.style.display = 'block';
-  }
-  if (modalPlaceholder) {
-    modalPlaceholder.style.display = 'none';
-  }
-  
-  // Aplicar colores dinámicos
-  if (avatarImage && window.avatarColorExtractor) {
+    
+    // Aplicar colores dinámicos cuando cargue
     avatarImage.onload = () => {
-      const avatarContainer = document.querySelector('.avatar');
-      if (avatarContainer) {
+      if (avatarPlaceholder) avatarPlaceholder.style.display = 'none';
+      if (avatarContainer && window.avatarColorExtractor) {
         window.avatarColorExtractor.applyToAvatar(avatarContainer, avatarImage);
       }
     };
   }
   
-  console.log('✓ Imagen actualizada:', fullPath);
+  // Avatar del modal
+  const modalAvatarImage = document.getElementById('modalAvatarImage');
+  const modalPlaceholder = document.querySelector('.avatar-edit .avatar-placeholder');
+  const modalContainer = document.querySelector('.avatar-edit');
+  
+  if (modalAvatarImage) {
+    modalAvatarImage.src = fullPath;
+    modalAvatarImage.style.display = 'block';
+    
+    // Aplicar colores dinámicos al modal cuando cargue
+    modalAvatarImage.onload = () => {
+      if (modalPlaceholder) modalPlaceholder.style.display = 'none';
+      if (modalContainer && window.avatarColorExtractor) {
+        window.avatarColorExtractor.applyToAvatar(modalContainer, modalAvatarImage);
+      }
+    };
+  }
 }
 
 /**
@@ -423,8 +418,6 @@ function handleImagePreview(event, context = 'modal') {
         }
       };
     }
-    
-    console.log('✓ Preview de imagen cargado');
   };
   
   reader.onerror = () => {
@@ -493,8 +486,6 @@ function showProfileMessage(message, status) {
       }, status === 'success' ? 3000 : 4000);
     }
   }
-  
-  console.log(`[${status.toUpperCase()}] ${message}`);
 }
 
 /**
@@ -528,7 +519,7 @@ async function loadCurrentUserData() {
       }
     }
   } catch (error) {
-    console.error('Error cargando datos:', error);
+    console.error('Error loading user data:', error);
   }
 }
 

@@ -125,7 +125,7 @@ async function handleLoginSubmit(event) {
       showLoginMessage(data.message || 'Credenciales incorrectas', 'error');
     }
   } catch (error) {
-    console.error('Error de login:', error);
+    console.error('Login error:', error);
     showLoginMessage('Error de conexión con el servidor', 'error');
   } finally {
     // Rehabilitar botón

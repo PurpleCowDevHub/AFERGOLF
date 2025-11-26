@@ -95,7 +95,7 @@ async function handleRecoverPassword(event) {
       }, 2000);
     }
   } catch (error) {
-    console.error('Error en recuperación:', error);
+    console.error('Password recovery error:', error);
     showRecoveryMessage('Error de conexión con el servidor', 'error');
   }
 }

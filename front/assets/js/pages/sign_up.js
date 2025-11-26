@@ -86,7 +86,7 @@ async function handleRegisterSubmit(event) {
       showRegisterMessage(data.message || 'Error al registrar usuario', 'error');
     }
   } catch (error) {
-    console.error('Error de registro:', error);
+    console.error('Registration error:', error);
     showRegisterMessage('Error de conexión con el servidor', 'error');
   } finally {
     // Rehabilitar botón

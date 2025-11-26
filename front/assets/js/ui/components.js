@@ -39,29 +39,18 @@ const closeProductDetailsModal = () => toggleModal('product-details-modal', fals
  * Abre el modal de editar perfil y muestra el overlay.
  */
 const openEditProfile = () => {
-  console.log('🚀 openEditProfile ejecutado');
   const modal = document.getElementById('edit-profile-modal');
   const overlay = document.getElementById('edit-profile-overlay');
   
-  console.log('Modal encontrado:', modal);
-  console.log('Overlay encontrado:', overlay);
-  
   if (modal) {
     modal.classList.add('active');
-    console.log('✅ Clase active agregada al modal');
-  } else {
-    console.error('❌ Modal no encontrado!');
   }
   
   if (overlay) {
     overlay.classList.add('active');
-    console.log('✅ Clase active agregada al overlay');
-  } else {
-    console.error('❌ Overlay no encontrado!');
   }
   
   document.body.style.overflow = 'hidden';
-  console.log('✅ Body overflow establecido a hidden');
 };
 
 /**
@@ -156,8 +145,6 @@ const closeAll = () => {
  * Configura los event listeners del modal de editar perfil.
  */
 function setupMyAccountEventListeners() {
-  console.log('setupMyAccountEventListeners ejecutado');
-  
   // Buscar elementos con un pequeño delay para asegurar que el DOM esté listo
   setTimeout(() => {
     const editProfileBtn = document.getElementById('edit-profile-btn');
@@ -167,29 +154,11 @@ function setupMyAccountEventListeners() {
     const editProfileModal = document.getElementById('edit-profile-modal');
     const profileForm = document.querySelector('.profile-form');
     
-    console.log('Elementos encontrados:');
-    console.log('- editProfileBtn:', editProfileBtn);
-    console.log('- closeEditBtn:', closeEditBtn);
-    console.log('- editProfileOverlay:', editProfileOverlay);
-    console.log('- editProfileModal:', editProfileModal);
-    console.log('- profileForm:', profileForm);
-    
     // Abrir modal al hacer clic en "Editar Perfil"
     if (editProfileBtn) {
-      console.log('✅ Event listener agregado al botón de editar perfil');
       editProfileBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('🔥 Botón de editar perfil clickeado!');
-        console.log('Ejecutando openEditProfile...');
         openEditProfile();
-      });
-    } else {
-      console.error('❌ No se encontró el botón de editar perfil (#edit-profile-btn)');
-      // Buscar alternativas
-      const allOptionCards = document.querySelectorAll('.option-card');
-      console.log('Option cards encontrados:', allOptionCards);
-      allOptionCards.forEach((card, index) => {
-        console.log(`Card ${index}:`, card);
       });
     }
     
@@ -232,12 +201,10 @@ function setupMyAccountEventListeners() {
     if (profileForm) {
       profileForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log('Formulario de perfil enviado');
-        // Aquí se puede agregar lógica de validación y envío al backend
         closeEditProfile();
       });
     }
-  }, 100); // 100ms delay
+  }, 100);
 }
 
 // ============================================================================
@@ -467,14 +434,11 @@ function resetProductForm() {
  * @param {string} type - Tipo de notificación (success, error, warning, info)
  */
 function showNotification(message, type = 'info') {
-  console.log(`[${type.toUpperCase()}] ${message}`);
-  
   // Usar el sistema de Toast si está disponible
   if (window.Toast) {
     const toastMethod = Toast[type] || Toast.info;
     toastMethod(message);
   } else {
-    // Fallback a alert si Toast no está cargado
     alert(message);
   }
 }
@@ -578,7 +542,6 @@ function setupDashboardModalsEventListeners() {
   const categorySelect = document.getElementById('product-category');
   if (categorySelect) {
     categorySelect.addEventListener('change', (e) => {
-      console.log('Categoría seleccionada:', e.target.value);
       updateDynamicFields(e.target.value);
     });
     
@@ -687,7 +650,6 @@ function initializeUIComponents() {
   // Inicializar funcionalidad de Mi Cuenta si existe
   const editProfileModal = document.getElementById('edit-profile-modal');
   if (editProfileModal) {
-    console.log('Modal de editar perfil encontrado, inicializando...');
     setupMyAccountEventListeners();
   }
 }
@@ -697,9 +659,8 @@ if (typeof window !== 'undefined') {
   window.initializeUIComponents = initializeUIComponents;
 }
 
-// Auto-inicialización con múltiples intentos
+// Auto-inicialización
 function initWithRetry(attempts = 3) {
-  console.log(`Intento de inicialización #${4 - attempts}`);
   initializeUIComponents();
   
   // Si aún hay elementos faltantes y tenemos intentos restantes, reintentar
@@ -708,7 +669,6 @@ function initWithRetry(attempts = 3) {
       const editModal = document.getElementById('edit-profile-modal');
       const editBtn = document.getElementById('edit-profile-btn');
       if (editModal && !editBtn) {
-        console.log('Reintentando inicialización...');
         initWithRetry(attempts - 1);
       }
     }, 200);
@@ -722,7 +682,4 @@ if (document.readyState === 'loading') {
 }
 
 // También ejecutar cuando la página esté completamente cargada
-window.addEventListener('load', () => {
-  console.log('Página completamente cargada, ejecutando inicialización final');
-  initWithRetry();
-});
+window.addEventListener('load', () => initWithRetry());

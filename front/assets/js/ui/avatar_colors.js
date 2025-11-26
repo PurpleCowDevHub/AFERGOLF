@@ -9,6 +9,7 @@
 class AvatarColorExtractor {
     constructor() {
         this.defaultGradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        this.defaultShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
     }
 
     /**
@@ -19,7 +20,7 @@ class AvatarColorExtractor {
      */
     extractColors(img, colorCount = 2) {
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
         
         // Tamaño pequeño para mejor rendimiento
         const size = 50;
@@ -33,7 +34,7 @@ class AvatarColorExtractor {
             
             return this.getProminentColors(pixels, colorCount);
         } catch (e) {
-            console.warn('No se pudieron extraer colores (posible CORS):', e);
+            // Error de CORS - intentar con crossOrigin
             return null;
         }
     }
@@ -128,8 +129,19 @@ class AvatarColorExtractor {
     applyToAvatar(avatarElement, img) {
         if (!avatarElement || !img) return;
 
+        const applyStyles = (gradient, shadow) => {
+            avatarElement.style.background = gradient;
+            avatarElement.style.boxShadow = shadow;
+        };
+
         // Esperar a que la imagen cargue
         const processImage = () => {
+            // Verificar que la imagen tenga contenido válido
+            if (!img.naturalWidth || !img.naturalHeight) {
+                applyStyles(this.defaultGradient, this.defaultShadow);
+                return;
+            }
+
             const colors = this.extractColors(img);
             
             if (colors && colors.length >= 2) {
@@ -138,17 +150,13 @@ class AvatarColorExtractor {
                 const color2 = this.saturateColor(colors[1]);
                 
                 const gradient = `linear-gradient(135deg, ${this.rgbToString(color1)} 0%, ${this.rgbToString(color2)} 100%)`;
-                avatarElement.style.background = gradient;
-                
-                // Actualizar la sombra también
                 const shadowColor = `rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.3)`;
-                avatarElement.style.boxShadow = `0 4px 15px ${shadowColor}`;
+                const shadow = `0 4px 15px ${shadowColor}`;
                 
-                console.log('✨ Colores del avatar aplicados:', gradient);
+                applyStyles(gradient, shadow);
             } else {
                 // Usar gradiente por defecto
-                avatarElement.style.background = this.defaultGradient;
-                avatarElement.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+                applyStyles(this.defaultGradient, this.defaultShadow);
             }
         };
 
@@ -157,7 +165,7 @@ class AvatarColorExtractor {
         } else {
             img.addEventListener('load', processImage);
             img.addEventListener('error', () => {
-                avatarElement.style.background = this.defaultGradient;
+                applyStyles(this.defaultGradient, this.defaultShadow);
             });
         }
     }

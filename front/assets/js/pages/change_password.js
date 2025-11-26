@@ -130,7 +130,7 @@ async function handleChangePassword(event) {
       }, 2000);
     }
   } catch (error) {
-    console.error('Error al cambiar contraseña:', error);
+    console.error('Password change error:', error);
     showPasswordMessage('Error de conexión con el servidor', 'error');
   }
 }

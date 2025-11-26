@@ -62,7 +62,6 @@ async function loadUserProfile() {
   const userId = localStorage.getItem('afergolf_user_id');
   
   if (!userId) {
-    console.warn('No hay usuario autenticado');
     return;
   }
   
@@ -74,13 +73,12 @@ async function loadUserProfile() {
       renderUserData(data.user);
       loadUserAvatar(data.user);
     } else {
-      console.error('Error cargando perfil:', data.message);
       if (window.Toast) {
         Toast.error('Error al cargar los datos del perfil');
       }
     }
   } catch (error) {
-    console.error('Error de conexión:', error);
+    console.error('Error loading profile:', error);
     if (window.Toast) {
       Toast.error('Error de conexión al cargar el perfil');
     }
@@ -162,8 +160,10 @@ function populateEditForm(user) {
 function loadUserAvatar(user) {
   const avatarImage = document.getElementById('avatarImage');
   const avatarPlaceholder = document.querySelector('.avatar .avatar-placeholder');
+  const avatarContainer = document.querySelector('.avatar');
   const modalAvatarImage = document.getElementById('modalAvatarImage');
   const modalAvatarPlaceholder = document.querySelector('.avatar-edit .avatar-placeholder');
+  const modalAvatarContainer = document.querySelector('.avatar-edit');
   
   if (user.foto_perfil && user.foto_perfil.trim() !== '') {
     const imagePath = '../' + user.foto_perfil;
@@ -173,22 +173,29 @@ function loadUserAvatar(user) {
       avatarImage.src = imagePath;
       avatarImage.style.display = 'block';
       avatarImage.onerror = () => setDefaultAvatar();
-    }
-    if (avatarPlaceholder) {
-      avatarPlaceholder.style.display = 'none';
+      
+      // Aplicar colores dinámicos cuando la imagen cargue
+      avatarImage.onload = () => {
+        if (avatarPlaceholder) avatarPlaceholder.style.display = 'none';
+        if (window.avatarColorExtractor && avatarContainer) {
+          window.avatarColorExtractor.applyToAvatar(avatarContainer, avatarImage);
+        }
+      };
     }
     
     // Avatar del modal
     if (modalAvatarImage) {
       modalAvatarImage.src = imagePath;
       modalAvatarImage.style.display = 'block';
+      
+      // Aplicar colores dinámicos al modal cuando la imagen cargue
+      modalAvatarImage.onload = () => {
+        if (modalAvatarPlaceholder) modalAvatarPlaceholder.style.display = 'none';
+        if (window.avatarColorExtractor && modalAvatarContainer) {
+          window.avatarColorExtractor.applyToAvatar(modalAvatarContainer, modalAvatarImage);
+        }
+      };
     }
-    if (modalAvatarPlaceholder) {
-      modalAvatarPlaceholder.style.display = 'none';
-    }
-    
-    // Aplicar colores dinámicos
-    applyAvatarColors(avatarImage);
     
   } else {
     setDefaultAvatar();
@@ -221,24 +228,19 @@ function setDefaultAvatar() {
 
 /**
  * Aplica colores dinámicos al avatar basados en la imagen.
+ * Función de utilidad para aplicar desde otros contextos.
  * @param {HTMLImageElement} img - Elemento de imagen del avatar
+ * @param {HTMLElement} container - Contenedor del avatar
  */
-function applyAvatarColors(img) {
-  if (!img || !window.avatarColorExtractor) return;
+function applyAvatarColors(img, container) {
+  if (!img || !container || !window.avatarColorExtractor) return;
   
-  img.onload = () => {
-    const avatarContainer = document.querySelector('.avatar');
-    if (avatarContainer && window.avatarColorExtractor) {
-      window.avatarColorExtractor.applyToAvatar(avatarContainer, img);
-    }
-  };
-  
-  // Si la imagen ya está cargada
-  if (img.complete) {
-    const avatarContainer = document.querySelector('.avatar');
-    if (avatarContainer && window.avatarColorExtractor) {
-      window.avatarColorExtractor.applyToAvatar(avatarContainer, img);
-    }
+  if (img.complete && img.naturalHeight !== 0) {
+    window.avatarColorExtractor.applyToAvatar(container, img);
+  } else {
+    img.onload = () => {
+      window.avatarColorExtractor.applyToAvatar(container, img);
+    };
   }
 }
 

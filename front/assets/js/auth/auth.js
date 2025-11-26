@@ -1,15 +1,14 @@
 /**
  * ============================================================================
- * AFERGOLF - Módulo de Autenticación Unificado
+ * AFERGOLF - Módulo de Autenticación
  * ============================================================================
  * 
- * @description   Módulo consolidado para gestión de autenticación de usuarios.
- *                Incluye login, logout, registro, verificación de sesión y
- *                control de acceso a páginas protegidas.
+ * @description   Módulo para gestión de sesión y control de acceso.
+ *                Los formularios de login/registro se manejan en pages/*.js
  * 
  * @file          front/assets/js/auth/auth.js
  * @author        Afergolf Team
- * @version       2.0.0
+ * @version       2.1.0
  * @since         2025-01-01
  * 
  * ============================================================================
@@ -17,7 +16,6 @@
  * ============================================================================
  * 
  * 1. CONSTANTES Y CONFIGURACIÓN
- *    - API_ENDPOINTS: URLs de los endpoints del backend
  *    - STORAGE_KEYS: Claves de localStorage
  *    - PROTECTED_PAGES: Páginas que requieren autenticación
  * 
@@ -27,24 +25,21 @@
  *    - getUserId(): Obtiene el ID del usuario actual
  *    - getUserEmail(): Obtiene el email del usuario actual
  * 
- * 3. FUNCIONES DE LOGIN
- *    - handleLogin(): Procesa el formulario de login
+ * 3. FUNCIONES DE SESIÓN (GUARDAR/LIMPIAR)
  *    - saveSession(): Guarda la sesión en localStorage
+ *    - clearSession(): Limpia todos los datos de sesión
  * 
  * 4. FUNCIONES DE LOGOUT
  *    - handleLogout(): Cierra la sesión del usuario
- *    - clearSession(): Limpia todos los datos de sesión
+ *    - showLogoutConfirmation(): Muestra modal de confirmación
+ *    - closeLogoutConfirmation(): Cierra el modal
  * 
- * 5. FUNCIONES DE REGISTRO
- *    - handleRegister(): Procesa el formulario de registro
- *    - validateRegistrationData(): Valida datos de registro
- * 
- * 6. CONTROL DE ACCESO
+ * 5. CONTROL DE ACCESO
  *    - requireAuth(): Protege páginas que requieren autenticación
  *    - redirectIfAuthenticated(): Redirige si ya está autenticado
  *    - updateHeaderUI(): Actualiza la UI del header según sesión
  * 
- * 7. INICIALIZACIÓN
+ * 6. INICIALIZACIÓN
  *    - setupAuthEventListeners(): Configura event listeners
  *    - initAuth(): Inicializa el módulo de autenticación
  * 
@@ -55,21 +50,13 @@
  * // Verificar autenticación
  * if (AfergolfAuth.isAuthenticated()) {
  *   const user = AfergolfAuth.getCurrentUser();
- *   console.log('Usuario:', user.nombres);
  * }
  * 
  * // Cerrar sesión
  * AfergolfAuth.handleLogout();
  * 
  * // Proteger una página
- * AfergolfAuth.requireAuth(); // Redirige a login si no está autenticado
- * 
- * ============================================================================
- * DEPENDENCIAS
- * ============================================================================
- * 
- * - Toast (opcional): Sistema de notificaciones
- * - LocalStorage: Almacenamiento de sesión
+ * AfergolfAuth.requireAuth();
  * 
  * ============================================================================
  */
@@ -77,17 +64,6 @@
 // ============================================================================
 // 1. CONSTANTES Y CONFIGURACIÓN
 // ============================================================================
-
-/**
- * URLs de los endpoints de la API REST
- * @constant {Object}
- */
-const API_ENDPOINTS = {
-  LOGIN: 'http://localhost/AFERGOLF/back/modules/users/api/log_in.php',
-  REGISTER: 'http://localhost/AFERGOLF/back/modules/users/api/register.php',
-  LOGOUT: 'http://localhost/AFERGOLF/back/modules/users/api/auth.php',
-  PROFILE: 'http://localhost/AFERGOLF/back/modules/users/api/my_account.php'
-};
 
 /**
  * Claves utilizadas en localStorage para la sesión
@@ -168,59 +144,8 @@ function getUserEmail() {
 }
 
 // ============================================================================
-// 3. FUNCIONES DE LOGIN
+// 3. FUNCIONES DE SESIÓN (GUARDAR/LIMPIAR)
 // ============================================================================
-
-/**
- * Procesa el formulario de inicio de sesión.
- * @param {Event} event - Evento submit del formulario
- */
-async function handleLogin(event) {
-  event.preventDefault();
-  
-  // IDs en el HTML de log_in.html son: email, password
-  const email = document.getElementById('email')?.value.trim();
-  const password = document.getElementById('password')?.value;
-  
-  // Validaciones básicas
-  if (!email || !password) {
-    showAuthMessage('Por favor completa todos los campos', 'error');
-    return;
-  }
-  
-  if (!isValidEmail(email)) {
-    showAuthMessage('Por favor ingresa un correo válido', 'error');
-    return;
-  }
-  
-  try {
-    const response = await fetch(API_ENDPOINTS.LOGIN, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    });
-    
-    const data = await response.json();
-    
-    if (data.status === 'success' && data.user) {
-      // Guardar sesión
-      saveSession(data.user);
-      showAuthMessage('¡Inicio de sesión exitoso!', 'success');
-      
-      // Redirigir al inicio después de un breve delay
-      setTimeout(() => {
-        window.location.href = '../../index.html';
-      }, 1000);
-    } else {
-      showAuthMessage(data.message || 'Error al iniciar sesión', 'error');
-    }
-  } catch (error) {
-    console.error('Login error:', error);
-    showAuthMessage('Error de conexión con el servidor', 'error');
-  }
-}
 
 /**
  * Guarda los datos de sesión en localStorage.
@@ -309,100 +234,7 @@ function closeLogoutConfirmation() {
 }
 
 // ============================================================================
-// 5. FUNCIONES DE REGISTRO
-// ============================================================================
-
-/**
- * Procesa el formulario de registro de usuario.
- * @param {Event} event - Evento submit del formulario
- */
-async function handleRegister(event) {
-  event.preventDefault();
-  
-  // Capturar datos del formulario (IDs del HTML de sign_up.html)
-  const formData = {
-    nombres: document.getElementById('nombre')?.value.trim(),
-    apellidos: document.getElementById('apellido')?.value.trim(),
-    email: document.getElementById('correo')?.value.trim(),
-    password: document.getElementById('password')?.value,
-    confirmPassword: document.getElementById('confirmar_password')?.value
-  };
-  
-  // Validar datos
-  const validation = validateRegistrationData(formData);
-  if (!validation.valid) {
-    showAuthMessage(validation.message, 'error');
-    return;
-  }
-  
-  try {
-    const response = await fetch(API_ENDPOINTS.REGISTER, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        nombres: formData.nombres,
-        apellidos: formData.apellidos,
-        email: formData.email,
-        password: formData.password
-      })
-    });
-    
-    const data = await response.json();
-    
-    if (data.status === 'success') {
-      showAuthMessage('¡Registro exitoso! Redirigiendo al login...', 'success');
-      
-      // Redirigir al login después de registro exitoso
-      setTimeout(() => {
-        window.location.href = 'log_in.html';
-      }, 2000);
-    } else {
-      showAuthMessage(data.message || 'Error al registrar usuario', 'error');
-    }
-  } catch (error) {
-    console.error('Registration error:', error);
-    showAuthMessage('Error de conexión con el servidor', 'error');
-  }
-}
-
-/**
- * Valida los datos del formulario de registro.
- * @param {Object} data - Datos del formulario
- * @returns {Object} Resultado de validación {valid: boolean, message: string}
- */
-function validateRegistrationData(data) {
-  if (!data.nombres || !data.apellidos || !data.email || !data.password) {
-    return { valid: false, message: 'Por favor completa todos los campos requeridos' };
-  }
-  
-  if (!isValidEmail(data.email)) {
-    return { valid: false, message: 'Por favor ingresa un correo electrónico válido' };
-  }
-  
-  if (data.password.length < 8) {
-    return { valid: false, message: 'La contraseña debe tener al menos 8 caracteres' };
-  }
-  
-  // Validar fortaleza de contraseña
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-  if (!passwordRegex.test(data.password)) {
-    return { 
-      valid: false, 
-      message: 'La contraseña debe incluir mayúscula, minúscula, número y carácter especial (@$!%*?&#)' 
-    };
-  }
-  
-  if (data.password !== data.confirmPassword) {
-    return { valid: false, message: 'Las contraseñas no coinciden' };
-  }
-  
-  return { valid: true, message: '' };
-}
-
-// ============================================================================
-// 6. CONTROL DE ACCESO
+// 5. CONTROL DE ACCESO
 // ============================================================================
 
 /**
@@ -479,7 +311,7 @@ function checkPageAccess() {
 }
 
 // ============================================================================
-// 7. UTILIDADES
+// 6. UTILIDADES
 // ============================================================================
 
 /**
@@ -502,13 +334,12 @@ function showAuthMessage(message, type = 'info') {
     const toastMethod = Toast[type] || Toast.info;
     toastMethod(message);
   } else {
-    // Fallback a alert
     alert(message);
   }
 }
 
 // ============================================================================
-// 8. INICIALIZACIÓN Y EVENT LISTENERS
+// 7. INICIALIZACIÓN Y EVENT LISTENERS
 // ============================================================================
 
 /**
@@ -582,8 +413,6 @@ function initAuth() {
   
   // Configurar event listeners
   setupAuthEventListeners();
-  
-  console.log('✅ AfergolfAuth initialized');
 }
 
 // ============================================================================
@@ -600,18 +429,13 @@ const AfergolfAuth = {
   getCurrentUser,
   getUserId,
   getUserEmail,
-  
-  // Funciones de login/logout
-  handleLogin,
-  handleLogout,
   saveSession,
   clearSession,
+  
+  // Funciones de logout
+  handleLogout,
   showLogoutConfirmation,
   closeLogoutConfirmation,
-  
-  // Funciones de registro
-  handleRegister,
-  validateRegistrationData,
   
   // Control de acceso
   requireAuth,
