@@ -565,8 +565,10 @@ function setupImagePreviewListeners() {
   
   previewBoxes.forEach(({ previewId, inputAttr }) => {
     const previewBox = document.getElementById(previewId);
-    if (previewBox) {
+    // Evitar duplicación de listeners usando atributo data
+    if (previewBox && !previewBox.hasAttribute('data-click-initialized')) {
       previewBox.style.cursor = 'pointer';
+      previewBox.setAttribute('data-click-initialized', 'true');
       previewBox.addEventListener('click', () => {
         const inputId = previewBox.dataset.input || inputAttr;
         const input = document.getElementById(inputId);
@@ -575,19 +577,8 @@ function setupImagePreviewListeners() {
     }
   });
   
-  const imageInputs = [
-    { id: 'product-image-main', position: 'main' },
-    { id: 'product-image-front', position: 'front' },
-    { id: 'product-image-top', position: 'top' },
-    { id: 'product-image-side', position: 'side' }
-  ];
-  
-  imageInputs.forEach(({ id, position }) => {
-    const input = document.getElementById(id);
-    if (input) {
-      input.addEventListener('change', (e) => handleImagePreview(e, position));
-    }
-  });
+  // NOTA: Los listeners de change para imágenes se manejan en admin_create.js
+  // para evitar duplicación. Este archivo solo maneja el clic en preview boxes.
 }
 
 /**

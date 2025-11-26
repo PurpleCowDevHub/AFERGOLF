@@ -600,9 +600,8 @@ let createListenersInitialized = false;
 
 /**
  * Configura los event listeners para la creación de productos
- * NOTA: Los event listeners de imágenes se manejan en components.js
- * para evitar duplicación. Este módulo solo intercepta el evento
- * change para almacenar las imágenes en Base64.
+ * NOTA: Los event listeners de clic en preview boxes se manejan en components.js
+ * Este módulo maneja los listeners de change para almacenar imágenes en Base64.
  * 
  * @function setupCreateEventListeners
  * @returns {void}
@@ -624,26 +623,14 @@ function setupCreateEventListeners() {
     btnCreateEmpty.addEventListener('click', openCreateModal);
   }
   
-  // Formulario de producto - remover listener previo si existe
+  // Formulario de producto
   const form = document.getElementById('product-form');
   if (form && !form.hasAttribute('data-submit-initialized')) {
     form.addEventListener('submit', handleProductSubmit);
     form.setAttribute('data-submit-initialized', 'true');
   }
   
-  // Configurar interceptores de imágenes para almacenar en Base64
-  // NOTA: components.js maneja la vista previa, aquí solo almacenamos
-  setupImageInterceptors();
-}
-
-/**
- * Configura interceptores para capturar las imágenes cargadas
- * y almacenarlas en tempImageFiles para el envío
- * 
- * @function setupImageInterceptors
- * @returns {void}
- */
-function setupImageInterceptors() {
+  // Configurar listeners de change para almacenar imágenes en Base64
   const imageInputs = [
     { id: 'product-image-main', position: 'main' },
     { id: 'product-image-front', position: 'front' },
@@ -654,8 +641,8 @@ function setupImageInterceptors() {
   imageInputs.forEach(({ id, position }) => {
     const input = document.getElementById(id);
     if (input && !input.hasAttribute('data-base64-initialized')) {
-      input.addEventListener('change', (e) => handleImageUpload(e, position));
       input.setAttribute('data-base64-initialized', 'true');
+      input.addEventListener('change', (e) => handleImageUpload(e, position));
     }
   });
 }
