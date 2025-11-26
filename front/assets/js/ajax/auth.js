@@ -17,7 +17,7 @@
 /**
  * URL del endpoint de la API REST de autenticación
  */
-const API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/post/registro.php';
+const API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/register.php';
 
 // ============================================================================
 // FUNCIONES DE REGISTRO
