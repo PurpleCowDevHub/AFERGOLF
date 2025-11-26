@@ -235,12 +235,13 @@ function createProduct($conn) {
     $rawInput = file_get_contents("php://input");
     $data = json_decode($rawInput, true);
     
-    if (!$data) {
+    if (json_last_error() !== JSON_ERROR_NONE || !$data) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'JSON inválido o vacío'
+            'message' => 'JSON inválido o vacío: ' . json_last_error_msg()
         ]);
+        $conn->close();
         return;
     }
     
@@ -249,7 +250,7 @@ function createProduct($conn) {
     $camposFaltantes = [];
     
     foreach ($camposObligatorios as $campo) {
-        if (empty($data[$campo]) && $data[$campo] !== 0) {
+        if (!isset($data[$campo]) || (is_string($data[$campo]) && trim($data[$campo]) === '')) {
             $camposFaltantes[] = $campo;
         }
     }
@@ -260,6 +261,7 @@ function createProduct($conn) {
             'success' => false,
             'message' => 'Campos obligatorios faltantes: ' . implode(', ', $camposFaltantes)
         ]);
+        $conn->close();
         return;
     }
     
@@ -271,6 +273,18 @@ function createProduct($conn) {
             'success' => false,
             'message' => 'Categoría inválida. Valores permitidos: ' . implode(', ', $categoriasValidas)
         ]);
+        $conn->close();
+        return;
+    }
+    
+    // Validar precio positivo
+    if (!is_numeric($data['precio']) || (int)$data['precio'] <= 0) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'El precio debe ser un número mayor a 0'
+        ]);
+        $conn->close();
         return;
     }
     
@@ -278,25 +292,25 @@ function createProduct($conn) {
     // PASO 2: Sanitizar datos de entrada
     // -------------------------------------------------------------------------
     
-    $nombre = $conn->real_escape_string(trim($data['nombre']));
-    $descripcion = $conn->real_escape_string(trim($data['descripcion'] ?? ''));
-    $categoria = $conn->real_escape_string($data['categoria']);
-    $marca = $conn->real_escape_string(trim($data['marca']));
-    $modelo = $conn->real_escape_string(trim($data['modelo'] ?? ''));
+    $nombre = trim($data['nombre']);
+    $descripcion = trim($data['descripcion'] ?? '');
+    $categoria = $data['categoria'];
+    $marca = trim($data['marca']);
+    $modelo = trim($data['modelo'] ?? '');
     $precio = (int)$data['precio'];
-    $stock = (int)($data['stock'] ?? 0);
+    $stock = max(0, (int)($data['stock'] ?? 0));
     
     // Campos específicos
-    $dimensiones = $conn->real_escape_string(trim($data['dimensiones'] ?? ''));
-    $peso = (float)($data['peso'] ?? 0);
-    $unidades_paquete = (int)($data['unidades_paquete'] ?? 0);
+    $dimensiones = trim($data['dimensiones'] ?? '');
+    $peso = max(0, (float)($data['peso'] ?? 0));
+    $unidades_paquete = max(0, (int)($data['unidades_paquete'] ?? 0));
     
-    // Stock por tallas (guantes)
-    $stock_talla_s = (int)($data['stock_talla_s'] ?? 0);
-    $stock_talla_m = (int)($data['stock_talla_m'] ?? 0);
-    $stock_talla_l = (int)($data['stock_talla_l'] ?? 0);
-    $stock_talla_xl = (int)($data['stock_talla_xl'] ?? 0);
-    $stock_talla_xxl = (int)($data['stock_talla_xxl'] ?? 0);
+    // Stock por tallas (guantes) - asegurar valores no negativos
+    $stock_talla_s = max(0, (int)($data['stock_talla_s'] ?? 0));
+    $stock_talla_m = max(0, (int)($data['stock_talla_m'] ?? 0));
+    $stock_talla_l = max(0, (int)($data['stock_talla_l'] ?? 0));
+    $stock_talla_xl = max(0, (int)($data['stock_talla_xl'] ?? 0));
+    $stock_talla_xxl = max(0, (int)($data['stock_talla_xxl'] ?? 0));
     
     // -------------------------------------------------------------------------
     // PASO 3: Generar referencia única
@@ -304,13 +318,23 @@ function createProduct($conn) {
     
     $referencia = generateProductReference($conn, $categoria);
     
+    if (!$referencia) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error al generar la referencia del producto'
+        ]);
+        $conn->close();
+        return;
+    }
+    
     // -------------------------------------------------------------------------
     // PASO 4: Procesar y guardar imágenes
     // -------------------------------------------------------------------------
     
-    // Definir rutas
-    $base_upload_dir = realpath(__DIR__ . '/../../../../../') . '/uploads/products/';
-    $product_dir = $base_upload_dir . $referencia . '/';
+    // Definir rutas de forma más robusta
+    $base_upload_dir = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'products' . DIRECTORY_SEPARATOR;
+    $product_dir = $base_upload_dir . $referencia . DIRECTORY_SEPARATOR;
     $web_path_base = '/AFERGOLF/uploads/products/' . $referencia . '/';
     
     // Guardar imágenes y obtener rutas
@@ -320,13 +344,13 @@ function createProduct($conn) {
     $img_lateral = saveBase64Image($data['imagen_lateral'] ?? '', $product_dir, 'lateral');
     
     // Construir rutas completas para BD
-    $imagen_principal = $img_principal ? $conn->real_escape_string($web_path_base . $img_principal) : '';
-    $imagen_frontal = $img_frontal ? $conn->real_escape_string($web_path_base . $img_frontal) : '';
-    $imagen_superior = $img_superior ? $conn->real_escape_string($web_path_base . $img_superior) : '';
-    $imagen_lateral = $img_lateral ? $conn->real_escape_string($web_path_base . $img_lateral) : '';
+    $imagen_principal = $img_principal ? $web_path_base . $img_principal : '';
+    $imagen_frontal = $img_frontal ? $web_path_base . $img_frontal : '';
+    $imagen_superior = $img_superior ? $web_path_base . $img_superior : '';
+    $imagen_lateral = $img_lateral ? $web_path_base . $img_lateral : '';
     
     // -------------------------------------------------------------------------
-    // PASO 5: Insertar en base de datos
+    // PASO 5: Insertar en base de datos con Prepared Statement
     // -------------------------------------------------------------------------
     
     $sql = "INSERT INTO productos (
@@ -334,14 +358,32 @@ function createProduct($conn) {
         imagen_principal, imagen_frontal, imagen_superior, imagen_lateral,
         dimensiones, peso, unidades_paquete,
         stock_talla_s, stock_talla_m, stock_talla_l, stock_talla_xl, stock_talla_xxl
-    ) VALUES (
-        '$referencia', '$nombre', '$descripcion', '$categoria', '$marca', '$modelo',
-        $precio, $stock, '$imagen_principal', '$imagen_frontal', '$imagen_superior', '$imagen_lateral',
-        '$dimensiones', $peso, $unidades_paquete,
-        $stock_talla_s, $stock_talla_m, $stock_talla_l, $stock_talla_xl, $stock_talla_xxl
-    )";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
-    if ($conn->query($sql)) {
+    $stmt = $conn->prepare($sql);
+    
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error al preparar la consulta: ' . $conn->error
+        ]);
+        $conn->close();
+        return;
+    }
+    
+    // Bind parameters: s=string, i=integer, d=double
+    // 20 parámetros: 6 strings + 2 ints + 4 strings + 1 string + 1 double + 1 int + 5 ints = ssssssii ssss sdiiiii
+    $stmt->bind_param(
+        "ssssssiisssssdiiiii",
+        $referencia, $nombre, $descripcion, $categoria, $marca, $modelo,
+        $precio, $stock,
+        $imagen_principal, $imagen_frontal, $imagen_superior, $imagen_lateral,
+        $dimensiones, $peso, $unidades_paquete,
+        $stock_talla_s, $stock_talla_m, $stock_talla_l, $stock_talla_xl, $stock_talla_xxl
+    );
+    
+    if ($stmt->execute()) {
         http_response_code(201);
         echo json_encode([
             'success' => true,
@@ -349,12 +391,21 @@ function createProduct($conn) {
             'referencia' => $referencia
         ]);
     } else {
+        // Si falla la inserción, eliminar las imágenes creadas
+        if (is_dir($product_dir)) {
+            array_map('unlink', glob($product_dir . '*'));
+            rmdir($product_dir);
+        }
+        
         http_response_code(500);
         echo json_encode([
             'success' => false,
-            'message' => 'Error al crear el producto: ' . $conn->error
+            'message' => 'Error al crear el producto: ' . $stmt->error
         ]);
     }
+    
+    $stmt->close();
+    $conn->close();
 }
 
 // ============================================================================
@@ -379,9 +430,24 @@ function generateProductReference($conn, $categoria) {
     $prefix = $prefijos[$categoria] ?? 'X';
     $pattern = "AFG-{$prefix}%";
     
-    $sql = "SELECT referencia FROM productos WHERE referencia LIKE '$pattern' ORDER BY referencia DESC LIMIT 1";
-    $result = $conn->query($sql);
+    // Usar prepared statement para mayor seguridad
+    $sql = "SELECT referencia FROM productos WHERE referencia LIKE ? ORDER BY referencia DESC LIMIT 1";
+    $stmt = $conn->prepare($sql);
     
+    if (!$stmt) {
+        error_log('Error al preparar consulta de referencia: ' . $conn->error);
+        return null;
+    }
+    
+    $stmt->bind_param("s", $pattern);
+    
+    if (!$stmt->execute()) {
+        error_log('Error al ejecutar consulta de referencia: ' . $stmt->error);
+        $stmt->close();
+        return null;
+    }
+    
+    $result = $stmt->get_result();
     $numero = 1;
     
     if ($result && $result->num_rows > 0) {
@@ -390,6 +456,8 @@ function generateProductReference($conn, $categoria) {
             $numero = intval($matches[1]) + 1;
         }
     }
+    
+    $stmt->close();
     
     return sprintf("AFG-%s%03d", $prefix, $numero);
 }

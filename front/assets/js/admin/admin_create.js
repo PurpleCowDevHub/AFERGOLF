@@ -221,14 +221,14 @@ function handleProductSubmit(e) {
   // Recopilar datos del formulario
   const formData = collectFormData();
   
-  // Validar campos obligatorios
-  if (!validateFormData(formData)) {
-    return;
-  }
-  
   // Determinar si es creación o edición
   const isUpdate = typeof window.currentProductId !== 'undefined' && 
                    window.currentProductId !== null;
+  
+  // Validar campos obligatorios (pasar isCreate como segundo parámetro)
+  if (!validateFormData(formData, !isUpdate)) {
+    return;
+  }
   
   if (isUpdate) {
     // Modo edición - llamar función de admin_update.js
@@ -317,9 +317,10 @@ function collectFormData() {
  * 
  * @function validateFormData
  * @param {Object} formData - Datos del formulario
+ * @param {boolean} isCreate - True si es modo creación, false si es edición
  * @returns {boolean} True si es válido, false si hay errores
  */
-function validateFormData(formData) {
+function validateFormData(formData, isCreate = true) {
   const errores = [];
   
   if (!formData.nombre || formData.nombre.trim() === '') {
@@ -336,6 +337,16 @@ function validateFormData(formData) {
   
   if (!formData.precio || formData.precio <= 0) {
     errores.push('Precio (debe ser mayor a 0)');
+  }
+  
+  // Validar imagen principal solo en modo creación
+  if (isCreate && !formData.imagen_principal) {
+    errores.push('Imagen principal');
+  }
+  
+  // Validar stock para categorías no-guantes
+  if (formData.categoria !== 'guantes' && formData.stock < 0) {
+    errores.push('Stock (no puede ser negativo)');
   }
   
   if (errores.length > 0) {
@@ -367,6 +378,20 @@ function validateFormData(formData) {
  * @returns {Promise<void>}
  */
 async function saveNewProduct(formData) {
+  // Obtener elementos del botón de submit
+  const submitBtn = document.querySelector('#product-form button[type="submit"]');
+  const btnSubmitText = document.getElementById('btn-submit-text');
+  const originalText = btnSubmitText ? btnSubmitText.textContent : 'Guardar Producto';
+  
+  // Deshabilitar botón y mostrar indicador de carga
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+  }
+  if (btnSubmitText) {
+    btnSubmitText.textContent = 'Guardando...';
+  }
+  
   try {
     const response = await fetch(CREATE_API_URL, {
       method: 'POST',
@@ -376,7 +401,13 @@ async function saveNewProduct(formData) {
       body: JSON.stringify(formData)
     });
     
-    const result = await response.json();
+    // Verificar si la respuesta es JSON válido
+    let result;
+    try {
+      result = await response.json();
+    } catch (parseError) {
+      throw new Error('Respuesta inválida del servidor');
+    }
     
     if (result.success) {
       // Éxito
@@ -409,6 +440,15 @@ async function saveNewProduct(formData) {
     if (typeof showNotification === 'function') {
       showNotification('Error al conectar con el servidor', 'error');
     }
+  } finally {
+    // Restaurar estado del botón
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+    }
+    if (btnSubmitText) {
+      btnSubmitText.textContent = originalText;
+    }
   }
 }
 
@@ -433,22 +473,28 @@ function handleImageUpload(event, position) {
     return;
   }
   
-  // Validar que sea imagen
-  if (!file.type.startsWith('image/')) {
+  // Tipos de imagen válidos
+  const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  
+  // Validar que sea imagen válida
+  if (!validTypes.includes(file.type)) {
     if (typeof showNotification === 'function') {
-      showNotification('Por favor selecciona un archivo de imagen válido', 'error');
+      showNotification('Formato no válido. Usa JPG, PNG, GIF o WebP', 'error');
     }
     event.target.value = '';
+    tempImageFiles[position] = null;
     return;
   }
   
   // Validar tamaño (máximo 5MB)
   const maxSize = 5 * 1024 * 1024; // 5MB en bytes
   if (file.size > maxSize) {
+    const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
     if (typeof showNotification === 'function') {
-      showNotification('La imagen no debe superar 5MB', 'error');
+      showNotification(`La imagen (${sizeMB}MB) no debe superar 5MB`, 'error');
     }
     event.target.value = '';
+    tempImageFiles[position] = null;
     return;
   }
   
@@ -458,7 +504,8 @@ function handleImageUpload(event, position) {
   reader.onload = (e) => {
     tempImageFiles[position] = e.target.result;
     
-    // Actualizar vista previa
+    // La vista previa es manejada por components.js
+    // Solo actualizamos si no se ha actualizado ya
     if (typeof updateImagePreviewFromDataUrl === 'function') {
       updateImagePreviewFromDataUrl(position, e.target.result);
     }
@@ -468,6 +515,7 @@ function handleImageUpload(event, position) {
     if (typeof showNotification === 'function') {
       showNotification('Error al cargar la imagen', 'error');
     }
+    tempImageFiles[position] = null;
   };
   
   reader.readAsDataURL(file);
@@ -492,9 +540,20 @@ function clearTempImageFiles() {
     side: null
   };
   
-  // Limpiar inputs de archivo
+  // Limpiar inputs de archivo usando la función de components.js
   if (typeof clearFileInputs === 'function') {
     clearFileInputs();
+  } else {
+    // Fallback: limpiar manualmente
+    ['main', 'front', 'top', 'side'].forEach(position => {
+      const input = document.getElementById(`product-image-${position}`);
+      if (input) input.value = '';
+    });
+  }
+  
+  // Limpiar vistas previas
+  if (typeof clearImagePreviews === 'function') {
+    clearImagePreviews();
   }
 }
 
@@ -536,20 +595,55 @@ function setTempImageFile(position, data) {
  * @function setupCreateEventListeners
  * @returns {void}
  */
+// Variable para evitar duplicación de event listeners
+let createListenersInitialized = false;
+
+/**
+ * Configura los event listeners para la creación de productos
+ * NOTA: Los event listeners de imágenes se manejan en components.js
+ * para evitar duplicación. Este módulo solo intercepta el evento
+ * change para almacenar las imágenes en Base64.
+ * 
+ * @function setupCreateEventListeners
+ * @returns {void}
+ */
 function setupCreateEventListeners() {
-  // Botón "Crear Producto"
+  // Evitar duplicación de event listeners
+  if (createListenersInitialized) return;
+  createListenersInitialized = true;
+  
+  // Botón "Crear Producto" en el header
   const btnCreate = document.getElementById('btn-create-product');
   if (btnCreate) {
     btnCreate.addEventListener('click', openCreateModal);
   }
   
-  // Formulario de producto
-  const form = document.getElementById('product-form');
-  if (form) {
-    form.addEventListener('submit', handleProductSubmit);
+  // Botón "Crear nuevo producto" en el estado vacío
+  const btnCreateEmpty = document.getElementById('btn-create-product-empty');
+  if (btnCreateEmpty) {
+    btnCreateEmpty.addEventListener('click', openCreateModal);
   }
   
-  // Inputs de imágenes
+  // Formulario de producto - remover listener previo si existe
+  const form = document.getElementById('product-form');
+  if (form && !form.hasAttribute('data-submit-initialized')) {
+    form.addEventListener('submit', handleProductSubmit);
+    form.setAttribute('data-submit-initialized', 'true');
+  }
+  
+  // Configurar interceptores de imágenes para almacenar en Base64
+  // NOTA: components.js maneja la vista previa, aquí solo almacenamos
+  setupImageInterceptors();
+}
+
+/**
+ * Configura interceptores para capturar las imágenes cargadas
+ * y almacenarlas en tempImageFiles para el envío
+ * 
+ * @function setupImageInterceptors
+ * @returns {void}
+ */
+function setupImageInterceptors() {
   const imageInputs = [
     { id: 'product-image-main', position: 'main' },
     { id: 'product-image-front', position: 'front' },
@@ -559,8 +653,9 @@ function setupCreateEventListeners() {
   
   imageInputs.forEach(({ id, position }) => {
     const input = document.getElementById(id);
-    if (input) {
+    if (input && !input.hasAttribute('data-base64-initialized')) {
       input.addEventListener('change', (e) => handleImageUpload(e, position));
+      input.setAttribute('data-base64-initialized', 'true');
     }
   });
 }

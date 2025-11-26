@@ -153,6 +153,38 @@ body {
   transform: translateY(1px);
 }
 
+/* Estado deshabilitado y de carga para botones */
+.btn-primary:disabled,
+.btn-danger:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary.loading,
+.btn-danger.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn-primary.loading::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 2px solid transparent;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Botón secundario (Cancelar) */
 .btn-secondary {
   padding: 10px 20px;
