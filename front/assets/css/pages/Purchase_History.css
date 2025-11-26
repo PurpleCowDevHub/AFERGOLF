@@ -1,0 +1,392 @@
+/* Historial de compras – AFERGOLF */
+
+/* Reset y configuración base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Tipografía base (igual que index.css) */
+body {
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  font-size: 16px;
+  color: #1f1f1f;
+}
+
+/* Header siempre visible encima del contenido */
+.header-container,
+.header-semicircle,
+.header-logo {
+  z-index: 50 !important;
+}
+
+/* Contenedor principal del historial */
+.orders-wrapper {
+  max-width: 1120px;
+  margin: 0 auto;
+  /* Más espacio arriba para separarlo del header */
+  padding: 120px 24px 90px;
+}
+
+/* Encabezado de sección: usar mismo estilo que .section-title en index.css */
+.orders-header h1 {
+  font-size: 42px;
+  font-weight: 500;
+  color: #000;
+  margin: 0 0 8px 0;
+}
+
+.orders-header p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+/* Filtros */
+.orders-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: flex-end;
+  margin-bottom: 28px;
+  border-radius: 14px;
+  padding: 18px 20px;
+  background: #f7f7f7;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label,
+.filter-search label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-group select {
+  min-width: 170px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  background: #fff;
+  outline: none;
+}
+
+.filter-group select:focus {
+  border-color: rgb(237, 27, 36);
+  box-shadow: 0 0 0 1px rgba(237, 27, 36, 0.35);
+}
+
+/* Buscador */
+.filter-search {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-input-wrapper::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  mask-image: url("../../icon/Search.svg");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  background-color: #888;
+}
+
+.filter-search input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 8px 12px 8px 38px;
+  font-size: 14px;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  outline: none;
+}
+
+.filter-search input:focus {
+  border-color: rgb(237, 27, 36);
+  box-shadow: 0 0 0 1px rgba(237, 27, 36, 0.35);
+}
+
+/* Lista de pedidos */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Tarjeta de pedido */
+.order-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e3e3e3;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+/* Parte superior */
+.order-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.order-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 13px;
+  color: #444;
+}
+
+.order-id {
+  font-weight: 600;
+}
+
+.order-date {
+  color: #777;
+}
+
+/* Estados */
+.order-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.order-status--delivered {
+  background: #e3f6ea;
+  color: #1f7a3a;
+}
+
+.order-status--in-progress {
+  background: #fff6e5;
+  color: #b86a00;
+}
+
+.order-status--canceled {
+  background: #fde6e5;
+  color: #b42f2f;
+}
+
+/* Cuerpo de la tarjeta */
+.order-main {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1.5fr) minmax(0, 1.2fr);
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.order-thumb {
+  width: 92px;
+  height: 110px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f3f3;
+  flex-shrink: 0;
+}
+
+.order-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Info principal */
+.order-info h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.order-detail {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.order-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(237, 27, 36);
+  margin-bottom: 10px;
+}
+
+/* Botones */
+.order-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+/* Botón principal */
+.btn-primary {
+  background: linear-gradient(180deg, #9a2816, #e0422f);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(224, 66, 47, 0.35);
+}
+
+.btn-primary:hover {
+  filter: brightness(0.97);
+  transform: translateY(-1px);
+}
+
+/* Variante más suave */
+.btn-primary--ghost {
+  background: #fff;
+  color: rgb(237, 27, 36);
+  border: 1px solid rgba(237, 27, 36, 0.35);
+  box-shadow: none;
+}
+
+.btn-primary--ghost:hover {
+  background: rgba(237, 27, 36, 0.04);
+}
+
+/* Botón secundario */
+.btn-secondary {
+  background: #fff;
+  color: #333;
+  border: 1px solid #d5d5d5;
+}
+
+.btn-secondary:hover {
+  background: #f6f6f6;
+}
+
+/* Extra info */
+.order-extra {
+  font-size: 13px;
+}
+
+.order-summary-label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 2px;
+}
+
+.order-summary-text {
+  color: #666;
+  line-height: 1.4;
+}
+/* Responsive */
+@media (max-width: 992px) {
+  .orders-wrapper {
+    padding: 180px 16px 60px;
+  }
+
+  .orders-filters {
+    position: static;
+    width: 100%;
+  }
+
+  .order-main {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+  }
+
+  .order-extra {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 430px) {
+  main {
+    padding: 140px 12px 60px;
+  }
+
+  .orders-wrapper {
+    padding: 20px 16px 60px;
+  }
+
+  .orders-filters {
+    padding: 14px;
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .filter-group,
+  .filter-search {
+    width: 100%;
+  }
+
+  .filter-group select,
+  .filter-search input {
+    width: 100%;
+  }
+
+  .order-main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .order-thumb {
+    max-width: 120px;
+    height: 120px;
+  }
+
+  .order-status {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    min-width: auto;
+    max-width: none;
+    font-size: 14px;
+  }
+}
+

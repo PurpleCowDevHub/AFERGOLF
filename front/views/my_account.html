@@ -3,51 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Cuenta</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <meta name="description" content="Mi cuenta AFERGOLF - Gestiona tu perfil, historial de compras y preferencias">
+  <title>Mi Cuenta - AFERGOLF</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/my_account.css" />
+  <link rel="stylesheet" href="../assets/css/style.css">
   <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/ui/components.js" defer></script>
+  <script src="../assets/js/ajax/my_account.js" defer></script>
+  <script src="../assets/js/ajax/edit_profile.js" defer></script>
+  <script src="../assets/js/auth/logout.js" defer></script>
 </head>
 
 <body>
+  <!-- HEADER GLOBAL -->
   <afergolf-header></afergolf-header>
 
-  <!-- información de la cuenta del usuario -->
-  <main>
-    <section class="account" aria-labelledby="titulo-cuenta">
-      <img 
-        src="../assets/img/Fondo1.png" 
-        alt="Fondo de sección Mi Cuenta"
-        class="account-background"
-        loading="lazy"
-      />
-      
-      <div class="account-card" role="region" aria-labelledby="titulo-cuenta">
-        <h2 id="titulo-cuenta" class="account-title">Mi Cuenta</h2>
+  <!-- MAIN -->
+  <main class="account-main">
+    <section class="account-container">
 
-        <div class="account-info">
-          <div class="info-item">
-            <strong>Nombres</strong>
-            <span>Samuel David</span>
-          </div>
-          
-          <div class="info-item">
-            <strong>Apellidos</strong>
-            <span>Fernandez Urrea</span>
-          </div>
-          
-          <div class="info-item">
-            <strong>Correo Electrónico</strong>
-            <span>Samdezurrea@gmail.com</span>
-          </div>
-          
-          <div class="info-item">
-            <strong>Dirección</strong>
-            <span>Dg 87C # 334-97</span>
-          </div>
+      <!-- Foto e info del usuario -->
+      <div class="account-header">
+        <div class="avatar" id="avatarContainer">
+          <img id="avatarImage" src="../assets/icons/default-avatar.svg" alt="Foto de perfil del usuario">
+          <!-- SIN input file - la imagen NO se edita aquí, solo se muestra -->
         </div>
+        <div class="user-info">
+          <h2 class="user-name">Samuel Fernandez</h2>
+          <p class="user-email">samdezurrea@gmail.com</p>
+        </div>
+<<<<<<< HEAD
 
         <nav class="account-links" aria-label="Acciones de cuenta">
           <a class="link" href="#" aria-label="Editar información del perfil">Editar Perfil</a>
@@ -57,10 +44,122 @@
         <a href="./log_in.html" class="btn-logout" style="text-decoration: none;" aria-label="Cerrar sesión y volver al inicio de sesión">
           Cerrar sesión
         </a>
+=======
+>>>>>>> dd78e4b1a2e17b05633e3cbd0a31d700ffbbd177
       </div>
+
+      <!-- Opciones -->
+      <div class="account-options">
+        <a href="#" class="option-card" id="edit-profile-btn">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <h3>Editar Perfil</h3>
+            <p>Actualiza tu información personal.</p>
+          </div>
+        </a>
+
+        <a href="purchase_history.html" class="option-card">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm8 8h-7v-2h7v2zm0-4h-7v-2h7v2zm0-4h-7V7h7v2z"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <h3>Historial de Compras</h3>
+            <p>Consulta tus pedidos anteriores.</p>
+          </div>
+        </a>
+
+        <a href="log_in.html" class="logout-card">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <h3>Cerrar Sesión</h3>
+            <p>Salir de tu cuenta AFERGOLF.</p>
+          </div>
+        </a>
+      </div>
+
     </section>
   </main>
 
+  <!-- OVERLAY PARA MODAL DE EDITAR PERFIL -->
+  <div id="edit-profile-overlay" class="modal-overlay"></div>
+
+  <!-- MODAL DE EDITAR PERFIL -->
+  <div id="edit-profile-modal" class="edit-profile-modal">
+    <div class="modal-content">
+      <!-- Header del modal -->
+      <div class="modal-header">
+        <h2>Editar Perfil</h2>
+        <button id="close-edit-profile" class="btn-close" aria-label="Cerrar modal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Contenido del modal (formulario de editar perfil) -->
+      <div class="modal-body">
+        <!-- Sección de imagen -->
+        <div class="image-section">
+          <div class="avatar-edit" id="modalAvatarContainer">
+            <img id="modalAvatarImage" src="../assets/icons/default-avatar.svg" alt="Foto de perfil">
+            <input type="file" id="modalAvatarInput" accept="image/*">
+          </div>
+          <p class="image-helper">Haz clic en la foto para cambiarla</p>
+        </div>
+
+        <!-- Formulario -->
+        <form class="profile-form">
+          <div class="form-group">
+            <label for="firstName">Nombre</label>
+            <input id="firstName" type="text" placeholder="Samuel" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Apellidos</label>
+            <input id="lastName" type="text" placeholder="Fernandez Urrea" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input id="email" type="email" placeholder="correo@ejemplo.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Teléfono</label>
+            <input id="phone" type="tel" placeholder="+57 300 000 0000">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="city">Ciudad</label>
+            <input id="city" type="text" placeholder="Bogotá, Colombia">
+          </div>
+
+          <div class="form-group full-width inline-link">
+            <span>¿Quieres cambiar tu contraseña?</span>
+            <a href="change_password.html">Ir a cambiar contraseña</a>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="form-actions">
+            <button type="button" class="btn-secondary">Cancelar</button>
+            <button type="submit" class="btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER GLOBAL -->
   <afergolf-footer></afergolf-footer>
 </body>
 </html>

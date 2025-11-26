@@ -21,7 +21,7 @@ html, body {
 .service-title{
   text-align: center;
   font-weight: 700;
-  font-size: 36px;
+  font-size: 40px;
   position: relative;
   grid-column: 1 / -1;
 }
@@ -29,7 +29,7 @@ html, body {
 /* Párrafo */
 .service-text{
   line-height: 1.7;
-  font-size: 16px;
+  font-size: 19px;
   position: relative;
 }
 
@@ -39,7 +39,7 @@ html, body {
   display: grid;                 
   gap: 10px;
   padding-left: 20px;
-  font-size: 16px;
+  font-size: 20px;
   position: relative;
   margin-bottom: 30px;
 }
@@ -104,17 +104,17 @@ html, body {
   }
   
   .service-title {
-    font-size: 28px;
+    font-size: 32px;
     margin-bottom: 8px;
   }
   
   .service-text {
-    font-size: 15px;
+    font-size: 18px;
     margin-bottom: 16px;
   }
   
   .service-points {
-    font-size: 15px;
+    font-size: 18px;
     margin-bottom: 20px;
   }
   

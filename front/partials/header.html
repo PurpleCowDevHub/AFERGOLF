@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   <header>
      <img src="/front/assets/img/footer-shape.svg" class="header-semicircle" alt="Decoración semicircular del encabezado" loading="lazy">
@@ -7,6 +8,70 @@
 <!-- Estilos necesarios para el header, menú y búsqueda -->
 <link rel="stylesheet" href="/front/assets/css/hamburguer_menu.css">
 <link rel="stylesheet" href="/front/assets/css/search.css">
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/front/assets/css/hamburguer_menu.css">
+  <link rel="stylesheet" href="/front/assets/css/search.css">
+  <link rel="stylesheet" href="/front/assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Botón del menú hamburguesa
+  const logout1 = document.querySelector(".logout-link");
+
+  // Botón dentro de las opciones del menú móvil o desktop
+  if (logout1) {
+    logout1.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // 🔥 Limpia toda la sesión
+      localStorage.removeItem("afergolf_logged");
+      localStorage.removeItem("afergolf_user_id");
+      localStorage.removeItem("afergolf_user_email");
+
+      // Redirigir al login
+      window.location.href = "/front/views/log_in.html";
+    });
+  }
+
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  
+  const profileBtns = document.querySelectorAll("a[href='/front/views/my_account.html']");
+
+  profileBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+
+      const isLogged = localStorage.getItem("afergolf_logged");
+      const userId = localStorage.getItem("afergolf_user_id");
+
+      if (!isLogged || !userId) {
+        e.preventDefault();
+        alert("Debes iniciar sesión primero");
+        window.location.href = "/front/views/log_in.html";
+      }
+    });
+  });
+
+});
+</script>
+
+
+
+<body>
+>>>>>>> dd78e4b1a2e17b05633e3cbd0a31d700ffbbd177
 
 <header>
     <!-- Parte superior: menú hamburguesa y logo -->
@@ -16,7 +81,7 @@
           <img src="/front/assets/icon/Menu.svg" alt="Abrir menú de navegación" class="icon" loading="lazy">
         </button>
       </div>
-      <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF">
+      <a href="javascript:window.location.href = window.location.pathname.includes('/front/') ? '../../index.html' : 'index.html'" aria-label="Ir al inicio de AFERGOLF">
         <img src="/front/assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
       </a>
     </div>
@@ -87,7 +152,7 @@
         </ul>
       </nav>
     </div>
-    <a href="../../index.html" aria-label="Ir al inicio de AFERGOLF" class="header-logo-desktop">
+    <a href="javascript:window.location.href = window.location.pathname.includes('/front/') ? '../../index.html' : 'index.html'" aria-label="Ir al inicio de AFERGOLF" class="header-logo-desktop">
       <img src="/front/assets/img/Logo.svg" alt="Logo de AFERGOLF" class="header-logo" loading="lazy">
     </a>
   </header>
@@ -101,17 +166,15 @@
     <div class="menu-section main-menu">
       <nav>
         <ul class="menu-list">
-          <li><a href="#" class="menu-link">Catálogo de productos</a></li>
-          <li><a href="#" class="menu-link">Catálogo de servicios</a></li>
-          <li><a href="#" class="menu-link">Nosotros</a></li>
-          <li><a href="#" class="menu-link">Contacto</a></li>
+          <li><a href="/front/views/catalog.html" class="menu-link">Catálogo de productos</a></li>
+          <li><a href="/front/views/catalog_services.html" class="menu-link">Catálogo de servicios</a></li>
         </ul>
       </nav>
     </div>
 
     <div class="menu-section user-menu">
-      <a href="#" class="account-link">Mi cuenta</a>
-      <a href="#" class="logout-link">Cerrar sesión</a>
+      <a href="/front/views/my_account.html" class="account-link">Mi cuenta</a>
+      <a href="/front/views/log_in.html" class="logout-link">Cerrar sesión</a>
     </div>
   </aside>
 
@@ -128,5 +191,12 @@
     </form>
   </main>
 
+<<<<<<< HEAD
 <script src="/front/assets/js/partials/header.js"></script>
 >>>>>>> 80aa65f6c27deb35b6bafff4437de9f485bb4799
+=======
+
+<!-- El script de components.js se carga desde la página principal -->
+</body>
+</html>
+>>>>>>> dd78e4b1a2e17b05633e3cbd0a31d700ffbbd177
