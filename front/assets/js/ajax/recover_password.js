@@ -13,14 +13,38 @@
 const RECOVER_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/recover_password.php';
 
 /**
- * Muestra mensaje de respuesta en la vista de recuperación
+ * Muestra mensaje de respuesta usando Toast notifications
  */
 function showRecoveryResponse(message, status = 'error') {
-  const responseEl = document.getElementById('recovery-response');
-  if (!responseEl) return;
-
-  responseEl.textContent = message;
-  responseEl.className = `recovery-response ${status}`;
+  if (!message) return;
+  
+  // Usar el sistema de Toast si está disponible
+  if (typeof Toast !== 'undefined' && Toast) {
+    status === 'success' ? Toast.success(message) : Toast.error(message);
+  } else if (typeof window.Toast !== 'undefined' && window.Toast) {
+    status === 'success' ? window.Toast.success(message) : window.Toast.error(message);
+  } else {
+    // Fallback al elemento tradicional
+    const responseEl = document.getElementById('recovery-response');
+    if (responseEl) {
+      responseEl.textContent = message;
+      responseEl.style.display = 'block';
+      responseEl.style.padding = '12px';
+      responseEl.style.marginTop = '15px';
+      responseEl.style.borderRadius = '8px';
+      responseEl.style.textAlign = 'center';
+      responseEl.style.fontWeight = '500';
+      if (status === 'success') {
+        responseEl.style.background = '#f0fdf4';
+        responseEl.style.color = '#166534';
+        responseEl.style.border = '1px solid #22c55e';
+      } else {
+        responseEl.style.background = '#fef2f2';
+        responseEl.style.color = '#991b1b';
+        responseEl.style.border = '1px solid #ef4444';
+      }
+    }
+  }
 }
 
 /**

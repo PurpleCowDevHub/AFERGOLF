@@ -37,6 +37,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.querySelector(".user-email").textContent = user.email;
 
+            // Mostrar teléfono si existe
+            const phoneElement = document.querySelector("#user-phone .detail-text");
+            if (phoneElement) {
+                phoneElement.textContent = user.telefono && user.telefono.trim() !== "" 
+                    ? user.telefono 
+                    : "Sin teléfono";
+            }
+
+            // Mostrar ciudad si existe
+            const cityElement = document.querySelector("#user-city .detail-text");
+            if (cityElement) {
+                cityElement.textContent = user.ciudad && user.ciudad.trim() !== "" 
+                    ? user.ciudad 
+                    : "Sin ciudad";
+            }
+
             // Campos del formulario del modal
             document.getElementById("firstName").value = user.nombres;
             document.getElementById("lastName").value = user.apellidos;

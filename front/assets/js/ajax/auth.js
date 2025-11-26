@@ -101,12 +101,36 @@ function handleRegister(e) {
 }
 
 /**
- * Muestra el mensaje de respuesta en la página.
+ * Muestra el mensaje de respuesta usando Toast notifications.
  */
 function showResponse(message, status) {
-  const respuesta = document.getElementById('respuesta');
-  respuesta.textContent = message;
-  respuesta.className = status;
+  // Usar el sistema de Toast si está disponible
+  if (typeof Toast !== 'undefined' && Toast) {
+    status === 'success' ? Toast.success(message) : Toast.error(message);
+  } else if (typeof window.Toast !== 'undefined' && window.Toast) {
+    status === 'success' ? window.Toast.success(message) : window.Toast.error(message);
+  } else {
+    // Fallback al elemento de respuesta tradicional con estilos
+    const respuesta = document.getElementById('respuesta');
+    if (respuesta) {
+      respuesta.textContent = message;
+      respuesta.style.display = 'block';
+      respuesta.style.padding = '12px';
+      respuesta.style.marginTop = '15px';
+      respuesta.style.borderRadius = '8px';
+      respuesta.style.textAlign = 'center';
+      respuesta.style.fontWeight = '500';
+      if (status === 'success') {
+        respuesta.style.background = '#f0fdf4';
+        respuesta.style.color = '#166534';
+        respuesta.style.border = '1px solid #22c55e';
+      } else {
+        respuesta.style.background = '#fef2f2';
+        respuesta.style.color = '#991b1b';
+        respuesta.style.border = '1px solid #ef4444';
+      }
+    }
+  }
 }
 
 // ============================================================================

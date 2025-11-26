@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/my_account.css" />
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/toast.css">
+  <script src="../assets/js/ui/toast.js" defer></script>
   <script src="../assets/js/main.js" defer></script>
   <script src="../assets/js/ui/components.js" defer></script>
   <script src="../assets/js/ui/avatar_colors.js" defer></script>
@@ -37,6 +39,20 @@
         <div class="user-info">
           <h2 class="user-name">Samuel Fernandez</h2>
           <p class="user-email">samdezurrea@gmail.com</p>
+        </div>
+        <div class="user-details">
+          <span class="user-detail" id="user-phone">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+            <span class="detail-text">Sin teléfono</span>
+          </span>
+          <span class="user-detail" id="user-city">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span class="detail-text">Sin ciudad</span>
+          </span>
         </div>
       </div>
 

@@ -151,6 +151,22 @@ function handleEditProfile(e) {
             document.querySelector('.user-name').textContent = `${data.user.nombres} ${data.user.apellidos}`;
             document.querySelector('.user-email').textContent = data.user.email;
 
+            // Actualizar teléfono en la vista
+            const phoneElement = document.querySelector("#user-phone .detail-text");
+            if (phoneElement) {
+                phoneElement.textContent = data.user.telefono && data.user.telefono.trim() !== "" 
+                    ? data.user.telefono 
+                    : "Sin teléfono";
+            }
+
+            // Actualizar ciudad en la vista
+            const cityElement = document.querySelector("#user-city .detail-text");
+            if (cityElement) {
+                cityElement.textContent = data.user.ciudad && data.user.ciudad.trim() !== "" 
+                    ? data.user.ciudad 
+                    : "Sin ciudad";
+            }
+
             // Actualizar imagen si fue subida
             if (data.user.foto_perfil && data.user.foto_perfil.trim() !== "") {
               const imagePath = "../" + data.user.foto_perfil;
@@ -219,31 +235,42 @@ function isValidEmail(email) {
 }
 
 /**
- * Muestra el mensaje de respuesta en el modal
+ * Muestra el mensaje de respuesta usando Toast notifications
  */
 function showEditProfileResponse(message, status) {
-  // Crear elemento de respuesta si no existe
-  let responseElement = document.getElementById('edit-profile-response');
-  
-  if (!responseElement) {
-    responseElement = document.createElement('div');
-    responseElement.id = 'edit-profile-response';
-    const modalBody = document.querySelector('.modal-body');
-    if (modalBody) {
-      modalBody.insertBefore(responseElement, modalBody.firstChild);
+  // Usar el sistema de Toast si está disponible
+  if (window.Toast) {
+    if (status === 'success') {
+      Toast.success(message);
+    } else if (status === 'warning') {
+      Toast.warning(message);
+    } else {
+      Toast.error(message);
     }
+  } else {
+    // Fallback: crear elemento de respuesta si no existe
+    let responseElement = document.getElementById('edit-profile-response');
+    
+    if (!responseElement) {
+      responseElement = document.createElement('div');
+      responseElement.id = 'edit-profile-response';
+      const modalBody = document.querySelector('.modal-body');
+      if (modalBody) {
+        modalBody.insertBefore(responseElement, modalBody.firstChild);
+      }
+    }
+
+    // Actualizar mensaje y clase
+    responseElement.textContent = message;
+    responseElement.className = status;
+    responseElement.style.display = 'block';
+
+    // Auto-ocultar mensaje después de 4 segundos si es error, 3 si es success
+    const hideDelay = status === 'success' ? 3000 : 4000;
+    setTimeout(() => {
+      responseElement.style.display = 'none';
+    }, hideDelay);
   }
-
-  // Actualizar mensaje y clase
-  responseElement.textContent = message;
-  responseElement.className = status;
-  responseElement.style.display = 'block';
-
-  // Auto-ocultar mensaje después de 4 segundos si es error, 3 si es success
-  const hideDelay = status === 'success' ? 3000 : 4000;
-  setTimeout(() => {
-    responseElement.style.display = 'none';
-  }, hideDelay);
 }
 
 // ============================================================================

@@ -252,14 +252,26 @@ function isValidEmail(email) {
 }
 
 /**
- * Muestra mensajes de respuesta
+ * Muestra mensajes de respuesta usando Toast notifications
  */
 function showResponse(message, status) {
+  // Usar el sistema de Toast si está disponible
+  if (window.Toast) {
+    if (status === 'success') {
+      Toast.success(message);
+    } else if (status === 'warning') {
+      Toast.warning(message);
+    } else {
+      Toast.error(message);
+    }
+    console.log(`[${status.toUpperCase()}] ${message}`);
+  } else {
+    // Fallback al elemento tradicional
     const responseElement = document.getElementById("edit-profile-response");
     
     if (!responseElement) {
-        console.warn("⚠️ Response element not found");
-        return;
+      console.warn("⚠️ Response element not found");
+      return;
     }
 
     responseElement.textContent = message;
@@ -271,7 +283,8 @@ function showResponse(message, status) {
     // Auto-ocultar
     const hideDelay = status === "success" ? 3000 : 4000;
     setTimeout(() => {
-        responseElement.style.display = "none";
+      responseElement.style.display = "none";
     }, hideDelay);
+  }
 }
 

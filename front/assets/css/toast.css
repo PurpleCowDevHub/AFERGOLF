@@ -1,0 +1,175 @@
+/**
+ * ============================================================================
+ * AFERGOLF - Toast Notifications CSS
+ * ============================================================================
+ * 
+ * Sistema de notificaciones toast simple y elegante.
+ * 
+ * @author Afergolf Team
+ * @version 1.1.0
+ * ============================================================================
+ */
+
+/* Contenedor de toasts */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 90vw;
+  width: 380px;
+}
+
+/* Toast individual - DISEÑO SIMPLE */
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(-15px);
+  animation: toastIn 0.25s ease forwards;
+  border-left: 4px solid #666;
+}
+
+/* Animación de entrada */
+@keyframes toastIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación de salida */
+.toast.toast-exit {
+  animation: toastOut 0.2s ease forwards;
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Icono del toast */
+.toast-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+}
+
+/* Mensaje */
+.toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+/* Botón de cerrar */
+.toast-close {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.toast-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #666;
+}
+
+.toast-close svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================================================================
+   VARIANTES DE TOAST - COLORES SIMPLES
+   ============================================================================ */
+
+/* Success - Verde */
+.toast-success {
+  border-left-color: #22c55e;
+  background: #f0fdf4;
+}
+
+.toast-success .toast-icon {
+  color: #22c55e;
+}
+
+/* Error - Rojo */
+.toast-error {
+  border-left-color: #ef4444;
+  background: #fef2f2;
+}
+
+.toast-error .toast-icon {
+  color: #ef4444;
+}
+
+/* Warning - Naranja */
+.toast-warning {
+  border-left-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.toast-warning .toast-icon {
+  color: #f59e0b;
+}
+
+/* Info - Azul */
+.toast-info {
+  border-left-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.toast-info .toast-icon {
+  color: #3b82f6;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 480px) {
+  .toast-container {
+    width: calc(100% - 32px);
+    top: 12px;
+  }
+
+  .toast {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}

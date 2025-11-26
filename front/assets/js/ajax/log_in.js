@@ -114,13 +114,47 @@ function isValidEmail(email) {
 }
 
 /**
- * Muestra el mensaje de respuesta en la página.
+ * Muestra el mensaje de respuesta usando Toast notifications.
  */
 function showLoginResponse(message, status) {
-  const respuesta = document.getElementById('respuesta');
-  if (respuesta) {
-    respuesta.textContent = message;
-    respuesta.className = status;
+  console.log('showLoginResponse:', message, status, 'Toast:', typeof window.Toast);
+  
+  // Usar el sistema de Toast si está disponible
+  if (typeof Toast !== 'undefined' && Toast) {
+    if (status === 'success') {
+      Toast.success(message);
+    } else {
+      Toast.error(message);
+    }
+  } else if (typeof window.Toast !== 'undefined' && window.Toast) {
+    if (status === 'success') {
+      window.Toast.success(message);
+    } else {
+      window.Toast.error(message);
+    }
+  } else {
+    // Fallback al elemento de respuesta tradicional
+    console.warn('Toast no disponible, usando fallback');
+    const respuesta = document.getElementById('respuesta');
+    if (respuesta) {
+      respuesta.textContent = message;
+      respuesta.className = status;
+      respuesta.style.display = 'block';
+      respuesta.style.padding = '12px';
+      respuesta.style.marginTop = '15px';
+      respuesta.style.borderRadius = '8px';
+      respuesta.style.textAlign = 'center';
+      respuesta.style.fontWeight = '500';
+      if (status === 'success') {
+        respuesta.style.background = '#f0fdf4';
+        respuesta.style.color = '#166534';
+        respuesta.style.border = '1px solid #22c55e';
+      } else {
+        respuesta.style.background = '#fef2f2';
+        respuesta.style.color = '#991b1b';
+        respuesta.style.border = '1px solid #ef4444';
+      }
+    }
   }
 }
 

@@ -15,8 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!isLogged || !userId) {
                 e.preventDefault();
-                alert("Debes iniciar sesión primero");
-                window.location.href = "/front/views/log_in.html";
+                if (window.Toast) {
+                    Toast.warning("Debes iniciar sesión primero");
+                } else {
+                    alert("Debes iniciar sesión primero");
+                }
+                setTimeout(() => {
+                    window.location.href = "/front/views/log_in.html";
+                }, 1500);
             }
         });
     });

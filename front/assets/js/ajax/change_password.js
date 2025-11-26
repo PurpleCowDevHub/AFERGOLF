@@ -131,28 +131,41 @@ function handleChangePassword(e) {
 }
 
 /**
- * Muestra el mensaje de respuesta al usuario.
+ * Muestra el mensaje de respuesta usando Toast notifications.
  */
 function showChangePasswordResponse(message, status) {
-  // Create or get message element
-  let messageElement = document.getElementById('change-password-message');
-  
-  if (!messageElement) {
-    messageElement = document.createElement('div');
-    messageElement.id = 'change-password-message';
-    const form = document.getElementById('passwordForm');
-    form.parentNode.insertBefore(messageElement, form);
-  }
+  // Usar el sistema de Toast si está disponible
+  if (window.Toast) {
+    if (status === 'success') {
+      Toast.success(message);
+    } else if (status === 'warning') {
+      Toast.warning(message);
+    } else {
+      Toast.error(message);
+    }
+  } else {
+    // Fallback al elemento tradicional
+    let messageElement = document.getElementById('change-password-message');
+    
+    if (!messageElement) {
+      messageElement = document.createElement('div');
+      messageElement.id = 'change-password-message';
+      const form = document.getElementById('passwordForm');
+      if (form) {
+        form.parentNode.insertBefore(messageElement, form);
+      }
+    }
 
-  messageElement.textContent = message;
-  messageElement.className = `message-box ${status}`;
-  messageElement.style.display = 'block';
+    messageElement.textContent = message;
+    messageElement.className = `message-box ${status}`;
+    messageElement.style.display = 'block';
 
-  // Auto-hide error messages
-  if (status === 'error') {
-    setTimeout(() => {
-      messageElement.style.display = 'none';
-    }, 5000);
+    // Auto-hide error messages
+    if (status === 'error') {
+      setTimeout(() => {
+        messageElement.style.display = 'none';
+      }, 5000);
+    }
   }
 }
 

@@ -268,7 +268,11 @@ function setupAvatarUpload() {
     
     // Validar que sea una imagen
     if (!file.type.startsWith('image/')) {
-      alert('Por favor selecciona un archivo de imagen válido');
+      if (window.Toast) {
+        Toast.error('Por favor selecciona un archivo de imagen válido');
+      } else {
+        alert('Por favor selecciona un archivo de imagen válido');
+      }
       avatarInput.value = '';
       return;
     }
@@ -280,7 +284,11 @@ function setupAvatarUpload() {
     };
     
     reader.onerror = () => {
-      alert('Error al cargar la imagen');
+      if (window.Toast) {
+        Toast.error('Error al cargar la imagen');
+      } else {
+        alert('Error al cargar la imagen');
+      }
     };
     
     reader.readAsDataURL(file);
@@ -454,13 +462,21 @@ function resetProductForm() {
 // ============================================================================
 
 /**
- * Muestra una notificación al usuario.
+ * Muestra una notificación al usuario usando Toast.
  * @param {string} message - Mensaje a mostrar
  * @param {string} type - Tipo de notificación (success, error, warning, info)
  */
 function showNotification(message, type = 'info') {
   console.log(`[${type.toUpperCase()}] ${message}`);
-  alert(message);
+  
+  // Usar el sistema de Toast si está disponible
+  if (window.Toast) {
+    const toastMethod = Toast[type] || Toast.info;
+    toastMethod(message);
+  } else {
+    // Fallback a alert si Toast no está cargado
+    alert(message);
+  }
 }
 
 // ============================================================================
@@ -625,7 +641,11 @@ function handleImagePreview(event, position) {
   }
   
   if (!file.type.startsWith('image/')) {
-    alert('Por favor selecciona un archivo de imagen válido');
+    if (window.Toast) {
+      Toast.error('Por favor selecciona un archivo de imagen válido');
+    } else {
+      alert('Por favor selecciona un archivo de imagen válido');
+    }
     event.target.value = '';
     clearImagePreview(position);
     return;
@@ -635,7 +655,11 @@ function handleImagePreview(event, position) {
   
   reader.onload = (e) => updateImagePreviewFromDataUrl(position, e.target.result);
   reader.onerror = () => {
-    alert('Error al cargar la imagen');
+    if (window.Toast) {
+      Toast.error('Error al cargar la imagen');
+    } else {
+      alert('Error al cargar la imagen');
+    }
     clearImagePreview(position);
   };
   
