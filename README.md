@@ -214,7 +214,7 @@ CREATE TABLE usuarios (
     foto_perfil VARCHAR(255),
     ciudad VARCHAR(50),
     recovery_token VARCHAR(64) DEFAULT NULL,
-    token_expires_at TIMESTAMP DEFAULT NULL,
+    token_expires_at DATETIME DEFAULT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_recovery_token (recovery_token)
 );
