@@ -165,6 +165,12 @@
 // CONFIGURACIÓN DE PHP Y HEADERS
 // ============================================================================
 
+// Aumentar límites para recibir imágenes grandes en Base64
+ini_set('post_max_size', '200M');
+ini_set('upload_max_filesize', '200M');
+ini_set('memory_limit', '256M');
+ini_set('max_execution_time', '300');
+
 // Reportar todos los errores internamente pero no mostrarlos al cliente
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
@@ -175,6 +181,15 @@ header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *'); // CORS - ajustar en producción
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
+
+// ============================================================================
+// CONSTANTES DE CONFIGURACIÓN DE IMÁGENES (definidas antes de usarlas)
+// ============================================================================
+
+const MAX_IMAGE_SIZE = 50 * 1024 * 1024; // 50MB en bytes (muy amplio)
+const MAX_IMAGE_WIDTH = 10000; // Ancho máximo en píxeles (muy amplio)
+const MAX_IMAGE_HEIGHT = 10000; // Alto máximo en píxeles (muy amplio)
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml'];
 
 // ============================================================================
 // MANEJO DE PREFLIGHT REQUEST (CORS)
@@ -373,9 +388,10 @@ function createProduct($conn) {
     }
     
     // Bind parameters: s=string, i=integer, d=double
-    // 20 parámetros: 6 strings + 2 ints + 4 strings + 1 string + 1 double + 1 int + 5 ints = ssssssii ssss sdiiiii
+    // 20 parámetros: 6 strings + 2 ints + 4 strings + 1 string + 1 double + 1 int + 5 ints
+    // ssssss (6) + ii (2) + ssss (4) + s (1) + d (1) + i (1) + iiiii (5) = 20
     $stmt->bind_param(
-        "ssssssiisssssdiiiii",
+        "ssssssii" . "ssss" . "sdi" . "iiiii",
         $referencia, $nombre, $descripcion, $categoria, $marca, $modelo,
         $precio, $stock,
         $imagen_principal, $imagen_frontal, $imagen_superior, $imagen_lateral,
@@ -468,11 +484,12 @@ function generateProductReference($conn, $categoria) {
 
 /**
  * Decodifica una imagen Base64 y la guarda en el sistema de archivos
+ * Con validaciones de tamaño, tipo y dimensiones
  * 
  * @param string $base64_string Cadena Base64 de la imagen
  * @param string $output_dir Directorio destino
  * @param string $filename_prefix Prefijo para el nombre del archivo
- * @return string Nombre del archivo generado o cadena vacía si falla
+ * @return string|array Nombre del archivo generado, cadena vacía si está vacío, o array con error
  */
 function saveBase64Image($base64_string, $output_dir, $filename_prefix) {
     if (empty($base64_string)) return '';
@@ -482,36 +499,73 @@ function saveBase64Image($base64_string, $output_dir, $filename_prefix) {
     $data = count($parts) > 1 ? $parts[1] : $parts[0];
     
     // Decodificar
-    $decoded = base64_decode($data);
-    if ($decoded === false) return '';
+    $decoded = base64_decode($data, true);
+    if ($decoded === false) {
+        error_log("Error: No se pudo decodificar la imagen Base64 para $filename_prefix");
+        return '';
+    }
     
-    // Detectar tipo MIME
-    $f = finfo_open();
-    $mime_type = finfo_buffer($f, $decoded, FILEINFO_MIME_TYPE);
-    finfo_close($f);
+    // Validar tamaño del archivo decodificado
+    $fileSize = strlen($decoded);
+    if ($fileSize > MAX_IMAGE_SIZE) {
+        $sizeMB = round($fileSize / (1024 * 1024), 2);
+        error_log("Error: Imagen $filename_prefix excede el límite ({$sizeMB}MB > 5MB)");
+        return '';
+    }
+    
+    // Detectar tipo MIME usando estilo OOP
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime_type = $finfo->buffer($decoded);
+    
+    // Validar tipo MIME
+    if (!in_array($mime_type, ALLOWED_MIME_TYPES)) {
+        error_log("Error: Tipo de imagen no permitido ($mime_type) para $filename_prefix");
+        return '';
+    }
+    
+    // Validar dimensiones de la imagen (omitir para SVG ya que no aplica)
+    if ($mime_type !== 'image/svg+xml') {
+        $imageInfo = getimagesizefromstring($decoded);
+        if ($imageInfo !== false) {
+            $width = $imageInfo[0];
+            $height = $imageInfo[1];
+            
+            if ($width > MAX_IMAGE_WIDTH || $height > MAX_IMAGE_HEIGHT) {
+                error_log("Error: Dimensiones de imagen $filename_prefix exceden el límite ({$width}x{$height} > " . MAX_IMAGE_WIDTH . "x" . MAX_IMAGE_HEIGHT . ")");
+                return '';
+            }
+        }
+        // Si no puede obtener info, continuar de todas formas
+    }
     
     // Determinar extensión
     $extensiones = [
         'image/jpeg' => 'jpg',
         'image/png' => 'png',
         'image/gif' => 'gif',
-        'image/webp' => 'webp'
+        'image/webp' => 'webp',
+        'image/bmp' => 'bmp',
+        'image/svg+xml' => 'svg'
     ];
     $extension = $extensiones[$mime_type] ?? 'jpg';
     
     // Crear directorio si no existe
     if (!is_dir($output_dir)) {
-        mkdir($output_dir, 0755, true);
+        if (!mkdir($output_dir, 0755, true)) {
+            error_log("Error: No se pudo crear el directorio $output_dir");
+            return '';
+        }
     }
     
-    // Guardar archivo
-    $filename = $filename_prefix . '_' . time() . '.' . $extension;
+    // Guardar archivo con nombre único
+    $filename = $filename_prefix . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $extension;
     $file_path = $output_dir . $filename;
     
     if (file_put_contents($file_path, $decoded)) {
         return $filename;
     }
     
+    error_log("Error: No se pudo guardar la imagen en $file_path");
     return '';
 }
 ?>

@@ -56,6 +56,36 @@
  */
 const CATALOG_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/admin/read_products.php';
 
+/**
+ * Placeholder SVG como data URI para cuando no hay imagen
+ * @constant {string}
+ */
+const CATALOG_PLACEHOLDER_IMAGE = 'data:image/svg+xml,' + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#f0f0f0"/>
+  <rect x="30" y="25" width="40" height="35" rx="3" fill="#ccc"/>
+  <circle cx="42" cy="38" r="5" fill="#999"/>
+  <path d="M30 55 L45 45 L55 52 L70 40 L70 60 L30 60 Z" fill="#999"/>
+  <text x="50" y="78" text-anchor="middle" font-family="Arial" font-size="10" fill="#999">Sin imagen</text>
+</svg>
+`);
+
+/**
+ * Construye la URL correcta para una imagen del producto
+ * @param {string} imagePath - Ruta de la imagen desde la BD
+ * @returns {string} URL completa de la imagen o placeholder
+ */
+function buildImageUrl(imagePath) {
+  if (!imagePath) return CATALOG_PLACEHOLDER_IMAGE;
+  
+  // Si la ruta empieza con /, usar localhost como base
+  if (imagePath.startsWith('/')) {
+    return 'http://localhost' + imagePath;
+  }
+  
+  return imagePath;
+}
+
 // ============================================================================
 // 2. FUNCIONES DE CARGA
 // ============================================================================
@@ -129,12 +159,15 @@ function renderProducts(productos) {
     article.className = 'catalogo-producto';
     article.dataset.referencia = p.referencia;
     
+    // Construir URL de imagen correcta
+    const imageSrc = buildImageUrl(p.imagen_principal);
+    
     article.innerHTML = `
       <a href="product_details.html?ref=${p.referencia}" class="product-link">
-        <img src="${p.imagen_principal || '../assets/img/placeholder-product.jpg'}" 
+        <img src="${imageSrc}" 
              alt="${p.nombre}" 
              loading="lazy"
-             onerror="this.src='../assets/img/placeholder-product.jpg'">
+             onerror="this.src='${CATALOG_PLACEHOLDER_IMAGE}'">
         
         <h3>${p.nombre}</h3>
         <p class="catalogo-precio">${formatCatalogPrice(p.precio)}</p>

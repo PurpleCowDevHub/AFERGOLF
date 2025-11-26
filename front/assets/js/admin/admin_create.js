@@ -122,6 +122,7 @@
  */
 
 // URL del endpoint para crear productos
+// Siempre usa localhost (Apache) para las APIs PHP, nunca Live Server
 const CREATE_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/admin/create_product.php';
 
 /**
@@ -393,6 +394,9 @@ async function saveNewProduct(formData) {
   }
   
   try {
+    console.log('Enviando datos al servidor...', CREATE_API_URL);
+    console.log('Tamaño del payload:', JSON.stringify(formData).length, 'bytes');
+    
     const response = await fetch(CREATE_API_URL, {
       method: 'POST',
       headers: {
@@ -401,11 +405,16 @@ async function saveNewProduct(formData) {
       body: JSON.stringify(formData)
     });
     
+    console.log('Respuesta recibida:', response.status, response.statusText);
+    
     // Verificar si la respuesta es JSON válido
     let result;
     try {
-      result = await response.json();
+      const text = await response.text();
+      console.log('Texto de respuesta:', text.substring(0, 500));
+      result = JSON.parse(text);
     } catch (parseError) {
+      console.error('Error parseando JSON:', parseError);
       throw new Error('Respuesta inválida del servidor');
     }
     
@@ -456,8 +465,30 @@ async function saveNewProduct(formData) {
 // FUNCIÓN: MANEJAR CARGA DE IMÁGENES
 // ============================================================================
 
+// ============================================================================
+// CONSTANTES DE VALIDACIÓN DE IMÁGENES
+// ============================================================================
+
+const IMAGE_CONFIG = {
+  maxSize: 50 * 1024 * 1024,    // 50MB en bytes (muy amplio)
+  maxWidth: 10000,              // Ancho máximo en píxeles (muy amplio)
+  maxHeight: 10000,             // Alto máximo en píxeles (muy amplio)
+  validTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml'],
+  typeNames: {
+    'image/jpeg': 'JPG',
+    'image/png': 'PNG', 
+    'image/gif': 'GIF',
+    'image/webp': 'WebP'
+  }
+};
+
+// ============================================================================
+// FUNCIÓN: MANEJAR CARGA DE IMÁGENES
+// ============================================================================
+
 /**
  * Maneja la carga y conversión de imágenes a Base64
+ * Con validación completa de tipo, tamaño y dimensiones
  * 
  * @function handleImageUpload
  * @global
@@ -473,52 +504,110 @@ function handleImageUpload(event, position) {
     return;
   }
   
-  // Tipos de imagen válidos
-  const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-  
   // Validar que sea imagen válida
-  if (!validTypes.includes(file.type)) {
+  if (!IMAGE_CONFIG.validTypes.includes(file.type)) {
+    const validFormats = Object.values(IMAGE_CONFIG.typeNames).join(', ');
     if (typeof showNotification === 'function') {
-      showNotification('Formato no válido. Usa JPG, PNG, GIF o WebP', 'error');
+      showNotification(`Formato no válido. Usa: ${validFormats}`, 'error');
     }
     event.target.value = '';
     tempImageFiles[position] = null;
     return;
   }
   
-  // Validar tamaño (máximo 5MB)
-  const maxSize = 5 * 1024 * 1024; // 5MB en bytes
-  if (file.size > maxSize) {
+  // Validar tamaño del archivo
+  if (file.size > IMAGE_CONFIG.maxSize) {
     const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+    const maxMB = (IMAGE_CONFIG.maxSize / (1024 * 1024)).toFixed(0);
     if (typeof showNotification === 'function') {
-      showNotification(`La imagen (${sizeMB}MB) no debe superar 5MB`, 'error');
+      showNotification(`La imagen (${sizeMB}MB) excede el límite de ${maxMB}MB`, 'error');
     }
     event.target.value = '';
     tempImageFiles[position] = null;
     return;
   }
   
-  // Convertir a Base64
-  const reader = new FileReader();
+  // Para SVG, omitir validación de dimensiones (no aplica)
+  if (file.type === 'image/svg+xml') {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      tempImageFiles[position] = e.target.result;
+      if (typeof updateImagePreviewFromDataUrl === 'function') {
+        updateImagePreviewFromDataUrl(position, e.target.result);
+      }
+      const positionNames = { main: 'principal', front: 'frontal', top: 'superior', side: 'lateral' };
+      if (typeof showNotification === 'function') {
+        showNotification(`Imagen ${positionNames[position]} cargada correctamente`, 'success');
+      }
+    };
+    reader.onerror = () => {
+      if (typeof showNotification === 'function') {
+        showNotification('Error al procesar la imagen', 'error');
+      }
+      tempImageFiles[position] = null;
+    };
+    reader.readAsDataURL(file);
+    return;
+  }
   
-  reader.onload = (e) => {
-    tempImageFiles[position] = e.target.result;
+  // Validar dimensiones de la imagen (para formatos rasterizados)
+  const img = new Image();
+  const objectUrl = URL.createObjectURL(file);
+  
+  img.onload = () => {
+    URL.revokeObjectURL(objectUrl);
     
-    // La vista previa es manejada por components.js
-    // Solo actualizamos si no se ha actualizado ya
-    if (typeof updateImagePreviewFromDataUrl === 'function') {
-      updateImagePreviewFromDataUrl(position, e.target.result);
+    // Verificar dimensiones (muy amplias, prácticamente sin límite)
+    if (img.width > IMAGE_CONFIG.maxWidth || img.height > IMAGE_CONFIG.maxHeight) {
+      if (typeof showNotification === 'function') {
+        showNotification(
+          `Imagen muy grande (${img.width}x${img.height}). Máximo: ${IMAGE_CONFIG.maxWidth}x${IMAGE_CONFIG.maxHeight} px`,
+          'error'
+        );
+      }
+      event.target.value = '';
+      tempImageFiles[position] = null;
+      return;
     }
+    
+    // Si pasa todas las validaciones, convertir a Base64
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      tempImageFiles[position] = e.target.result;
+      
+      // Actualizar vista previa
+      if (typeof updateImagePreviewFromDataUrl === 'function') {
+        updateImagePreviewFromDataUrl(position, e.target.result);
+      }
+      
+      // Feedback positivo
+      const positionNames = { main: 'principal', front: 'frontal', top: 'superior', side: 'lateral' };
+      if (typeof showNotification === 'function') {
+        showNotification(`Imagen ${positionNames[position]} cargada correctamente`, 'success');
+      }
+    };
+    
+    reader.onerror = () => {
+      if (typeof showNotification === 'function') {
+        showNotification('Error al procesar la imagen', 'error');
+      }
+      tempImageFiles[position] = null;
+    };
+    
+    reader.readAsDataURL(file);
   };
   
-  reader.onerror = () => {
+  img.onerror = () => {
+    URL.revokeObjectURL(objectUrl);
     if (typeof showNotification === 'function') {
-      showNotification('Error al cargar la imagen', 'error');
+      showNotification('El archivo no es una imagen válida', 'error');
     }
+    event.target.value = '';
     tempImageFiles[position] = null;
   };
   
-  reader.readAsDataURL(file);
+  img.src = objectUrl;
 }
 
 // ============================================================================

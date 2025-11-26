@@ -136,37 +136,14 @@ let productToDelete = null;
  */
 function confirmDeleteProduct(referencia) {
   productToDelete = referencia;
-  openDeleteModal();
-}
-
-/**
- * Abre el modal de confirmación de eliminación
- * 
- * @function openDeleteModal
- * @global
- * @returns {void}
- */
-function openDeleteModal() {
-  const modal = document.getElementById('delete-modal');
-  if (modal) {
-    modal.classList.add('active');
+  // Usar la función global de components.js
+  if (typeof openDeleteModal === 'function') {
+    openDeleteModal();
   }
 }
 
-/**
- * Cierra el modal de confirmación de eliminación
- * 
- * @function closeDeleteModal
- * @global
- * @returns {void}
- */
-function closeDeleteModal() {
-  const modal = document.getElementById('delete-modal');
-  if (modal) {
-    modal.classList.remove('active');
-  }
-  productToDelete = null;
-}
+// NOTA: openDeleteModal() y closeDeleteModal() están definidas en components.js
+// para evitar duplicación de código
 
 // ============================================================================
 // FUNCIÓN: ELIMINAR PRODUCTO (CONFIRMADO)
@@ -191,7 +168,7 @@ async function deleteProductConfirmed() {
     if (typeof showNotification === 'function') {
       showNotification('No se ha seleccionado ningún producto', 'error');
     }
-    closeDeleteModal();
+    if (typeof closeDeleteModal === 'function') closeDeleteModal();
     return;
   }
   
@@ -209,8 +186,9 @@ async function deleteProductConfirmed() {
         showNotification('Producto eliminado correctamente', 'success');
       }
       
-      // Cerrar modal
-      closeDeleteModal();
+      // Cerrar modal y limpiar variable
+      productToDelete = null;
+      if (typeof closeDeleteModal === 'function') closeDeleteModal();
       
       // Recargar tabla
       if (typeof loadProducts === 'function') {
@@ -222,7 +200,8 @@ async function deleteProductConfirmed() {
       if (typeof showNotification === 'function') {
         showNotification(result.message || 'Error al eliminar el producto', 'error');
       }
-      closeDeleteModal();
+      productToDelete = null;
+      if (typeof closeDeleteModal === 'function') closeDeleteModal();
     }
     
   } catch (error) {
@@ -230,7 +209,8 @@ async function deleteProductConfirmed() {
     if (typeof showNotification === 'function') {
       showNotification('Error al conectar con el servidor', 'error');
     }
-    closeDeleteModal();
+    productToDelete = null;
+    if (typeof closeDeleteModal === 'function') closeDeleteModal();
   }
 }
 
@@ -246,24 +226,13 @@ async function deleteProductConfirmed() {
  * @returns {void}
  */
 function handleLogout() {
-  const modal = document.getElementById('logout-modal');
-  if (modal) {
-    modal.classList.add('active');
+  // Usar la función global de components.js
+  if (typeof openLogoutModal === 'function') {
+    openLogoutModal();
   }
 }
 
-/**
- * Cierra el modal de logout
- * 
- * @function closeLogoutModal
- * @returns {void}
- */
-function closeLogoutModal() {
-  const modal = document.getElementById('logout-modal');
-  if (modal) {
-    modal.classList.remove('active');
-  }
-}
+// NOTA: closeLogoutModal() está definida en components.js
 
 /**
  * Ejecuta el cierre de sesión

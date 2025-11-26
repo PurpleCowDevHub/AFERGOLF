@@ -49,15 +49,29 @@
  *   price: 1500000,
  *   image: 'uploads/products/AFG-P001/main.jpg'
  * });
- * 
- * // Obtener carrito
- * const cart = getCart();
- * 
- * // Actualizar contador
- * updateCartCounter();
- * 
- * ============================================================================
+
+// Placeholder SVG para imágenes no disponibles
+const CART_PLACEHOLDER_IMAGE = 'data:image/svg+xml,' + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#f0f0f0"/>
+  <rect x="30" y="25" width="40" height="35" rx="3" fill="#ccc"/>
+  <circle cx="42" cy="38" r="5" fill="#999"/>
+  <path d="M30 55 L45 45 L55 52 L70 40 L70 60 L30 60 Z" fill="#999"/>
+  <text x="50" y="78" text-anchor="middle" font-family="Arial" font-size="10" fill="#999">Sin imagen</text>
+</svg>
+`);
+
+/**
+ * Construye la URL correcta para una imagen
+ * @param {string} imagePath - Ruta de la imagen
+ * @returns {string} URL completa o placeholder
  */
+function buildCartImageUrl(imagePath) {
+  if (!imagePath) return CART_PLACEHOLDER_IMAGE;
+  if (imagePath.startsWith('/')) return 'http://localhost' + imagePath;
+  if (imagePath.startsWith('data:')) return imagePath;
+  return imagePath;
+}
 
 // ============================================================================
 // 1. CONSTANTES
@@ -308,10 +322,11 @@ function renderCartItems() {
       <input type="checkbox" checked>
 
       <img
-        src="${item.image || '../assets/img/placeholder-product.jpg'}"
+        src="${buildCartImageUrl(item.image)}"
         alt="${item.name}"
         class="pimg"
         loading="lazy"
+        onerror="this.src='${CART_PLACEHOLDER_IMAGE}'"
       >
 
       <div class="product-info">

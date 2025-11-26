@@ -702,6 +702,72 @@ body {
   color: #1976d2;
 }
 
+/* ============================================
+   MODAL DE CONFIRMACIÓN (Eliminar / Logout)
+   Más compacto y con textos más grandes
+   ============================================ */
+
+#delete-modal .modal-content.modal-small,
+#logout-modal .modal-content.modal-small {
+  max-width: 380px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+#delete-modal .modal-header,
+#logout-modal .modal-header {
+  padding: 18px 24px 14px;
+  background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+#delete-modal .modal-header h2,
+#logout-modal .modal-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+#delete-modal .modal-body,
+#logout-modal .modal-body {
+  padding: 20px 24px;
+  text-align: center;
+}
+
+#delete-modal .modal-body p,
+#logout-modal .modal-body p {
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+#delete-modal .modal-body p:last-child,
+#logout-modal .modal-body p:last-child {
+  margin-bottom: 0;
+}
+
+#delete-modal .modal-body .text-warning {
+  font-size: 15px;
+  color: #c62828;
+}
+
+#delete-modal .modal-actions,
+#logout-modal .modal-actions {
+  padding: 16px 24px 20px;
+  gap: 10px;
+  justify-content: center;
+  border-top: 1px solid #eee;
+}
+
+#delete-modal .modal-actions button,
+#logout-modal .modal-actions button {
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  min-width: 120px;
+}
+
 /* Acciones del modal */
 .modal-actions {
   padding: 20px 32px 20px;

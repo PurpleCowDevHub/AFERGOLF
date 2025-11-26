@@ -248,6 +248,17 @@ function renderProductsTable(productos) {
  * @param {Object} producto - Datos del producto
  * @returns {HTMLTableRowElement} Elemento <tr>
  */
+// Placeholder SVG como data URI para cuando no hay imagen
+const PLACEHOLDER_IMAGE = 'data:image/svg+xml,' + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#f0f0f0"/>
+  <rect x="30" y="25" width="40" height="35" rx="3" fill="#ccc"/>
+  <circle cx="42" cy="38" r="5" fill="#999"/>
+  <path d="M30 55 L45 45 L55 52 L70 40 L70 60 L30 60 Z" fill="#999"/>
+  <text x="50" y="78" text-anchor="middle" font-family="Arial" font-size="10" fill="#999">Sin imagen</text>
+</svg>
+`);
+
 function createProductRow(producto) {
   const tr = document.createElement('tr');
   tr.dataset.referencia = producto.referencia;
@@ -255,10 +266,22 @@ function createProductRow(producto) {
   // Columna: Imagen
   const tdImage = document.createElement('td');
   const img = document.createElement('img');
-  img.src = producto.imagen_principal || '../assets/img/placeholder-product.jpg';
+  
+  // Construir URL de imagen correcta
+  let imageSrc = PLACEHOLDER_IMAGE;
+  if (producto.imagen_principal) {
+    // Si la ruta empieza con /, usar localhost/AFERGOLF como base
+    if (producto.imagen_principal.startsWith('/')) {
+      imageSrc = 'http://localhost' + producto.imagen_principal;
+    } else {
+      imageSrc = producto.imagen_principal;
+    }
+  }
+  
+  img.src = imageSrc;
   img.alt = producto.nombre;
   img.className = 'product-image';
-  img.onerror = () => { img.src = '../assets/img/placeholder-product.jpg'; };
+  img.onerror = () => { img.src = PLACEHOLDER_IMAGE; };
   tdImage.appendChild(img);
   
   // Columna: Referencia
@@ -505,12 +528,21 @@ function loadProductImagesInModal(producto) {
     if (preview) {
       const img = preview.querySelector('img');
       const placeholder = preview.querySelector('.preview-placeholder');
-      const imageData = producto[imageFields[position]];
+      let imageData = producto[imageFields[position]];
+      
+      // Corregir ruta de imagen si es necesario
+      if (imageData && imageData.startsWith('/')) {
+        imageData = 'http://localhost' + imageData;
+      }
       
       if (imageData) {
         if (img) {
           img.src = imageData;
           img.style.display = 'block';
+          img.onerror = () => {
+            img.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'flex';
+          };
         }
         if (placeholder) placeholder.style.display = 'none';
       } else {
