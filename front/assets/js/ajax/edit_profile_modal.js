@@ -154,9 +154,28 @@ function handleEditProfile(e) {
             // Actualizar imagen si fue subida
             if (data.user.foto_perfil && data.user.foto_perfil.trim() !== "") {
               const imagePath = "../" + data.user.foto_perfil;
-              document.getElementById('avatarImage').src = imagePath;
-              document.getElementById('modalAvatarImage').src = imagePath;
+              const avatarImage = document.getElementById('avatarImage');
+              const modalAvatarImage = document.getElementById('modalAvatarImage');
+              
+              avatarImage.src = imagePath;
+              modalAvatarImage.src = imagePath;
               console.log("✓ Imagen actualizada:", imagePath);
+              
+              // Aplicar colores dinámicos a ambos avatares
+              if (window.avatarColorExtractor) {
+                avatarImage.onload = () => {
+                  const mainAvatar = document.querySelector('.avatar');
+                  if (mainAvatar) {
+                    window.avatarColorExtractor.applyToAvatar(mainAvatar, avatarImage);
+                  }
+                };
+                modalAvatarImage.onload = () => {
+                  const modalAvatar = document.querySelector('.avatar-edit');
+                  if (modalAvatar) {
+                    window.avatarColorExtractor.applyToAvatar(modalAvatar, modalAvatarImage);
+                  }
+                };
+              }
             }
 
             // Actualizar localStorage con nueva información
@@ -318,6 +337,16 @@ function setupModalImageUploadListeners() {
         if (modalAvatarImage) {
           modalAvatarImage.src = event.target.result;
           console.log("✓ Preview de imagen cargado en modal");
+          
+          // Aplicar colores dinámicos al nuevo preview
+          if (window.avatarColorExtractor) {
+            modalAvatarImage.onload = () => {
+              const modalAvatar = document.querySelector('.avatar-edit');
+              if (modalAvatar) {
+                window.avatarColorExtractor.applyToAvatar(modalAvatar, modalAvatarImage);
+              }
+            };
+          }
         }
       };
       reader.onerror = () => {

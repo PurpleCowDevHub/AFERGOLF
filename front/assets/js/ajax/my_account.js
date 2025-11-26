@@ -54,11 +54,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Cargar en el header de la página
                 if (avatarImage) {
                     avatarImage.src = imagePath;
+                    
+                    // Aplicar colores dinámicos al avatar cuando cargue la imagen
+                    avatarImage.addEventListener('load', () => {
+                        if (window.avatarColorExtractor) {
+                            const mainAvatar = document.querySelector('.avatar');
+                            if (mainAvatar) {
+                                window.avatarColorExtractor.applyToAvatar(mainAvatar, avatarImage);
+                            }
+                        }
+                    });
                 }
                 
                 // Cargar en el modal también
                 if (modalAvatarImage) {
                     modalAvatarImage.src = imagePath;
+                    
+                    // Aplicar colores dinámicos al avatar del modal
+                    modalAvatarImage.addEventListener('load', () => {
+                        if (window.avatarColorExtractor) {
+                            const modalAvatar = document.querySelector('.avatar-edit');
+                            if (modalAvatar) {
+                                window.avatarColorExtractor.applyToAvatar(modalAvatar, modalAvatarImage);
+                            }
+                        }
+                    });
                 }
                 
                 console.log("✓ Imagen de perfil cargada:", imagePath);
