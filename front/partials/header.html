@@ -3,47 +3,7 @@
 <link rel="stylesheet" href="/front/assets/css/search.css">
 
 <!-- Script para control de sesión en perfil -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  // Botón de cerrar sesión
-  const logoutBtn = document.querySelector(".logout-link");
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      // Limpia toda la sesión
-      localStorage.removeItem("afergolf_logged");
-      localStorage.removeItem("afergolf_user_id");
-      localStorage.removeItem("afergolf_user_email");
-
-      // Redirigir al login
-      window.location.href = "/front/views/log_in.html";
-    });
-  }
-
-  // Control de acceso a perfil - requiere sesión
-  const profileBtns = document.querySelectorAll("a[href*='my_account.html']");
-
-  profileBtns.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const isLogged = localStorage.getItem("afergolf_logged");
-      const userId = localStorage.getItem("afergolf_user_id");
-
-      if (!isLogged || !userId) {
-        e.preventDefault();
-        if (window.Toast) {
-          Toast.warning("Debes iniciar sesión primero");
-        } else {
-          alert("Debes iniciar sesión primero");
-        }
-      }
-    });
-  });
-
-});
-</script>
+<script src="/front/assets/js/auth/session_control.js" defer></script>
 
 <header>
   <!-- Parte superior: menú hamburguesa y logo -->
