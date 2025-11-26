@@ -10,9 +10,9 @@ header("Content-Type: application/json");
 
 // Receive and validate input data
 $input = json_decode(file_get_contents("php://input"), true);
-$nombre = $input['nombre'] ?? '';
+$nombre = $input['nombres'] ?? '';
 $apellidos = $input['apellidos'] ?? '';
-$correo = $input['correo'] ?? '';
+$correo = $input['email'] ?? '';
 $telefono = $input['telefono'] ?? '';
 $password = $input['password'] ?? '';
 
