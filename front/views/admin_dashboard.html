@@ -9,11 +9,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/admin_dashboard.css" />
   <link rel="stylesheet" href="../assets/css/toast.css">
+  
+  <!-- Scripts de utilidades y UI -->
   <script src="../assets/js/ui/toast.js" defer></script>
   <script src="../assets/js/utils/helpers.js" defer></script>
   <script src="../assets/js/ui/components.js" defer></script>
-  <script src="../assets/js/ajax/products.js" defer></script>
-  <script src="../assets/js/ajax/auth.js" defer></script>
+  
+  <!-- Auth -->
+  <script src="../assets/js/auth/auth.js" defer></script>
+  
+  <!-- Módulos Admin CRUD (cargar en orden de dependencias) -->
+  <script src="../assets/js/admin/admin_read.js" defer></script>
+  <script src="../assets/js/admin/admin_create.js" defer></script>
+  <script src="../assets/js/admin/admin_update.js" defer></script>
+  <script src="../assets/js/admin/admin_delete.js" defer></script>
 </head>
 
 <body>

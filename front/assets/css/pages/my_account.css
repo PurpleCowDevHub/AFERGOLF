@@ -393,23 +393,27 @@ body {
 }
 
 /* ===== OVERLAY PARA MODALES ===== */
-.modal-overlay {
+/* Unificado con el blur del header (style.css) */
+#edit-profile-overlay,
+#logout-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 999;
-  display: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, backdrop-filter 0.3s ease;
 }
 
-.modal-overlay.active {
-  display: block;
+#edit-profile-overlay.active,
+#logout-overlay.active {
   opacity: 1;
+  visibility: visible;
 }
 
 /* ===== MODAL DE EDITAR PERFIL ===== */
@@ -417,26 +421,27 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
+  transform: translate(-50%, -50%) scale(0.9) translateY(-20px);
   max-width: 520px;
   width: 92%;
   max-height: 90vh;
   background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
   border-radius: 16px;
   border: 2px solid #e8e8e8;
-  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   z-index: 1000;
-  display: none;
+  display: flex;
   flex-direction: column;
   overflow: hidden;
   opacity: 0;
-  transition: all 0.3s ease;
+  visibility: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .edit-profile-modal.active {
-  display: flex;
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1) translateY(0);
 }
 
 /* Header del modal */
@@ -804,4 +809,122 @@ body {
     width: 100%;
     padding: 12px 18px;
   }
+}
+
+/* ===== MODAL DE CERRAR SESIÓN ===== */
+#logout-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9) translateY(-20px);
+  max-width: 400px;
+  width: 90%;
+  background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
+  border-radius: 16px;
+  border: 2px solid #e8e8e8;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#logout-modal.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1) translateY(0);
+}
+
+#logout-modal .modal-header {
+  padding: 22px 28px 18px;
+  border-bottom: 2px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+#logout-modal .modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+#logout-modal .modal-body {
+  padding: 24px 28px;
+  background: #fff;
+}
+
+#logout-modal .modal-body p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+#logout-modal .modal-actions {
+  padding: 16px 28px 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 2px solid #f0f0f0;
+  background: #fafafa;
+}
+
+#logout-modal .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background: #fff;
+  color: #666;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#logout-modal .btn-secondary:hover {
+  border-color: #d64a3a;
+  color: #d64a3a;
+  background: #fff5f5;
+  transform: translateY(-2px);
+}
+
+#logout-modal .btn-secondary:active {
+  transform: translateY(0);
+}
+
+#logout-modal .btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background: linear-gradient(180deg, #c62828 0%, #e53935 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.25);
+  transition: all 0.2s ease;
+}
+
+#logout-modal .btn-danger:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(198, 40, 40, 0.35);
+}
+
+#logout-modal .btn-danger:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
 }
