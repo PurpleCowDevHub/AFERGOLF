@@ -64,7 +64,7 @@
  * FORMATO DE ENTRADA (JSON):
  * {
  *   "nombre": "Nombre del producto",        // OBLIGATORIO
- *   "categoria": "palos",                   // OBLIGATORIO: palos|bolas|guantes|accesorios
+ *   "categoria": "palos",                   // OBLIGATORIO: palos|bolas|guantes
  *   "marca": "TaylorMade",                  // OBLIGATORIO
  *   "precio": 250000,                       // OBLIGATORIO (entero en COP)
  *   "descripcion": "...",                   // Opcional
@@ -74,8 +74,8 @@
  *   "imagen_frontal": "data:image/...",     // Opcional (Base64)
  *   "imagen_superior": "data:image/...",    // Opcional (Base64)
  *   "imagen_lateral": "data:image/...",     // Opcional (Base64)
- *   "dimensiones": "0.89 x 0.10 x 0.10",    // Opcional (palos/accesorios)
- *   "peso": 0.91,                           // Opcional (palos/accesorios)
+ *   "dimensiones": "0.89 x 0.10 x 0.10",    // Opcional (palos)
+ *   "peso": 0.91,                           // Opcional (palos)
  *   "unidades_paquete": 12,                 // Opcional (bolas)
  *   "stock_talla_s": 5,                     // Opcional (guantes)
  *   "stock_talla_m": 10,                    // Opcional (guantes)
@@ -107,7 +107,6 @@
  * - Palos:      AFG-P001, AFG-P002, AFG-P003...
  * - Bolas:      AFG-B001, AFG-B002, AFG-B003...
  * - Guantes:    AFG-G001, AFG-G002, AFG-G003...
- * - Accesorios: AFG-A001, AFG-A002, AFG-A003...
  * 
  * El número se incrementa automáticamente consultando la última referencia
  * existente de esa categoría en la base de datos.
@@ -281,7 +280,7 @@ function createProduct($conn) {
     }
     
     // Validar categoría
-    $categoriasValidas = ['palos', 'bolas', 'guantes', 'accesorios'];
+    $categoriasValidas = ['palos', 'bolas', 'guantes'];
     if (!in_array($data['categoria'], $categoriasValidas)) {
         http_response_code(400);
         echo json_encode([
@@ -439,8 +438,7 @@ function generateProductReference($conn, $categoria) {
     $prefijos = [
         'palos' => 'P',
         'bolas' => 'B',
-        'guantes' => 'G',
-        'accesorios' => 'A'
+        'guantes' => 'G'
     ];
     
     $prefix = $prefijos[$categoria] ?? 'X';

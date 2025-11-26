@@ -268,7 +268,7 @@ function setupAvatarUpload() {
 
 /**
  * Actualiza los campos del formulario según la categoría seleccionada.
- * @param {string} category - Categoría del producto (palos, bolas, guantes, accesorios)
+ * @param {string} category - Categoría del producto (palos, bolas, guantes)
  */
 function updateDynamicFields(category) {
   const allCategoryFields = document.querySelectorAll('.category-fields');

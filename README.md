@@ -272,7 +272,7 @@ CREATE TABLE productos (
 - `referencia`: **Referencia única del producto (clave primaria, máximo 50 caracteres)** - Se genera automáticamente en formato `AFG-{CATEGORIA_INICIAL}{NUMERO}` pero es editable ⭐ **Campo requerido**
 - `nombre`: Nombre del producto (máximo 150 caracteres) ⭐ **Campo requerido**
 - `descripcion`: Descripción completa del producto (texto largo, puede ser nulo)
-- `categoria`: Categoría del producto: palos, bolas, guantes, accesorios (máximo 50 caracteres) ⭐ **Campo requerido**
+- `categoria`: Categoría del producto: palos, bolas, guantes (máximo 50 caracteres) ⭐ **Campo requerido**
 - `marca`: Marca del producto en formato Title Case (primera letra mayúscula): Footjoy, Callaway, Titleist, Srixon, Cobra, Taylor Made, Ping, Hammer X, etc. (máximo 100 caracteres) ⭐ **Campo requerido** - El sistema formatea automáticamente la marca al guardar
 - `modelo`: Modelo del producto (ej: B0D562R3XQ) (máximo 100 caracteres)
 - `precio`: Precio del producto en COP (en pesos colombianos, sin decimales) ⭐ **Campo requerido**
@@ -299,7 +299,6 @@ CREATE TABLE productos (
 | Palos        | `dimensiones` (largo x ancho x alto), `peso`           |
 | Bolas        | `unidades_paquete`                                      |
 | Guantes      | `stock_talla_s`, `stock_talla_m`, `stock_talla_l`, `stock_talla_xl`, `stock_talla_xxl` |
-| Accesorios   | `dimensiones` (largo x ancho x alto), `peso`           |
 
 - Haz clic en **"Continuar"**
 

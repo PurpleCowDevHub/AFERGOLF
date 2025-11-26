@@ -671,28 +671,6 @@ function generateCategorySpecs(producto) {
       `;
       break;
       
-    case 'accesorios':
-      const hasSpecs = producto.dimensiones || producto.peso;
-      if (hasSpecs) {
-        specsHTML = `
-          <div class="specs-grid">
-            ${producto.dimensiones ? `
-            <div class="spec-card">
-              <span class="spec-card-label">Dimensiones</span>
-              <span class="spec-card-value">${producto.dimensiones}</span>
-            </div>
-            ` : ''}
-            ${producto.peso ? `
-            <div class="spec-card">
-              <span class="spec-card-label">Peso</span>
-              <span class="spec-card-value">${producto.peso} kg</span>
-            </div>
-            ` : ''}
-          </div>
-        `;
-      }
-      break;
-      
     default:
       specsHTML = '';
   }

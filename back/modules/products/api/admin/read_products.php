@@ -68,7 +68,7 @@
  * │              │          │ el producto con esa referencia.             │
  * ├──────────────┼──────────┼─────────────────────────────────────────────┤
  * │ categoria    │ String   │ Opcional. Filtrar por categoría.            │
- * │              │          │ Valores: palos, bolas, guantes, accesorios  │
+ * │              │          │ Valores: palos, bolas, guantes             │
  * ├──────────────┼──────────┼─────────────────────────────────────────────┤
  * │ marca        │ String   │ Opcional. Filtrar por marca.                │
  * ├──────────────┼──────────┼─────────────────────────────────────────────┤
@@ -167,7 +167,7 @@
  * │ referencia         │ VARCHAR(50)  │ PK. Identificador único             │
  * │ nombre             │ VARCHAR(255) │ Nombre del producto                 │
  * │ descripcion        │ TEXT         │ Descripción detallada               │
- * │ categoria          │ VARCHAR(50)  │ palos, bolas, guantes, accesorios   │
+ * │ categoria          │ VARCHAR(50)  │ palos, bolas, guantes               │
  * │ marca              │ VARCHAR(100) │ Marca del producto                  │
  * │ modelo             │ VARCHAR(100) │ Modelo/SKU del fabricante           │
  * │ precio             │ INT          │ Precio en pesos colombianos (COP)   │
@@ -176,8 +176,8 @@
  * │ imagen_frontal     │ TEXT         │ Ruta a imagen frontal               │
  * │ imagen_superior    │ TEXT         │ Ruta a imagen superior              │
  * │ imagen_lateral     │ TEXT         │ Ruta a imagen lateral               │
- * │ dimensiones        │ VARCHAR(100) │ Dimensiones (palos/accesorios)      │
- * │ peso               │ DECIMAL(5,2) │ Peso en kg (palos/accesorios)       │
+ * │ dimensiones        │ VARCHAR(100) │ Dimensiones (palos)                 │
+ * │ peso               │ DECIMAL(5,2) │ Peso en kg (palos)                  │
  * │ unidades_paquete   │ INT          │ Unidades por caja (bolas)           │
  * │ stock_talla_s      │ INT          │ Stock talla S (guantes)             │
  * │ stock_talla_m      │ INT          │ Stock talla M (guantes)             │

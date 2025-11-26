@@ -1237,12 +1237,6 @@ body {
   border: 1px solid #ce93d8;
 }
 
-.category-badge.category-accesorios {
-  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-  color: #2e7d32;
-  border: 1px solid #a5d6a7;
-}
-
 .product-meta-details {
   font-size: 14px;
   color: #444;

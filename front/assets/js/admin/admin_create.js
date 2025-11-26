@@ -114,7 +114,6 @@
  * - Guantes: #stock-size-s, #stock-size-m, #stock-size-l, etc.
  * - Bolas: #product-units
  * - Palos: #product-dimensions, #product-weight
- * - Accesorios: #product-dimensions-acc, #product-weight-acc
  * 
  * ============================================================================
  * CONFIGURACIÓN
@@ -288,7 +287,7 @@ function buildDimensionsString(largoId, anchoId, altoId) {
  * Maneja campos dinámicos según la categoría seleccionada:
  * - Guantes: stock por tallas
  * - Bolas: unidades por paquete
- * - Palos/Accesorios: dimensiones y peso
+ * - Palos: dimensiones y peso
  * 
  * @function collectFormData
  * @global
@@ -337,9 +336,6 @@ function collectFormData() {
   } else if (category === 'palos') {
     formData.dimensiones = buildDimensionsString('product-dim-largo', 'product-dim-ancho', 'product-dim-alto');
     formData.peso = parseFloat(document.getElementById('product-weight')?.value) || 0;
-  } else if (category === 'accesorios') {
-    formData.dimensiones = buildDimensionsString('product-dim-largo-acc', 'product-dim-ancho-acc', 'product-dim-alto-acc');
-    formData.peso = parseFloat(document.getElementById('product-weight-acc')?.value) || 0;
   }
   
   return formData;

@@ -288,11 +288,6 @@ function loadProductIntoForm(producto) {
     parseDimensionsToFields(producto.dimensiones, 'product-dim-largo', 'product-dim-ancho', 'product-dim-alto');
     const weightInput = document.getElementById('product-weight');
     if (weightInput) weightInput.value = producto.peso || 0;
-  } else if (producto.categoria === 'accesorios') {
-    // Separar dimensiones en campos individuales
-    parseDimensionsToFields(producto.dimensiones, 'product-dim-largo-acc', 'product-dim-ancho-acc', 'product-dim-alto-acc');
-    const weightInput = document.getElementById('product-weight-acc');
-    if (weightInput) weightInput.value = producto.peso || 0;
   }
   
   // --- Cargar imágenes ---

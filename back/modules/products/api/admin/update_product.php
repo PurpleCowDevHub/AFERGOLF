@@ -143,7 +143,7 @@
  * ├─────────────────────┼───────────────────────────────────────────────────┤
  * │ nombre              │ Texto, máx 255 caracteres                         │
  * │ descripcion         │ Texto largo                                       │
- * │ categoria           │ palos, bolas, guantes, accesorios                 │
+ * │ categoria           │ palos, bolas, guantes                             │
  * │ marca               │ Texto, máx 100 caracteres                         │
  * │ modelo              │ Texto, máx 100 caracteres                         │
  * │ precio              │ Entero positivo (COP)                             │
