@@ -1,0 +1,11 @@
+# Ignorar carpetas de subidas generadas por usuarios
+uploads/
+/uploads
+
+# Ignorar archivos del sistema
+Thumbs.db
+.DS_Store
+
+# Ignorar configuraciones de entorno local (opcional pero recomendado)
+.env
+config/db_connect.php
