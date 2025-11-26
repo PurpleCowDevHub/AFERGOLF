@@ -502,9 +502,8 @@ function saveBase64Image($base64_string, $output_dir, $filename_prefix) {
     if ($decoded === false) return '';
     
     // Detectar tipo MIME
-    $f = finfo_open();
-    $mime_type = finfo_buffer($f, $decoded, FILEINFO_MIME_TYPE);
-    finfo_close($f);
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime_type = $finfo->buffer($decoded);
     
     // Determinar extensión
     $extensiones = [

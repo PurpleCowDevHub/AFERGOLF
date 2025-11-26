@@ -48,6 +48,7 @@ front/assets/js/
 **Propósito**: Componentes web personalizados para cargar dinámicamente header y footer.
 
 **Contiene**:
+
 - `AfergolfHeader` - Carga dinámica del header desde partials
 - `AfergolfFooter` - Carga dinámica del footer desde partials
 - Reescritura de URLs para rutas relativas
@@ -68,6 +69,7 @@ Módulos separados para gestión CRUD de productos:
 | `admin_delete.js` | Eliminar productos | `confirmDeleteProduct()`, `deleteProductConfirmed()` |
 
 **Funciones de utilidad para productos:**
+
 - `formatBrand(brand)`: Formatea la marca en Title Case (ej: "taylor made" → "Taylor Made")
 - `buildDimensionsString(largoId, anchoId, altoId)`: Construye string de dimensiones desde campos separados
 - `parseDimensionsToFields(dimensions, largoId, anchoId, altoId)`: Separa un string de dimensiones en campos individuales
@@ -82,6 +84,7 @@ Módulos separados para gestión CRUD de productos:
 **Propósito**: Gestión completa de autenticación de usuarios.
 
 **Contiene**:
+
 - **Sesión**: `isAuthenticated()`, `getCurrentUser()`, `getUserId()`
 - **Login**: `handleLogin()`, `saveSession()`
 - **Logout**: `handleLogout()`, `clearSession()`, `showLogoutConfirmation()`
@@ -124,6 +127,7 @@ Módulos separados para gestión CRUD de productos:
 **Propósito**: Funciones auxiliares reutilizables.
 
 **Categorías**:
+
 - **Formateo**: `formatPrice()`, `capitalizeFirst()`, `formatDate()`
 - **Validaciones**: `isValidEmail()`, `isValidPassword()`, `isValidPhone()`
 - **Texto**: `truncateText()`, `slugify()`, `cleanText()`
