@@ -118,6 +118,17 @@ function createProductCard(product) {
   const imagenPrincipal = getImageUrl(product.imagen_principal) || "front/assets/img/Catalog/placeholder.jpg";
   console.log("   Imagen procesada:", imagenPrincipal);
 
+  // Calcular stock total
+  const stockTotal = calcularStockTotal(product);
+  const stockBadge = getStockBadge(stockTotal);
+  
+  // Nombre de categoría formateado
+  const categoriaNombre = {
+    palos: 'Palos',
+    bolas: 'Bolas',
+    guantes: 'Guantes'
+  }[product.categoria] || product.categoria;
+
   // Renderizar tallas si es guante
   let tallasHTML = "";
   if (product.categoria === "guantes") {
@@ -129,15 +140,24 @@ function createProductCard(product) {
     if (product.stock_talla_xxl > 0) tallas.push("<button>XXL</button>");
 
     if (tallas.length > 0) {
-      tallasHTML = `<div class="sizes">${tallas.join("")}</div>`;
+      tallasHTML = `<div class="catalogo-tallas">${tallas.join("")}</div>`;
     }
   }
 
   article.innerHTML = `
-    <img src="${imagenPrincipal}" alt="${product.nombre}" loading="lazy">
-    <h3>${product.nombre}</h3>
-    <p class="price">${formatPrice(product.precio)}</p>
-    ${tallasHTML}
+    <div class="catalogo-producto-img">
+      <img src="${imagenPrincipal}" alt="${product.nombre}" loading="lazy">
+      <span class="catalogo-categoria-badge ${product.categoria}">${categoriaNombre}</span>
+      ${stockBadge}
+    </div>
+    <div class="catalogo-producto-content">
+      <span class="catalogo-marca">${product.marca || 'AFERGOLF'}</span>
+      <h3>${product.nombre}</h3>
+      ${tallasHTML}
+      <div class="catalogo-producto-footer">
+        <p class="catalogo-precio">${formatPrice(product.precio)}</p>
+      </div>
+    </div>
   `;
 
   // Event listener: navegar a detalles del producto
@@ -149,6 +169,33 @@ function createProductCard(product) {
   });
 
   return article;
+}
+
+/**
+ * Calcula el stock total de un producto
+ */
+function calcularStockTotal(producto) {
+  if (producto.categoria === 'guantes') {
+    return (parseInt(producto.stock_talla_s) || 0) +
+           (parseInt(producto.stock_talla_m) || 0) +
+           (parseInt(producto.stock_talla_l) || 0) +
+           (parseInt(producto.stock_talla_xl) || 0) +
+           (parseInt(producto.stock_talla_xxl) || 0);
+  }
+  return parseInt(producto.stock) || 0;
+}
+
+/**
+ * Genera el badge de stock según la cantidad disponible
+ */
+function getStockBadge(stock) {
+  if (stock === 0) {
+    return '<span class="catalogo-stock-badge out-stock">Agotado</span>';
+  } else if (stock <= 5) {
+    return `<span class="catalogo-stock-badge low-stock">¡Últimas ${stock}!</span>`;
+  } else {
+    return '<span class="catalogo-stock-badge in-stock">Disponible</span>';
+  }
 }
 
 /**
