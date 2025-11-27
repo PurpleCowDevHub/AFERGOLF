@@ -118,7 +118,10 @@
 
 // URL del endpoint para leer productos
 // Se obtiene de la configuración centralizada (config.js)
-const READ_API_URL = window.AFERGOLF_CONFIG?.API?.READ_PRODUCTS || '/back/modules/products/api/admin/read_products.php';
+function getReadApiUrl() {
+  return window.AFERGOLF_CONFIG?.API?.READ_PRODUCTS || 
+         (window.AFERGOLF_CONFIG?.API_BASE || '') + '/products/api/admin/read_products.php';
+}
 
 // ============================================================================
 // FUNCIÓN: CARGAR PRODUCTOS
@@ -140,7 +143,7 @@ const READ_API_URL = window.AFERGOLF_CONFIG?.API?.READ_PRODUCTS || '/back/module
  */
 async function loadProducts() {
   try {
-    const response = await fetch(READ_API_URL, {
+    const response = await fetch(getReadApiUrl(), {
       method: 'GET'
     });
     
@@ -185,7 +188,7 @@ async function loadProductsWithFilters(filters = {}) {
     if (filters.marca) params.append('marca', filters.marca);
     if (filters.buscar) params.append('buscar', filters.buscar);
     
-    const url = `${READ_API_URL}?${params.toString()}`;
+    const url = `${getReadApiUrl()}?${params.toString()}`;
     
     const response = await fetch(url, {
       method: 'GET'
@@ -268,12 +271,14 @@ function createProductRow(producto) {
   const tdImage = document.createElement('td');
   const img = document.createElement('img');
   
-  // Construir URL de imagen correcta
+  // Construir URL de imagen correcta usando normalizeImagePath
   let imageSrc = PLACEHOLDER_IMAGE;
   if (producto.imagen_principal) {
-    // Si la ruta empieza con /, usar localhost/AFERGOLF como base
-    if (producto.imagen_principal.startsWith('/')) {
-      imageSrc = 'http://localhost' + producto.imagen_principal;
+    // Usar normalizeImagePath para manejar rutas correctamente en local y producción
+    if (typeof normalizeImagePath === 'function') {
+      imageSrc = normalizeImagePath(producto.imagen_principal);
+    } else if (producto.imagen_principal.startsWith('/')) {
+      imageSrc = (window.AFERGOLF_CONFIG?.BASE_URL || '') + producto.imagen_principal.replace('/AFERGOLF', '');
     } else {
       imageSrc = producto.imagen_principal;
     }
@@ -450,7 +455,7 @@ function createProductRow(producto) {
  */
 async function fetchProductByReference(referencia) {
   try {
-    const response = await fetch(`${READ_API_URL}?referencia=${encodeURIComponent(referencia)}`, {
+    const response = await fetch(`${getReadApiUrl()}?referencia=${encodeURIComponent(referencia)}`, {
       method: 'GET'
     });
     
@@ -531,9 +536,13 @@ function loadProductImagesInModal(producto) {
       const placeholder = preview.querySelector('.preview-placeholder');
       let imageData = producto[imageFields[position]];
       
-      // Corregir ruta de imagen si es necesario
-      if (imageData && imageData.startsWith('/')) {
-        imageData = 'http://localhost' + imageData;
+      // Corregir ruta de imagen si es necesario usando normalizeImagePath
+      if (imageData) {
+        if (typeof normalizeImagePath === 'function') {
+          imageData = normalizeImagePath(imageData);
+        } else if (imageData.startsWith('/')) {
+          imageData = (window.AFERGOLF_CONFIG?.BASE_URL || '') + imageData.replace('/AFERGOLF', '');
+        }
       }
       
       if (imageData) {

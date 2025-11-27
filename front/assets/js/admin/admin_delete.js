@@ -112,7 +112,10 @@
 
 // URL del endpoint para eliminar productos
 // Se obtiene de la configuración centralizada (config.js)
-const DELETE_API_URL = window.AFERGOLF_CONFIG?.API?.DELETE_PRODUCT || '/back/modules/products/api/admin/delete_product.php';
+function getDeleteApiUrl() {
+  return window.AFERGOLF_CONFIG?.API?.DELETE_PRODUCT || 
+         (window.AFERGOLF_CONFIG?.API_BASE || '') + '/products/api/admin/delete_product.php';
+}
 
 /**
  * Referencia del producto pendiente de eliminar
@@ -175,7 +178,7 @@ async function deleteProductConfirmed() {
   
   try {
     // Enviar petición DELETE
-    const response = await fetch(`${DELETE_API_URL}?referencia=${encodeURIComponent(productToDelete)}`, {
+    const response = await fetch(`${getDeleteApiUrl()}?referencia=${encodeURIComponent(productToDelete)}`, {
       method: 'DELETE'
     });
     

@@ -445,7 +445,15 @@ function updateProduct($conn) {
     
     $base_upload_dir = realpath(__DIR__ . '/../../../../../') . '/uploads/products/';
     $product_dir = $base_upload_dir . $referencia . '/';
-    $web_path_base = '/AFERGOLF/uploads/products/' . $referencia . '/';
+    
+    // Detectar si estamos en local (XAMPP) o en producción
+    $isLocal = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || 
+                strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false);
+    
+    // En local: /AFERGOLF/uploads/... | En producción: /uploads/...
+    $web_path_base = $isLocal 
+        ? '/AFERGOLF/uploads/products/' . $referencia . '/'
+        : '/uploads/products/' . $referencia . '/';
     
     foreach ($imagenes as $campo => $prefijo) {
         if (isset($data[$campo])) {

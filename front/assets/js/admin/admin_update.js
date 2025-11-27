@@ -123,7 +123,10 @@
 
 // URL del endpoint para actualizar productos
 // Se obtiene de la configuración centralizada (config.js)
-const UPDATE_API_URL = window.AFERGOLF_CONFIG?.API?.UPDATE_PRODUCT || '/back/modules/products/api/admin/update_product.php';
+function getUpdateApiUrl() {
+  return window.AFERGOLF_CONFIG?.API?.UPDATE_PRODUCT || 
+         (window.AFERGOLF_CONFIG?.API_BASE || '') + '/products/api/admin/update_product.php';
+}
 
 /**
  * Referencia del producto actualmente en edición
@@ -385,7 +388,7 @@ async function updateProduct(formData) {
     // Agregar referencia
     formData.referencia = window.currentProductId;
     
-    const response = await fetch(UPDATE_API_URL, {
+    const response = await fetch(getUpdateApiUrl(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

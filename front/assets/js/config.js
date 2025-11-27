@@ -61,16 +61,24 @@ function getApiUrl(apiName) {
 
 function normalizeImagePath(imagePath) {
   if (!imagePath) return '';
+  
+  // Si ya es una URL completa, devolverla tal cual
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;
   }
+  
+  // En producción, quitar el prefijo /AFERGOLF/ si existe
   if (AFERGOLF_CONFIG.isProd && imagePath.includes('/AFERGOLF/')) {
     imagePath = imagePath.replace('/AFERGOLF/', '/');
   }
+  
+  // Asegurar que empiece con /
   if (!imagePath.startsWith('/')) {
     imagePath = '/' + imagePath;
   }
-  return imagePath;
+  
+  // Construir URL completa con BASE_URL
+  return AFERGOLF_CONFIG.BASE_URL + imagePath.replace(AFERGOLF_CONFIG.BASE_PREFIX.slice(0, -1), '');
 }
 
 window.getApiUrl = getApiUrl;
