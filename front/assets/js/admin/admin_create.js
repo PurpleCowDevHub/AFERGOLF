@@ -121,8 +121,8 @@
  */
 
 // URL del endpoint para crear productos
-// Siempre usa localhost (Apache) para las APIs PHP, nunca Live Server
-const CREATE_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/admin/create_product.php';
+// Se obtiene de la configuración centralizada (config.js)
+const CREATE_API_URL = window.AFERGOLF_CONFIG?.API?.CREATE_PRODUCT || '/back/modules/products/api/admin/create_product.php';
 
 /**
  * Almacenamiento temporal de imágenes convertidas a Base64

@@ -46,11 +46,11 @@ class AfergolfHeader extends HTMLElement {
    */
   getRelativePath(filename) {
     const path = window.location.pathname;
-    // Si estamos en /front/views/, subir un nivel
-    if (path.includes("/front/views/")) {
+    // Si estamos en /front/views/ o similar con views
+    if (path.includes("/views/")) {
       return `../partials/${filename}`;
     }
-    // Si estamos en la raíz o en /front/
+    // Si estamos en la raíz
     return `front/partials/${filename}`;
   }
 
@@ -80,13 +80,20 @@ class AfergolfHeader extends HTMLElement {
   }
 
   /**
-   * Retorna el prefijo base del proyecto (e.g. '/AFERGOLF/' en XAMPP o '/' en Live Server).
+   * Retorna el prefijo base del proyecto.
+   * En producción (InfinityFree) devuelve "/"
+   * En XAMPP devuelve "/AFERGOLF/"
    */
   getBasePrefix() {
-    const parts = (window.location.pathname || "/")
-      .split("/")
-      .filter(Boolean);
-    return parts.length ? `/${parts[0]}/` : "/";
+    // Usar la configuración global si existe
+    if (window.AFERGOLF_CONFIG) {
+      return window.AFERGOLF_CONFIG.BASE_PREFIX;
+    }
+    // Fallback: detectar si estamos en XAMPP
+    if (window.location.pathname.includes('/AFERGOLF/')) {
+      return '/AFERGOLF/';
+    }
+    return '/';
   }
 
   /**
@@ -138,19 +145,24 @@ class AfergolfFooter extends HTMLElement {
    */
   getRelativePath(filename) {
     const path = window.location.pathname;
-    // Si estamos en /front/views/, subir un nivel
-    if (path.includes("/front/views/")) {
+    // Si estamos en /views/ o similar
+    if (path.includes("/views/")) {
       return `../partials/${filename}`;
     }
-    // Si estamos en la raíz o en /front/
+    // Si estamos en la raíz
     return `front/partials/${filename}`;
   }
 
   getBasePrefix() {
-    const parts = (window.location.pathname || "/")
-      .split("/")
-      .filter(Boolean);
-    return parts.length ? `/${parts[0]}/` : "/";
+    // Usar la configuración global si existe
+    if (window.AFERGOLF_CONFIG) {
+      return window.AFERGOLF_CONFIG.BASE_PREFIX;
+    }
+    // Fallback: detectar si estamos en XAMPP
+    if (window.location.pathname.includes('/AFERGOLF/')) {
+      return '/AFERGOLF/';
+    }
+    return '/';
   }
 
   rewriteAbsoluteUrls(html) {
@@ -183,17 +195,9 @@ document.addEventListener("submit", (event) => {
   const query = input.value.trim();
   if (!query) return;
 
-  const path = window.location.pathname;
-
-  // Detectar si estamos en el proyecto dentro de /AFERGOLF o en /front directo
-  let target = "/front/views/catalog.html";
-
-  if (path.includes("/AFERGOLF/front/")) {
-    target = "/AFERGOLF/front/views/catalog.html";
-  } else if (path.includes("/AFERGOLF/")) {
-    // Por si alguna vista está bajo /AFERGOLF pero en otro subpath
-    target = "/AFERGOLF/front/views/catalog.html";
-  }
+  // Usar configuración centralizada para determinar la ruta
+  const basePath = window.AFERGOLF_CONFIG?.BASE_PREFIX || '/';
+  const target = basePath + "front/views/catalog.html";
 
   // Redirigir al catálogo con el parámetro q
   window.location.href = `${target}?q=${encodeURIComponent(query)}`;

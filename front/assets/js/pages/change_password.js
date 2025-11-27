@@ -41,9 +41,10 @@
 
 /**
  * URL del endpoint para cambio de contraseña.
+ * Se obtiene de la configuración centralizada.
  * @constant {string}
  */
-const CHANGE_PASSWORD_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/change_password.php';
+const CHANGE_PASSWORD_API_URL = window.AFERGOLF_CONFIG?.API?.CHANGE_PASSWORD || '/back/modules/users/api/change_password.php';
 
 /**
  * Expresión regular para validar fortaleza de contraseña.

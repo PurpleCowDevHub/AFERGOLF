@@ -8,6 +8,7 @@ const MAX_FEATURED_PRODUCTS = 9; // Máximo de productos a mostrar
 
 /**
  * Construye la URL correcta de la imagen
+ * Usa la configuración centralizada si está disponible
  */
 function getImageUrl(imagePath) {
   if (!imagePath) return null;
@@ -17,7 +18,14 @@ function getImageUrl(imagePath) {
     return imagePath;
   }
   
-  // Si tiene /AFERGOLF/uploads (viene de BD con prefijo), limpiar
+  // Usar función centralizada si está disponible
+  if (typeof normalizeImagePath === 'function') {
+    const normalized = normalizeImagePath(imagePath);
+    // Quitar la barra inicial para que sea relativa desde index.html
+    return normalized.startsWith('/') ? normalized.substring(1) : normalized;
+  }
+  
+  // Fallback: limpiar manualmente el prefijo /AFERGOLF/
   if (imagePath.includes("/AFERGOLF/uploads/")) {
     return imagePath.replace(/^.*\/AFERGOLF\//, "");
   }

@@ -111,7 +111,8 @@
  */
 
 // URL del endpoint para eliminar productos
-const DELETE_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/admin/delete_product.php';
+// Se obtiene de la configuración centralizada (config.js)
+const DELETE_API_URL = window.AFERGOLF_CONFIG?.API?.DELETE_PRODUCT || '/back/modules/products/api/admin/delete_product.php';
 
 /**
  * Referencia del producto pendiente de eliminar

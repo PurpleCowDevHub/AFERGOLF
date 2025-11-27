@@ -55,15 +55,17 @@
 
 /**
  * URL del endpoint para actualizar perfil.
+ * Se obtiene de la configuración centralizada.
  * @constant {string}
  */
-const EDIT_PROFILE_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/edit_profile.php';
+const EDIT_PROFILE_API_URL = window.AFERGOLF_CONFIG?.API?.EDIT_PROFILE || '/back/modules/users/api/edit_profile.php';
 
 /**
  * URL del endpoint para obtener datos del perfil.
+ * Se obtiene de la configuración centralizada.
  * @constant {string}
  */
-const GET_PROFILE_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/my_account.php';
+const GET_PROFILE_API_URL = window.AFERGOLF_CONFIG?.API?.PROFILE || '/back/modules/users/api/my_account.php';
 
 /**
  * Tipos de imagen permitidos.

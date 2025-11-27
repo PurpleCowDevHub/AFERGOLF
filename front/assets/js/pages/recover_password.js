@@ -41,9 +41,10 @@
 
 /**
  * URL del endpoint para recuperación de contraseña.
+ * Se obtiene de la configuración centralizada.
  * @constant {string}
  */
-const RECOVER_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/recover_password.php';
+const RECOVER_API_URL = window.AFERGOLF_CONFIG?.API?.RECOVER_PASSWORD || '/back/modules/users/api/recover_password.php';
 
 // ============================================================================
 // 2. FUNCIONES DE RECUPERACIÓN

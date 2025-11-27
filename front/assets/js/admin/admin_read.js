@@ -117,7 +117,8 @@
  */
 
 // URL del endpoint para leer productos
-const READ_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/admin/read_products.php';
+// Se obtiene de la configuración centralizada (config.js)
+const READ_API_URL = window.AFERGOLF_CONFIG?.API?.READ_PRODUCTS || '/back/modules/products/api/admin/read_products.php';
 
 // ============================================================================
 // FUNCIÓN: CARGAR PRODUCTOS

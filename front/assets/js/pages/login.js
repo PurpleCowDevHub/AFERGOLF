@@ -49,9 +49,10 @@
 
 /**
  * URL del endpoint de inicio de sesión.
+ * Se obtiene de la configuración centralizada.
  * @constant {string}
  */
-const LOGIN_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/log_in.php';
+const LOGIN_API_URL = window.AFERGOLF_CONFIG?.API?.LOGIN || '/back/modules/users/api/log_in.php';
 
 /**
  * Clave de localStorage para recordar email.

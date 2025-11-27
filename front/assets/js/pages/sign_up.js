@@ -19,9 +19,10 @@
 
 /**
  * URL del endpoint de registro.
+ * Se obtiene de la configuración centralizada.
  * @constant {string}
  */
-const REGISTER_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/register.php';
+const REGISTER_API_URL = window.AFERGOLF_CONFIG?.API?.REGISTER || '/back/modules/users/api/register.php';
 
 // ============================================================================
 // 2. FUNCIONES DE REGISTRO

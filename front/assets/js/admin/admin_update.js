@@ -122,7 +122,8 @@
  */
 
 // URL del endpoint para actualizar productos
-const UPDATE_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/admin/update_product.php';
+// Se obtiene de la configuración centralizada (config.js)
+const UPDATE_API_URL = window.AFERGOLF_CONFIG?.API?.UPDATE_PRODUCT || '/back/modules/products/api/admin/update_product.php';
 
 /**
  * Referencia del producto actualmente en edición

@@ -47,9 +47,10 @@
 
 /**
  * URL del endpoint para obtener datos del perfil.
+ * Se obtiene de la configuración centralizada.
  * @constant {string}
  */
-const PROFILE_API_URL = 'http://localhost/AFERGOLF/back/modules/users/api/my_account.php';
+const PROFILE_API_URL = window.AFERGOLF_CONFIG?.API?.PROFILE || '/back/modules/users/api/my_account.php';
 
 // ============================================================================
 // 2. FUNCIONES DE CARGA

@@ -4,10 +4,10 @@
  * Configuración para XAMPP con mysqli
  */
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "afergolf_db";
+$host = "sql113.infinityfree.com";
+$user = "if0_40532299";
+$pass = "AFER20GOLF25";
+$dbname = "if0_40532299_afergolf_db";
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 
