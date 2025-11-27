@@ -4,21 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Registro de cuenta en AFERGOLF - Crea tu cuenta para acceder a nuestros servicios de golf profesional">
-  <title>Registro</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/css/pages/sign_up.css">
+  <title>Registro - AFERGOLF</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  
-  <!-- Scripts -->
+  <link rel="stylesheet" href="../assets/css/pages/sign_up.css">
+  <link rel="stylesheet" href="../assets/css/toast.css">
+  <script src="../assets/js/ui/toast.js" defer></script>
   <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/auth/auth.js" defer></script>
+  <script src="../assets/js/ui/components.js" defer></script>
+  <script src="../assets/js/pages/sign_up.js" defer></script>
 </head>
 
 <body data-page="registro">
   <img src="../assets/img/Fondo1.png" alt="Fondo de registro" class="background-image">
   
-  <afergolf-header-admin></afergolf-header-admin>
+  <afergolf-header></afergolf-header>
 
+  <!-- formulario de registro -->
   <main>
     <section class="register-hero">
       <div class="register-card">
@@ -64,21 +67,21 @@
               </div>
 
               <div class="field">
-                <label class="field-label" for="email">
+                <label class="field-label" for="correo">
                   Correo electrónico <span class="required" aria-label="requerido">*</span>
                 </label>
                 <input 
                   class="field-input" 
                   type="email" 
-                  id="email" 
-                  name="email"
+                  id="correo" 
+                  name="correo"
                   placeholder="tucorreo@gmail.com" 
                   autocomplete="email"
                   maxlength="100"
                   required
-                  aria-describedby="email-error email-help">
-                <span id="email-help" class="field-help"></span>
-                <span id="email-error" class="field-error" role="alert"></span>
+                  aria-describedby="correo-error correo-help">
+                <span id="correo-help" class="field-help"></span>
+                <span id="correo-error" class="field-error" role="alert"></span>
               </div>
 
               <div class="field">
@@ -106,37 +109,47 @@
                 <label class="field-label" for="password">
                   Contraseña <span class="required" aria-label="requerido">*</span>
                 </label>
-                <input 
-                  class="field-input" 
-                  type="password" 
-                  id="password" 
-                  name="password"
-                  placeholder="••••••••" 
-                  autocomplete="new-password"
-                  minlength="8"
-                  maxlength="100"
-                  required
-                  aria-describedby="password-error password-help">
+                <div class="password-wrapper">
+                  <input 
+                    class="field-input" 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    placeholder="••••••••" 
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="100"
+                    required
+                    aria-describedby="password-error password-help">
+                  <button type="button" class="toggle-password" aria-label="Mostrar contraseña">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </button>
+                </div>
                 <span id="password-help" class="field-help">Mínimo 8 caracteres. Debe incluir al menos una mayúscula, una minúscula, un número y un carácter especial.</span>
                 <span id="password-error" class="field-error" role="alert"></span>
               </div>
 
               <div class="field">
-                <label class="field-label" for="password-confirm">
+                <label class="field-label" for="confirmar_password">
                   Confirmar contraseña <span class="required" aria-label="requerido">*</span>
                 </label>
-                <input 
-                  class="field-input" 
-                  type="password" 
-                  id="password-confirm" 
-                  name="password-confirm"
-                  placeholder="••••••••" 
-                  autocomplete="new-password"
-                  minlength="8"
-                  maxlength="100"
-                  required
-                  aria-describedby="password-confirm-error">
-                <span id="password-confirm-error" class="field-error" role="alert"></span>
+                <div class="password-wrapper">
+                  <input 
+                    class="field-input" 
+                    type="password" 
+                    id="confirmar_password" 
+                    name="confirmar_password"
+                    placeholder="••••••••" 
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="100"
+                    required
+                    aria-describedby="confirmar_password-error">
+                  <button type="button" class="toggle-password" aria-label="Mostrar contraseña">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </button>
+                </div>
+                <span id="confirmar_password-error" class="field-error" role="alert"></span>
               </div>
             </div>
           </fieldset>
@@ -158,5 +171,7 @@
       </div>
     </section>
   </main>
+
+  <afergolf-footer></afergolf-footer>
 </body>
 </html>

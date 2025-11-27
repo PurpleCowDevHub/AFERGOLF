@@ -1,67 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Detalles del producto</title>
+  <meta name="description"
+    content="Detalles del producto AFERGOLF - Especificaciones, imágenes y precios de equipos de golf">
+  <title>Producto - AFERGOLF</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/pages/product-details.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <script src="../assets/js/main.js" defer></script>
 </head>
+
 <body>
   <afergolf-header></afergolf-header>
 
   <main>
     <section class="product-detail">
-      <div class="product-grid">
+      <div id="product-error"
+        style="display:none; text-align:center; margin-top:40px; font-size:1rem; color:#d24033;">
+        No se encontró la información de este producto.
+      </div>
+
+      <div id="product-content" class="product-grid" style="display:none;">
         <!-- Miniaturas -->
         <aside class="product-thumbs">
-          <div class="thumb thumb-placeholder" data-alt="Vista lateral del producto" data-src="../assets/img/Imagen lateral del Producto.jpg">
-            <img src="../assets/img/products/image 7.png" alt="Vista lateral del producto">
+          <div class="thumb" id="thumb-side">
+            <img id="img-side" src="../assets/img/products/image 7.png" alt="Vista lateral del producto">
           </div>
-          <div class="thumb thumb-placeholder" data-alt="Vista superior del producto" data-src="../assets/img/Imagen superior del Producto.jpg">
-            <img src="../assets/img/products/image 9.png" alt="Vista superior del producto">
+          <div class="thumb" id="thumb-top">
+            <img id="img-top" src="../assets/img/products/image 9.png" alt="Vista superior del producto">
           </div>
-          <div class="thumb thumb-placeholder" data-alt="Vista frontal del producto" data-src="../assets/img/Hammer X Dr. Sandtrap Wedge De Golf De 60 Grados - Búnker Sh.jpg">
-            <img src="../assets/img/products/image 35.png" alt="Vista frontal del producto">
+          <div class="thumb" id="thumb-front">
+            <img id="img-front" src="../assets/img/products/image 35.png" alt="Vista frontal del producto">
           </div>
         </aside>
 
         <!-- Imagen principal -->
         <figure class="product-main">
-          <div class="main-img main-img-placeholder" data-alt="Imagen principal del producto" data-src="../assets/img/Hammer X Dr. Sandtrap Wedge De Golf De 60 Grados - Búnker Sh.jpg">
-            <img src="../assets/img/products/image 34.png" alt="Imagen principal del producto">
+          <div class="main-img">
+            <img id="img-main" src="../assets/img/products/image 34.png" alt="Imagen principal del producto">
           </div>
         </figure>
 
-        <!-- Información -->
+        <!-- Información del producto -->
         <article class="product-info">
-          <h1 class="product-title">Hammer X Dr. Sandtrap Wedge De Golf De 60 Grados - Búnker Sh</h1>
+          <h1 class="product-title" id="product-title">Nombre del producto</h1>
           <ul class="product-meta">
-            <li><b>Marca:</b> Hammer X</li>
-            <li><b>Dimensiones:</b> 0.89 x 0.10 x 0.10 mts</li>
-            <li><b>Peso del producto:</b> 0.91 kg</li>
-            <li><b>Peso de envío:</b> 0.91 kg</li>
-            <li><b>Modelo:</b> B0D562R3XQ</li>
-            <li><b>Ref:</b> B0D562R3XQ</li>
+            <li><b>Marca:</b> <span id="product-brand">-</span></li>
+            <li><b>Dimensiones:</b> <span id="product-dimensions">-</span></li>
+            <li><b>Peso del producto:</b> <span id="product-weight">-</span></li>
+            <li><b>Peso de envío:</b> <span id="product-shipping-weight">-</span></li>
+            <li><b>Modelo:</b> <span id="product-model">-</span></li>
+            <li><b>Ref:</b> <span id="product-reference">-</span></li>
           </ul>
-          <p class="product-price">$125.000 COP</p>
-          <button class="btn-cart">Agregar al carrito</button>
+          <p class="product-price" id="product-price">$0 COP</p>
+          <button class="btn-cart" id="btn-add-cart">Agregar al carrito</button>
         </article>
       </div>
 
-      <!-- Descripción -->
-      <section class="product-description">
+      <!-- Descripción completa -->
+      <section class="product-description" id="product-description-section" style="display:none;">
         <h2>Descripción</h2>
-        <p>
-          El Hammer X Dr. Sandtrap Wedge de 60° está diseñado para ofrecer máximo control y precisión en golpes delicados, especialmente desde el búnker o el rough. Con dimensiones de 0.89 × 0.10 × 0.10 m y un peso equilibrado de 0.91 kg, proporciona una sensación estable y cómoda en cada swing. Su ángulo de loft permite levantar la bola con facilidad, logrando trayectorias altas y aterrizajes suaves cerca del hoyo. Ideal para golfistas que buscan perfeccionar su juego corto y enfrentar con confianza los retos más exigentes del campo.
+        <p id="product-description">
+          Descripción del producto...
         </p>
       </section>
     </section>
   </main>
 
   <afergolf-footer></afergolf-footer>
+
+  <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/ui/components.js" defer></script>
+  <script src="../assets/js/pages/product_details.js" defer></script>
 </body>
+
 </html>
