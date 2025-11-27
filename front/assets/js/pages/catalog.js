@@ -5,7 +5,14 @@
 
 const CATALOG_API_URL = "../../back/modules/products/api/catalog.php";
 
+// Variable global para recordar el término de búsqueda actual
+let currentSearchQuery = "";
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Leer el parámetro ?q= de la URL (búsqueda desde el header)
+  const params = new URLSearchParams(window.location.search);
+  currentSearchQuery = (params.get("q") || "").trim().toLowerCase();
+
   loadCatalogProducts();
 
   const tipoSelect = document.getElementById("tipo");
@@ -19,7 +26,20 @@ async function loadCatalogProducts() {
   const container = document.getElementById("catalogo-productos");
   if (!container) return;
 
-  container.innerHTML = `<p style="padding: 20px;">Cargando productos...</p>`;
+  container.innerHTML = `
+    <div style="
+      width: 100%;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    ">
+      <p style="font-size: 1rem;">Cargando productos...</p>
+    </div>
+  `;
 
   try {
     const response = await fetch(CATALOG_API_URL);
@@ -42,10 +62,29 @@ function filterProducts(productos) {
   const tipo = document.getElementById("tipo")?.value || "";
   const marca = document.getElementById("marca")?.value || "";
 
+  const q = currentSearchQuery; // ya viene en minúsculas
+
   return productos.filter((p) => {
     const matchTipo = tipo === "" || p.categoria === tipo;
     const matchMarca = marca === "" || p.marca === marca;
-    return matchTipo && matchMarca;
+
+    // Campos donde vamos a buscar el texto libre
+    const nombre = (p.nombre || "").toLowerCase();
+    const descripcion =
+      (p.descripcion || p.descripcion_corta || "").toLowerCase();
+    const marcaProd = (p.marca || "").toLowerCase();
+    const categoriaProd = (p.categoria || "").toLowerCase();
+    const referencia = (p.referencia || "").toLowerCase();
+
+    const matchBusqueda =
+      q === "" ||
+      nombre.includes(q) ||
+      descripcion.includes(q) ||
+      marcaProd.includes(q) ||
+      categoriaProd.includes(q) ||
+      referencia.includes(q);
+
+    return matchTipo && matchMarca && matchBusqueda;
   });
 }
 
@@ -115,9 +154,38 @@ function renderEmptyState() {
   const container = document.getElementById("catalogo-productos");
   if (!container) return;
 
+  const mensajeBusqueda = currentSearchQuery
+    ? `No encontramos resultados para <strong>"${currentSearchQuery}"</strong>.`
+    : "No se encontraron productos para los filtros seleccionados.";
+
   container.innerHTML = `
-    <p style="padding: 20px; font-size: 1rem;">
-      No se encontraron productos para los filtros seleccionados.
-    </p>
+    <div style="
+      width: 100%;
+      padding: 60px 20px;
+      text-align: center;
+      color: #555;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    ">
+      <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+
+      <p style="
+        margin-top: 20px;
+        font-size: 1.2rem;
+        max-width: 450px;
+        line-height: 1.5;
+      ">
+        ${mensajeBusqueda}
+      </p>
+
+      <p style="margin-top: 10px; color: #888; font-size: 0.9rem;">
+        Intenta buscar otra palabra o revisar la ortografía.
+      </p>
+    </div>
   `;
 }
