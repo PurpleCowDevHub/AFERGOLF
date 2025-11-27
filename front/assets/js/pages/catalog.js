@@ -44,7 +44,7 @@ function filterProducts(productos) {
 
   return productos.filter((p) => {
     const matchTipo = tipo === "" || p.categoria === tipo;
-    const matchMarca = marca === "" || p.marca === marca;
+    const matchMarca = marca === "" || (p.marca && p.marca.toLowerCase() === marca.toLowerCase());
     return matchTipo && matchMarca;
   });
 }
@@ -116,8 +116,47 @@ function renderEmptyState() {
   if (!container) return;
 
   container.innerHTML = `
-    <p style="padding: 20px; font-size: 1rem;">
-      No se encontraron productos para los filtros seleccionados.
-    </p>
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="empty-state-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+      </div>
+      <h3 class="empty-state-title">No encontramos productos</h3>
+      <p class="empty-state-description">
+        No hay productos que coincidan con los filtros seleccionados. Intenta ajustar tus criterios de búsqueda.
+      </p>
+      <div class="empty-state-actions">
+        <button class="btn-secondary" onclick="clearFilters()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"></path>
+            <path d="M7 12h10"></path>
+            <path d="M10 18h4"></path>
+          </svg>
+          Limpiar filtros
+        </button>
+      </div>
+    </div>
   `;
+}
+
+/**
+ * Limpia los filtros y recarga los productos
+ */
+function clearFilters() {
+  const tipoSelect = document.getElementById("tipo");
+  const marcaSelect = document.getElementById("marca");
+  
+  if (tipoSelect) tipoSelect.value = "";
+  if (marcaSelect) marcaSelect.value = "";
+  
+  loadCatalogProducts();
 }

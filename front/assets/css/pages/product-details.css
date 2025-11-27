@@ -72,56 +72,268 @@
   background: #fff;
   border-radius: 12px;
   border: 1px solid rgba(139, 133, 133, 0.75);
-  padding: 24px;
+  padding: 16px 20px;
   box-shadow: 0 4px 20px 5px rgba(0,0,0,.15);
   display: flex;
   flex-direction: column;
-  width: 380px;
-  /* antes: height: 400px;  */
-  height: auto;          /* se adapta al contenido */
-  min-height: 320px;     /* para que no quede muy pequeña */
-  align-self: stretch;   /* se estira verticalmente dentro del grid si hace falta */
+  width: 420px;
+  height: 400px;
+  min-height: 400px;
+  max-height: 400px;
+  overflow: hidden;
 }
 
 .product-title {
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 700;
   color: #222;
-  line-height: 1.3;
-  margin-bottom: 12px;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 
-.product-meta {
-  font-size: 16px;
+/* Pills de información */
+.product-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.product-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
   color: #444;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 auto 0;
+  background: #f7f7f7;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.product-pill b {
+  color: #777;
+  font-weight: 600;
+}
+
+.product-pill span {
+  font-weight: 700;
+  color: #222;
+}
+
+.product-pill.category {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #555;
+  background: #ebebeb;
+  letter-spacing: 0.8px;
+  padding: 6px 12px;
+}
+
+/* Especificaciones del producto */
+.product-specs {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: center;
+  min-height: 0;
+}
+
+.specs-group {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f0f1f2 100%);
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid #e8e8e8;
+}
+
+.specs-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #666;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px 4px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.spec-item .spec-label {
+  font-size: 9px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+}
+
+.spec-item .spec-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: #222;
+  margin-top: 1px;
+}
+
+/* Tallas para guantes - diseño amplio */
+#specs-guantes {
+  padding: 16px;
+}
+
+#specs-guantes .specs-title {
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.specs-sizes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.size-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  min-width: 54px;
+}
+
+.size-tag.available {
+  border-color: #333;
+  color: #333;
+}
+
+.size-tag.unavailable {
+  border-color: #e5e5e5;
+  color: #ccc;
+  background: #fafafa;
+}
+
+.size-tag.unavailable .size-name {
+  text-decoration: line-through;
+}
+
+.size-name {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.size-stock {
+  font-size: 11px;
+  color: #777;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Bolas - diseño amplio centrado */
+#specs-bolas {
+  padding: 20px;
+}
+
+#specs-bolas .specs-title {
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+#specs-bolas .specs-grid {
+  display: flex;
+  justify-content: center;
+}
+
+#specs-bolas .spec-item {
+  padding: 16px 30px;
+  min-width: 120px;
+}
+
+#specs-bolas .spec-item .spec-label {
+  font-size: 11px;
+}
+
+#specs-bolas .spec-item .spec-value {
+  font-size: 22px;
+  margin-top: 4px;
+}
+
+/* Stock disponible */
+.product-stock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 6px 0;
+  padding: 5px 10px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.product-stock .stock-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.product-stock .stock-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* Precio y botón - siempre al final */
+.product-info-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+  flex-shrink: 0;
 }
 
 .product-price {
-  font-size: 25px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
   color: #D64A3A;
-  margin: 16px 0 12px 0;
+  margin: 0;
+  line-height: 1;
 }
 
 .btn-cart {
-  padding: 12px 24px;
-  border-radius: 14px;
+  padding: 10px 16px;
+  border-radius: 8px;
   border: none;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   font-family: 'Montserrat', sans-serif;
   color: #fff;
   background: linear-gradient(180deg, #9a2816, #e0422f);
-  box-shadow: 0 6px 16px rgba(224,66,47,.3);
+  box-shadow: 0 4px 12px rgba(224,66,47,.25);
   cursor: pointer;
-  width: fit-content;
-  align-self: center;
+  white-space: nowrap;
 }
 
 .btn-cart:hover { 
@@ -206,26 +418,93 @@
   /* Información del producto */
   .product-info {
     max-width: 320px;
+    width: 100%;
     height: auto;
+    max-height: none;
+    overflow: visible;
     margin: 0 auto;
-    padding: 20px;
+    padding: 16px;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,.12);
-    gap: 16px;
     order: 1;
   }
   
   .product-title { 
     text-align: center; 
-    font-size: 18px; 
-    margin-bottom: 0;
-    line-height: 1.4;
+    font-size: 16px; 
+    margin-bottom: 4px;
+    -webkit-line-clamp: 3;
   }
   
-  .product-meta { 
-    font-size: 12px; 
-    gap: 6px; 
-    color: #555;
+  .product-pills {
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .product-pill {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .product-pill.category {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .specs-group {
+    padding: 12px;
+  }
+
+  .specs-grid,
+  .specs-grid-palos {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .spec-item {
+    padding: 8px 4px;
+  }
+
+  .spec-label {
+    font-size: 9px;
+  }
+
+  .spec-value {
+    font-size: 14px;
+  }
+
+  .specs-title {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+
+  .specs-sizes {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .size-tag {
+    padding: 8px 10px;
+    min-width: 40px;
+  }
+
+  .size-name {
+    font-size: 13px;
+  }
+
+  .size-stock {
+    font-size: 9px;
+  }
+
+  .product-stock {
+    margin: 6px 0;
+    padding: 6px 10px;
+  }
+
+  .product-info-footer {
+    padding-top: 10px;
+    gap: 10px;
   }
   
   .product-price { 

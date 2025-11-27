@@ -48,16 +48,78 @@
         <!-- Información del producto -->
         <article class="product-info">
           <h1 class="product-title" id="product-title">Nombre del producto</h1>
-          <ul class="product-meta">
-            <li><b>Marca:</b> <span id="product-brand">-</span></li>
-            <li><b>Dimensiones:</b> <span id="product-dimensions">-</span></li>
-            <li><b>Peso del producto:</b> <span id="product-weight">-</span></li>
-            <li><b>Peso de envío:</b> <span id="product-shipping-weight">-</span></li>
-            <li><b>Modelo:</b> <span id="product-model">-</span></li>
-            <li><b>Ref:</b> <span id="product-reference">-</span></li>
-          </ul>
-          <p class="product-price" id="product-price">$0 COP</p>
-          <button class="btn-cart" id="btn-add-cart">Agregar al carrito</button>
+          
+          <!-- Info pills -->
+          <div class="product-pills">
+            <span class="product-pill"><b>Marca:</b> <span id="product-brand">-</span></span>
+            <span class="product-pill"><b>Modelo:</b> <span id="product-model">-</span></span>
+            <span class="product-pill"><b>Ref:</b> <span id="product-reference">-</span></span>
+          </div>
+
+          <!-- Especificaciones según categoría -->
+          <div class="product-specs" id="product-specs">
+            <!-- Especificaciones para Palos -->
+            <div class="specs-group" id="specs-palos" style="display: none;">
+              <h3 class="specs-title">Especificaciones</h3>
+              <div class="specs-grid">
+                <div class="spec-item" id="spec-loft-container">
+                  <span class="spec-label">Loft</span>
+                  <span class="spec-value" id="spec-loft">-</span>
+                </div>
+                <div class="spec-item" id="spec-lie-container">
+                  <span class="spec-label">Lie</span>
+                  <span class="spec-value" id="spec-lie">-</span>
+                </div>
+                <div class="spec-item" id="spec-flex-container">
+                  <span class="spec-label">Flex</span>
+                  <span class="spec-value" id="spec-flex">-</span>
+                </div>
+                <div class="spec-item" id="spec-longitud-container">
+                  <span class="spec-label">Longitud</span>
+                  <span class="spec-value" id="spec-longitud">-</span>
+                </div>
+                <div class="spec-item" id="spec-peso-container">
+                  <span class="spec-label">Peso</span>
+                  <span class="spec-value" id="spec-peso">-</span>
+                </div>
+                <div class="spec-item" id="spec-swing-container">
+                  <span class="spec-label">Swing</span>
+                  <span class="spec-value" id="spec-swing">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Especificaciones para Guantes -->
+            <div class="specs-group" id="specs-guantes" style="display: none;">
+              <h3 class="specs-title">Tallas Disponibles</h3>
+              <div class="specs-sizes" id="specs-sizes">
+                <!-- Las tallas se generan dinámicamente -->
+              </div>
+            </div>
+
+            <!-- Especificaciones para Bolas -->
+            <div class="specs-group" id="specs-bolas" style="display: none;">
+              <h3 class="specs-title">Detalles del Paquete</h3>
+              <div class="specs-grid">
+                <div class="spec-item">
+                  <span class="spec-label">Unidades</span>
+                  <span class="spec-value" id="spec-unidades">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock disponible -->
+          <div class="product-stock" id="product-stock-container">
+            <span class="stock-label">Stock:</span>
+            <span class="stock-value" id="product-stock">-</span>
+          </div>
+
+          <!-- Precio y botón -->
+          <div class="product-info-footer">
+            <p class="product-price" id="product-price">$0 COP</p>
+            <button class="btn-cart" id="btn-add-cart">Agregar</button>
+          </div>
         </article>
       </div>
 

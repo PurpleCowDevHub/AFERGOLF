@@ -117,36 +117,46 @@ function renderProductDetails(p) {
   // --- TEXTO / META ---
   const titleEl = document.getElementById("product-title");
   const brandEl = document.getElementById("product-brand");
-  const dimEl = document.getElementById("product-dimensions");
-  const weightEl = document.getElementById("product-weight");
-  const shipWeightEl = document.getElementById("product-shipping-weight");
   const modelEl = document.getElementById("product-model");
   const refEl = document.getElementById("product-reference");
   const priceEl = document.getElementById("product-price");
   const descEl = document.getElementById("product-description");
+  const categoryBadge = document.getElementById("product-category-badge");
+  const stockContainer = document.getElementById("product-stock-container");
+  const stockEl = document.getElementById("product-stock");
 
   if (titleEl) titleEl.textContent = p.nombre || "Producto sin nombre";
   if (brandEl) brandEl.textContent = p.marca || "-";
-  if (dimEl) dimEl.textContent = p.dimensiones || "-";
+  if (modelEl) modelEl.textContent = p.modelo || "-";
+  if (refEl) refEl.textContent = p.referencia || "-";
+  if (priceEl) priceEl.textContent = formatPrice(p.precio || 0);
 
-  if (weightEl) {
-    weightEl.textContent = p.peso ? `${p.peso} kg` : "-";
+  // Badge de categoría
+  if (categoryBadge && p.categoria) {
+    const categoryNames = {
+      palos: "Palos",
+      guantes: "Guantes", 
+      bolas: "Bolas"
+    };
+    categoryBadge.textContent = categoryNames[p.categoria] || p.categoria;
+    categoryBadge.style.display = "inline-block";
   }
 
-  if (shipWeightEl) {
-    if (p.peso) {
-      const ship = (parseFloat(p.peso) + 0.1).toFixed(2);
-      shipWeightEl.textContent = `${ship} kg`;
+  // --- ESPECIFICACIONES SEGÚN CATEGORÍA ---
+  renderCategorySpecs(p);
+
+  // --- STOCK ---
+  if (stockContainer && stockEl) {
+    if (p.categoria === "guantes") {
+      // Para guantes, el stock se muestra en las tallas
+      stockContainer.style.display = "none";
     } else {
-      shipWeightEl.textContent = "-";
+      stockContainer.style.display = "flex";
+      stockEl.textContent = p.stock !== undefined ? p.stock : "-";
     }
   }
 
-  if (modelEl) modelEl.textContent = p.modelo || "-";
-  if (refEl) refEl.textContent = p.referencia || "-";
-
-  if (priceEl) priceEl.textContent = formatPrice(p.precio || 0);
-
+  // --- DESCRIPCIÓN ---
   if (descEl) {
     descEl.textContent =
       p.descripcion ||
@@ -159,6 +169,100 @@ function renderProductDetails(p) {
     btnCart.addEventListener("click", () => {
       alert("Funcionalidad de carrito pendiente de implementación 🙂");
     });
+  }
+}
+
+/**
+ * Renderiza las especificaciones según la categoría del producto
+ */
+function renderCategorySpecs(p) {
+  const specsPalos = document.getElementById("specs-palos");
+  const specsGuantes = document.getElementById("specs-guantes");
+  const specsBolas = document.getElementById("specs-bolas");
+
+  // Ocultar todas las secciones primero
+  if (specsPalos) specsPalos.style.display = "none";
+  if (specsGuantes) specsGuantes.style.display = "none";
+  if (specsBolas) specsBolas.style.display = "none";
+
+  const categoria = (p.categoria || "").toLowerCase();
+
+  if (categoria === "palos" && specsPalos) {
+    specsPalos.style.display = "block";
+    renderPalosSpecs(p);
+  } else if (categoria === "guantes" && specsGuantes) {
+    specsGuantes.style.display = "block";
+    renderGuantesSpecs(p);
+  } else if (categoria === "bolas" && specsBolas) {
+    specsBolas.style.display = "block";
+    renderBolasSpecs(p);
+  }
+}
+
+/**
+ * Renderiza las especificaciones de palos
+ */
+function renderPalosSpecs(p) {
+  const setSpec = (id, value, suffix = "") => {
+    const el = document.getElementById(id);
+    const container = document.getElementById(`${id}-container`);
+    if (el) {
+      if (value !== null && value !== undefined && value !== "") {
+        el.textContent = value + suffix;
+        if (container) container.style.display = "flex";
+      } else {
+        el.textContent = "-";
+        if (container) container.style.display = "none";
+      }
+    }
+  };
+
+  setSpec("spec-longitud", p.longitud, p.longitud ? '"' : "");
+  setSpec("spec-loft", p.loft, p.loft ? "°" : "");
+  setSpec("spec-lie", p.lie, p.lie ? "°" : "");
+  setSpec("spec-peso", p.peso, p.peso ? " g" : "");
+  setSpec("spec-swing", p.swingweight);
+  setSpec("spec-flex", p.flex);
+}
+
+/**
+ * Renderiza las tallas disponibles para guantes
+ */
+function renderGuantesSpecs(p) {
+  const sizesContainer = document.getElementById("specs-sizes");
+  if (!sizesContainer) return;
+
+  sizesContainer.innerHTML = "";
+
+  const sizes = [
+    { key: "stock_talla_s", label: "S" },
+    { key: "stock_talla_m", label: "M" },
+    { key: "stock_talla_l", label: "L" },
+    { key: "stock_talla_xl", label: "XL" },
+    { key: "stock_talla_xxl", label: "XXL" }
+  ];
+
+  sizes.forEach(size => {
+    const stock = parseInt(p[size.key]) || 0;
+    const isAvailable = stock > 0;
+
+    const tag = document.createElement("span");
+    tag.className = `size-tag ${isAvailable ? "available" : "unavailable"}`;
+    tag.innerHTML = `
+      <span class="size-name">${size.label}</span>
+      <span class="size-stock">(${stock})</span>
+    `;
+    sizesContainer.appendChild(tag);
+  });
+}
+
+/**
+ * Renderiza las especificaciones de bolas
+ */
+function renderBolasSpecs(p) {
+  const unidadesEl = document.getElementById("spec-unidades");
+  if (unidadesEl) {
+    unidadesEl.textContent = p.unidades_paquete || "-";
   }
 }
 
