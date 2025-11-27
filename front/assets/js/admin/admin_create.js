@@ -431,9 +431,6 @@ async function saveNewProduct(formData) {
   }
   
   try {
-    console.log('Enviando datos al servidor...', CREATE_API_URL);
-    console.log('Tamaño del payload:', JSON.stringify(formData).length, 'bytes');
-    
     const response = await fetch(CREATE_API_URL, {
       method: 'POST',
       headers: {
@@ -442,16 +439,12 @@ async function saveNewProduct(formData) {
       body: JSON.stringify(formData)
     });
     
-    console.log('Respuesta recibida:', response.status, response.statusText);
-    
     // Verificar si la respuesta es JSON válido
     let result;
     try {
       const text = await response.text();
-      console.log('Texto de respuesta:', text.substring(0, 500));
       result = JSON.parse(text);
     } catch (parseError) {
-      console.error('Error parseando JSON:', parseError);
       throw new Error('Respuesta inválida del servidor');
     }
     

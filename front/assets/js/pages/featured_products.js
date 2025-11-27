@@ -52,52 +52,39 @@ async function loadFeaturedProducts() {
   const productsTrack = document.querySelector(".products[data-track]");
   
   if (!productsTrack) {
-    console.error("❌ Elemento .products[data-track] no encontrado");
     return;
   }
 
-  console.log("✅ Elemento encontrado, iniciando fetch a:", FEATURED_PRODUCTS_API);
-
   try {
     const response = await fetch(FEATURED_PRODUCTS_API);
-    console.log("📡 Response status:", response.status);
     
     const data = await response.json();
-    console.log("📦 Data recibida:", data);
-    console.log("📊 Cantidad de productos:", data.productos ? data.productos.length : 0);
 
     if (!data.success || !data.productos || data.productos.length === 0) {
-      console.warn("⚠️ No hay productos disponibles o respuesta inválida");
       renderEmptyFeaturedState(productsTrack);
       return;
     }
 
     // Tomar solo los primeros MAX_FEATURED_PRODUCTS (productos recientes)
     const featuredProducts = data.productos.slice(0, MAX_FEATURED_PRODUCTS);
-    console.log("🎯 Productos a renderizar:", featuredProducts.length);
 
     // Limpiar productos estáticos
     productsTrack.innerHTML = "";
 
     // Renderizar productos
     featuredProducts.forEach((product, index) => {
-      console.log(`🎨 Renderizando producto ${index + 1}:`, product.nombre);
       const article = createProductCard(product);
       productsTrack.appendChild(article);
     });
     
-    console.log("✨ ¡Productos renderizados correctamente!");
-    
     // Reinicializar el carousel después de renderizar los productos
     setTimeout(() => {
       if (window.carousel) {
-        console.log("🔄 Reinicializando carrusel...");
         window.carousel.setup();
       }
     }, 100);
 
   } catch (error) {
-    console.error("❌ Error cargando productos destacados:", error);
     renderEmptyFeaturedState(productsTrack);
   }
 }
@@ -106,9 +93,6 @@ async function loadFeaturedProducts() {
  * Crea una tarjeta de producto
  */
 function createProductCard(product) {
-  console.log("🏗️ Creando tarjeta para:", product.nombre);
-  console.log("   Imagen original:", product.imagen_principal);
-  
   const article = document.createElement("article");
   article.className = "product";
   article.style.cursor = "pointer";
@@ -116,7 +100,6 @@ function createProductCard(product) {
 
   // Usar la imagen principal del producto o una por defecto
   const imagenPrincipal = getImageUrl(product.imagen_principal) || "front/assets/img/Catalog/placeholder.jpg";
-  console.log("   Imagen procesada:", imagenPrincipal);
 
   // Calcular stock total
   const stockTotal = calcularStockTotal(product);

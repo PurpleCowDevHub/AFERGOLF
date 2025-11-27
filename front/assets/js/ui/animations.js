@@ -75,8 +75,6 @@ class ProductsCarousel {
     this.updateButtons();
     
     setTimeout(() => this.recalculateAndUpdate(), 100);
-    
-    console.log('Carousel de productos inicializado correctamente');
   }
 
   /**

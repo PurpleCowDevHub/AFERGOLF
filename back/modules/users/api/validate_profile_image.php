@@ -97,10 +97,10 @@ try {
             "from_root_absolute" => $user['foto_perfil'] ? "/AFERGOLF/" . $user['foto_perfil'] : null
         ],
         "diagnostics" => [
-            "column_created" => $columnExists ? "✅ Sí" : "❌ No",
-            "ruta_en_bd" => $user['foto_perfil'] ? "✅ Sí" : "❌ Vacía o NULL",
-            "archivo_existe" => $fileExists ? "✅ Sí" : "❌ No (verifica la ruta)",
-            "listo_para_usar" => ($columnExists && $user['foto_perfil'] && $fileExists) ? "✅ Sí" : "❌ No"
+            "column_created" => $columnExists ? "Si" : "No",
+            "ruta_en_bd" => $user['foto_perfil'] ? "Si" : "Vacia o NULL",
+            "archivo_existe" => $fileExists ? "Si" : "No (verifica la ruta)",
+            "listo_para_usar" => ($columnExists && $user['foto_perfil'] && $fileExists) ? "Si" : "No"
         ]
     ]);
 
