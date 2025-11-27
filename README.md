@@ -213,6 +213,7 @@ CREATE TABLE usuarios (
     password VARCHAR(255) NOT NULL,
     foto_perfil VARCHAR(255),
     ciudad VARCHAR(50),
+    rol ENUM('cliente', 'admin') DEFAULT 'cliente',
     recovery_token VARCHAR(64) DEFAULT NULL,
     token_expires_at DATETIME DEFAULT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -229,6 +230,8 @@ CREATE TABLE usuarios (
 - `telefono`: Teléfono de contacto (máximo 20 caracteres, puede ser nulo)
 - `password`: Contraseña encriptada del usuario (máximo 255 caracteres para mayor seguridad con hash)
 - `foto_perfil`: **URL de la foto de perfil del usuario** (máximo 255 caracteres, puede ser nulo)
+- `ciudad`: Ciudad del usuario (máximo 50 caracteres, puede ser nulo)
+- `rol`: Rol del usuario en el sistema (`cliente` o `admin`, por defecto `cliente`)
 - `recovery_token`: Token único para recuperación de contraseña (máximo 64 caracteres)
 - `token_expires_at`: Fecha y hora de expiración del token de recuperación
 - `fecha_registro`: Fecha y hora automática de cuando se registró el usuario
@@ -254,8 +257,12 @@ CREATE TABLE productos (
     imagen_lateral VARCHAR(500),
     imagen_superior VARCHAR(500),
     imagen_frontal VARCHAR(500),
-    dimensiones VARCHAR(100),
-    peso DECIMAL(8, 2),
+    longitud DECIMAL(5,2) DEFAULT 0,
+    loft DECIMAL(4,1) DEFAULT 0,
+    lie DECIMAL(4,1) DEFAULT 0,
+    peso INT DEFAULT 0,
+    swingweight VARCHAR(5) DEFAULT '',
+    flex VARCHAR(2) DEFAULT '',
     unidades_paquete INT,
     stock_talla_s INT,
     stock_talla_m INT,
@@ -281,8 +288,12 @@ CREATE TABLE productos (
 - `imagen_lateral`: **URL de la vista lateral del producto** (VARCHAR hasta 500 caracteres)
 - `imagen_superior`: **URL de la vista superior del producto** (VARCHAR hasta 500 caracteres)
 - `imagen_frontal`: **URL de la vista frontal del producto** (VARCHAR hasta 500 caracteres)
-- `dimensiones`: Dimensiones del producto en formato "largo x ancho x alto" en metros (ej: "0.89 x 0.10 x 0.10") - En el formulario se ingresan los 3 valores por separado y se combinan automáticamente (máximo 100 caracteres)
-- `peso`: Peso del producto en kg (número decimal con hasta 2 decimales)
+- `longitud`: Longitud del palo en pulgadas (decimal con 2 decimales, solo para palos)
+- `loft`: Ángulo loft en grados (decimal con 1 decimal, solo para palos)
+- `lie`: Ángulo lie en grados (decimal con 1 decimal, solo para palos)
+- `peso`: Peso total del palo en gramos (entero, solo para palos)
+- `swingweight`: Swingweight/balanceo del palo (ej: D2, C8) (máximo 5 caracteres, solo para palos)
+- `flex`: Flex de la varilla (L=Ladies, A=Senior, R=Regular, S=Stiff, X=Extra Stiff) (máximo 2 caracteres, solo para palos)
 - `unidades_paquete`: Para bolas de golf, cantidad de unidades por paquete (ej: 12)
 - `stock_talla_s`: Stock disponible en talla S (solo para guantes)
 - `stock_talla_m`: Stock disponible en talla M (solo para guantes)
@@ -294,10 +305,10 @@ CREATE TABLE productos (
 
 **Campos específicos por categoría:**
 
-| Categoría    | Campos específicos                                      |
-|--------------|--------------------------------------------------------|
-| Palos        | `dimensiones` (largo x ancho x alto), `peso`           |
-| Bolas        | `unidades_paquete`                                      |
+| Categoría    | Campos específicos                                                                      |
+|--------------|----------------------------------------------------------------------------------------|
+| Palos        | `longitud`, `loft`, `lie`, `peso`, `swingweight`, `flex`                               |
+| Bolas        | `unidades_paquete`                                                                      |
 | Guantes      | `stock_talla_s`, `stock_talla_m`, `stock_talla_l`, `stock_talla_xl`, `stock_talla_xxl` |
 
 - Haz clic en **"Continuar"**
