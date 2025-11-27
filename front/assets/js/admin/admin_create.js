@@ -334,8 +334,13 @@ function collectFormData() {
   if (category === 'bolas') {
     formData.unidades_paquete = parseInt(document.getElementById('product-units')?.value) || 0;
   } else if (category === 'palos') {
-    formData.dimensiones = buildDimensionsString('product-dim-largo', 'product-dim-ancho', 'product-dim-alto');
-    formData.peso = parseFloat(document.getElementById('product-weight')?.value) || 0;
+    // Especificaciones técnicas del palo
+    formData.longitud = parseFloat(document.getElementById('product-longitud')?.value) || 0;
+    formData.loft = parseFloat(document.getElementById('product-loft')?.value) || 0;
+    formData.lie = parseFloat(document.getElementById('product-lie')?.value) || 0;
+    formData.peso = parseInt(document.getElementById('product-peso')?.value) || 0;
+    formData.swingweight = document.getElementById('product-swingweight')?.value || '';
+    formData.flex = document.getElementById('product-flex')?.value || '';
   }
   
   return formData;
@@ -720,6 +725,32 @@ function setTempImageFile(position, data) {
 let createListenersInitialized = false;
 
 /**
+ * Actualiza el contador de caracteres del nombre del producto
+ * 
+ * @function updateNameCharCounter
+ * @param {HTMLInputElement} input - Input del nombre
+ * @returns {void}
+ */
+function updateNameCharCounter(input) {
+  const counter = document.getElementById('product-name-counter');
+  if (!counter) return;
+  
+  const maxLength = parseInt(input.getAttribute('maxlength')) || 80;
+  const currentLength = input.value.length;
+  const remaining = maxLength - currentLength;
+  
+  counter.textContent = `${remaining} caracteres restantes`;
+  
+  // Cambiar color según proximidad al límite
+  counter.classList.remove('warning', 'danger');
+  if (remaining <= 10) {
+    counter.classList.add('danger');
+  } else if (remaining <= 20) {
+    counter.classList.add('warning');
+  }
+}
+
+/**
  * Configura los event listeners para la creación de productos
  * NOTA: Los event listeners de clic en preview boxes se manejan en components.js
  * Este módulo maneja los listeners de change para almacenar imágenes en Base64.
@@ -766,6 +797,15 @@ function setupCreateEventListeners() {
       input.addEventListener('change', (e) => handleImageUpload(e, position));
     }
   });
+  
+  // Configurar contador de caracteres para el nombre del producto
+  const productNameInput = document.getElementById('product-name');
+  if (productNameInput && !productNameInput.hasAttribute('data-counter-initialized')) {
+    productNameInput.setAttribute('data-counter-initialized', 'true');
+    productNameInput.addEventListener('input', () => updateNameCharCounter(productNameInput));
+    // Inicializar contador al cargar
+    updateNameCharCounter(productNameInput);
+  }
 }
 
 // Ejecutar cuando el DOM esté listo

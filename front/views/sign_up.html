@@ -109,17 +109,22 @@
                 <label class="field-label" for="password">
                   Contraseña <span class="required" aria-label="requerido">*</span>
                 </label>
-                <input 
-                  class="field-input" 
-                  type="password" 
-                  id="password" 
-                  name="password"
-                  placeholder="••••••••" 
-                  autocomplete="new-password"
-                  minlength="8"
-                  maxlength="100"
-                  required
-                  aria-describedby="password-error password-help">
+                <div class="password-wrapper">
+                  <input 
+                    class="field-input" 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    placeholder="••••••••" 
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="100"
+                    required
+                    aria-describedby="password-error password-help">
+                  <button type="button" class="toggle-password" aria-label="Mostrar contraseña">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </button>
+                </div>
                 <span id="password-help" class="field-help">Mínimo 8 caracteres. Debe incluir al menos una mayúscula, una minúscula, un número y un carácter especial.</span>
                 <span id="password-error" class="field-error" role="alert"></span>
               </div>
@@ -128,17 +133,22 @@
                 <label class="field-label" for="confirmar_password">
                   Confirmar contraseña <span class="required" aria-label="requerido">*</span>
                 </label>
-                <input 
-                  class="field-input" 
-                  type="password" 
-                  id="confirmar_password" 
-                  name="confirmar_password"
-                  placeholder="••••••••" 
-                  autocomplete="new-password"
-                  minlength="8"
-                  maxlength="100"
-                  required
-                  aria-describedby="confirmar_password-error">
+                <div class="password-wrapper">
+                  <input 
+                    class="field-input" 
+                    type="password" 
+                    id="confirmar_password" 
+                    name="confirmar_password"
+                    placeholder="••••••••" 
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="100"
+                    required
+                    aria-describedby="confirmar_password-error">
+                  <button type="button" class="toggle-password" aria-label="Mostrar contraseña">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </button>
+                </div>
                 <span id="confirmar_password-error" class="field-error" role="alert"></span>
               </div>
             </div>

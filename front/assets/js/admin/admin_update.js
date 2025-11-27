@@ -236,7 +236,13 @@ function loadProductIntoForm(producto) {
   // --- Campos generales ---
   
   const nameInput = document.getElementById('product-name');
-  if (nameInput) nameInput.value = producto.nombre || '';
+  if (nameInput) {
+    nameInput.value = producto.nombre || '';
+    // Actualizar contador de caracteres
+    if (typeof updateNameCharCounter === 'function') {
+      updateNameCharCounter(nameInput);
+    }
+  }
   
   const descInput = document.getElementById('product-description');
   if (descInput) descInput.value = producto.descripcion || '';
@@ -284,10 +290,20 @@ function loadProductIntoForm(producto) {
     const unitsInput = document.getElementById('product-units');
     if (unitsInput) unitsInput.value = producto.unidades_paquete || 0;
   } else if (producto.categoria === 'palos') {
-    // Separar dimensiones en campos individuales
-    parseDimensionsToFields(producto.dimensiones, 'product-dim-largo', 'product-dim-ancho', 'product-dim-alto');
-    const weightInput = document.getElementById('product-weight');
-    if (weightInput) weightInput.value = producto.peso || 0;
+    // Cargar especificaciones técnicas del palo
+    const longitudInput = document.getElementById('product-longitud');
+    const loftInput = document.getElementById('product-loft');
+    const lieInput = document.getElementById('product-lie');
+    const pesoInput = document.getElementById('product-peso');
+    const swingweightInput = document.getElementById('product-swingweight');
+    const flexSelect = document.getElementById('product-flex');
+    
+    if (longitudInput) longitudInput.value = producto.longitud || '';
+    if (loftInput) loftInput.value = producto.loft || '';
+    if (lieInput) lieInput.value = producto.lie || '';
+    if (pesoInput) pesoInput.value = producto.peso || '';
+    if (swingweightInput) swingweightInput.value = producto.swingweight || '';
+    if (flexSelect) flexSelect.value = producto.flex || '';
   }
   
   // --- Cargar imágenes ---

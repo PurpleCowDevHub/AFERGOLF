@@ -376,18 +376,45 @@ function updateProduct($conn) {
     }
     
     // --- Campos específicos por categoría ---
-    if (isset($data['dimensiones'])) {
-        $dimensiones = $conn->real_escape_string(trim($data['dimensiones']));
-        $updates[] = "dimensiones = '$dimensiones'";
-        $camposActualizados[] = 'dimensiones';
+    
+    // Campos para palos de golf
+    if (isset($data['longitud'])) {
+        $longitud = (float)$data['longitud'];
+        $updates[] = "longitud = $longitud";
+        $camposActualizados[] = 'longitud';
+    }
+    
+    if (isset($data['loft'])) {
+        $loft = (float)$data['loft'];
+        $updates[] = "loft = $loft";
+        $camposActualizados[] = 'loft';
+    }
+    
+    if (isset($data['lie'])) {
+        $lie = (float)$data['lie'];
+        $updates[] = "lie = $lie";
+        $camposActualizados[] = 'lie';
     }
     
     if (isset($data['peso'])) {
-        $peso = (float)$data['peso'];
+        $peso = (int)$data['peso'];
         $updates[] = "peso = $peso";
         $camposActualizados[] = 'peso';
     }
     
+    if (isset($data['swingweight'])) {
+        $swingweight = $conn->real_escape_string(trim($data['swingweight']));
+        $updates[] = "swingweight = '$swingweight'";
+        $camposActualizados[] = 'swingweight';
+    }
+    
+    if (isset($data['flex'])) {
+        $flex = $conn->real_escape_string(trim($data['flex']));
+        $updates[] = "flex = '$flex'";
+        $camposActualizados[] = 'flex';
+    }
+    
+    // Campo para bolas
     if (isset($data['unidades_paquete'])) {
         $unidades = (int)$data['unidades_paquete'];
         $updates[] = "unidades_paquete = $unidades";

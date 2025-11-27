@@ -254,7 +254,8 @@
             
             <div class="form-group">
               <label for="product-name">Nombre del Producto *</label>
-              <input type="text" id="product-name" required placeholder="Ej: Hammer X Dr. Sandtrap Wedge De Golf De 60 Grados">
+              <input type="text" id="product-name" required maxlength="50" placeholder="Ej: Hammer X Dr. Sandtrap Wedge De Golf De 60 Grados">
+              <span class="char-counter" id="product-name-counter">50 caracteres restantes</span>
             </div>
 
             <div class="form-row">
@@ -295,25 +296,43 @@
               
               <!-- Campos para Palos -->
               <div class="category-fields" data-category="palos" style="display: none;">
-                <label class="dimensions-label">Dimensiones (metros)</label>
-                <div class="dimensions-grid">
+                <label class="specs-label">Especificaciones del Palo</label>
+                
+                <div class="specs-grid">
                   <div class="form-group">
-                    <label for="product-dim-largo">Largo</label>
-                    <input type="number" step="0.01" min="0" id="product-dim-largo" placeholder="0.89">
+                    <label for="product-longitud">Longitud (pulgadas)</label>
+                    <input type="number" step="0.25" min="0" id="product-longitud" placeholder="45">
                   </div>
                   <div class="form-group">
-                    <label for="product-dim-ancho">Ancho</label>
-                    <input type="number" step="0.01" min="0" id="product-dim-ancho" placeholder="0.10">
+                    <label for="product-loft">Loft (°)</label>
+                    <input type="number" step="0.5" min="0" max="64" id="product-loft" placeholder="10.5">
                   </div>
                   <div class="form-group">
-                    <label for="product-dim-alto">Alto</label>
-                    <input type="number" step="0.01" min="0" id="product-dim-alto" placeholder="0.10">
+                    <label for="product-lie">Lie (°)</label>
+                    <input type="number" step="0.5" min="0" max="80" id="product-lie" placeholder="58">
                   </div>
                 </div>
                 
-                <div class="form-group">
-                  <label for="product-weight">Peso del producto (kg)</label>
-                  <input type="number" step="0.01" id="product-weight" placeholder="0.91">
+                <div class="specs-grid">
+                  <div class="form-group">
+                    <label for="product-peso">Peso total (g)</label>
+                    <input type="number" step="1" min="0" id="product-peso" placeholder="310">
+                  </div>
+                  <div class="form-group">
+                    <label for="product-swingweight">Swingweight</label>
+                    <input type="text" id="product-swingweight" placeholder="D2" maxlength="3">
+                  </div>
+                  <div class="form-group">
+                    <label for="product-flex">Flex de varilla</label>
+                    <select id="product-flex">
+                      <option value="">Seleccionar...</option>
+                      <option value="L">L - Ladies</option>
+                      <option value="A">A - Senior</option>
+                      <option value="R">R - Regular</option>
+                      <option value="S">S - Stiff</option>
+                      <option value="X">X - Extra Stiff</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

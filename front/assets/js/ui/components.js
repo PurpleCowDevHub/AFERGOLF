@@ -422,6 +422,15 @@ function resetProductForm() {
   clearImagePreviews();
   clearFileInputs();
   updateDynamicFields('');
+  
+  // Resetear contador de caracteres del nombre
+  const productNameInput = document.getElementById('product-name');
+  const counter = document.getElementById('product-name-counter');
+  if (productNameInput && counter) {
+    const maxLength = parseInt(productNameInput.getAttribute('maxlength')) || 80;
+    counter.textContent = `${maxLength} caracteres restantes`;
+    counter.classList.remove('warning', 'danger');
+  }
 }
 
 // ============================================================================

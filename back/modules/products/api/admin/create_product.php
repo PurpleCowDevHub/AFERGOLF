@@ -315,9 +315,15 @@ function createProduct($conn) {
     $stock = max(0, (int)($data['stock'] ?? 0));
     
     // Campos específicos
-    $dimensiones = trim($data['dimensiones'] ?? '');
-    $peso = max(0, (float)($data['peso'] ?? 0));
     $unidades_paquete = max(0, (int)($data['unidades_paquete'] ?? 0));
+    
+    // Campos específicos para palos de golf
+    $longitud = max(0, (float)($data['longitud'] ?? 0));
+    $loft = max(0, (float)($data['loft'] ?? 0));
+    $lie = max(0, (float)($data['lie'] ?? 0));
+    $peso = max(0, (int)($data['peso'] ?? 0));
+    $swingweight = trim($data['swingweight'] ?? '');
+    $flex = trim($data['flex'] ?? '');
     
     // Stock por tallas (guantes) - asegurar valores no negativos
     $stock_talla_s = max(0, (int)($data['stock_talla_s'] ?? 0));
@@ -370,9 +376,9 @@ function createProduct($conn) {
     $sql = "INSERT INTO productos (
         referencia, nombre, descripcion, categoria, marca, modelo, precio, stock,
         imagen_principal, imagen_frontal, imagen_superior, imagen_lateral,
-        dimensiones, peso, unidades_paquete,
+        longitud, loft, lie, peso, swingweight, flex, unidades_paquete,
         stock_talla_s, stock_talla_m, stock_talla_l, stock_talla_xl, stock_talla_xxl
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $stmt = $conn->prepare($sql);
     
@@ -387,14 +393,14 @@ function createProduct($conn) {
     }
     
     // Bind parameters: s=string, i=integer, d=double
-    // 20 parámetros: 6 strings + 2 ints + 4 strings + 1 string + 1 double + 1 int + 5 ints
-    // ssssss (6) + ii (2) + ssss (4) + s (1) + d (1) + i (1) + iiiii (5) = 20
+    // 24 parámetros total
     $stmt->bind_param(
-        "ssssssii" . "ssss" . "sdi" . "iiiii",
+        "ssssssii" . "ssss" . "dddiss" . "i" . "iiiii",
         $referencia, $nombre, $descripcion, $categoria, $marca, $modelo,
         $precio, $stock,
         $imagen_principal, $imagen_frontal, $imagen_superior, $imagen_lateral,
-        $dimensiones, $peso, $unidades_paquete,
+        $longitud, $loft, $lie, $peso, $swingweight, $flex,
+        $unidades_paquete,
         $stock_talla_s, $stock_talla_m, $stock_talla_l, $stock_talla_xl, $stock_talla_xxl
     );
     

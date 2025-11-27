@@ -143,6 +143,53 @@ main:not(.search-canvas) {
   box-shadow: 0 5px 15px rgba(231, 76, 60, 0.15);
 }
 
+/* Wrapper para campos de contraseña con toggle */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-wrapper .field-input {
+  width: 100%;
+  padding-right: 48px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.toggle-password:hover {
+  color: #d24033;
+  background: rgba(210, 64, 51, 0.08);
+}
+
+.toggle-password:focus {
+  outline: none;
+  color: #d24033;
+  background: rgba(210, 64, 51, 0.1);
+}
+
+.toggle-password svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
 /* Mensajes de ayuda y error */
 .field-help {
   font-size: 14px;
