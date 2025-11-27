@@ -1,167 +1,91 @@
+<?php
 /**
- * ============================================================================
- * AFERGOLF - Catálogo de Productos (vista pública)
- * ============================================================================
- * Carga los productos desde el backend y los pinta en catalog.html,
- * usando imagen_principal (base64) o un placeholder si no hay imagen.
- * ============================================================================
+ * API Catálogo de Productos AFERGOLF
+ *
+ * - GET  /catalog.php                → Lista todos los productos
+ * - GET  /catalog.php?referencia=XX  → Devuelve un producto específico
+ * - Opcional: ?tipo=palos&marca=callaway (filtros simples desde el backend)
  */
 
-const CATALOG_API_URL = 'http://localhost/AFERGOLF/back/modules/products/api/catalog.php';
+header('Content-Type: application/json; charset=utf-8');
 
-/**
- * Formatea precio en COP
- */
-function formatPrice(price) {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price || 0);
+require_once '../../../config/db_connect.php'; // ajustado a tu estructura
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method !== 'GET') {
+    http_response_code(405);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Método no permitido. Usa GET.'
+    ]);
+    exit;
 }
 
-/**
- * Carga productos desde la API aplicando filtros (tipo/marca)
- */
-async function loadCatalogProducts() {
-  const tipoSelect = document.getElementById('tipo');
-  const marcaSelect = document.getElementById('marca');
+try {
+    // Si viene ?referencia=XXXX → devolver UN producto
+    if (!empty($_GET['referencia'])) {
+        $referencia = $conn->real_escape_string($_GET['referencia']);
 
-  const categoria = tipoSelect ? tipoSelect.value : '';
-  const marca = marcaSelect ? marcaSelect.value : '';
+        $sql = "SELECT * FROM productos WHERE referencia = '$referencia' LIMIT 1";
+        $result = $conn->query($sql);
 
-  const params = new URLSearchParams();
-  if (categoria) params.append('categoria', categoria);
-  if (marca) params.append('marca', marca);
+        if ($result && $result->num_rows > 0) {
+            $producto = $result->fetch_assoc();
 
-  const url =
-    params.toString().length > 0
-      ? `${CATALOG_API_URL}?${params.toString()}`
-      : CATALOG_API_URL;
-
-  try {
-    const response = await fetch(url, { method: 'GET' });
-    const result = await response.json();
-
-    if (result.success) {
-      renderCatalogProducts(result.productos || []);
-    } else {
-      console.error(result.message || 'Error al cargar catálogo');
-      renderCatalogProducts([]);
-    }
-  } catch (error) {
-    console.error('Error al conectar con el servidor:', error);
-    renderCatalogProducts([]);
-  }
-}
-
-/**
- * Pinta las tarjetas de productos en el contenedor
- */
-function renderCatalogProducts(productos) {
-  const container = document.getElementById('catalog-products');
-  if (!container) return;
-
-  container.innerHTML = '';
-
-  if (!productos || productos.length === 0) {
-    const empty = document.createElement('p');
-    empty.textContent = 'No se encontraron productos para los filtros seleccionados.';
-    empty.className = 'catalogo-empty';
-    container.appendChild(empty);
-    return;
-  }
-
-  productos.forEach((producto) => {
-    const card = document.createElement('article');
-    card.className = 'catalogo-producto';
-
-    // ---------------- Imagen ----------------
-    const img = document.createElement('img');
-    img.loading = 'lazy';
-    img.alt = producto.nombre || 'Producto AFERGOLF';
-
-    // aquí usamos la imagen_principal en base64;
-    // si no existe, usamos un placeholder de /front/assets/img/placeholder.svg
-    let src = producto.imagen_principal;
-
-    if (!src || src.trim() === '') {
-      src = '../assets/img/placeholder.svg';
-    }
-
-    img.src = src;
-    card.appendChild(img);
-
-    // ---------------- Nombre ----------------
-    const title = document.createElement('h3');
-    title.textContent = producto.nombre || 'Producto sin nombre';
-    card.appendChild(title);
-
-    // ---------------- Precio ----------------
-    const price = document.createElement('p');
-    price.className = 'catalogo-precio';
-    price.textContent = formatPrice(producto.precio);
-    card.appendChild(price);
-
-    // ---------------- Tallas (solo guantes) ----------------
-    if (producto.categoria === 'guantes') {
-      const tallasContainer = document.createElement('div');
-      tallasContainer.className = 'catalogo-tallas';
-
-      const tallas = [
-        { label: 'S', value: producto.stock_talla_s },
-        { label: 'M', value: producto.stock_talla_m },
-        { label: 'L', value: producto.stock_talla_l },
-        { label: 'XL', value: producto.stock_talla_xl },
-        { label: 'XXL', value: producto.stock_talla_xxl },
-      ];
-
-      tallas.forEach((t) => {
-        const total = parseInt(t.value ?? 0, 10);
-        if (total > 0) {
-          const btn = document.createElement('button');
-          btn.textContent = t.label;
-          tallasContainer.appendChild(btn);
+            echo json_encode([
+                'success' => true,
+                'producto' => $producto
+            ]);
+        } else {
+            http_response_code(404);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Producto no encontrado'
+            ]);
         }
-      });
 
-      if (tallasContainer.children.length > 0) {
-        card.appendChild(tallasContainer);
-      }
+        exit;
     }
 
-    container.appendChild(card);
-  });
-}
+    // Si NO viene referencia, devolver listado completo (con filtros opcionales)
+    $where = [];
+    if (!empty($_GET['tipo'])) {
+        $tipo = $conn->real_escape_string($_GET['tipo']);
+        $where[] = "categoria = '$tipo'";
+    }
 
-/**
- * Configura eventos de filtros
- */
-function setupCatalogFilters() {
-  const tipoSelect = document.getElementById('tipo');
-  const marcaSelect = document.getElementById('marca');
+    if (!empty($_GET['marca'])) {
+        $marca = $conn->real_escape_string($_GET['marca']);
+        $where[] = "marca = '$marca'";
+    }
 
-  if (tipoSelect) {
-    tipoSelect.addEventListener('change', loadCatalogProducts);
-  }
-  if (marcaSelect) {
-    marcaSelect.addEventListener('change', loadCatalogProducts);
-  }
-}
+    $whereClause = '';
+    if (!empty($where)) {
+        $whereClause = 'WHERE ' . implode(' AND ', $where);
+    }
 
-/**
- * Inicializa el módulo de catálogo cuando esté listo el DOM
- */
-function initializeCatalogPage() {
-  if (!document.getElementById('catalog-products')) return;
+    $sql = "SELECT * FROM productos $whereClause ORDER BY fecha_creacion DESC";
+    $result = $conn->query($sql);
 
-  setupCatalogFilters();
-  loadCatalogProducts();
-}
+    if (!$result) {
+        throw new Exception('Error al obtener productos: ' . $conn->error);
+    }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeCatalogPage);
-} else {
-  initializeCatalogPage();
+    $productos = [];
+    while ($row = $result->fetch_assoc()) {
+        $productos[] = $row;
+    }
+
+    echo json_encode([
+        'success' => true,
+        'productos' => $productos
+    ]);
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error del servidor: ' . $e->getMessage()
+    ]);
 }

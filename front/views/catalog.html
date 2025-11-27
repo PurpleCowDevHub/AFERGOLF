@@ -4,59 +4,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Catálogo de productos AFERGOLF">
+  <meta name="description"
+    content="Catálogo de productos AFERGOLF - Palos, guantes, bolas y accesorios de golf de las mejores marcas">
   <title>Catálogo - AFERGOLF</title>
-
   <link rel="icon" type="image/svg+xml" href="../assets/img/Logo.svg">
-  <link rel="stylesheet" href="../assets/css/pages/catalog.css">
-  <link rel="stylesheet" href="../assets/css/toast.css">
-  <script src="../assets/js/ui/toast.js" defer></script>
-  <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/auth/auth.js" defer></script>
-  <script src="../assets/js/ui/components.js" defer></script>
-  <script src="../assets/js/pages/catalog.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/pages/catalog.css" />
 </head>
 
 <body>
+  <!-- HEADER DINÁMICO -->
   <afergolf-header></afergolf-header>
 
   <main>
     <section class="catalogo">
+      <!-- Lista dinámica de productos -->
+      <div id="catalogo-productos" class="catalogo-productos">
+        <!-- Aquí se inyectan las tarjetas de productos desde catalog.js -->
+      </div>
 
-      <!-- LISTA DINÁMICA DE PRODUCTOS -->
-      <div id="catalogo-productos" class="catalogo-productos"></div>
-
-      <!-- FILTROS -->
+      <!-- Filtros de productos -->
       <aside class="catalogo-filtros">
         <h2>Filtros</h2>
 
         <div class="filtro">
           <label for="tipo">Tipo de producto</label>
-          <select id="tipo">
+          <select id="tipo" name="tipo">
             <option value="">Todos</option>
             <option value="palos">Palos</option>
             <option value="bolas">Bolas</option>
             <option value="guantes">Guantes</option>
+            <option value="accesorios">Accesorios</option>
           </select>
         </div>
 
         <div class="filtro">
           <label for="marca">Marca</label>
-          <select id="marca">
+          <select id="marca" name="marca">
             <option value="">Todas</option>
-            <option value="callaway">Callaway</option>
-            <option value="titleist">Titleist</option>
             <option value="footjoy">Footjoy</option>
+            <option value="callaway">Callaway</option>
             <option value="srixon">Srixon</option>
-            <option value="taylormade">TaylorMade</option>
+            <option value="titleist">Titleist</option>
             <option value="cobra">Cobra</option>
+            <option value="taylormade">TaylorMade</option>
             <option value="ping">PING</option>
+            <option value="hammerx">Hammer X</option>
           </select>
         </div>
       </aside>
     </section>
   </main>
 
+  <!-- FOOTER DINÁMICO -->
   <afergolf-footer></afergolf-footer>
+
+  <!-- SCRIPTS -->
+  <script src="../assets/js/main.js" defer></script>
+  <script src="../assets/js/ui/components.js" defer></script>
+  <script src="../assets/js/pages/catalog.js" defer></script>
 </body>
+
 </html>
