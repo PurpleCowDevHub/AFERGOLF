@@ -5,8 +5,41 @@
 
 const CATALOG_API_URL = "../../back/modules/products/api/catalog.php";
 
-// Variable global para recordar el término de búsqueda actual
-let currentSearchQuery = "";
+/**
+ * Construye la URL correcta de la imagen
+ */
+function getImageUrl(imagePath) {
+  if (!imagePath) return null;
+  
+  // Si ya es una URL absoluta, retornarla tal cual
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    return imagePath;
+  }
+  
+  // Si tiene /AFERGOLF/uploads (viene de BD con prefijo), limpiar
+  if (imagePath.includes("/AFERGOLF/uploads/")) {
+    const cleanPath = imagePath.replace(/^.*\/AFERGOLF\//, "");
+    return `../../${cleanPath}`;
+  }
+  
+  // Si es una ruta de uploads, construir desde la raíz del proyecto
+  if (imagePath.startsWith("uploads/")) {
+    return `../../${imagePath}`;
+  }
+  
+  // Si comienza con /, remover la barra y agregar ..
+  if (imagePath.startsWith("/uploads/")) {
+    return `../../${imagePath.substring(1)}`;
+  }
+  
+  // Si ya contiene ../, devolverlo tal cual
+  if (imagePath.includes("../")) {
+    return imagePath;
+  }
+  
+  // Por defecto, asumir que es relativa a assets
+  return `../assets/img/${imagePath}`;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   // Leer el parámetro ?q= de la URL (búsqueda desde el header)
@@ -104,19 +137,8 @@ function renderProducts(productos) {
     article.className = "catalogo-producto";
     article.dataset.referencia = p.referencia;
 
-    const imagenPrincipal =
-      p.imagen_principal || "../assets/img/Catalog/Guante Footjoy GTXtreme.jpeg";
-
-    // Calcular stock total
-    const stockTotal = calcularStockTotal(p);
-    const stockBadge = getStockBadge(stockTotal);
-    
-    // Nombre de categoría formateado
-    const categoriaNombre = {
-      palos: 'Palos',
-      bolas: 'Bolas',
-      guantes: 'Guantes'
-    }[p.categoria] || p.categoria;
+    // Construir URL correcta de la imagen
+    const imagenPrincipal = getImageUrl(p.imagen_principal) || "../assets/img/Catalog/Guante Footjoy GTXtreme.jpeg";
 
     article.innerHTML = `
       <div class="catalogo-producto-img">
