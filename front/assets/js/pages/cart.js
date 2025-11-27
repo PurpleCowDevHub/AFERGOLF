@@ -81,10 +81,33 @@ function buildCartImageUrl(imagePath) {
 // ============================================================================
 
 /**
- * Clave de localStorage para almacenar el carrito
+ * Clave base de localStorage para almacenar el carrito
+ * Se combina con el ID del usuario para tener carritos separados
  * @constant {string}
  */
-const CART_STORAGE_KEY = 'afergolf_cart';
+const CART_STORAGE_KEY_BASE = 'afergolf_cart';
+
+/**
+ * Obtiene la clave de localStorage para el carrito del usuario actual
+ * @returns {string|null} Clave del carrito o null si no hay usuario autenticado
+ */
+function getCartStorageKey() {
+  const userId = localStorage.getItem('afergolf_user_id');
+  if (!userId) {
+    return null; // No hay usuario autenticado
+  }
+  return `${CART_STORAGE_KEY_BASE}_${userId}`;
+}
+
+/**
+ * Verifica si el usuario está autenticado
+ * @returns {boolean} True si hay sesión activa
+ */
+function isUserAuthenticated() {
+  const logged = localStorage.getItem('afergolf_logged');
+  const userId = localStorage.getItem('afergolf_user_id');
+  return logged === 'true' && userId !== null && userId !== '';
+}
 
 // ============================================================================
 // 2. FUNCIONES DEL CARRITO
@@ -95,8 +118,18 @@ const CART_STORAGE_KEY = 'afergolf_cart';
  * @returns {Array} Array de productos en el carrito
  */
 function getCart() {
+  // Si no hay usuario autenticado, devolver carrito vacío
+  if (!isUserAuthenticated()) {
+    return [];
+  }
+  
+  const storageKey = getCartStorageKey();
+  if (!storageKey) {
+    return [];
+  }
+  
   try {
-    return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+    return JSON.parse(localStorage.getItem(storageKey) || '[]');
   } catch (error) {
     console.error('Error parsing cart:', error);
     return [];
@@ -108,7 +141,17 @@ function getCart() {
  * @param {Array} cart - Array de productos a guardar
  */
 function saveCart(cart) {
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  // Si no hay usuario autenticado, no guardar
+  if (!isUserAuthenticated()) {
+    return;
+  }
+  
+  const storageKey = getCartStorageKey();
+  if (!storageKey) {
+    return;
+  }
+  
+  localStorage.setItem(storageKey, JSON.stringify(cart));
 }
 
 /**
@@ -121,6 +164,23 @@ function saveCart(cart) {
  * @param {string} [product.image] - URL de la imagen
  */
 function addToCart(product) {
+  // Verificar si el usuario está autenticado
+  if (!isUserAuthenticated()) {
+    if (window.Toast) {
+      Toast.warning('Debes iniciar sesión para agregar productos al carrito');
+    }
+    // Redirigir al login después de un momento
+    setTimeout(() => {
+      const currentPath = window.location.pathname;
+      if (currentPath.includes('/front/views/')) {
+        window.location.href = 'log_in.html';
+      } else {
+        window.location.href = 'front/views/log_in.html';
+      }
+    }, 2000);
+    return;
+  }
+  
   let cart = getCart();
   
   // Verificar si el producto ya está en el carrito
@@ -202,7 +262,10 @@ function updateCartQuantity(productId, delta) {
  * Vacía completamente el carrito.
  */
 function clearCart() {
-  localStorage.removeItem(CART_STORAGE_KEY);
+  const storageKey = getCartStorageKey();
+  if (storageKey) {
+    localStorage.removeItem(storageKey);
+  }
   updateCartCounter();
   
   if (window.Toast) {
@@ -263,18 +326,13 @@ function updateCartCounter() {
  * Renderiza los items del carrito en la página del carrito.
  */
 function renderCartItems() {
-  console.log('[Cart] renderCartItems() ejecutándose');
-  
   const cartContainer = document.querySelector('.card.products');
-  console.log('[Cart] Contenedor encontrado:', cartContainer);
   
   if (!cartContainer) {
-    console.error('[Cart] No se encontró el contenedor .card.products');
     return;
   }
   
   const cart = getCart();
-  console.log('[Cart] Productos en carrito:', cart.length, cart);
   
   if (cart.length === 0) {
     // Ocultar el resumen y términos cuando el carrito está vacío
@@ -353,7 +411,7 @@ function renderCartItems() {
       >
 
       <div class="product-info">
-        <h4>${item.name}</h4>
+        <h4>${item.name}${item.size ? ` <span class="product-size-badge">Talla ${item.size}</span>` : ''}</h4>
         <button class="remove" type="button" onclick="removeFromCart('${item.id}')">Eliminar</button>
 
         <div class="qty" aria-label="Cantidad">
@@ -500,8 +558,6 @@ function formatPrice(amount) {
  * Inicializa el carrito cuando el DOM está listo
  */
 function initCart() {
-  console.log('[Cart] initCart() - Inicializando carrito');
-  
   // Actualizar contador al cargar
   updateCartCounter();
   
@@ -509,14 +565,7 @@ function initCart() {
   const isCartPage = window.location.pathname.includes('cart.html') || 
                      window.location.href.includes('cart.html');
   
-  console.log('[Cart] ¿Es página de carrito?', isCartPage);
-  console.log('[Cart] Pathname:', window.location.pathname);
-  console.log('[Cart] Href:', window.location.href);
-  
   if (isCartPage) {
-    console.log('[Cart] Renderizando items del carrito...');
-    const cart = getCart();
-    console.log('[Cart] Contenido del carrito:', cart);
     renderCartItems();
   }
 }
@@ -527,6 +576,31 @@ if (document.readyState === 'loading') {
 } else {
   // DOM ya está listo
   initCart();
+}
+
+// También actualizar el contador cuando el header se cargue dinámicamente
+// Observar cambios en el DOM para detectar cuando se añade el header
+const cartObserver = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    mutation.addedNodes.forEach((node) => {
+      if (node.nodeType === 1) { // Es un elemento
+        // Buscar si se añadió un elemento con clase cart-counter
+        const counters = node.querySelectorAll ? node.querySelectorAll('.cart-counter') : [];
+        if (counters.length > 0 || node.classList?.contains('cart-counter')) {
+          updateCartCounter();
+        }
+      }
+    });
+  });
+});
+
+// Observar el body para cambios
+if (document.body) {
+  cartObserver.observe(document.body, { childList: true, subtree: true });
+} else {
+  document.addEventListener('DOMContentLoaded', () => {
+    cartObserver.observe(document.body, { childList: true, subtree: true });
+  });
 }
 
 // ============================================================================

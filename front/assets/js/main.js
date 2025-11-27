@@ -72,6 +72,11 @@ class AfergolfHeader extends HTMLElement {
     if (typeof initializeUIComponents === "function") {
       initializeUIComponents();
     }
+    
+    // Actualizar contador del carrito después de cargar el header
+    if (typeof updateCartCounter === "function") {
+      updateCartCounter();
+    }
   }
 
   /**

@@ -214,16 +214,34 @@ function renderProductDetails(p) {
     btnCart.dataset.productCategory = p.categoria;
     
     btnCart.addEventListener("click", () => {
+      // Verificar si es un guante y si se seleccionó talla
+      if (p.categoria === 'guantes') {
+        if (!selectedGloveSize) {
+          // Mostrar error si no se seleccionó talla
+          const hint = document.getElementById("size-hint");
+          if (hint) {
+            hint.textContent = "Por favor selecciona una talla";
+            hint.classList.add("error");
+          }
+          if (window.Toast) {
+            Toast.warning('Debes seleccionar una talla antes de agregar al carrito');
+          }
+          return;
+        }
+      }
+      
       // Verificar si la función addToCart está disponible
       if (typeof window.addToCart === 'function') {
         const product = {
-          id: p.referencia,
+          id: p.categoria === 'guantes' ? `${p.referencia}-${selectedGloveSize}` : p.referencia,
+          originalId: p.referencia,
           name: p.nombre,
           price: parseFloat(p.precio) || 0,
           image: srcMain,
           category: p.categoria,
           brand: p.marca,
-          model: p.modelo
+          model: p.modelo,
+          size: p.categoria === 'guantes' ? selectedGloveSize : null
         };
         
         window.addToCart(product);
@@ -290,12 +308,20 @@ function renderPalosSpecs(p) {
   setSpec("spec-flex", p.flex);
 }
 
+// Variable global para almacenar la talla seleccionada
+let selectedGloveSize = null;
+let currentGloveProduct = null;
+
 /**
- * Renderiza las tallas disponibles para guantes
+ * Renderiza las tallas disponibles para guantes (seleccionables)
  */
 function renderGuantesSpecs(p) {
   const sizesContainer = document.getElementById("specs-sizes");
   if (!sizesContainer) return;
+
+  // Resetear selección
+  selectedGloveSize = null;
+  currentGloveProduct = p;
 
   sizesContainer.innerHTML = "";
 
@@ -313,12 +339,47 @@ function renderGuantesSpecs(p) {
 
     const tag = document.createElement("span");
     tag.className = `size-tag ${isAvailable ? "available" : "unavailable"}`;
+    tag.dataset.size = size.label;
+    tag.dataset.stock = stock;
     tag.innerHTML = `
       <span class="size-name">${size.label}</span>
       <span class="size-stock">(${stock})</span>
     `;
+    
+    // Solo agregar click listener si hay stock
+    if (isAvailable) {
+      tag.addEventListener("click", () => selectGloveSize(tag, size.label));
+    }
+    
     sizesContainer.appendChild(tag);
   });
+
+  // Agregar hint de selección
+  const hint = document.createElement("p");
+  hint.className = "size-selection-hint";
+  hint.id = "size-hint";
+  hint.textContent = "Selecciona una talla";
+  sizesContainer.appendChild(hint);
+}
+
+/**
+ * Maneja la selección de talla de guante
+ */
+function selectGloveSize(element, size) {
+  // Remover selección anterior
+  const allTags = document.querySelectorAll(".size-tag");
+  allTags.forEach(tag => tag.classList.remove("selected"));
+  
+  // Seleccionar la nueva talla
+  element.classList.add("selected");
+  selectedGloveSize = size;
+  
+  // Actualizar hint
+  const hint = document.getElementById("size-hint");
+  if (hint) {
+    hint.textContent = `Talla ${size} seleccionada`;
+    hint.classList.remove("error");
+  }
 }
 
 /**

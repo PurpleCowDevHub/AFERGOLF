@@ -228,6 +228,17 @@ function clearSession() {
   localStorage.removeItem(STORAGE_KEYS.USER_ID);
   localStorage.removeItem(STORAGE_KEYS.USER_EMAIL);
   localStorage.removeItem(STORAGE_KEYS.USER_DATA);
+  
+  // Actualizar el contador del carrito a 0 (el carrito del usuario sigue guardado)
+  if (typeof updateCartCounter === 'function') {
+    updateCartCounter();
+  } else {
+    // Fallback: actualizar directamente los elementos del contador
+    const cartCountMobile = document.getElementById('cart-count-mobile');
+    const cartCountDesktop = document.getElementById('cart-count-desktop');
+    if (cartCountMobile) cartCountMobile.textContent = '0';
+    if (cartCountDesktop) cartCountDesktop.textContent = '0';
+  }
 }
 
 /**
