@@ -200,11 +200,39 @@ function renderProductDetails(p) {
       "Este producto aún no tiene una descripción detallada.";
   }
 
-  // Botón carrito (por ahora solo placeholder)
+  // Botón de agregar al carrito
   const btnCart = document.getElementById("btn-add-cart");
-  if (btnCart) {
+  if (btnCart && !btnCart.dataset.listenerAttached) {
+    // Marcar que ya tiene el listener para evitar duplicados
+    btnCart.dataset.listenerAttached = 'true';
+    
+    // Guardar datos del producto en el botón para usarlos después
+    btnCart.dataset.productId = p.referencia;
+    btnCart.dataset.productName = p.nombre;
+    btnCart.dataset.productPrice = p.precio;
+    btnCart.dataset.productImage = srcMain;
+    btnCart.dataset.productCategory = p.categoria;
+    
     btnCart.addEventListener("click", () => {
-      alert("Funcionalidad de carrito pendiente de implementación 🙂");
+      // Verificar si la función addToCart está disponible
+      if (typeof window.addToCart === 'function') {
+        const product = {
+          id: p.referencia,
+          name: p.nombre,
+          price: parseFloat(p.precio) || 0,
+          image: srcMain,
+          category: p.categoria,
+          brand: p.marca,
+          model: p.modelo
+        };
+        
+        window.addToCart(product);
+      } else {
+        console.error('La función addToCart no está disponible');
+        if (window.Toast) {
+          Toast.error('Error al agregar al carrito. Intenta de nuevo.');
+        }
+      }
     });
   }
 }

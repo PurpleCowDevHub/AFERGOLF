@@ -88,6 +88,45 @@ header {
   margin-bottom: 0;
 }
 
+/* Badge del carrito */
+.cart-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cart-counter {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #e0422f 0%, #c8371f 100%);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(224, 66, 47, 0.4);
+  border: 2px solid #F7F5F5;
+  animation: cartBadgePop 0.3s ease;
+}
+
+@keyframes cartBadgePop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .header-logo {
   position: absolute;
   top: 80%;
@@ -206,6 +245,15 @@ header {
 
   .header-bottom .text-icon {
     display: block;
+  }
+
+  /* Badge del carrito en móvil */
+  .header-bottom .cart-counter {
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    font-size: 10px;
   }
 }
 

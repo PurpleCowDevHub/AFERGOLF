@@ -17,8 +17,6 @@
   <script src="../assets/js/auth/auth.js" defer></script>
   <script src="../assets/js/ui/components.js" defer></script>
   <script src="../assets/js/pages/cart.js" defer></script>
-  <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/ui/components.js" defer></script>
 
 </head>
 
@@ -27,88 +25,22 @@
 
   <main>
     <section class="carting">
-      <!-- productos en el carrito -->
+      <!-- productos en el carrito (se cargan dinámicamente) -->
       <div class="card products">
         <div class="product-top">
           <input type="checkbox" id="select-all" checked>
           <span>Productos de Afergolf</span>
         </div>
-
-        
-        <div class="product-row">
-          <input type="checkbox" id="product-1" checked>
-
-          <img
-            src="../assets/img/Catalog/Driver Cobra LTDx.jpeg"
-            alt="Driver Cobra LTDx"
-            class="pimg"
-            loading="lazy"
-          >
-
-          <div class="product-info">
-            <h4>Driver Cobra LTDx</h4>
-            <button class="remove" type="button">Eliminar</button>
-
-            <div class="qty" aria-label="Cantidad">
-              <button type="button" class="btn-qty minus" aria-label="Disminuir">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-              <span class="qval" aria-live="polite">1</span>
-              <button type="button" class="btn-qty plus" aria-label="Aumentar">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="product-price">$3.250.000</div>
-        </div>
-
-        <div class="product-row">
-          <input type="checkbox" id="product-2" checked>
-
-          <img
-            src="../assets/img/Catalog/Guante Callaway Thermal.jpeg"
-            alt="Guante Callaway Thermal"
-            class="pimg"
-            loading="lazy"
-          >
-
-          <div class="product-info">
-            <h4>Guante Callaway Thermal</h4>
-            <button class="remove" type="button">Eliminar</button>
-
-            <div class="qty" aria-label="Cantidad">
-              <button type="button" class="btn-qty minus" aria-label="Disminuir">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-              <span class="qval" aria-live="polite">1</span>
-              <button type="button" class="btn-qty plus" aria-label="Aumentar">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="product-price">$150.000</div>
-        </div>
+        <!-- Los productos se renderizan dinámicamente desde cart.js -->
       </div>
 
       <!-- resumen de compra -->
       <aside class="card summary">
         <h3>Resumen de la compra</h3>
         <table>
-          <tr><td>Productos (2)</td><td class="right">$3.400.000</td></tr>
+          <tr><td>Productos (0)</td><td class="right">$0</td></tr>
           <tr><td>Envío</td><td class="right">$20.000</td></tr>
-          <tr class="total"><td>Total</td><td class="right">$3.420.000</td></tr>
+          <tr class="total"><td>Total</td><td class="right">$20.000</td></tr>
         </table>
         <a href="payment.html" class="btn">Continuar compra</a>
       </aside>

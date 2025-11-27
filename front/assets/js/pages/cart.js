@@ -49,6 +49,9 @@
  *   price: 1500000,
  *   image: 'uploads/products/AFG-P001/main.jpg'
  * });
+ * 
+ * ============================================================================
+ */
 
 // Placeholder SVG para imágenes no disponibles
 const CART_PLACEHOLDER_IMAGE = 'data:image/svg+xml,' + encodeURIComponent(`
@@ -239,12 +242,20 @@ function getCartItemCount() {
 function updateCartCounter() {
   const totalItems = getCartItemCount();
   
-  // Buscar elementos del contador del carrito
-  const cartCounters = document.querySelectorAll('.cart-counter, .cart-badge, #cart-count');
+  // Buscar elementos del contador del carrito (incluyendo los IDs específicos del header)
+  const cartCounters = document.querySelectorAll('.cart-counter, .cart-badge, #cart-count, #cart-count-mobile, #cart-count-desktop');
   
   cartCounters.forEach(counter => {
     counter.textContent = totalItems;
-    counter.style.display = totalItems > 0 ? 'flex' : 'none';
+    if (totalItems > 0) {
+      counter.style.display = 'flex';
+      // Agregar animación al actualizar
+      counter.style.animation = 'none';
+      counter.offsetHeight; // Forzar reflow
+      counter.style.animation = 'cartBadgePop 0.3s ease';
+    } else {
+      counter.style.display = 'none';
+    }
   });
 }
 
@@ -252,10 +263,18 @@ function updateCartCounter() {
  * Renderiza los items del carrito en la página del carrito.
  */
 function renderCartItems() {
-  const cartContainer = document.querySelector('.products');
-  if (!cartContainer) return;
+  console.log('[Cart] renderCartItems() ejecutándose');
+  
+  const cartContainer = document.querySelector('.card.products');
+  console.log('[Cart] Contenedor encontrado:', cartContainer);
+  
+  if (!cartContainer) {
+    console.error('[Cart] No se encontró el contenedor .card.products');
+    return;
+  }
   
   const cart = getCart();
+  console.log('[Cart] Productos en carrito:', cart.length, cart);
   
   if (cart.length === 0) {
     // Ocultar el resumen y términos cuando el carrito está vacío
@@ -308,6 +327,10 @@ function renderCartItems() {
   if (summary) summary.style.display = 'block';
   if (terms) terms.style.display = 'block';
   
+  // Remover clase de carrito vacío si existía
+  const cartingSection = document.querySelector('.carting');
+  if (cartingSection) cartingSection.classList.remove('cart-is-empty');
+  
   // Generar header + productos con la estructura original
   const headerHTML = `
     <div class="product-top">
@@ -319,7 +342,7 @@ function renderCartItems() {
   // Renderizar cada producto con la estructura original completa
   const productsHTML = cart.map(item => `
     <div class="product-row" data-product-id="${item.id}">
-      <input type="checkbox" checked>
+      <input type="checkbox" class="product-checkbox" data-product-id="${item.id}" checked onchange="handleProductCheckbox()">
 
       <img
         src="${buildCartImageUrl(item.image)}"
@@ -349,44 +372,108 @@ function renderCartItems() {
         </div>
       </div>
 
-      <div class="product-price">${formatPrice(item.price)}</div>
+      <div class="product-price">${formatPrice(item.price * item.quantity)}</div>
     </div>
   `).join('');
   
   cartContainer.innerHTML = headerHTML + productsHTML;
   
+  // Agregar event listener al checkbox "Seleccionar todo"
+  const selectAllCheckbox = document.getElementById('select-all');
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener('change', handleSelectAll);
+  }
+  
   updateCartTotals();
 }
 
 /**
+ * Maneja el checkbox "Seleccionar todo"
+ */
+function handleSelectAll() {
+  const selectAllCheckbox = document.getElementById('select-all');
+  const productCheckboxes = document.querySelectorAll('.product-checkbox');
+  
+  productCheckboxes.forEach(checkbox => {
+    checkbox.checked = selectAllCheckbox.checked;
+  });
+  
+  updateCartTotals();
+}
+
+/**
+ * Maneja los checkboxes individuales de productos
+ */
+function handleProductCheckbox() {
+  const selectAllCheckbox = document.getElementById('select-all');
+  const productCheckboxes = document.querySelectorAll('.product-checkbox');
+  
+  // Verificar si todos están seleccionados
+  const allChecked = Array.from(productCheckboxes).every(cb => cb.checked);
+  const someChecked = Array.from(productCheckboxes).some(cb => cb.checked);
+  
+  if (selectAllCheckbox) {
+    selectAllCheckbox.checked = allChecked;
+    selectAllCheckbox.indeterminate = someChecked && !allChecked;
+  }
+  
+  updateCartTotals();
+}
+
+/**
+ * Obtiene los IDs de los productos seleccionados
+ * @returns {Array} Array de IDs seleccionados
+ */
+function getSelectedProductIds() {
+  const productCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+  return Array.from(productCheckboxes).map(cb => cb.dataset.productId);
+}
+
+/**
  * Actualiza los totales del carrito en el resumen.
+ * Solo cuenta los productos que están seleccionados (checkbox checked)
  */
 function updateCartTotals() {
   const cart = getCart();
+  const selectedIds = getSelectedProductIds();
+  
   let subtotal = 0;
   let productCount = 0;
   
   cart.forEach(item => {
-    subtotal += item.price * item.quantity;
-    productCount += item.quantity;
+    // Solo sumar si el producto está seleccionado
+    if (selectedIds.includes(item.id)) {
+      subtotal += item.price * item.quantity;
+      productCount += item.quantity;
+    }
   });
   
   // Actualizar UI del resumen
-  const summaryTable = document.querySelector('.summary table');
+  const summaryTable = document.querySelector('.card.summary table');
   if (summaryTable) {
     const rows = summaryTable.querySelectorAll('tr');
+    
+    // Primera fila: Productos
     if (rows[0]) {
-      const productText = rows[0].querySelector('td');
-      const priceText = rows[0].querySelector('.right');
+      const productText = rows[0].querySelector('td:first-child');
+      const priceText = rows[0].querySelector('td.right');
       if (productText) productText.textContent = `Productos (${productCount})`;
       if (priceText) priceText.textContent = formatPrice(subtotal);
     }
     
-    const shipping = 20000; // Costo fijo de envío
+    // Costo de envío (solo si hay productos seleccionados)
+    const shipping = productCount > 0 ? 20000 : 0;
     const total = subtotal + shipping;
     
+    // Segunda fila: Envío
+    if (rows[1]) {
+      const shippingText = rows[1].querySelector('td.right');
+      if (shippingText) shippingText.textContent = formatPrice(shipping);
+    }
+    
+    // Tercera fila: Total
     if (rows[2]) {
-      const totalText = rows[2].querySelector('.right');
+      const totalText = rows[2].querySelector('td.right');
       if (totalText) totalText.textContent = formatPrice(total);
     }
   }
@@ -409,107 +496,38 @@ function formatPrice(amount) {
 // 4. EVENT LISTENERS
 // ============================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * Inicializa el carrito cuando el DOM está listo
+ */
+function initCart() {
+  console.log('[Cart] initCart() - Inicializando carrito');
+  
   // Actualizar contador al cargar
   updateCartCounter();
   
   // Si estamos en la página del carrito, renderizar items
-  if (window.location.pathname.includes('cart.html')) {
+  const isCartPage = window.location.pathname.includes('cart.html') || 
+                     window.location.href.includes('cart.html');
+  
+  console.log('[Cart] ¿Es página de carrito?', isCartPage);
+  console.log('[Cart] Pathname:', window.location.pathname);
+  console.log('[Cart] Href:', window.location.href);
+  
+  if (isCartPage) {
+    console.log('[Cart] Renderizando items del carrito...');
+    const cart = getCart();
+    console.log('[Cart] Contenido del carrito:', cart);
     renderCartItems();
   }
-  
-  // Botones de eliminar en el carrito (para HTML estático)
-  const removeButtons = document.querySelectorAll('.remove');
-  removeButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const productRow = e.target.closest('.product-row');
-      if (productRow) {
-        const productId = productRow.dataset.productId;
-        if (productId) {
-          removeFromCart(productId);
-        } else {
-          // Animación de eliminación para HTML estático
-          const productName = productRow.querySelector('h4')?.textContent || 'Producto';
-          
-          productRow.style.opacity = '0';
-          productRow.style.transform = 'translateX(-20px)';
-          productRow.style.transition = 'all 0.3s ease';
-          
-          setTimeout(() => {
-            productRow.remove();
-            if (window.Toast) {
-              Toast.info(`"${productName}" eliminado del carrito`);
-            }
-            updateCartTotals();
-          }, 300);
-        }
-      }
-    });
-  });
-  
-  // Botones de cantidad (para HTML estático)
-  const minusButtons = document.querySelectorAll('.btn-qty.minus');
-  const plusButtons = document.querySelectorAll('.btn-qty.plus');
-  
-  minusButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const productRow = e.target.closest('.product-row');
-      const productId = productRow?.dataset.productId;
-      
-      if (productId) {
-        updateCartQuantity(productId, -1);
-      } else {
-        // Para HTML estático
-        const qtySpan = e.target.closest('.qty').querySelector('.qval');
-        let qty = parseInt(qtySpan.textContent);
-        if (qty > 1) {
-          qtySpan.textContent = qty - 1;
-          updateCartTotals();
-        }
-      }
-    });
-  });
-  
-  plusButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const productRow = e.target.closest('.product-row');
-      const productId = productRow?.dataset.productId;
-      
-      if (productId) {
-        updateCartQuantity(productId, 1);
-      } else {
-        // Para HTML estático
-        const qtySpan = e.target.closest('.qty').querySelector('.qval');
-        let qty = parseInt(qtySpan.textContent);
-        qtySpan.textContent = qty + 1;
-        updateCartTotals();
-        if (window.Toast) {
-          Toast.success('Cantidad actualizada', { duration: 2000 });
-        }
-      }
-    });
-  });
-  
-  // Botón de agregar al carrito en detalles de producto
-  const addToCartBtn = document.querySelector('.btn-cart');
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener('click', () => {
-      const productName = document.querySelector('.product-title')?.textContent || 'Producto';
-      const priceText = document.querySelector('.product-price')?.textContent || '$0';
-      const productImage = document.querySelector('.product-gallery img')?.src;
-      const productId = window.currentProductId || 'temp-' + Date.now();
-      
-      const price = parseInt(priceText.replace(/[^\d]/g, ''));
-      
-      addToCart({
-        id: productId,
-        name: productName,
-        price: price,
-        image: productImage
-      });
-    });
-  }
-});
+}
+
+// Ejecutar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCart);
+} else {
+  // DOM ya está listo
+  initCart();
+}
 
 // ============================================================================
 // EXPORTACIÓN
@@ -525,4 +543,8 @@ if (typeof window !== 'undefined') {
   window.getCartTotal = getCartTotal;
   window.getCartItemCount = getCartItemCount;
   window.updateCartCounter = updateCartCounter;
+  window.renderCartItems = renderCartItems;
+  window.handleSelectAll = handleSelectAll;
+  window.handleProductCheckbox = handleProductCheckbox;
+  window.getSelectedProductIds = getSelectedProductIds;
 }
