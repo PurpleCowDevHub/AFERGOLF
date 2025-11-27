@@ -77,7 +77,10 @@
   display: flex;
   flex-direction: column;
   width: 380px;
-  height: 400px;
+  /* antes: height: 400px;  */
+  height: auto;          /* se adapta al contenido */
+  min-height: 320px;     /* para que no quede muy pequeña */
+  align-self: stretch;   /* se estira verticalmente dentro del grid si hace falta */
 }
 
 .product-title {

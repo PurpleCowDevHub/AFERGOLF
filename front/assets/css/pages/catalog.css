@@ -16,69 +16,84 @@
   grid-column: 1 / 4;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 30px;
 }
 
-/* Cards de Productos */
+/* Cards de Productos (ESTILO TIPO INDEX) */
 .catalogo-producto {
   background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.15);
-  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.15);
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform .2s ease;
-  min-height: 300px;
+  text-align: left;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
-.catalogo-producto:hover { 
-  transform: translateY(-3px); 
+.catalogo-producto:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.25);
 }
 
 .catalogo-producto img {
   width: 100%;
-  height: 220px;
+  height: 240px;
   object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  background: #fff;
+  box-shadow: 0 4px 20px 5px rgba(0, 0, 0, 0.08);
 }
 
+/* Nombre del producto */
 .catalogo-producto h3 {
   font-size: 18px;
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 6px;
+  font-weight: 700; /* NEGRILLA */
+  color: #333;
+  margin-bottom: 8px;
+  font-family: "Montserrat", "Poppins", Arial, sans-serif;
+  line-height: 1.4;
 }
 
+/* Precio */
 .catalogo-precio {
   font-size: 16px;
-  font-weight: 700;
-  color: #d64a3a;
-  margin-bottom: 10px;
+  font-weight: 600;
+  color: rgb(237, 27, 36);
+  margin-bottom: 12px;
 }
 
 /* Tallas interactivas */
 .catalogo-tallas {
   display: flex;
-  gap: 6px;
+  gap: 10px;
+  margin-top: auto;
 }
 
 .catalogo-tallas button {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 13px;
-  color: #555;
-  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  color: #666;
+  background: #f8f9fa;
   cursor: pointer;
-  transition: all .2s;
+  transition: all 0.25s ease;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .catalogo-tallas button:hover {
   border-color: #d64a3a;
-  color: #d64a3a;
+  color: #fff;
+  background: rgb(237, 27, 36);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(237, 27, 36, 0.3);
 }
 
 .catalogo-tallas button.active {
@@ -87,7 +102,7 @@
   border-color: #d64a3a;
 }
 
-/* Sidebar de Filtros */
+/* Sidebar de Filtros (TU VERSIÓN ORIGINAL, SIN TOCAR) */
 .catalogo-filtros {
   grid-column: 4 / 5;
   background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
@@ -150,10 +165,12 @@
   font-family: 'Montserrat', sans-serif;
   color: #333;
   background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11a.5.5 0 0 1-.354-.146l-3-3a.5.5 0 1 1 .708-.708L8 9.793l2.646-2.647a.5.5 0 0 1 .708.708l-3 3A.5.5 0 0 1 8 11z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 16px;
+
   appearance: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -178,8 +195,6 @@
 .catalogo-filtros select:active {
   transform: translateY(0);
 }
-
-/* Dropdown Personalizado */
 
 /* Select múltiple/expandido */
 .catalogo-filtros select[size],
@@ -405,7 +420,6 @@
     text-align: left;
   }
   
-  /* Ajustes para dropdown en móvil */
   .catalogo-filtros select[size],
   .catalogo-filtros select[multiple] {
     max-height: 150px;
@@ -433,30 +447,12 @@
     width: 85%;
     margin: 0 auto;
     min-height: 350px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
   }
   
   .catalogo-producto img {
-    align-self: center;
-  }
-  
-  .catalogo-producto h3 {
-    text-align: center;
-  }
-  
-  .catalogo-precio {
-    text-align: center;
-  }
-  
-  .catalogo-tallas {
-    justify-content: center;
+    height: 260px;
   }
 
-  /* Estado vacío en móvil */
   .empty-state {
     padding: 40px 20px 60px;
     margin: 0 auto;
