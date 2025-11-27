@@ -28,15 +28,15 @@ class AfergolfHeader extends HTMLElement {
    */
   connectedCallback() {
     // Calcular la ruta relativa al partial basada en la ubicación actual
-    const path = this.getRelativePath('header.html');
+    const path = this.getRelativePath("header.html");
     fetch(path)
-      .then(response => response.text())
-      .then(html => {
+      .then((response) => response.text())
+      .then((html) => {
         const fixed = this.rewriteAbsoluteUrls(html);
         this.innerHTML = fixed;
         this.executeScripts();
       })
-      .catch(err => console.error('Error cargando el header:', err));
+      .catch((err) => console.error("Error cargando el header:", err));
   }
 
   /**
@@ -47,7 +47,7 @@ class AfergolfHeader extends HTMLElement {
   getRelativePath(filename) {
     const path = window.location.pathname;
     // Si estamos en /front/views/, subir un nivel
-    if (path.includes('/front/views/')) {
+    if (path.includes("/front/views/")) {
       return `../partials/${filename}`;
     }
     // Si estamos en la raíz o en /front/
@@ -59,17 +59,17 @@ class AfergolfHeader extends HTMLElement {
    * Necesario porque innerHTML no ejecuta scripts automáticamente.
    */
   executeScripts() {
-    this.querySelectorAll('script').forEach(oldScript => {
-      const newScript = document.createElement('script');
-      Array.from(oldScript.attributes).forEach(attr => 
+    this.querySelectorAll("script").forEach((oldScript) => {
+      const newScript = document.createElement("script");
+      Array.from(oldScript.attributes).forEach((attr) =>
         newScript.setAttribute(attr.name, attr.value)
-      );  
+      );
       newScript.textContent = oldScript.textContent;
       oldScript.parentNode.replaceChild(newScript, oldScript);
     });
-    
+
     // Reinicializar componentes UI después de cargar el header
-    if (typeof initializeUIComponents === 'function') {
+    if (typeof initializeUIComponents === "function") {
       initializeUIComponents();
     }
   }
@@ -78,8 +78,10 @@ class AfergolfHeader extends HTMLElement {
    * Retorna el prefijo base del proyecto (e.g. '/AFERGOLF/' en XAMPP o '/' en Live Server).
    */
   getBasePrefix() {
-    const parts = (window.location.pathname || '/').split('/').filter(Boolean);
-    return parts.length ? `/${parts[0]}/` : '/';
+    const parts = (window.location.pathname || "/")
+      .split("/")
+      .filter(Boolean);
+    return parts.length ? `/${parts[0]}/` : "/";
   }
 
   /**
@@ -95,7 +97,7 @@ class AfergolfHeader extends HTMLElement {
   }
 }
 
-customElements.define('afergolf-header', AfergolfHeader);
+customElements.define("afergolf-header", AfergolfHeader);
 
 // ============================================================================
 // COMPONENTE: FOOTER
@@ -114,14 +116,14 @@ class AfergolfFooter extends HTMLElement {
    */
   connectedCallback() {
     // Calcular la ruta relativa al partial basada en la ubicación actual
-    const path = this.getRelativePath('footer.html');
+    const path = this.getRelativePath("footer.html");
     fetch(path)
-      .then(response => response.text())
-      .then(html => {
+      .then((response) => response.text())
+      .then((html) => {
         const fixed = this.rewriteAbsoluteUrls(html);
         this.innerHTML = fixed;
       })
-      .catch(err => console.error('Error cargando el footer:', err));
+      .catch((err) => console.error("Error cargando el footer:", err));
   }
 
   /**
@@ -132,7 +134,7 @@ class AfergolfFooter extends HTMLElement {
   getRelativePath(filename) {
     const path = window.location.pathname;
     // Si estamos en /front/views/, subir un nivel
-    if (path.includes('/front/views/')) {
+    if (path.includes("/front/views/")) {
       return `../partials/${filename}`;
     }
     // Si estamos en la raíz o en /front/
@@ -140,8 +142,10 @@ class AfergolfFooter extends HTMLElement {
   }
 
   getBasePrefix() {
-    const parts = (window.location.pathname || '/').split('/').filter(Boolean);
-    return parts.length ? `/${parts[0]}/` : '/';
+    const parts = (window.location.pathname || "/")
+      .split("/")
+      .filter(Boolean);
+    return parts.length ? `/${parts[0]}/` : "/";
   }
 
   rewriteAbsoluteUrls(html) {
@@ -152,4 +156,40 @@ class AfergolfFooter extends HTMLElement {
   }
 }
 
-customElements.define('afergolf-footer', AfergolfFooter);
+customElements.define("afergolf-footer", AfergolfFooter);
+
+// =========================
+// Búsqueda global AFERGOLF
+// =========================
+
+// Delegación de eventos para que funcione aunque el header se cargue después
+document.addEventListener("submit", (event) => {
+  const form = event.target;
+
+  // Solo nos interesa el formulario del buscador global
+  if (!(form instanceof HTMLFormElement)) return;
+  if (form.id !== "global-search-form") return;
+
+  event.preventDefault();
+
+  const input = form.querySelector("#global-search-input");
+  if (!input) return;
+
+  const query = input.value.trim();
+  if (!query) return;
+
+  const path = window.location.pathname;
+
+  // Detectar si estamos en el proyecto dentro de /AFERGOLF o en /front directo
+  let target = "/front/views/catalog.html";
+
+  if (path.includes("/AFERGOLF/front/")) {
+    target = "/AFERGOLF/front/views/catalog.html";
+  } else if (path.includes("/AFERGOLF/")) {
+    // Por si alguna vista está bajo /AFERGOLF pero en otro subpath
+    target = "/AFERGOLF/front/views/catalog.html";
+  }
+
+  // Redirigir al catálogo con el parámetro q
+  window.location.href = `${target}?q=${encodeURIComponent(query)}`;
+});

@@ -5,7 +5,14 @@
 
 const CATALOG_API_URL = "../../back/modules/products/api/catalog.php";
 
+// Variable global para recordar el término de búsqueda actual
+let currentSearchQuery = "";
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Leer el parámetro ?q= de la URL (búsqueda desde el header)
+  const params = new URLSearchParams(window.location.search);
+  currentSearchQuery = (params.get("q") || "").trim().toLowerCase();
+
   loadCatalogProducts();
 
   const tipoSelect = document.getElementById("tipo");
@@ -19,7 +26,20 @@ async function loadCatalogProducts() {
   const container = document.getElementById("catalogo-productos");
   if (!container) return;
 
-  container.innerHTML = `<p style="padding: 20px;">Cargando productos...</p>`;
+  container.innerHTML = `
+    <div style="
+      width: 100%;
+      padding: 40px 20px;
+      text-align: center;
+      color: #555;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    ">
+      <p style="font-size: 1rem;">Cargando productos...</p>
+    </div>
+  `;
 
   try {
     const response = await fetch(CATALOG_API_URL);
@@ -42,10 +62,29 @@ function filterProducts(productos) {
   const tipo = document.getElementById("tipo")?.value || "";
   const marca = document.getElementById("marca")?.value || "";
 
+  const q = currentSearchQuery; // ya viene en minúsculas
+
   return productos.filter((p) => {
     const matchTipo = tipo === "" || p.categoria === tipo;
-    const matchMarca = marca === "" || (p.marca && p.marca.toLowerCase() === marca.toLowerCase());
-    return matchTipo && matchMarca;
+    const matchMarca = marca === "" || p.marca === marca;
+
+    // Campos donde vamos a buscar el texto libre
+    const nombre = (p.nombre || "").toLowerCase();
+    const descripcion =
+      (p.descripcion || p.descripcion_corta || "").toLowerCase();
+    const marcaProd = (p.marca || "").toLowerCase();
+    const categoriaProd = (p.categoria || "").toLowerCase();
+    const referencia = (p.referencia || "").toLowerCase();
+
+    const matchBusqueda =
+      q === "" ||
+      nombre.includes(q) ||
+      descripcion.includes(q) ||
+      marcaProd.includes(q) ||
+      categoriaProd.includes(q) ||
+      referencia.includes(q);
+
+    return matchTipo && matchMarca && matchBusqueda;
   });
 }
 
@@ -162,48 +201,40 @@ function renderEmptyState() {
   const container = document.getElementById("catalogo-productos");
   if (!container) return;
 
+  const mensajeBusqueda = currentSearchQuery
+    ? `No encontramos resultados para <strong>"${currentSearchQuery}"</strong>.`
+    : "No se encontraron productos para los filtros seleccionados.";
+
   container.innerHTML = `
-    <div class="empty-state">
-      <div class="empty-state-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
-        <span class="empty-state-badge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </span>
-      </div>
-      <h3 class="empty-state-title">No encontramos productos</h3>
-      <p class="empty-state-description">
-        No hay productos que coincidan con los filtros seleccionados. Intenta ajustar tus criterios de búsqueda.
+    <div style="
+      width: 100%;
+      padding: 80px 20px;
+      text-align: center;
+      color: #555;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      transform: translateX(290px); 
+    ">
+      <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+
+      <p style="
+        margin-top: 20px;
+        font-size: 1.2rem;
+        max-width: 480px;
+        line-height: 1.5;
+      ">
+        ${mensajeBusqueda}
       </p>
-      <div class="empty-state-actions">
-        <button class="btn-secondary" onclick="clearFilters()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 6h18"></path>
-            <path d="M7 12h10"></path>
-            <path d="M10 18h4"></path>
-          </svg>
-          Limpiar filtros
-        </button>
-      </div>
+
+      <p style="margin-top: 10px; color: #888; font-size: 0.9rem;">
+        Intenta buscar otra palabra o revisar la ortografía.
+      </p>
     </div>
   `;
-}
-
-/**
- * Limpia los filtros y recarga los productos
- */
-function clearFilters() {
-  const tipoSelect = document.getElementById("tipo");
-  const marcaSelect = document.getElementById("marca");
-  
-  if (tipoSelect) tipoSelect.value = "";
-  if (marcaSelect) marcaSelect.value = "";
-  
-  loadCatalogProducts();
 }
