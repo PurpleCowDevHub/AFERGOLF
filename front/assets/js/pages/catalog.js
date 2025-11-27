@@ -68,11 +68,31 @@ function renderProducts(productos) {
     const imagenPrincipal =
       p.imagen_principal || "../assets/img/Catalog/Guante Footjoy GTXtreme.jpeg";
 
+    // Calcular stock total
+    const stockTotal = calcularStockTotal(p);
+    const stockBadge = getStockBadge(stockTotal);
+    
+    // Nombre de categoría formateado
+    const categoriaNombre = {
+      palos: 'Palos',
+      bolas: 'Bolas',
+      guantes: 'Guantes'
+    }[p.categoria] || p.categoria;
+
     article.innerHTML = `
-      <img src="${imagenPrincipal}" alt="${p.nombre}" loading="lazy">
-      <h3>${p.nombre}</h3>
-      <p class="catalogo-precio">${formatPrice(p.precio)}</p>
-      ${renderTallas(p)}
+      <div class="catalogo-producto-img">
+        <img src="${imagenPrincipal}" alt="${p.nombre}" loading="lazy">
+        <span class="catalogo-categoria-badge ${p.categoria}">${categoriaNombre}</span>
+        ${stockBadge}
+      </div>
+      <div class="catalogo-producto-content">
+        <span class="catalogo-marca">${p.marca || 'AFERGOLF'}</span>
+        <h3>${p.nombre}</h3>
+        ${renderTallas(p)}
+        <div class="catalogo-producto-footer">
+          <p class="catalogo-precio">${formatPrice(p.precio)}</p>
+        </div>
+      </div>
     `;
 
     // 👉 Al hacer click en la tarjeta → ir a detalles
@@ -109,6 +129,33 @@ function formatPrice(price) {
     currency: "COP",
     minimumFractionDigits: 0,
   }).format(price || 0);
+}
+
+/**
+ * Calcula el stock total de un producto
+ */
+function calcularStockTotal(producto) {
+  if (producto.categoria === 'guantes') {
+    return (parseInt(producto.stock_talla_s) || 0) +
+           (parseInt(producto.stock_talla_m) || 0) +
+           (parseInt(producto.stock_talla_l) || 0) +
+           (parseInt(producto.stock_talla_xl) || 0) +
+           (parseInt(producto.stock_talla_xxl) || 0);
+  }
+  return parseInt(producto.stock) || 0;
+}
+
+/**
+ * Genera el badge de stock según la cantidad disponible
+ */
+function getStockBadge(stock) {
+  if (stock === 0) {
+    return '<span class="catalogo-stock-badge out-stock">Agotado</span>';
+  } else if (stock <= 5) {
+    return `<span class="catalogo-stock-badge low-stock">¡Últimas ${stock}!</span>`;
+  } else {
+    return '<span class="catalogo-stock-badge in-stock">Disponible</span>';
+  }
 }
 
 function renderEmptyState() {
