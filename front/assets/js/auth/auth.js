@@ -275,12 +275,13 @@ function closeLogoutConfirmation() {
  */
 function requireAuth(redirectUrl = 'log_in.html') {
   if (!isAuthenticated()) {
+    // Mostrar mensaje y redirigir al login
     if (window.Toast) {
       Toast.warning('Debes iniciar sesión para acceder a esta página');
     }
     setTimeout(() => {
       window.location.href = redirectUrl;
-    }, 500);
+    }, 2000);
     return false;
   }
   
