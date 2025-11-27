@@ -51,6 +51,42 @@ function showError(message) {
   }
 }
 
+/**
+ * Construye la URL correcta de la imagen
+ */
+function getImageUrl(imagePath) {
+  if (!imagePath) return null;
+  
+  // Si ya es una URL absoluta, retornarla tal cual
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    return imagePath;
+  }
+  
+  // Si tiene /AFERGOLF/uploads (viene de BD con prefijo), limpiar
+  if (imagePath.includes("/AFERGOLF/uploads/")) {
+    const cleanPath = imagePath.replace(/^.*\/AFERGOLF\//, "");
+    return `../../${cleanPath}`;
+  }
+  
+  // Si es una ruta de uploads, construir desde la raíz del proyecto
+  if (imagePath.startsWith("uploads/")) {
+    return `../../${imagePath}`;
+  }
+  
+  // Si comienza con /, remover la barra y agregar ..
+  if (imagePath.startsWith("/uploads/")) {
+    return `../../${imagePath.substring(1)}`;
+  }
+  
+  // Si ya contiene ../, devolverlo tal cual
+  if (imagePath.includes("../")) {
+    return imagePath;
+  }
+  
+  // Por defecto, asumir que es relativa a assets
+  return `../assets/img/${imagePath}`;
+}
+
 function renderProductDetails(p) {
   const content = document.getElementById("product-content");
   const descSection = document.getElementById("product-description-section");
@@ -73,10 +109,11 @@ function renderProductDetails(p) {
   const placeholder =
     "../assets/img/Catalog/Guante Footjoy GTXtreme.jpeg";
 
-  const srcMain = p.imagen_principal || placeholder;
-  const srcSide = p.imagen_lateral || "";
-  const srcTop = p.imagen_superior || "";
-  const srcFront = p.imagen_frontal || "";
+  // Construir URLs correctas de las imágenes
+  const srcMain = getImageUrl(p.imagen_principal) || placeholder;
+  const srcSide = getImageUrl(p.imagen_lateral);
+  const srcTop = getImageUrl(p.imagen_superior);
+  const srcFront = getImageUrl(p.imagen_frontal);
 
   if (mainImg) mainImg.src = srcMain;
 

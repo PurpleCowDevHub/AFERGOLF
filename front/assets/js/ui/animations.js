@@ -358,5 +358,6 @@ if (document.querySelector('[data-slider]')) {
 // Exportar para uso global
 if (typeof window !== 'undefined') {
   window.ProductsCarousel = ProductsCarousel;
+  window.carousel = productsCarousel;
   window.productsCarousel = productsCarousel;
 }
