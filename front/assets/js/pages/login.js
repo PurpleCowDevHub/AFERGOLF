@@ -114,12 +114,18 @@ async function handleLoginSubmit(event) {
         localStorage.removeItem(REMEMBER_EMAIL_KEY);
       }
       
-      showLoginMessage('¡Inicio de sesión exitoso!', 'success');
-      
-      // Redirigir al inicio después de un breve delay
-      setTimeout(() => {
-        window.location.href = '../../index.html';
-      }, 1000);
+      // Redirigir según el rol del usuario
+      if (data.user.rol === 'admin') {
+        showLoginMessage('¡Bienvenido Administrador!', 'success');
+        setTimeout(() => {
+          window.location.href = 'admin_dashboard.html';
+        }, 1000);
+      } else {
+        showLoginMessage('¡Inicio de sesión exitoso!', 'success');
+        setTimeout(() => {
+          window.location.href = '../../index.html';
+        }, 1000);
+      }
       
     } else {
       showLoginMessage(data.message || 'Credenciales incorrectas', 'error');
@@ -257,10 +263,25 @@ function loadRememberedEmail() {
 // ============================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Verificar si ya está autenticado
+  // Verificar si ya está autenticado y redirigir según rol
   const isLogged = localStorage.getItem('afergolf_logged');
   if (isLogged === 'true') {
-    window.location.href = 'my_account.html';
+    // Obtener datos del usuario para verificar rol
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        if (user.rol === 'admin') {
+          window.location.href = 'admin_dashboard.html';
+        } else {
+          window.location.href = 'my_account.html';
+        }
+      } catch (e) {
+        window.location.href = 'my_account.html';
+      }
+    } else {
+      window.location.href = 'my_account.html';
+    }
     return;
   }
   

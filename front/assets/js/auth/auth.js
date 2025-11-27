@@ -89,6 +89,14 @@ const PROTECTED_PAGES = [
 ];
 
 /**
+ * Páginas que requieren rol de administrador
+ * @constant {string[]}
+ */
+const ADMIN_PAGES = [
+  'admin_dashboard.html'
+];
+
+/**
  * Páginas solo para usuarios no autenticados (login, registro)
  * @constant {string[]}
  */
@@ -143,6 +151,15 @@ function getUserEmail() {
   return localStorage.getItem(STORAGE_KEYS.USER_EMAIL);
 }
 
+/**
+ * Verifica si el usuario actual es administrador.
+ * @returns {boolean} True si el usuario tiene rol de admin
+ */
+function isAdmin() {
+  const user = getCurrentUser();
+  return user && user.rol === 'admin';
+}
+
 // ============================================================================
 // 3. FUNCIONES DE SESIÓN (GUARDAR/LIMPIAR)
 // ============================================================================
@@ -163,10 +180,13 @@ function saveSession(user) {
 // ============================================================================
 
 /**
- * Cierra la sesión del usuario y redirige al inicio.
+ * Cierra la sesión del usuario y redirige según su rol.
  * @param {boolean} [showMessage=true] - Mostrar mensaje de confirmación
  */
 function handleLogout(showMessage = true) {
+  // Verificar si es admin antes de limpiar la sesión
+  const wasAdmin = isAdmin();
+  
   // Limpiar todos los datos de sesión
   clearSession();
   
@@ -174,18 +194,28 @@ function handleLogout(showMessage = true) {
     Toast.success('Sesión cerrada correctamente');
   }
   
-  // Redirigir al inicio
+  // Redirigir según el rol
   setTimeout(() => {
-    // Determinar la ruta correcta según ubicación actual
     const currentPath = window.location.pathname;
-    if (currentPath.includes('/front/views/')) {
-      // Desde front/views/ -> ir a la raíz
-      window.location.href = '../../index.html';
-    } else if (currentPath.includes('/views/')) {
-      // Desde views/ directamente -> ir un nivel arriba
-      window.location.href = '../index.html';
+    
+    if (wasAdmin) {
+      // Si era admin, llevarlo al login
+      if (currentPath.includes('/front/views/')) {
+        window.location.href = 'log_in.html';
+      } else if (currentPath.includes('/views/')) {
+        window.location.href = 'log_in.html';
+      } else {
+        window.location.href = 'front/views/log_in.html';
+      }
     } else {
-      window.location.href = 'index.html';
+      // Si era usuario normal, llevarlo al inicio
+      if (currentPath.includes('/front/views/')) {
+        window.location.href = '../../index.html';
+      } else if (currentPath.includes('/views/')) {
+        window.location.href = '../index.html';
+      } else {
+        window.location.href = 'index.html';
+      }
     }
   }, 500);
 }
@@ -238,8 +268,9 @@ function closeLogoutConfirmation() {
 // ============================================================================
 
 /**
- * Protege una página que requiere autenticación.
- * Redirige al login si el usuario no está autenticado.
+ * Protege una página que requiere autenticación de usuario normal.
+ * Redirige al login si no está autenticado.
+ * Redirige al admin_dashboard si es administrador.
  * @param {string} [redirectUrl='log_in.html'] - URL de redirección
  */
 function requireAuth(redirectUrl = 'log_in.html') {
@@ -252,17 +283,62 @@ function requireAuth(redirectUrl = 'log_in.html') {
     }, 500);
     return false;
   }
+  
+  // Si es admin, no puede acceder a páginas de usuario normal
+  if (isAdmin()) {
+    if (window.Toast) {
+      Toast.info('Redirigiendo al panel de administración');
+    }
+    setTimeout(() => {
+      window.location.href = 'admin_dashboard.html';
+    }, 500);
+    return false;
+  }
+  
+  return true;
+}
+
+/**
+ * Protege una página que requiere rol de administrador.
+ * Redirige al inicio si el usuario no es admin.
+ * @param {string} [redirectUrl='../../index.html'] - URL de redirección
+ */
+function requireAdmin(redirectUrl = '../../index.html') {
+  if (!isAuthenticated()) {
+    if (window.Toast) {
+      Toast.warning('Debes iniciar sesión para acceder a esta página');
+    }
+    setTimeout(() => {
+      window.location.href = 'log_in.html';
+    }, 500);
+    return false;
+  }
+  
+  if (!isAdmin()) {
+    if (window.Toast) {
+      Toast.error('No tienes permisos de administrador');
+    }
+    setTimeout(() => {
+      window.location.href = redirectUrl;
+    }, 500);
+    return false;
+  }
   return true;
 }
 
 /**
  * Redirige al usuario si ya está autenticado.
  * Útil para páginas de login/registro.
- * @param {string} [redirectUrl='my_account.html'] - URL de redirección
+ * Admins van al dashboard, usuarios normales a my_account.
+ * @param {string} [redirectUrl='my_account.html'] - URL de redirección para usuarios
  */
 function redirectIfAuthenticated(redirectUrl = 'my_account.html') {
   if (isAuthenticated()) {
-    window.location.href = redirectUrl;
+    if (isAdmin()) {
+      window.location.href = 'admin_dashboard.html';
+    } else {
+      window.location.href = redirectUrl;
+    }
     return true;
   }
   return false;
@@ -299,14 +375,22 @@ function updateHeaderUI() {
 function checkPageAccess() {
   const currentPage = window.location.pathname.split('/').pop();
   
-  // Verificar páginas protegidas
+  // Verificar páginas de administrador (primero, más restrictivo)
+  if (ADMIN_PAGES.includes(currentPage)) {
+    requireAdmin();
+    return;
+  }
+  
+  // Verificar páginas protegidas (solo usuarios normales)
   if (PROTECTED_PAGES.includes(currentPage)) {
-    requireAuth();
+    requireAuth(); // Esto ya redirige admins al dashboard
+    return;
   }
   
   // Verificar páginas solo para invitados
   if (GUEST_ONLY_PAGES.includes(currentPage)) {
-    redirectIfAuthenticated();
+    redirectIfAuthenticated(); // Esto ya considera el rol
+    return;
   }
 }
 
@@ -348,6 +432,17 @@ function showAuthMessage(message, type = 'info') {
  * archivos de pages/ para evitar duplicación de eventos.
  */
 function setupAuthEventListeners() {
+  // Detectar si estamos en el panel de administración
+  // En admin_dashboard, los eventos de logout se manejan en admin_delete.js
+  const currentPage = window.location.pathname.split('/').pop();
+  const isAdminPage = ADMIN_PAGES.includes(currentPage);
+  
+  // Si estamos en admin, no configurar los eventos de logout aquí
+  // para evitar duplicación (admin_delete.js los maneja)
+  if (isAdminPage) {
+    return;
+  }
+  
   // Solo configurar logout - los formularios se manejan en pages/*.js
   
   // Botones de logout
@@ -426,6 +521,7 @@ function initAuth() {
 const AfergolfAuth = {
   // Funciones de sesión
   isAuthenticated,
+  isAdmin,
   getCurrentUser,
   getUserId,
   getUserEmail,
@@ -439,6 +535,7 @@ const AfergolfAuth = {
   
   // Control de acceso
   requireAuth,
+  requireAdmin,
   redirectIfAuthenticated,
   updateHeaderUI,
   checkPageAccess,
@@ -457,6 +554,7 @@ if (typeof window !== 'undefined') {
   
   // También exponer funciones individuales para compatibilidad
   window.isAuthenticated = isAuthenticated;
+  window.isAdmin = isAdmin;
   window.handleLogout = handleLogout;
   window.getCurrentUser = getCurrentUser;
 }

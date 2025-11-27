@@ -244,18 +244,38 @@ function handleLogout() {
  */
 async function confirmLogout() {
   try {
-    // Llamar a la API de logout si existe
-    if (typeof logout === 'function') {
-      await logout();
+    // Cerrar el modal primero
+    if (typeof closeLogoutModal === 'function') {
+      closeLogoutModal();
+    }
+    
+    // Usar la función de auth.js que maneja todo correctamente
+    if (typeof window.AfergolfAuth !== 'undefined' && typeof window.AfergolfAuth.handleLogout === 'function') {
+      window.AfergolfAuth.handleLogout();
+    } else if (typeof handleLogout === 'function' && handleLogout !== confirmLogout) {
+      // Fallback a handleLogout global de auth.js (no la de este archivo)
+      // Limpiar todas las claves de localStorage usadas por auth.js
+      localStorage.removeItem('afergolf_logged');
+      localStorage.removeItem('afergolf_user_id');
+      localStorage.removeItem('afergolf_user_email');
+      localStorage.removeItem('user');
+      window.location.href = 'log_in.html';
     } else {
-      // Fallback: limpiar localStorage y redirigir
+      // Último fallback: limpiar todo y redirigir
+      localStorage.removeItem('afergolf_logged');
+      localStorage.removeItem('afergolf_user_id');
+      localStorage.removeItem('afergolf_user_email');
       localStorage.removeItem('user');
       localStorage.removeItem('token');
       window.location.href = 'log_in.html';
     }
   } catch (error) {
     console.error('Error al cerrar sesión:', error);
-    // Redirigir de todas formas
+    // Limpiar y redirigir de todas formas
+    localStorage.removeItem('afergolf_logged');
+    localStorage.removeItem('afergolf_user_id');
+    localStorage.removeItem('afergolf_user_email');
+    localStorage.removeItem('user');
     window.location.href = 'log_in.html';
   }
 }

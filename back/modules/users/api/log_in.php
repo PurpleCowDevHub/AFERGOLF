@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Check if user exists with this email
-    $stmt = $conn->prepare("SELECT id, nombres, apellidos, email, password FROM usuarios WHERE email = ?");
+    // Check if user exists with this email (incluye rol para verificar admin)
+    $stmt = $conn->prepare("SELECT id, nombres, apellidos, email, password, rol FROM usuarios WHERE email = ?");
     if (!$stmt) {
         http_response_code(500);
         echo json_encode(["status" => "error", "message" => "Error en la consulta: " . $conn->error]);
@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['user_email'] = $user['email'];
     $_SESSION['user_nombre'] = $user['nombres'];
     $_SESSION['user_apellidos'] = $user['apellidos'];
+    $_SESSION['user_rol'] = $user['rol'] ?? 'usuario';
 
     // Return success with user data (excluding password)
     echo json_encode([
@@ -77,7 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "id" => $user['id'],
             "nombres" => $user['nombres'],
             "apellidos" => $user['apellidos'],
-            "email" => $user['email']
+            "email" => $user['email'],
+            "rol" => $user['rol'] ?? 'usuario'
         ]
     ]);
 
