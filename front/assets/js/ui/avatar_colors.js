@@ -8,8 +8,8 @@
 
 class AvatarColorExtractor {
     constructor() {
-        this.defaultGradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-        this.defaultShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+        this.defaultGradient = 'linear-gradient(135deg, #9e9e9e 0%, #757575 100%)';
+        this.defaultShadow = '0 4px 15px rgba(158, 158, 158, 0.3)';
     }
 
     /**
