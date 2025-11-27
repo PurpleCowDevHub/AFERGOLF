@@ -618,14 +618,30 @@ function generateCategorySpecs(producto) {
   switch (categoria) {
     case 'palos':
       specsHTML = `
-        <div class="specs-grid">
-          <div class="spec-card">
-            <span class="spec-card-label">Dimensiones</span>
-            <span class="spec-card-value">${producto.dimensiones || 'No especificado'}</span>
+        <div class="specs-list">
+          <div class="spec-row">
+            <span class="spec-label">Longitud</span>
+            <span class="spec-value">${producto.longitud || '-'}</span>
           </div>
-          <div class="spec-card">
-            <span class="spec-card-label">Peso</span>
-            <span class="spec-card-value">${producto.peso ? producto.peso + ' kg' : 'No especificado'}</span>
+          <div class="spec-row">
+            <span class="spec-label">Loft</span>
+            <span class="spec-value">${producto.loft || '-'}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Lie</span>
+            <span class="spec-value">${producto.lie || '-'}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Peso</span>
+            <span class="spec-value">${producto.peso || '-'}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Swing</span>
+            <span class="spec-value">${producto.swingweight || '-'}</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Flex</span>
+            <span class="spec-value">${producto.flex || '-'}</span>
           </div>
         </div>
       `;

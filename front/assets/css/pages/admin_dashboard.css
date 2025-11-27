@@ -1289,22 +1289,40 @@ body {
 
 /* Información del producto en el modal de detalles */
 .product-details-info {
-  background: #fff;
-  border-radius: 12px; 
-  border: 2px solid #e8e8e8;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: #fafafa;
+  border-radius: 10px; 
+  border: 1px solid #e5e5e5;
+  padding: 18px 20px;
   margin-bottom: 20px;
-  width: 300px;
-  min-height: 360px;
-  height: auto;
+  width: 280px;
+  max-height: 360px;
+  height: 360px;
   box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Scrollbar minimalista */
+.product-details-info::-webkit-scrollbar {
+  width: 4px;
+}
+
+.product-details-info::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.product-details-info::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 2px;
+}
+
+.product-details-info::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
 
 .product-title-details {
-  font-size: 20px;
-  font-weight: 700;
-  color: #222;
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
   line-height: 1.3;
   margin-bottom: 8px;
 }
@@ -1312,118 +1330,147 @@ body {
 /* Badge de categoría */
 .category-badge {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+  margin-bottom: 10px;
 }
 
 .category-badge.category-palos {
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  background: #e3f2fd;
   color: #1565c0;
-  border: 1px solid #90caf9;
 }
 
 .category-badge.category-bolas {
-  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  background: #fff3e0;
   color: #e65100;
-  border: 1px solid #ffcc80;
 }
 
 .category-badge.category-guantes {
-  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  background: #f3e5f5;
   color: #7b1fa2;
-  border: 1px solid #ce93d8;
 }
 
 .product-meta-details {
-  font-size: 14px;
-  color: #444;
+  font-size: 13px;
+  color: #555;
   list-style: none;
   padding: 0;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .product-meta-details li b {
-  color: #666;
+  color: #777;
   font-weight: 500;
 }
 
 /* Especificaciones por categoría */
 .product-category-specs {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+}
+
+/* Lista simple de especificaciones para palos */
+.specs-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px 8px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 8px 10px;
+  border: 1px solid #e5e5e5;
+}
+
+.spec-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 0;
+}
+
+.spec-label {
+  font-size: 9px;
+  color: #999;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.spec-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
 }
 
 /* Grid de especificaciones en cajas */
 .specs-grid {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .spec-card {
   display: flex;
-  flex-direction: column;
-  padding: 10px 14px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e5e5e5;
 }
 
 .spec-card-label {
   font-size: 11px;
-  font-weight: 600;
-  color: #6c757d;
+  font-weight: 500;
+  color: #888;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 2px;
+  letter-spacing: 0.3px;
 }
 
 .spec-card-value {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
-  color: #212529;
+  color: #333;
 }
 
 .spec-card.spec-card-highlight {
-  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-  border-color: #ffe082;
+  background: #fffbf0;
+  border-color: #e5d9c3;
 }
 
 .spec-card.spec-card-highlight .spec-card-value {
-  color: #f57c00;
-  font-size: 18px;
+  color: #c97a00;
 }
 
 /* Sección de tallas para guantes */
 .specs-section-guantes {
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 12px;
-  border: 1px solid #e9ecef;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
 }
 
 .specs-section-title {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  color: #6c757d;
+  color: #888;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
 }
 
 /* Grid de tallas para guantes */
 .tallas-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+  gap: 4px;
 }
 
 .talla-card {
@@ -1431,96 +1478,96 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 4px;
-  border-radius: 8px;
-  background: #fff;
-  border: 2px solid #dee2e6;
+  padding: 6px 2px;
+  border-radius: 4px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
   transition: all 0.2s ease;
 }
 
 .talla-card.available {
   border-color: #28a745;
-  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  background: #e8f5e9;
 }
 
 .talla-card.low {
   border-color: #ffc107;
-  background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+  background: #fff8e1;
 }
 
 .talla-card.out {
-  border-color: #e9ecef;
-  background: #f8f9fa;
+  border-color: #e0e0e0;
+  background: #f5f5f5;
   opacity: 0.6;
 }
 
 .talla-card-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: #495057;
+  font-size: 9px;
+  font-weight: 600;
+  color: #666;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .talla-card-stock {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
-  color: #212529;
+  color: #333;
   line-height: 1;
 }
 
 .talla-card.available .talla-card-stock {
-  color: #155724;
+  color: #2e7d32;
 }
 
 .talla-card.low .talla-card-stock {
-  color: #856404;
+  color: #f57c00;
 }
 
 .talla-card.out .talla-card-stock {
-  color: #6c757d;
+  color: #9e9e9e;
 }
 
 /* Stock general */
 .product-stock-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  padding: 10px 14px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e5e5e5;
 }
 
 .stock-label {
   font-size: 11px;
-  font-weight: 600;
-  color: #6c757d;
+  font-weight: 500;
+  color: #888;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .stock-value {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   margin-left: auto;
 }
 
 .stock-value.in-stock {
-  color: #28a745;
+  color: #2e7d32;
 }
 
 .stock-value.low-stock {
-  color: #ffc107;
+  color: #f57c00;
 }
 
 .stock-value.out-of-stock {
-  color: #dc3545;
+  color: #c62828;
 }
 
 .product-price-details {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: #D64A3A;
   margin: 0;
