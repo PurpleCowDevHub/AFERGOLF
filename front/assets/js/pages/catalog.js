@@ -161,13 +161,15 @@ function renderEmptyState() {
   container.innerHTML = `
     <div style="
       width: 100%;
-      padding: 60px 20px;
+      padding: 80px 20px;
       text-align: center;
       color: #555;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 320px;
+      transform: translateX(290px); 
     ">
       <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"></circle>
@@ -177,7 +179,7 @@ function renderEmptyState() {
       <p style="
         margin-top: 20px;
         font-size: 1.2rem;
-        max-width: 450px;
+        max-width: 480px;
         line-height: 1.5;
       ">
         ${mensajeBusqueda}
