@@ -122,7 +122,10 @@
 
 // URL del endpoint para crear productos
 // Se obtiene de la configuración centralizada (config.js)
-const CREATE_API_URL = window.AFERGOLF_CONFIG?.API?.CREATE_PRODUCT || '/back/modules/products/api/admin/create_product.php';
+function getCreateApiUrl() {
+  return window.AFERGOLF_CONFIG?.API?.CREATE_PRODUCT || 
+         (window.AFERGOLF_CONFIG?.API_BASE || '') + '/products/api/admin/create_product.php';
+}
 
 /**
  * Almacenamiento temporal de imágenes convertidas a Base64
@@ -431,7 +434,7 @@ async function saveNewProduct(formData) {
   }
   
   try {
-    const response = await fetch(CREATE_API_URL, {
+    const response = await fetch(getCreateApiUrl(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -10,18 +10,18 @@ const AFERGOLF_CONFIG = (function() {
   const hostname = window.location.hostname;
   const isLocal = (hostname === 'localhost' || hostname === '127.0.0.1');
   
-  // Configuración para LOCAL (XAMPP)
+  // Configuración para LOCAL (XAMPP) - con prefijo /AFERGOLF
   const LOCAL_CONFIG = {
-    BASE_URL: 'http://localhost/AFERGOLF',
-    API_BASE: 'http://localhost/AFERGOLF/back/modules',
+    BASE_URL: '/AFERGOLF',
+    API_BASE: '/AFERGOLF/back/modules',
     UPLOADS_PATH: '/AFERGOLF/uploads',
     BASE_PREFIX: '/AFERGOLF/'
   };
   
-  // Configuración para PRODUCCIÓN (cualquier otro host)
+  // Configuración para PRODUCCIÓN - rutas relativas sin dominio
   const PROD_CONFIG = {
-    BASE_URL: window.location.origin,
-    API_BASE: window.location.origin + '/back/modules',
+    BASE_URL: '',
+    API_BASE: '/back/modules',
     UPLOADS_PATH: '/uploads',
     BASE_PREFIX: '/'
   };
